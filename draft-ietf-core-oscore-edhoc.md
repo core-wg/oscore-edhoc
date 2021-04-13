@@ -217,9 +217,9 @@ The Client prepares an EDHOC + OSCORE request as follows.
 
 ## Server Processing {#server-processing}
 
-When receiving an EDHOC + OSCORE request, the Server performs the following steps.
+When receiving a request containing the EDHOC option, i.e. an EDHOC + OSCORE request, the Server MUST perform the following steps.
 
-1. Check the presence of the EDHOC option defined in {{signalling}}, to determine that the received request is an EDHOC + OSCORE request. If this is the case, the Server continues with the steps defined below.
+1. Check that the payload of the EDHOC + OSCORE request is a CBOR sequence composed of two CBOR byte strings. If this is not the case, the Server MUST stop processing the request and MUST respond with a 4.00 (Bad Request) error message.
 
 2. Extract CIPHERTEXT_3 from the payload of the EDHOC + OSCORE request, as the first CBOR byte string in the CBOR sequence.
 
@@ -241,7 +241,7 @@ When receiving an EDHOC + OSCORE request, the Server performs the following step
 
 If steps 4 (EDHOC processing) and 7 (OSCORE processing) are both successfully completed, the Server MUST reply with an OSCORE protected response, in order for the Client to achieve key confirmation (see Section 5.4.2 of {{I-D.ietf-lake-edhoc}}). The usage of EDHOC message_4 as defined in Section 7.1 of {{I-D.ietf-lake-edhoc}} is not applicable to the approach defined in this specification.
 
-If step 4 (EDHOC processing) fails, the server discontinues the protocol as per Section 5.4.3 of {{I-D.ietf-lake-edhoc}} and sends an EDHOC error message, formatted as defined in Section 6.1 of {{I-D.ietf-lake-edhoc}}. In particular, the CoAP response conveying the EDHOC error message:
+If step 4 (EDHOC processing) fails, the server discontinues the protocol as per Section 5.4.3 of {{I-D.ietf-lake-edhoc}} and responds with an EDHOC error message, formatted as defined in Section 6.1 of {{I-D.ietf-lake-edhoc}}. In particular, the CoAP response conveying the EDHOC error message:
 
 * MUST have Content-Format set to application/edhoc defined in Section 9.5 of {{I-D.ietf-lake-edhoc}}.
 
