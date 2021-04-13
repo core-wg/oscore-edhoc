@@ -158,7 +158,7 @@ The EDHOC Option has the properties summarized in {{fig-edhoc-option}}, which ex
 +-------+---+---+---+---+-------+--------+--------+---------+
 | No.   | C | U | N | R | Name  | Format | Length | Default |
 +-------+---+---+---+---+-------+--------+--------+---------+
-| TBD13 | x |   |   |   | EDHOC | Empty  |   0    | (none)  |
+| TBD21 | x |   |   |   | EDHOC | Empty  |   0    | (none)  |
 +-------+---+---+---+---+-------+--------+--------+---------+
        C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable
 ~~~~~~~~~~~
@@ -208,7 +208,7 @@ The Client prepares an EDHOC + OSCORE request as follows.
 3. Build a CBOR sequence {{RFC8742}} composed of two CBOR byte strings in the following order.
 
    * The first CBOR byte string is the CIPHERTEXT_3 of the EDHOC message_3 resulting from step 3.
-   
+
    * The second CBOR byte string has as value the OSCORE ciphertext of the OSCORE protected CoAP request resulting from step 2.
 
 4. Compose the EDHOC + OSCORE request, as the OSCORE protected CoAP request resulting from step 2, where the payload is replaced with the CBOR sequence built at step 3.
@@ -257,7 +257,7 @@ An example based on the OSCORE test vector from Appendix C.4 of {{RFC8613}} and 
 
 * The OSCORE Sender ID of the Client is 0x20. This corresponds to the EDHOC Connection Identifier C_R, which is encoded as the bstr_identifier 0x08 in EDHOC message_3.
 
-* The EDHOC option is registered with CoAP option number 13.
+* The EDHOC option is registered with CoAP option number 21.
 
 ~~~~~~~~~~~~~~~~~
    o  OSCORE option value: 0x090020 (3 bytes)
@@ -265,24 +265,24 @@ An example based on the OSCORE test vector from Appendix C.4 of {{RFC8613}} and 
    o  EDHOC option value: - (0 bytes)
 
    o  C_R: 0x20 (1 byte)
-   
+
    o  CIPHERTEXT_3: 0x5253c3991999a5ffb86921e99b607c067770e0
       (19 bytes)
-   
+
    o  EDHOC message_3: 0x08 5253c3991999a5ffb86921e99b607c067770e0
       (20 bytes)
 
    o  OSCORE ciphertext: 0x612f1092f1776f1c1668b3825e (13 bytes)
-      
+
    From there:
 
    o  Protected CoAP request (OSCORE message):
-   
+
       0x44025d1f               ; CoAP 4-byte header
         00003974               ; Token
         39 6c6f63616c686f7374  ; Uri-Host Option: "localhost"
         63 090020              ; OSCORE Option
-        40                     ; EDHOC Option
+        C0                     ; EDHOC Option
         ff 5253c3991999a5ffb86921e99b607c067770e0
            4d612f1092f1776f1c1668b3825e
       (57 bytes)
@@ -313,13 +313,15 @@ The CoAP option numbers 13 and 21 are both consistent with the properties of the
 
 At the time of writing, the CoAP option numbers 13 and 21 are both unassigned in the "CoAP Option Numbers" registry, as first available and consistent option numbers for the EDHOC option.
 
+This document suggests 21 (TBD21) as option number to be assigned to the new EDHOC option, since both 13 and 21 are consistent for the use case in question, but different use cases or protocols may make better use of the option number 13.
+
 \]
 
 ~~~~~~~~~~~
 +--------+-------+-------------------+
 | Number | Name  |     Reference     |
 +--------+-------+-------------------+
-| TBD13  | EDHOC | [[this document]] |
+| TBD21  | EDHOC | [[this document]] |
 +--------+-------+-------------------+
 ~~~~~~~~~~~
 {: artwork-align="center"}
