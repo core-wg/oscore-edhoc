@@ -1,5 +1,5 @@
 ---
-title: "Using EDHOC for OSCORE"
+title: "Using EDHOC for OSCORE with CoAP Transport"
 abbrev: "EDHOC + OSCORE"
 docname: draft-ietf-core-oscore-edhoc-latest
 cat: std
