@@ -1,6 +1,6 @@
 ---
 title: "Using EDHOC for OSCORE with CoAP Transport"
-abbrev: "EDHOC + OSCORE"
+abbrev: "EDHOC for OSCORE with CoAP Transport"
 docname: draft-ietf-core-oscore-edhoc-latest
 cat: std
 
@@ -148,6 +148,13 @@ EDHOC verification                                    |
 {: #fig-combined title="EDHOC and OSCORE combined" artwork-align="center"}
 
 
+# EDHOC in CoAP {#edhoc-in-coap}
+
+When using EDHOC over CoAP for establishing an OSCORE Security Context, EDHOC messages are exchanged as defined in Section 7.2 of {{I-D.ietf-lake-edhoc}}, with the following addition.
+
+EDHOC error messages sent as CoAP responses MUST be error responses, i.e. they MUST specify a CoAP error response code. In particular, it is RECOMMENDED that such error responses have response code either 4.00 (Bad Request) in case of client error (e.g. due to a malformed EDHOC message), or 5.00 (Internal Server Error) in case of server error (e.g. due to failure in deriving EDHOC key material).
+
+
 # EDHOC Option {#signalling}
 
 This section defines the EDHOC Option, used in a CoAP request to signal that the request combines EDHOC message_3 and OSCORE protected data.
@@ -243,11 +250,7 @@ When receiving a request containing the EDHOC option, i.e. an EDHOC + OSCORE req
 
 If steps 4 (EDHOC processing) and 7 (OSCORE processing) are both successfully completed, the Server MUST reply with an OSCORE protected response, in order for the Client to achieve key confirmation (see Section 5.4.2 of {{I-D.ietf-lake-edhoc}}). The usage of EDHOC message_4 as defined in Section 7.1 of {{I-D.ietf-lake-edhoc}} is not applicable to the approach defined in this specification.
 
-If step 4 (EDHOC processing) fails, the server discontinues the protocol as per Section 5.4.3 of {{I-D.ietf-lake-edhoc}} and responds with an EDHOC error message, formatted as defined in Section 6.1 of {{I-D.ietf-lake-edhoc}}. In particular, the CoAP response conveying the EDHOC error message:
-
-* MUST have Content-Format set to application/edhoc defined in Section 9.5 of {{I-D.ietf-lake-edhoc}}.
-
-* MUST specify a CoAP error response code, i.e. 4.00 (Bad Request) in case of client error (e.g. due to a malformed EDHOC message_3), or 5.00 (Internal Server Error) in case of server error (e.g. due to failure in deriving EDHOC key material).
+If step 4 (EDHOC processing) fails, the server discontinues the protocol as per Section 5.4.3 of {{I-D.ietf-lake-edhoc}} and responds with an EDHOC error message, formatted as defined in Section 6.1 of {{I-D.ietf-lake-edhoc}}. In particular, the CoAP response conveying the EDHOC error message MUST have Content-Format set to application/edhoc defined in Section 9.5 of {{I-D.ietf-lake-edhoc}}.
 
 If step 4 (EDHOC processing) is successfully completed but step 7 (OSCORE processing) fails, the same OSCORE error handling applies as defined in Section 8.2 of {{RFC8613}}.
 
