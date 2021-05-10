@@ -328,6 +328,22 @@ This document suggests 21 (TBD21) as option number to be assigned to the new EDH
 ~~~~~~~~~~~
 {: artwork-align="center"}
 
+## EDHOC Exporter Label Registry ## {#iana-edhoc-exporter-label}
+
+IANA is asked to enter the following entries to the "EDHOC Exporter Label" registry defined in {{I-D.ietf-lake-edhoc}}.
+
+~~~~~~~~~~~~~~~~~~~~~~~
+Label: OSCORE Master Secret
+Description: Derived OSCORE Master Secret
+Reference: [[this document]]
+~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~
+Label: OSCORE Master Salt
+Description: Derived OSCORE Master Salt
+Reference: [[this document]]
+~~~~~~~~~~~~~~~~~~~~~~~
+
 --- back
 
 # Acknowledgments
