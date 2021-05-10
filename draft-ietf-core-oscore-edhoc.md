@@ -154,6 +154,30 @@ When using EDHOC over CoAP for establishing an OSCORE Security Context, EDHOC me
 
 EDHOC error messages sent as CoAP responses MUST be error responses, i.e. they MUST specify a CoAP error response code. In particular, it is RECOMMENDED that such error responses have response code either 4.00 (Bad Request) in case of client error (e.g. due to a malformed EDHOC message), or 5.00 (Internal Server Error) in case of server error (e.g. due to failure in deriving EDHOC key material).
 
+# Deriving an OSCORE Security Context from EDHOC {#oscore-ctx}
+
+This section defines how the Client and Server uses EDHOC to derive Security Context parameters for OSCORE (see Section 3.2 of {{RFC8613}}).
+
+* The Master Secret and Master Salt are derived by using the EDHOC-Exporter interface defined in Section 4.1 of {{I-D.ietf-lake-edhoc}}.
+
+  The EDHOC Exporter Labels to use are "OSCORE_Master_Secret" and "OSCORE_Master_Salt". By default, key_length is the key length (in bytes) of the application AEAD Algorithm and salt_length is 8 bytes. The Initiator and Responder MAY agree out-of-band on a longer key_length than the default and a different salt_length.
+
+~~~~~~~~~~~~~~~~~~~~~~~
+   Master Secret = EDHOC-Exporter( "OSCORE_Master_Secret", key_length )
+   Master Salt   = EDHOC-Exporter( "OSCORE_Master_Salt", salt_length )
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* The AEAD Algorithm is the application AEAD of the selected cipher suite.
+
+* The HKDF Algorithm is the HKDF using as hash algorithm the application hash algorithm of the selected cipher suite.
+
+* In case the Client is the Initiator and the Server is the Responder, the Client's OSCORE Sender ID is the EDHOC connection identifier C_R, while the Server's OSCORE Sender ID is EDHOC connection identifier C_I. The reverse applies in case the Client is the Responder and the Server is the Initiator.
+
+   The two peers MUST ensure that the EDHOC connection identifiers are unique, i.e. C_R MUST NOT be equal to C_I. In particular, the Responder MUST NOT include in EDHOC message_2 a connection identifier C_R equal to the connection identifier C_I received in EDHOC message_1. The initiator MUST discontinue the protocol and reply with an EDHOC error message when receiving an EDHOC message_2 that includes a connection identifier C_R equal to C_I.
+
+The Client and Server use the parameters above to establish an OSCORE Security Context, as per Section 3.2.1 of {{RFC8613}}.
+
+The Client and Server MUST be able to retrieve the OSCORE protocol state using its chosen connection identifier, and optionally other information such as the 5-tuple.
 
 # EDHOC Option {#signalling}
 
