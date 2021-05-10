@@ -1,5 +1,5 @@
 ---
-title: "Combining EDHOC and OSCORE"
+title: "Using EDHOC for OSCORE"
 abbrev: "EDHOC + OSCORE"
 docname: draft-ietf-core-oscore-edhoc-latest
 cat: std
