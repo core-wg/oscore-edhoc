@@ -62,7 +62,7 @@ informative:
 
 --- abstract
 
-This document defines an optimization approach for combining the lightweight authenticated key exchange protocol EDHOC run over CoAP with the first subsequent OSCORE transaction. This combination reduces the number of round trips required to set up an OSCORE Security Context and to complete an OSCORE transaction using that Security Context.
+This document defines how the lightweight authenticated key exchange protocol EDHOC is used for establishing an OSCORE Security Context, using CoAP for message transferring. Furthermore, this document defines an optimization approach for combining EDHOC run over CoAP with the first subsequent OSCORE transaction. This reduces the number of round trips required to set up an OSCORE Security Context and to complete an OSCORE transaction using that Security Context.
 
 --- middle
 
