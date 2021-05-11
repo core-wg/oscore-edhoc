@@ -68,9 +68,11 @@ This document defines how the lightweight authenticated key exchange protocol ED
 
 # Introduction
 
-This document defines an optimization approach to combine the lightweight authenticated key exchange protocol EDHOC {{I-D.ietf-lake-edhoc}}, when running over CoAP {{RFC7252}}, with the first subsequent OSCORE {{RFC8613}} transaction.
+Ephemeral Diffie-Hellman Over COSE (EDHOC) {{I-D.ietf-lake-edhoc}} is a lightweight authenticated key exchange protocol, especially intended for use in constrained scenarios. As defined in Section 7.2 of {{I-D.ietf-lake-edhoc}}, EDHOC messages can be transported over the Constrained Application Protocol (CoAP) {{RFC7252}}.
 
-This allows for a minimum number of round trips necessary to setup the OSCORE Security Context and complete an OSCORE transaction, for example when an IoT device gets configured in a network for the first time.
+This document builds on the EDHOC specification {{I-D.ietf-lake-edhoc}} and defines how EDHOC run over CoAP is used for establishing a Security Context to use for communicating with Object Security for Constrained RESTful Environment (OSCORE) {{RFC8613}}.
+
+In addition, this document defines an optimization approach that combines EDHOC run over CoAP with the first subsequent OSCORE transaction. This allows for a minimum number of round trips necessary to setup the OSCORE Security Context and complete an OSCORE transaction, for example when an IoT device gets configured in a network for the first time.
 
 This optimization is desirable, since the number of protocol round trips impacts the minimum number of flights, which in turn can have a substantial impact on the latency of conveying the first OSCORE request, when using certain radio technologies.
 
