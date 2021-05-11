@@ -148,7 +148,7 @@ EDHOC verification                                    |
 {: #fig-combined title="EDHOC and OSCORE combined" artwork-align="center"}
 
 
-# EDHOC in CoAP {#edhoc-in-coap}
+# Transferring EDHOC in CoAP {#edhoc-in-coap}
 
 When using EDHOC over CoAP for establishing an OSCORE Security Context, EDHOC messages are exchanged as defined in Section 7.2 of {{I-D.ietf-lake-edhoc}}, with the following addition.
 
@@ -156,7 +156,7 @@ EDHOC error messages sent as CoAP responses MUST be error responses, i.e. they M
 
 # Deriving an OSCORE Security Context from EDHOC {#oscore-ctx}
 
-This section defines how the Client and Server uses EDHOC to derive Security Context parameters for OSCORE (see Section 3.2 of {{RFC8613}}).
+After successful processing of EDHOC message_3 (see Section 5.5 of {{I-D.ietf-lake-edhoc}}), the Client and Server derive Security Context parameters for OSCORE (see Section 3.2 of {{RFC8613}}) as defined below.
 
 * The Master Secret and Master Salt are derived by using the EDHOC-Exporter interface defined in Section 4.1 of {{I-D.ietf-lake-edhoc}}.
 
@@ -177,7 +177,7 @@ This section defines how the Client and Server uses EDHOC to derive Security Con
 
 The Client and Server use the parameters above to establish an OSCORE Security Context, as per Section 3.2.1 of {{RFC8613}}.
 
-The Client and Server MUST be able to retrieve the OSCORE protocol state using its chosen connection identifier, and optionally other information such as the 5-tuple.
+From then on, the Client and Server MUST be able to retrieve the OSCORE protocol state using its chosen connection identifier, and optionally other information such as the 5-tuple.
 
 # EDHOC Option {#signalling}
 
@@ -372,6 +372,20 @@ Reference: [[this document]]
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 --- back
+
+# Document Updates # {#sec-document-updates}
+
+RFC EDITOR: PLEASE REMOVE THIS SECTION.
+
+## Version -00 to -01 ## {#sec-00-01}
+
+* Imported OSCORE-specific content from draft-ietf-lake-edhoc.
+
+* Expanded scope and revised section organization.
+
+* Improved error handling for the combined approach.
+
+* Recommended number for EDHOC option changed to 21.
 
 # Acknowledgments
 {:numbered="false"}
