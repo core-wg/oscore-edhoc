@@ -151,13 +151,15 @@ After successful processing of EDHOC message_3 (see Section 5.5 of {{I-D.ietf-la
    Master Salt   = EDHOC-Exporter( "OSCORE Master Salt", salt_length )
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-* The AEAD Algorithm is the application AEAD of the selected cipher suite.
+* The AEAD Algorithm is the application AEAD of the selected cipher suite for the EDHOC session.
 
-* The HKDF Algorithm is the HKDF using as hash algorithm the application hash algorithm of the selected cipher suite.
+* The HKDF Algorithm is the HKDF using as hash algorithm the application hash algorithm of the selected cipher suite for the EDHOC session.
 
-* In case the Client is the Initiator and the Server is the Responder, the Client's OSCORE Sender ID is the EDHOC connection identifier C_R, while the Server's OSCORE Sender ID is EDHOC connection identifier C_I. The reverse applies in case the Client is the Responder and the Server is the Initiator.
+* In case the Client is the Initiator and the Server is the Responder, the Client's OSCORE Sender ID and the Server's OSCORE Sender ID are the EDHOC connection identifier C_R and C_I for the EDHOC session, respectively. The reverse applies in case the Client is the Responder and the Server is the Initiator.
 
-   The two peers MUST ensure that the EDHOC connection identifiers are unique, i.e. C_R MUST NOT be equal to C_I. In particular, the Responder MUST NOT include in EDHOC message_2 a connection identifier C_R equal to the connection identifier C_I received in EDHOC message_1. The initiator MUST discontinue the protocol and reply with an EDHOC error message when receiving an EDHOC message_2 that includes a connection identifier C_R equal to C_I.
+   Before deriving an OSCORE Security Context, the two peers MUST ensure that the EDHOC connection identifiers are different. The two peers MUST NOT use an EDHOC session to derive an OSCORE Security Context, if C_R is equal to C_I for that session.
+
+   If the Responder runs EDHOC with the intention of deriving an OSCORE Security Context, the Responder MUST NOT include in EDHOC message_2 a connection identifier C_R equal to the connection identifier C_I received in EDHOC message_1. If the Initiator runs EDHOC with the intention of deriving an OSCORE Security Context, the initiator MUST discontinue the protocol and reply with an EDHOC error message when receiving an EDHOC message_2 that includes a connection identifier C_R equal to C_I.
 
 The Client and Server use the parameters above to establish an OSCORE Security Context, as per Section 3.2.1 of {{RFC8613}}.
 
@@ -300,7 +302,7 @@ If step 4 (EDHOC processing) is successfully completed but step 7 (OSCORE proces
 
 ## Example of EDHOC + OSCORE Request # {#example}
 
-An example based on the OSCORE test vector from Appendix C.4 of {{RFC8613}} and the EDHOC test vector from Appendix B.2 of {{I-D.ietf-lake-edhoc}} is given in {{fig-edhoc-opt-2}}. In particular, the example assumes that:
+{{fig-edhoc-opt-2}} shows an example based on the OSCORE test vector from Appendix C.4 of {{RFC8613}} and the EDHOC test vector from Appendix B.2 of {{I-D.ietf-lake-edhoc}}. The example assumes that:
 
 * The used OSCORE Partial IV is 0, consistently with the first request protected with the new OSCORE Security Context.
 
