@@ -348,6 +348,8 @@ TODO (more considerations)
 
 # IANA Considerations
 
+RFC Editor: Please replace "\[\[this Document\]\]" with the RFC number of this document and delete this paragraph.
+
 This document has the following actions for IANA.
 
 ## CoAP Option Numbers Registry ## {#iana-coap-options}
@@ -397,7 +399,7 @@ Reference: [[this document]]
 
 # Document Updates # {#sec-document-updates}
 
-RFC EDITOR: PLEASE REMOVE THIS SECTION.
+RFC Editor: Pleare remove this section.
 
 ## Version -00 to -01 ## {#sec-00-01}
 
