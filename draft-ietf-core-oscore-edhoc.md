@@ -304,7 +304,7 @@ An example based on the OSCORE test vector from Appendix C.4 of {{RFC8613}} and 
 
 * The used OSCORE Partial IV is 0, consistently with the first request protected with the new OSCORE Security Context.
 
-* The OSCORE Sender ID of the Client is 0x20. This corresponds to the EDHOC Connection Identifier C_R, which is encoded as the bstr_identifier 0x08 in EDHOC message_3.
+* The OSCORE Sender ID of the Client is 0x00. This corresponds to the EDHOC Connection Identifier C_R, which is encoded as the bstr_identifier 0x37 in EDHOC message_3.
 
 * The EDHOC option is registered with CoAP option number 21.
 
@@ -313,12 +313,12 @@ An example based on the OSCORE test vector from Appendix C.4 of {{RFC8613}} and 
 
    o  EDHOC option value: - (0 bytes)
 
-   o  C_R: 0x20 (1 byte)
+   o  C_R: 0x37 (1 byte)
 
-   o  CIPHERTEXT_3: 0x5253c3991999a5ffb86921e99b607c067770e0
+   o  CIPHERTEXT_3: 0x52d5535f3147e85f1cfacd9e78abf9e0a81bbf
       (19 bytes)
 
-   o  EDHOC message_3: 0x08 5253c3991999a5ffb86921e99b607c067770e0
+   o  EDHOC message_3: 0x37 52d5535f3147e85f1cfacd9e78abf9e0a81bbf
       (20 bytes)
 
    o  OSCORE ciphertext: 0x612f1092f1776f1c1668b3825e (13 bytes)
@@ -332,7 +332,7 @@ An example based on the OSCORE test vector from Appendix C.4 of {{RFC8613}} and 
         39 6c6f63616c686f7374  ; Uri-Host Option: "localhost"
         63 090020              ; OSCORE Option
         C0                     ; EDHOC Option
-        ff 5253c3991999a5ffb86921e99b607c067770e0
+        ff 52d5535f3147e85f1cfacd9e78abf9e0a81bbf
            4d612f1092f1776f1c1668b3825e
       (57 bytes)
 ~~~~~~~~~~~~~~~~~
