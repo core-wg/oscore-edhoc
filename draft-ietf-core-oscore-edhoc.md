@@ -70,13 +70,13 @@ This document defines how the lightweight authenticated key exchange protocol ED
 
 Ephemeral Diffie-Hellman Over COSE (EDHOC) {{I-D.ietf-lake-edhoc}} is a lightweight authenticated key exchange protocol, especially intended for use in constrained scenarios. As defined in Section 7.2 of {{I-D.ietf-lake-edhoc}}, EDHOC messages can be transported over the Constrained Application Protocol (CoAP) {{RFC7252}}.
 
-This document builds on the EDHOC specification {{I-D.ietf-lake-edhoc}} and defines how EDHOC run over CoAP is used for establishing a Security Context to use for communicating with Object Security for Constrained RESTful Environments (OSCORE) {{RFC8613}}.
+This document builds on the EDHOC specification {{I-D.ietf-lake-edhoc}} and defines how EDHOC run over CoAP is used for establishing a Security Context for Object Security for Constrained RESTful Environments (OSCORE) {{RFC8613}}.
 
-In addition, this document defines an optimization approach that combines EDHOC run over CoAP with the first subsequent OSCORE transaction. This allows for a minimum number of round trips necessary to setup the OSCORE Security Context and complete an OSCORE transaction, for example when an IoT device gets configured in a network for the first time.
+In addition, this document defines an optimization approach that combines EDHOC run over CoAP with the first subsequent OSCORE transaction. This allows for a minimum number of round trips necessary to setup the OSCORE Security Context and complete an OSCORE transaction, for example, when an IoT device gets configured in a network for the first time.
 
 This optimization is desirable, since the number of protocol round trips impacts the minimum number of flights, which in turn can have a substantial impact on the latency of conveying the first OSCORE request, when using certain radio technologies.
 
-Without this optimization, it is not possible, not even in theory, to achieve the minimum number of flights. This optimization makes it possible also in practice, since the last message of the EDHOC protocol can be made relatively small (see Section 1 of {{I-D.ietf-lake-edhoc}}), thus allowing additional OSCORE protected CoAP data within target MTU sizes.
+Without this optimization, it is not possible, not even in theory, to achieve the minimum number of flights. This optimization makes it possible also in practice since the last message of the EDHOC protocol can be made relatively small (see Section 1 of {{I-D.ietf-lake-edhoc}}), thus allowing additional OSCORE protected CoAP data within target MTU sizes.
 
 ## Terminology
 
@@ -98,6 +98,7 @@ After this exchange takes place, and after successful verifications as specified
 
 ~~~~~~~~~~~~~~~~~
    CoAP Client                                  CoAP Server
+(EDHOC Initiator)                            (EDHOC Responder)
         | ------------- EDHOC message_1 ------------> |
         |          Header: POST (Code=0.02)           |
         |       Uri-Path: "/.well-known/edhoc"        |
@@ -155,7 +156,7 @@ After successful processing of EDHOC message_3 (see Section 5.5 of {{I-D.ietf-la
 
 * The AEAD Algorithm is the application AEAD of the selected cipher suite for the EDHOC session.
 
-* The HKDF Algorithm is the HKDF using as hash algorithm the application hash algorithm of the selected cipher suite for the EDHOC session.
+* The HKDF Algorithm is the HKDF  algorithm of the selected cipher suite for the EDHOC session.
 
 * In case the Client is the Initiator and the Server is the Responder, the Client's OSCORE Sender ID and the Server's OSCORE Sender ID are the EDHOC connection identifier C_R and C_I for the EDHOC session, respectively. The reverse applies in case the Client is the Responder and the Server is the Initiator.
 
@@ -171,14 +172,15 @@ From then on, the Client and Server MUST be able to retrieve the OSCORE protocol
 
 This section defines an optimization for combining the EDHOC exchange with the first subsequent OSCORE transaction, thus minimizing the number of round trips between the two peers.
 
-This approach can be used only if the default EDHOC message flow is used, i.e. when the Client acts as Initiator and the Server acts as Responder, while it cannot be used in the case with reversed roles.
+This approach can be used only if the default EDHOC message flow is used, i.e., when the Client acts as Initiator and the Server acts as Responder, while it cannot be used in the case with reversed roles.
 
 When running the purely-sequential flow of {{overview}}, the Client has all the information to derive the OSCORE Security Context already after receiving EDHOC message_2 and before sending EDHOC message_3.
 
-Hence, the Client can potentially send both EDHOC message_3 and the subsequent OSCORE Request at the same time. On a semantic level, this requires to send two REST requests at once, as in {{fig-combined}}.
+Hence, the Client can potentially send both EDHOC message_3 and the subsequent OSCORE Request at the same time. On a semantic level, this requires sending two REST requests at once, as in {{fig-combined}}.
 
 ~~~~~~~~~~~~~~~~~
    CoAP Client                                  CoAP Server
+(EDHOC Initiator)                            (EDHOC Responder)
         | ------------- EDHOC message_1 ------------> |
         |          Header: POST (Code=0.02)           |
         |       Uri-Path: "/.well-known/edhoc"        |
@@ -211,7 +213,7 @@ To this end, the specific approach defined in this section consists of sending E
 
 The resulting EDHOC + OSCORE request is in practice the OSCORE Request from {{fig-non-combined}}, as still sent to a protected resource and with the correct CoAP method and options, but with the addition that it also transports EDHOC message_3.
 
-As EDHOC message_3 may be too large to be included in a CoAP Option, e.g. if containing a large public key certificate chain, it has to be transported in the CoAP payload of the EDHOC + OSCORE request.
+As EDHOC message_3 may be too large to be included in a CoAP Option, e.g., if containing a large public key certificate chain, it has to be transported in the CoAP payload of the EDHOC + OSCORE request.
 
 The rest of this section specifies how to transport the data in the EDHOC + OSCORE request and their processing order. In particular, the use of this approach is explicitly signalled by including an EDHOC Option (see {{edhoc-option}}) in the EDHOC + OSCORE request. The processing of the EDHOC + OSCORE request is specified in {{client-processing}} for the Client side and in {{server-processing}} for the Server side.
 
