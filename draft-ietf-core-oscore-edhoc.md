@@ -166,7 +166,7 @@ After successful processing of EDHOC message_3 (see Section 5.5 of {{I-D.ietf-la
 
 The Client and Server use the parameters above to establish an OSCORE Security Context, as per Section 3.2.1 of {{RFC8613}}.
 
-From then on, the Client and Server MUST be able to retrieve the OSCORE protocol state using its chosen connection identifier, and optionally other information such as the 5-tuple.
+From then on, the Client and Server MUST be able to retrieve the OSCORE protocol state using its chosen connection identifier, and optionally other information such as the 5-tuple, i.e., the tuple (source IP address, source port, destination IP address, destination port, transport protocol).
 
 # EDHOC Combined with OSCORE {#edhoc-in-oscore}
 
