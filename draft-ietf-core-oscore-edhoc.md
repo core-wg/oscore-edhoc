@@ -160,11 +160,9 @@ After successful processing of EDHOC message_3 (see Section 5.5 of {{I-D.ietf-la
 
 * In case the Client is the Initiator and the Server is the Responder, the Client's OSCORE Sender ID and the Server's OSCORE Sender ID are the byte string EDHOC connection identifier C_R and C_I for the EDHOC session, respectively. The reverse applies in case the Client is the Responder and the Server is the Initiator.
 
-   Numeric connection identifiers are converted to (naturally byte-string shaped) Sender IDs by using their CBOR encoded form.
-   For example, a C_R of 10 corresponds to a (typically server) Sender ID of hexadecimal '0a', -12 to hexadecimal '2b',
-   whereas a byte-string valued C_R of h'ff' corresponds to a Sender ID of hexadecimal 'ff'.
+   Numeric connection identifiers are converted to (naturally byte-string shaped) Sender IDs, by using their CBOR encoded form. For example, a numeric C_R of 10 corresponds to a (typically client) Sender ID of hexadecimal '0a', and a numeric C_R of -12 to hexadecimal '2b'. Instead, a byte-string valued C_R of h'ff' corresponds to a Sender ID of hexadecimal 'ff'.
 
-   Before deriving an OSCORE Security Context, the two peers MUST ensure that the EDHOC connection identifiers are different. that is, the two peers MUST NOT derive an OSCORE Security Context from an EDHOC session, if C_R is equal to C_I for that session.
+   Before deriving an OSCORE Security Context, the two peers MUST ensure that the EDHOC connection identifiers are different. That is, the two peers MUST NOT derive an OSCORE Security Context from an EDHOC session, if C_R is equal to C_I for that session.
 
    If the Responder runs EDHOC with the intention of deriving an OSCORE Security Context, the Responder MUST NOT include in EDHOC message_2 a connection identifier C_R equivalent (under conversion to a Sender ID) to the connection identifier C_I received in EDHOC message_1. If the Initiator runs EDHOC with the intention of deriving an OSCORE Security Context, the initiator MUST discontinue the protocol and reply with an EDHOC error message when receiving an EDHOC message_2 that includes a connection identifier C_R equal to C_I.
 
@@ -411,12 +409,9 @@ Reference: [[this document]]
 
 RFC Editor: Pleare remove this section.
 
-## Pending
-
-* Added explicit rules for converting integer C_x to Sender IDs,
-  following the removal of bstr_identifier from EDHOC.
-
 ## Version -00 to -01 ## {#sec-00-01}
+
+* Added explicit rules for converting integer C_x to Sender IDs, following the removal of bstr_identifier from EDHOC.
 
 * Imported OSCORE-specific content from draft-ietf-lake-edhoc.
 
