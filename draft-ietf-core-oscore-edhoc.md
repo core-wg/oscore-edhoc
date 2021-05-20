@@ -314,7 +314,7 @@ If step 4 (EDHOC processing) is successfully completed but step 7 (OSCORE proces
 
 * The used OSCORE Partial IV is 0, consistently with the first request protected with the new OSCORE Security Context.
 
-* The OSCORE Sender ID of the Client is 0x00. This corresponds to the EDHOC Connection Identifier C_R, which is encoded as the bstr_identifier 0x37 in EDHOC message_3.
+* The OSCORE Sender ID of the Client is 0x00. This corresponds to the numeric EDHOC Connection Identifier C_R, which in EDHOC message_3 is encoded as the CBOR integer 0, hence as 0x00.
 
 * The EDHOC option is registered with CoAP option number 21.
 
@@ -323,12 +323,12 @@ If step 4 (EDHOC processing) is successfully completed but step 7 (OSCORE proces
 
    o  EDHOC option value: - (0 bytes)
 
-   o  C_R: 0x37 (1 byte)
+   o  C_R: 0x00 (1 byte)
 
    o  CIPHERTEXT_3: 0x52d5535f3147e85f1cfacd9e78abf9e0a81bbf
       (19 bytes)
 
-   o  EDHOC message_3: 0x37 52d5535f3147e85f1cfacd9e78abf9e0a81bbf
+   o  EDHOC message_3: 0x00 52d5535f3147e85f1cfacd9e78abf9e0a81bbf
       (20 bytes)
 
    o  OSCORE ciphertext: 0x612f1092f1776f1c1668b3825e (13 bytes)
