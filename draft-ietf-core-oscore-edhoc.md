@@ -156,7 +156,7 @@ After successful processing of EDHOC message_3 (see Section 5.5 of {{I-D.ietf-la
 
 * The AEAD Algorithm is the application AEAD algorithm of the selected cipher suite for the EDHOC session.
 
-* The HKDF Algorithm is the HKDF algorithm of the selected cipher suite for the EDHOC session.
+* The HKDF Algorithm is the one based on the application hash algorithm of the selected cipher suite for the EDHOC session. For example, if SHA-256 is the application hash algorithm of the selected ciphersuite, HKDF SHA-256 is used as HKDF Algorithm in the OSCORE Security Context.
 
 * In case the Client is the Initiator and the Server is the Responder, the Client's OSCORE Sender ID and the Server's OSCORE Sender ID are the byte string EDHOC connection identifier C_R and C_I for the EDHOC session, respectively. The reverse applies in case the Client is the Responder and the Server is the Initiator.
 
