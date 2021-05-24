@@ -143,7 +143,7 @@ EDHOC error messages sent as CoAP responses MUST be error responses, i.e. they M
 
 The applicability statement associated to an EDHOC resource at the CoAP Server can specify that EDHOC is used (also) to establish an OSCORE Security Context.
 
-In this case, what defined in this section applies when running EDHOC with such an EDHOC resource, with particular reference to the use of EDHOC Connection Identifers and the actual derivation of the OSCORE Security Context.
+In this case, what defined in this section applies when running EDHOC through such an EDHOC resource, with particular reference to the use of EDHOC connection identifiers and the actual derivation of the OSCORE Security Context.
 
 ## Conversion of EDHOC to OSCORE Identifiers {#edhoc-id-conversion}
 
@@ -151,9 +151,9 @@ This section defines the rules for converting an EDHOC connection identifier to 
 
 ### From EDHOC to OSCORE Identifier {#edhoc-to-oscore-id}
 
-An EDHOC Connection Idenfier, namely EDHOC_ID, is converted to an OSCORE Sender/Recipient ID, namely OSCORE_ID, as follows.
+An EDHOC connection idenfier, namely EDHOC_ID, is converted to an OSCORE Sender/Recipient ID, namely OSCORE_ID, as follows.
 
-* If EDHOC_ID is numeric, hence encoded as CBOR integer on the wire, it is converted to a (naturally byte-string shaped) OSCORE_ ID equal to its CBOR encoded form.
+* If EDHOC_ID is numeric, hence encoded as a CBOR integer on the wire, it is converted to a (naturally byte-string shaped) OSCORE_ ID equal to its CBOR encoded form.
 
    For example, a numeric C_R equal to 10 (0x0A in CBOR encoding) is converted to a (typically client) Sender ID equal to 0x0A, while a numeric C_R equal to -12 (0x2B in CBOR encoding) is converted to a (typically client) Sender ID equal to 0x2B.
 
@@ -163,9 +163,11 @@ An EDHOC Connection Idenfier, namely EDHOC_ID, is converted to an OSCORE Sender/
 
 Two EDHOC connection identifiers are "equivalent" if and only if, by applying the conversion above, they both result in the same OSCORE Sender/Recipient ID. For example, the two EDHOC connection identifiers with CBOR encoding 0x0A (numeric) and 0x410A (byte-valued) both result in the same OSCORE Sender/Recipient ID 0x0A.
 
+The process defined in {{oscore-to-edhoc-id}} ensures that every OSCORE Sender/Recipient ID is converted to only one of the two corresponding, equivalent EDHOC connection identifiers.
+
 ### From OSCORE to EDHOC Identifier {#oscore-to-edhoc-id}
 
-An OSCORE Sender/Recipient ID, namely OSCORE_ID, is converted to an EDHOC Connection Idenfier, namely EDHOC_ID, as follows.
+An OSCORE Sender/Recipient ID, namely OSCORE_ID, is converted to an EDHOC connection idenfier, namely EDHOC_ID, as follows.
 
 * If OSCORE_ID is 0 bytes in size, it is converted to the empty byte string EDHOC_ID (0x40 in CBOR encoding).
 
@@ -183,7 +185,7 @@ An OSCORE Sender/Recipient ID, namely OSCORE_ID, is converted to an EDHOC Connec
 
        For example, the OSCORE_ID 0xFF is converted to the byte-valued EDHOC_ID 0xFF (0x41FF in CBOR encoding).
 
-   Implementations can easily determine which case holds for a given OSCORE_ID without attempting to actually CBOR-decode it, e.g., by using the approach in {{sec-cbor-numeric-check}}.
+   Implementations can easily determine which case holds for a given OSCORE_ID with no need to try to actually CBOR-decode it, e.g., by using the approach in {{sec-cbor-numeric-check}}.
 
 ## EDHOC Message Processing {#oscore-edhoc-message-processing}
 
@@ -203,7 +205,7 @@ The Initiator MUST select C_I as follows.
 
 ### Responder Processing of Message 1
 
-The Responder MUST discontinue the protocol and reply with an EDHOC error message, if C_I is a CBOR byte string and it has as value a valid CBOR encoding of an integer value (e.g., C_I is encoded as 0x4100).
+The Responder MUST discontinue the protocol and reply with an EDHOC error message, if C_I is a CBOR byte string and it has as value a valid CBOR encoding of an integer value (e.g., C_I is CBOR encoded as 0x4100).
 
 In fact, this would mean that the Initiator has not followed the conversion rule in {{oscore-to-edhoc-id}} when converting its (to be) OSCORE Recipient ID to C_I.
 
@@ -225,7 +227,7 @@ The Initiator MUST discontinue the protocol and reply with an EDHOC error messag
 
 * C_R is equal byte-by-byte to the C_I that was specified in EDHOC message_1.
 
-* C_R is a CBOR byte string and it has as value a valid CBOR encoding of an integer value (e.g., C_R is encoded as 0x4100).
+* C_R is a CBOR byte string and it has as value a valid CBOR encoding of an integer value (e.g., C_R is CBOR encoded as 0x4100).
 
    In fact, this would mean that the Responder has not followed the conversion rule in {{oscore-to-edhoc-id}} when converting its (to be) OSCORE Recipient ID to C_R.
 
