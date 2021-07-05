@@ -86,7 +86,7 @@ The reader is expected to be familiar with terms and concepts defined in CoAP {{
 
 The EDHOC protocol allows two peers to agree on a cryptographic secret, in a mutually-authenticated way and by using Diffie-Hellman ephemeral keys to achieve perfect forward secrecy. The two peers are denoted as Initiator and Responder, as the one sending or receiving the initial EDHOC message_1, respectively.
 
-After successful processing of EDHOC message_3, both peers agree on a cryptographic secret that can be used to derive further security material, and especially to establish an OSCORE Security Context {{RFC8613}}. The Responder can also send an optional EDHOC message_4 to achieve key confirmation, e.g. in deployments where no protected application message is sent from the Responder to the Initiator.
+After successful processing of EDHOC message_3, both peers agree on a cryptographic secret that can be used to derive further security material, and especially to establish an OSCORE Security Context {{RFC8613}}. The Responder can also send an optional EDHOC message_4 to achieve key confirmation, e.g., in deployments where no protected application message is sent from the Responder to the Initiator.
 
 Section 7.2 of {{I-D.ietf-lake-edhoc}} specifies how to transport EDHOC over CoAP. That is, the EDHOC data (referred to as "EDHOC messages") are transported in the payload of CoAP requests and responses. The default message flow consists in the CoAP Client acting as Initiator and the CoAP Server acting as Responder. Alternatively, the two roles can be reversed. In the rest of this document, EDHOC messages are considered to be transported over CoAP.
 
@@ -135,7 +135,7 @@ As shown in {{fig-non-combined}}, this purely-sequential way of first running ED
 
 When using EDHOC over CoAP for establishing an OSCORE Security Context, EDHOC messages are exchanged as defined in Section 7.2 of {{I-D.ietf-lake-edhoc}}, with the following addition.
 
-EDHOC error messages sent as CoAP responses MUST be error responses, i.e. they MUST specify a CoAP error response code. In particular, it is RECOMMENDED that such error responses have response code either 4.00 (Bad Request) in case of client error (e.g. due to a malformed EDHOC message), or 5.00 (Internal Server Error) in case of server error (e.g. due to failure in deriving EDHOC key material).
+EDHOC error messages sent as CoAP responses MUST be error responses, i.e., they MUST specify a CoAP error response code. In particular, it is RECOMMENDED that such error responses have response code either 4.00 (Bad Request) in case of client error (e.g., due to a malformed EDHOC message), or 5.00 (Internal Server Error) in case of server error (e.g., due to failure in deriving EDHOC key material).
 
 # Establishing an OSCORE Security Context with EDHOC {#oscore-ctx}
 
@@ -169,7 +169,7 @@ An OSCORE Sender/Recipient ID, namely OSCORE_ID, is converted to an EDHOC connec
 
 * If OSCORE_ID is 0 bytes in size, it is converted to the empty byte string EDHOC_ID (0x40 in CBOR encoding).
 
-* If OSCORE_ID is longer than 5 bytes in size, it is converted to a byte-valued EDHOC_ID, i.e. a CBOR byte string with value OSCORE_ID.
+* If OSCORE_ID is longer than 5 bytes in size, it is converted to a byte-valued EDHOC_ID, i.e., a CBOR byte string with value OSCORE_ID.
 
    For example, the OSCORE_ID 0x001122334455 is converted to the byte-valued EDHOC_ID 0x001122334455 (0x46001122334455 in CBOR encoding).
 
@@ -362,7 +362,7 @@ The Client prepares an EDHOC + OSCORE request as follows.
 
 ## Server Processing {#server-processing}
 
-When receiving a request containing the EDHOC option, i.e. an EDHOC + OSCORE request, the Server MUST perform the following steps.
+When receiving a request containing the EDHOC option, i.e., an EDHOC + OSCORE request, the Server MUST perform the following steps.
 
 1. Check that the payload of the EDHOC + OSCORE request is a CBOR sequence composed of two CBOR byte strings. If this is not the case, the Server MUST stop processing the request and MUST respond with a 4.00 (Bad Request) error message.
 
@@ -452,7 +452,7 @@ IANA is asked to enter the following option numbers to the "CoAP Option Numbers"
 
 The CoAP option numbers 13 and 21 are both consistent with the properties of the EDHOC Option defined in {{edhoc-option}}, and they both allow the EDHOC Option to always result in an overall size of 1 byte. This is because:
 
-* The EDHOC option is always empty, i.e. with zero-length value; and
+* The EDHOC option is always empty, i.e., with zero-length value; and
 
 * Since the OSCORE option with option number 9 is always present in the CoAP request, the EDHOC option would be encoded with a maximum delta of 4 or 12, depending on its option number being 13 or 21.
 
@@ -515,6 +515,8 @@ Given a binary string of N bytes in size, it is a valid CBOR encoding of an inte
 RFC Editor: Pleare remove this section.
 
 ## Version -00 to -01 ## {#sec-00-01}
+
+* Improved background overview of EDHOC.
 
 * Added explicit rules for converting EDHOC connection identifiers from/to OSCORE Sender/Recipient IDs, following the removal of bstr_identifier from EDHOC.
 
