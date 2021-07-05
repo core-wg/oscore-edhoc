@@ -369,7 +369,7 @@ Reference: [[this document]]
 
 --- back
 
-# Use with OSCORE and Transfer over CoAP # {#sec-use-with-OSCORE}
+# Use with OSCORE and Transferring over CoAP # {#sec-use-with-OSCORE}
 
 \[ This appendix is expected to be moved to https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc \]
 
@@ -381,7 +381,7 @@ The applicability statement associated to an EDHOC resource at the CoAP Server c
 
 In this case, what defined in this section applies when running EDHOC through such an EDHOC resource, with particular reference to the use of EDHOC connection identifiers and the actual derivation of the OSCORE Security Context.
 
-### Conversion of EDHOC to OSCORE Identifiers {#edhoc-id-conversion}
+### Conversion between EDHOC and OSCORE Identifiers {#edhoc-id-conversion}
 
 This section defines the rules for converting an EDHOC connection identifier to an OSCORE Sender/Recipient ID and vice versa.
 
