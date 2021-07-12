@@ -352,11 +352,11 @@ This document suggests 21 (TBD21) as option number to be assigned to the new EDH
 
 --- back
 
-# Additional OSCORE-related Processing # {#sec-use-with-OSCORE}
+# Additional OSCORE/EDHOC-related Processing # {#sec-use-with-OSCORE}
 
 Appendix A.1 in {{I-D.ietf-lake-edhoc}} defines a rule for converting from EDHOC connection identifier to OSCORE Sender/Recipient ID.
 
-This appendix defines the rules for converting from OSCORE Sender/Recipient ID to EDHOC connection identifier, and related processing.
+This appendix defines the rule for converting from OSCORE Sender/Recipient ID to EDHOC connection identifier, and related processing.
 
 
 <!--
@@ -374,7 +374,7 @@ In this case, what defined in this section applies when running EDHOC through su
 
 The process defined in this section ensures that every OSCORE Sender/Recipient ID is converted to only one of the two corresponding, equivalent EDHOC connection identifiers, see Appendix A.1 in {{I-D.ietf-lake-edhoc}}.
 
-An OSCORE Sender/Recipient ID, namely OSCORE_ID, is converted to an EDHOC connection idenfier, namely EDHOC_ID, as follows.
+An OSCORE Sender/Recipient ID, OSCORE_ID, is converted to an EDHOC connection identifier, EDHOC_ID, as follows.
 
 * If OSCORE_ID is 0 bytes in size, it is converted to the empty byte string EDHOC_ID (0x40 in CBOR encoding).
 
@@ -396,15 +396,15 @@ An OSCORE Sender/Recipient ID, namely OSCORE_ID, is converted to an EDHOC connec
 
 ## EDHOC Message Processing {#oscore-edhoc-message-processing}
 
-In addition to what specified in Section 5 of {{I-D.ietf-lake-edhoc}}, the following also applies.
+This section specifies additional EDHOC message processing in addition to what is specified in Section 5 of {{I-D.ietf-lake-edhoc}}.
 
 ### Initiator Processing of Message 1
 
-The Initiator MUST select C_I as follows.
+The Initiator selects C_I as follows.
 
 1. The Initiator initializes a set ID_SET as the empty set.
 
-2. The Initiator selects an available OSCORE Recipient ID, namely ID*, which is also not included in ID_SET.
+2. The Initiator selects an available OSCORE Recipient ID, ID*, which is not included in ID_SET.
 
 3. The Initiator converts ID* to the EDHOC connection identifier C_I, as per {{oscore-to-edhoc-id}}.
 
@@ -418,11 +418,11 @@ In fact, this would mean that the Initiator has not followed the conversion rule
 
 ### Responder Processing of Message 2
 
-The Responder MUST select C_R as follows.
+The Responder selects C_R as follows.
 
 1. The Responder initializes a set ID_SET as the empty set.
 
-2. The Responder selects an available OSCORE Recipient ID, namely ID*, which is also not included in ID_SET.
+2. The Responder selects an available OSCORE Recipient ID, ID*, which is not included in ID_SET.
 
 3. The Responder converts ID* to the EDHOC connection identifier C_R, as per {{oscore-to-edhoc-id}}.
 
