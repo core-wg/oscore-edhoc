@@ -324,7 +324,7 @@ This document has the following actions for IANA.
 
 ## CoAP Option Numbers Registry ## {#iana-coap-options}
 
-IANA is asked to enter the following option numbers to the "CoAP Option Numbers" registry defined in {{RFC7252}} within the "CoRE Parameters" registry.
+IANA is asked to enter the following option number to the "CoAP Option Numbers" registry within the "CoRE Parameters" registry group.
 
 \[
 
@@ -360,7 +360,7 @@ This appendix defines the rule for converting from OSCORE Sender/Recipient ID to
 
 
 <!--
-Omitted text: 
+Omitted text:
 
 ## Establishing an OSCORE Security Context with EDHOC {#oscore-ctx}
 
@@ -463,6 +463,10 @@ Given a binary string of N bytes in size, it is a valid CBOR encoding of an inte
 # Document Updates # {#sec-document-updates}
 
 RFC Editor: Please remove this section.
+
+## Version -01 to -02 ## {#sec-01-02}
+
+* RFC8126 terminology in IANA considerations.
 
 ## Version -00 to -01 ## {#sec-00-01}
 
