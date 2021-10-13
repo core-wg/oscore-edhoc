@@ -441,22 +441,26 @@ The Initiator MUST discontinue the protocol and reply with an EDHOC error messag
 
 ## Checking CBOR Encoding of Numeric Values # {#sec-cbor-numeric-check}
 
-Given a binary string of N bytes in size, it is a valid CBOR encoding of an integer value if and only if, for that size N, its first byte is equal to one of the byte values specified in the "First byte" column of the table below.
+A binary string of N bytes in size is a valid CBOR encoding of an integer value if and only if both the following conditions hold, with reference to the table below.
+
+* The size N is one of the values specified in the "Size" column.
+
+* The first byte of the binary string is equal to one of the byte values specified in the "First byte" column, exactly for the row having N as value of the "Size" column.
 
 ~~~~~~~~~~~~~~~~~
-+---+-----------------------+
-| N | First byte            |
-+---+-----------------------+
-| 1 | 0x00-0x17 , 0x20-0x37 |
-+---+-----------------------+
-| 2 | 0x18 , 0x38           |
-+---+-----------------------+
-| 3 | 0x19 , 0x39           |
-+---+-----------------------+
-| 4 | 0x1A , 0x3A           |
-+---+-----------------------+
-| 5 | 0x1B , 0x3B           |
-+---+-----------------------+
++------+-----------------------+
+| Size | First byte            |
++------+-----------------------+
+| 1    | 0x00-0x17 , 0x20-0x37 |
++------+-----------------------+
+| 2    | 0x18 , 0x38           |
++------+-----------------------+
+| 3    | 0x19 , 0x39           |
++------+-----------------------+
+| 5    | 0x1A , 0x3A           |
++------+-----------------------+
+| 9    | 0x1B , 0x3B           |
++------+-----------------------+
 ~~~~~~~~~~~~~~~~~
 {: artwork-align="center"}
 
@@ -467,6 +471,8 @@ RFC Editor: Please remove this section.
 ## Version -01 to -02 ## {#sec-01-02}
 
 * RFC8126 terminology in IANA considerations.
+
+* Revised Appendix "Checking CBOR Encoding of Numeric Values".
 
 ## Version -00 to -01 ## {#sec-00-01}
 
