@@ -1,6 +1,6 @@
 ---
-title: "Combining EDHOC and OSCORE"
-abbrev: "EDHOC + OSCORE"
+title: "Profiling EDHOC for CoAP and OSCORE"
+abbrev: "Profiling EDHOC for CoAP and OSCORE"
 docname: draft-ietf-core-oscore-edhoc-latest
 cat: std
 
