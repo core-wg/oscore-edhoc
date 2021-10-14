@@ -474,6 +474,8 @@ RFC Editor: Please remove this section.
 
 ## Version -01 to -02 ## {#sec-01-02}
 
+* New title.
+
 * Alignment with latest format of EDHOC messages.
 
 * Guideline on ID conversions based on applicability statement.
