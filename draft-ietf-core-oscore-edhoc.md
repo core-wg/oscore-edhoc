@@ -95,7 +95,7 @@ After successful processing of EDHOC message_3, both peers agree on a cryptograp
 
 This triggers the EDHOC exchange at the Server, which replies with a 2.04 (Changed) response. The response payload consists of EDHOC message_2, which also includes the EDHOC connection identifier C_R of the Server. The Content-Format of the response may be set to "application/edhoc".
 
-Finally, the Client sends a POST request to the same reserved EDHOC resource used earlier to send EDHOC message_1. The request payload consists of the EDHOC connection identifier C_R, concatenated with EDHOC message_3.
+Finally, the Client sends a POST request to the same EDHOC resource used earlier to send EDHOC message_1. The request payload consists of the EDHOC connection identifier C_R, concatenated with EDHOC message_3.
 
 After this exchange takes place, and after successful verifications as specified in the EDHOC protocol, the Client and Server can derive an OSCORE Security Context, as defined in {{Section A.2 of I-D.ietf-lake-edhoc}}. After that, they can use OSCORE to protect their communications as per {{RFC8613}}.
 
@@ -263,7 +263,7 @@ When receiving a request containing the EDHOC option, i.e., an EDHOC + OSCORE re
 
    Otherwise, perform the EDHOC processing on the EDHOC message_3 extracted at step 2 as per {{Section 5.4.3 of I-D.ietf-lake-edhoc}}, based on the protocol state of the retrieved EDHOC session.
 
-   The applicability statement used in the EDHOC session is the same one associated to the reserved EDHOC resource where the server received the request conveying EDHOC message_1 that started the session. This is relevant in case the server provides multiple EDHOC resources, which may generally refer to different applicability statements.
+   The applicability statement used in the EDHOC session is the same one associated to the EDHOC resource where the server received the request conveying EDHOC message_1 that started the session. This is relevant in case the server provides multiple EDHOC resources, which may generally refer to different applicability statements.
 
 5. Establish a new OSCORE Security Context associated to the client as per {{Section A.2 of I-D.ietf-lake-edhoc}}, using the EDHOC output from step 4.
 
@@ -361,21 +361,19 @@ This document suggests 21 (TBD21) as option number to be assigned to the new EDH
 
 # Additional OSCORE/EDHOC-related Processing # {#sec-use-with-OSCORE}
 
-{{Section A.1 of I-D.ietf-lake-edhoc}} defines a rule for converting from EDHOC connection identifier to OSCORE Sender/Recipient ID.
+{{Section A.1 of I-D.ietf-lake-edhoc}} defines how an EDHOC connection identifier is converted to an OSCORE Sender/Recipient ID.
 
-This appendix defines the rule for converting from OSCORE Sender/Recipient ID to EDHOC connection identifier, and related processing.
+In the following, {{oscore-to-edhoc-id}} defines a method for converting from OSCORE Sender/Recipient ID to EDHOC connection identifier.
 
+When running EDHOC through a certain EDHOC resource, the Client and Server MUST both use the conversion method defined in {{oscore-to-edhoc-id}} and MUST perform the additional message processing specified in {{oscore-edhoc-message-processing}}, if at least one of the following conditions hold.
 
-<!--
-Omitted text:
+* The applicability statement associated to the EDHOC resource indicates that the server supports the EDHOC + OSCORE request defined in {{edhoc-in-oscore}}.
 
-## Establishing an OSCORE Security Context with EDHOC {#oscore-ctx}
+* The applicability statement associated to the EDHOC resource indicates that the conversion method defined in {{oscore-to-edhoc-id}} is the one to use.
 
-The applicability statement associated to an EDHOC resource at the CoAP Server can specify that EDHOC is used (also) to establish an OSCORE Security Context.
+Instead, if none of the above conditions hold, the Client and the Server can independently use any consistent conversion method, including the one defined in {{oscore-to-edhoc-id}}. In particular, the Client and Server are not required to use the same conversion method. In fact, as per {{Section A.1 of I-D.ietf-lake-edhoc}}, it is sufficient that the two connection identifiers C_I and C_R exchanged during an EDHOC execution are different and not "equivalent", hence not convertible to the same OSCORE Sender/Recipient ID.
 
-In this case, what defined in this section applies when running EDHOC through such an EDHOC resource, with particular reference to the use of EDHOC connection identifiers and the actual derivation of the OSCORE Security Context.
-
--->
+Even in case none the above conditions hold, it is RECOMMENDED for the Client and Server to use the conversion method defined in {{oscore-to-edhoc-id}}, since it ensures that an OSCORE Sender/Recipient ID is always converted to the EDHOC identifier with the smallest size among the two equivalent ones.
 
 ## From OSCORE to EDHOC Identifier {#oscore-to-edhoc-id}
 
@@ -477,6 +475,8 @@ RFC Editor: Please remove this section.
 ## Version -01 to -02 ## {#sec-01-02}
 
 * Alignment with latest format of EDHOC messages.
+
+* Guideline on ID conversions based on applicability statement.
 
 * Clarifications on applicability statements.
 
