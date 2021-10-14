@@ -75,7 +75,7 @@ This document defines an optimization approach that combines EDHOC run over CoAP
 
 This optimization is desirable, since the number of protocol round trips impacts on the minimum number of flights, which in turn can have a substantial impact on the latency of conveying the first OSCORE request, when using certain radio technologies.
 
-Without this optimization, it is not possible, not even in theory, to achieve the minimum number of flights. This optimization makes it possible also in practice, since the last message of the EDHOC protocol can be made relatively small (see Section 1 of {{I-D.ietf-lake-edhoc}}), thus allowing additional OSCORE protected CoAP data within target MTU sizes.
+Without this optimization, it is not possible, not even in theory, to achieve the minimum number of flights. This optimization makes it possible also in practice, since the last message of the EDHOC protocol can be made relatively small (see {{Section 1.3 of I-D.ietf-lake-edhoc}}), thus allowing additional OSCORE protected CoAP data within target MTU sizes.
 
 ## Terminology
 
@@ -220,11 +220,11 @@ The presence of this option means that the message payload contains also EDHOC d
 
 The Client prepares an EDHOC + OSCORE request as follows.
 
-1. Compose EDHOC message_3 as per Section 5.4.2 of {{I-D.ietf-lake-edhoc}}.
+1. Compose EDHOC message_3 as per {{Section 5.4.2 of I-D.ietf-lake-edhoc}}.
 
    Since the Client is the EDHOC Initiator, the EDHOC message_3 always includes the connection identifier C_R and CIPHERTEXT_3. Note that C_R is the OSCORE Sender ID of the Client, encoded as per {{oscore-to-edhoc-id}}.
 
-2. Encrypt the original CoAP request as per Section 8.1 of {{RFC8613}}, using the new OSCORE Security Context established after receiving EDHOC message_2.
+2. Encrypt the original CoAP request as per {{Section 8.1 of RFC8613}}, using the new OSCORE Security Context established after receiving EDHOC message_2.
 
    Note that the OSCORE ciphertext is not computed over EDHOC message_3, which is not protected by OSCORE. That is, the result of this step is the OSCORE Request as in {{fig-non-combined}}.
 
@@ -252,7 +252,7 @@ When receiving a request containing the EDHOC option, i.e., an EDHOC + OSCORE re
 
    * The second CBOR byte string is the CIPHERTEXT_3 retrieved at step 2.
 
-4. Perform the EDHOC processing on the EDHOC message_3 rebuilt at step 3, including verifications as per Section 5.4.3 of {{I-D.ietf-lake-edhoc}} and the OSCORE Security Context derivation as per Appendix A.2 of {{I-D.ietf-lake-edhoc}}.
+4. Perform the EDHOC processing on the EDHOC message_3 rebuilt at step 3, including verifications as per {{Section 5.4.3 of I-D.ietf-lake-edhoc}} and the OSCORE Security Context derivation as per {{Section A.2 of I-D.ietf-lake-edhoc}}.
 
    If the applicability statement used in the EDHOC session specifies that EDHOC message_4 shall be sent, the Server MUST stop the EDHOC processing and consider it failed, as due to a client error.
 
@@ -260,15 +260,15 @@ When receiving a request containing the EDHOC option, i.e., an EDHOC + OSCORE re
 
 6. Rebuild the OSCORE protected CoAP request as the EDHOC + OSCORE request, where the payload is replaced with the OSCORE ciphertext resulting from step 5.
 
-7. Decrypt and verify the OSCORE protected CoAP request resulting from step 6, as per Section 8.2 of {{RFC8613}}, by using the new OSCORE Security Context established at step 4.
+7. Decrypt and verify the OSCORE protected CoAP request resulting from step 6, as per {{Section 8.2 of RFC8613}}, by using the new OSCORE Security Context established at step 4.
 
 8. Process the CoAP request resulting from step 7.
 
-If steps 4 (EDHOC processing) and 7 (OSCORE processing) are both successfully completed, the Server MUST reply with an OSCORE protected response, in order for the Client to achieve key confirmation (see Section 5.4.2 of {{I-D.ietf-lake-edhoc}}). The usage of EDHOC message_4 as defined in Section 5.5 of {{I-D.ietf-lake-edhoc}} is not applicable to the approach defined in this document.
+If steps 4 (EDHOC processing) and 7 (OSCORE processing) are both successfully completed, the Server MUST reply with an OSCORE protected response, in order for the Client to achieve key confirmation (see {{Section 5.4.2 of I-D.ietf-lake-edhoc}}). The usage of EDHOC message_4 as defined in {{Section 5.5 of I-D.ietf-lake-edhoc}} is not applicable to the approach defined in this document.
 
-If step 4 (EDHOC processing) fails, the server discontinues the protocol as per Section 5.4.3 of {{I-D.ietf-lake-edhoc}} and responds with an EDHOC error message, formatted as defined in Section 6.2 of {{I-D.ietf-lake-edhoc}}. In particular, the CoAP response conveying the EDHOC error message MUST have Content-Format set to application/edhoc defined in Section 8.9 of {{I-D.ietf-lake-edhoc}}.
+If step 4 (EDHOC processing) fails, the server discontinues the protocol as per {{Section 5.4.3 of I-D.ietf-lake-edhoc}} and responds with an EDHOC error message with error code 1, formatted as defined in {{Section 6.2 of I-D.ietf-lake-edhoc}}. In particular, the CoAP response conveying the EDHOC error message MUST have Content-Format set to application/edhoc defined in {{Section 9.12 of I-D.ietf-lake-edhoc}}.
 
-If step 4 (EDHOC processing) is successfully completed but step 7 (OSCORE processing) fails, the same OSCORE error handling applies as defined in Section 8.2 of {{RFC8613}}.
+If step 4 (EDHOC processing) is successfully completed but step 7 (OSCORE processing) fails, the same OSCORE error handling applies as defined in {{Section 8.2 of RFC8613}}.
 
 ## Example of EDHOC + OSCORE Request # {#example}
 
@@ -396,7 +396,7 @@ An OSCORE Sender/Recipient ID, OSCORE_ID, is converted to an EDHOC connection id
 
 ## EDHOC Message Processing {#oscore-edhoc-message-processing}
 
-This section specifies additional EDHOC message processing in addition to what is specified in Section 5 of {{I-D.ietf-lake-edhoc}}.
+This section specifies additional EDHOC message processing in addition to what is specified in {{Section 5 of I-D.ietf-lake-edhoc}}.
 
 ### Initiator Processing of Message 1
 
