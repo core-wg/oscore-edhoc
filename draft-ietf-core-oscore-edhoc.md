@@ -317,49 +317,7 @@ o  Protected CoAP request (OSCORE message):
 ~~~~~~~~~~~~~~~~~
 {: #fig-edhoc-opt-2 title="Example of CoAP message with EDHOC and OSCORE combined" artwork-align="center"}
 
-# Security Considerations
-
-The same security considerations from OSCORE {{RFC8613}} and EDHOC {{I-D.ietf-lake-edhoc}} hold for this document.
-
-TODO (more considerations)
-
-# IANA Considerations
-
-RFC Editor: Please replace "\[\[this document\]\]" with the RFC number of this document and delete this paragraph.
-
-This document has the following actions for IANA.
-
-## CoAP Option Numbers Registry ## {#iana-coap-options}
-
-IANA is asked to enter the following option number to the "CoAP Option Numbers" registry within the "CoRE Parameters" registry group.
-
-\[
-
-The CoAP option numbers 13 and 21 are both consistent with the properties of the EDHOC Option defined in {{edhoc-option}}, and they both allow the EDHOC Option to always result in an overall size of 1 byte. This is because:
-
-* The EDHOC option is always empty, i.e., with zero-length value; and
-
-* Since the OSCORE option with option number 9 is always present in the CoAP request, the EDHOC option would be encoded with a maximum delta of 4 or 12, depending on its option number being 13 or 21.
-
-At the time of writing, the CoAP option numbers 13 and 21 are both unassigned in the "CoAP Option Numbers" registry, as first available and consistent option numbers for the EDHOC option.
-
-This document suggests 21 (TBD21) as option number to be assigned to the new EDHOC option, since both 13 and 21 are consistent for the use case in question, but different use cases or protocols may make better use of the option number 13.
-
-\]
-
-~~~~~~~~~~~
-+--------+-------+-------------------+
-| Number | Name  | Reference         |
-+--------+-------+-------------------+
-| TBD21  | EDHOC | [[this document]] |
-+--------+-------+-------------------+
-~~~~~~~~~~~
-{: artwork-align="center"}
-
-
---- back
-
-# Additional OSCORE/EDHOC-related Processing # {#sec-use-with-OSCORE}
+# Conversion from OSCORE to EDHOC Identifiers # {#conversion}
 
 {{Section A.1 of I-D.ietf-lake-edhoc}} defines how an EDHOC connection identifier is converted to an OSCORE Sender/Recipient ID.
 
@@ -375,7 +333,7 @@ Instead, if none of the above conditions hold, the Client and the Server can ind
 
 Even in case none the above conditions hold, it is RECOMMENDED for the Client and Server to use the conversion method defined in {{oscore-to-edhoc-id}}, since it ensures that an OSCORE Sender/Recipient ID is always converted to the EDHOC identifier with the smallest size among the two equivalent ones.
 
-## From OSCORE to EDHOC Identifier {#oscore-to-edhoc-id}
+## Conversion Method {#oscore-to-edhoc-id}
 
 The process defined in this section ensures that every OSCORE Sender/Recipient ID is converted to only one of the two corresponding, equivalent EDHOC connection identifiers, see {{Section A.1 of I-D.ietf-lake-edhoc}}.
 
@@ -401,7 +359,7 @@ An OSCORE Sender/Recipient ID, OSCORE_ID, is converted to an EDHOC connection id
 
 When performing the conversions above, the two peers MUST always refer to Deterministically Encoded CBOR as specified in {{Section 4.2.1 of RFC8949}}, consistently with what is required by the EDHOC protocol {{I-D.ietf-lake-edhoc}}.
 
-## EDHOC Message Processing {#oscore-edhoc-message-processing}
+## Additional Processing of EDHOC Messages {#oscore-edhoc-message-processing}
 
 This section specifies additional EDHOC message processing compared to what is specified in {{Section 5 of I-D.ietf-lake-edhoc}}.
 
@@ -445,7 +403,49 @@ If any of the following conditions holds, the Initiator MUST discontinue the pro
 
    In fact, this would mean that the Responder has not followed the conversion rule in {{oscore-to-edhoc-id}} when converting its (to be) OSCORE Recipient ID to C_R.
 
-## Checking CBOR Encoding of Numeric Values # {#sec-cbor-numeric-check}
+# Security Considerations
+
+The same security considerations from OSCORE {{RFC8613}} and EDHOC {{I-D.ietf-lake-edhoc}} hold for this document.
+
+TODO (more considerations)
+
+# IANA Considerations
+
+RFC Editor: Please replace "\[\[this document\]\]" with the RFC number of this document and delete this paragraph.
+
+This document has the following actions for IANA.
+
+## CoAP Option Numbers Registry ## {#iana-coap-options}
+
+IANA is asked to enter the following option number to the "CoAP Option Numbers" registry within the "CoRE Parameters" registry group.
+
+\[
+
+The CoAP option numbers 13 and 21 are both consistent with the properties of the EDHOC Option defined in {{edhoc-option}}, and they both allow the EDHOC Option to always result in an overall size of 1 byte. This is because:
+
+* The EDHOC option is always empty, i.e., with zero-length value; and
+
+* Since the OSCORE option with option number 9 is always present in the CoAP request, the EDHOC option would be encoded with a maximum delta of 4 or 12, depending on its option number being 13 or 21.
+
+At the time of writing, the CoAP option numbers 13 and 21 are both unassigned in the "CoAP Option Numbers" registry, as first available and consistent option numbers for the EDHOC option.
+
+This document suggests 21 (TBD21) as option number to be assigned to the new EDHOC option, since both 13 and 21 are consistent for the use case in question, but different use cases or protocols may make better use of the option number 13.
+
+\]
+
+~~~~~~~~~~~
++--------+-------+-------------------+
+| Number | Name  | Reference         |
++--------+-------+-------------------+
+| TBD21  | EDHOC | [[this document]] |
++--------+-------+-------------------+
+~~~~~~~~~~~
+{: artwork-align="center"}
+
+
+--- back
+
+# Checking CBOR Encoding of Numeric Values # {#sec-cbor-numeric-check}
 
 A binary string of N bytes in size is a valid CBOR encoding of an integer value if and only if both the following conditions hold, with reference to the table below.
 
@@ -477,6 +477,8 @@ RFC Editor: Please remove this section.
 ## Version -01 to -02 ## {#sec-01-02}
 
 * New title.
+
+* Restructured table of content.
 
 * Alignment with latest format of EDHOC messages.
 
