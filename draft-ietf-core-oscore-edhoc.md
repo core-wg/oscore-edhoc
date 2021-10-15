@@ -383,11 +383,11 @@ An OSCORE Sender/Recipient ID, OSCORE_ID, is converted to an EDHOC connection id
 
 * If OSCORE_ID is 0 bytes in size, it is converted to the empty byte string EDHOC_ID (0x40 in CBOR encoding).
 
-* If OSCORE_ID is longer than 5 bytes in size, it is converted to a byte-valued EDHOC_ID, i.e., a CBOR byte string with value OSCORE_ID.
+* If OSCORE_ID has a size in bytes different than 0, 1, 2, 3, 5 or 9, it is converted to a byte-valued EDHOC_ID, i.e., a CBOR byte string with value OSCORE_ID.
 
    For example, the OSCORE_ID 0x001122334455 is converted to the byte-valued EDHOC_ID 0x001122334455 (0x46001122334455 in CBOR encoding).
 
-* If OSCORE_ID is 1-5 bytes in size, the following applies.
+* If OSCORE_ID has a size in bytes equal to 1, 2, 3, 5 or 9 the following applies.
 
    - If OSCORE_ID is a valid CBOR encoding for an integer value (i.e., it can be correctly decoded as a CBOR integer), then it is converted to a numeric EDHOC_ID having OSCORE_ID as its CBOR encoded form.
 
@@ -398,6 +398,8 @@ An OSCORE Sender/Recipient ID, OSCORE_ID, is converted to an EDHOC connection id
        For example, the OSCORE_ID 0xFF is converted to the byte-valued EDHOC_ID 0xFF (0x41FF in CBOR encoding).
 
    Implementations can easily determine which case holds for a given OSCORE_ID with no need to try to actually CBOR-decode it, e.g., by using the approach in {{sec-cbor-numeric-check}}.
+
+When performing the conversions above, the two peers MUST always refer to Deterministically Encoded CBOR as specified in {{Section 4.2.1 of RFC8949}}, consistently with what is required by the EDHOC protocol {{I-D.ietf-lake-edhoc}}.
 
 ## EDHOC Message Processing {#oscore-edhoc-message-processing}
 
