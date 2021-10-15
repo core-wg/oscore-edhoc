@@ -99,6 +99,8 @@ Finally, the Client sends a POST request to the same EDHOC resource used earlier
 
 After this exchange takes place, and after successful verifications as specified in the EDHOC protocol, the Client and Server can derive an OSCORE Security Context, as defined in {{Section A.2 of I-D.ietf-lake-edhoc}}. After that, they can use OSCORE to protect their communications as per {{RFC8613}}.
 
+The Client and Server are required to agree in advance on certain information and parameters describing how they should use EDHOC. These are specified in an applicability statement see {{Section 3.9 of I-D.ietf-lake-edhoc}}, associated to the used EDHOC resource.
+
 ~~~~~~~~~~~~~~~~~
    CoAP Client                                       CoAP Server
 (EDHOC Initiator)                                 (EDHOC Responder)
@@ -403,6 +405,18 @@ If any of the following conditions holds, the Initiator MUST discontinue the pro
 
    In fact, this would mean that the Responder has not followed the conversion rule in {{oscore-to-edhoc-id}} when converting its (to be) OSCORE Recipient ID to C_R.
 
+# Extension and Consistency of Applicability Statement # {#app-statements}
+
+The applicability statement referred by the Client and Server can include the information elements introduced below, in accordance with the specified consistency rules.
+
+If the Server supports the EDHOC + OSCORE request within an EDHOC execution started at a certain EDHOC resource, then the applicability statement associated to that resource:
+
+* MUST NOT specify that EDHOC message_4 shall be sent.
+
+* SHOULD explicitly specify support for the EDHOC + OSCORE request.
+
+* SHOULD explicitly specify that the method to convert from EDHOC to OSCORE identifiers is the one defined in {{conversion}}. If this is not explicitly specified, the Client and Server MUST use that conversion method.
+
 # Security Considerations
 
 The same security considerations from OSCORE {{RFC8613}} and EDHOC {{I-D.ietf-lake-edhoc}} hold for this document.
@@ -484,7 +498,7 @@ RFC Editor: Please remove this section.
 
 * Guideline on ID conversions based on applicability statement.
 
-* Clarifications on applicability statements.
+* Clarifications, extension and consistency on applicability statement.
 
 * RFC8126 terminology in IANA considerations.
 
