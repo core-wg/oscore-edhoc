@@ -371,7 +371,7 @@ When running EDHOC through a certain EDHOC resource, the Client and Server MUST 
 
 * The applicability statement associated to the EDHOC resource indicates that the conversion method defined in {{oscore-to-edhoc-id}} is the one to use.
 
-Instead, if none of the above conditions hold, the Client and the Server can independently use any consistent conversion method, including the one defined in {{oscore-to-edhoc-id}}. In particular, the Client and Server are not required to use the same conversion method. In fact, as per {{Section A.1 of I-D.ietf-lake-edhoc}}, it is sufficient that the two connection identifiers C_I and C_R exchanged during an EDHOC execution are different and not "equivalent", hence not convertible to the same OSCORE Sender/Recipient ID.
+Instead, if none of the above conditions hold, the Client and the Server can independently use any consistent conversion method, such as the one defined in {{oscore-to-edhoc-id}} or different ones defined in separate specifications. In particular, the Client and Server are not required to use the same conversion method. In fact, as per {{Section A.1 of I-D.ietf-lake-edhoc}}, it is sufficient that the two connection identifiers C_I and C_R exchanged during an EDHOC execution are different and not "equivalent", hence not convertible to the same OSCORE Sender/Recipient ID.
 
 Even in case none the above conditions hold, it is RECOMMENDED for the Client and Server to use the conversion method defined in {{oscore-to-edhoc-id}}, since it ensures that an OSCORE Sender/Recipient ID is always converted to the EDHOC identifier with the smallest size among the two equivalent ones.
 
