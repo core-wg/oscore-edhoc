@@ -421,6 +421,10 @@ If the Server supports the EDHOC + OSCORE request within an EDHOC execution star
 
 If the Server does not support the EDHOC + OSCORE request within an EDHOC execution started at a certain EDHOC resource, then the applicability statement associated to that resource MAY specify a method to convert from EDHOC to OSCORE identifiers. In such a case, the Client and Server MUST use the specified conversion method, which MAY be the one defined in {{conversion}}.
 
+# Web Linking # {#web-linking}
+
+TBD
+
 # Security Considerations
 
 The same security considerations from OSCORE {{RFC8613}} and EDHOC {{I-D.ietf-lake-edhoc}} hold for this document.
