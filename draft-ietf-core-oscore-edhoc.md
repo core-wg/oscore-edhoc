@@ -468,7 +468,7 @@ The following parameters are defined.
 
 * 'comb_req', specifying whether the server supports the EDHOC + OSCORE request defined in {{edhoc-in-oscore}}, with its presence denoting support from the server. A value MUST NOT be given to this parameter and any present value MUST be ignored by parsers.
 
-* 'conv_osc_id', specifying the method used to convert from EDHOC to OSCORE identifiers. If such a method is the one defined in {{conversion}}, this parameter MUST take value 0.
+* 'conv_osc_id', specifying the method used to convert from OSCORE to EDHOC identifiers. If such a method is the one defined in {{conversion}}, this parameter MUST take value 0.
 
 The example in {{fig-web-link-example}} shows how a Client discovers one EDHOC resource at a Server, obtaining information elements from the applicability statement. The Link Format notation from {{Section 5 of RFC6690}} is used.
 
