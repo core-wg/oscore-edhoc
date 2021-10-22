@@ -434,7 +434,7 @@ If the Server supports the EDHOC + OSCORE request within an EDHOC execution star
 
 * SHOULD explicitly specify that the method to convert from EDHOC to OSCORE identifiers is the one defined in {{conversion}} and MUST NOT specify any other method than that.
 
-   If the method defined in {{conversion}} is not explicitly specified, the Client and Server MUST use it as conversion method.
+   If the support for the EDHOC + OSCORE request is explicitly specified and the method defined in {{conversion}} is not explicitly specified, then the Client and Server MUST use it as conversion method.
 
 If the Server does not support the EDHOC + OSCORE request within an EDHOC execution started at a certain EDHOC resource, then the applicability statement associated to that resource MAY specify a method to convert from EDHOC to OSCORE identifiers. In such a case, the Client and Server MUST use the specified conversion method, which MAY be the one defined in {{conversion}}.
 
