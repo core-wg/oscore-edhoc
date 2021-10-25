@@ -308,7 +308,7 @@ If step 4 (EDHOC processing) is successfully completed but step 8 (OSCORE proces
 
 * The OSCORE Sender ID of the Client is 0x01.
 
-   As per {{oscore-to-edhoc-id}}, this corresponds to the numeric EDHOC connection identifier C_R with value 1. When using the purely-sequential flow shown in {{fig-non-combined}}, this would be prepended to EDHOC message_3 as the CBOR integer 1 (0x01 in CBOR encoding), in the paylod of the second EDHOC request.
+   As per {{oscore-to-edhoc-id}}, this corresponds to the numeric EDHOC connection identifier C_R with value 1. When using the purely-sequential flow shown in {{fig-non-combined}}, this would be prepended to EDHOC message_3 as the CBOR integer 1 (0x01 in CBOR encoding), in the payload of the second EDHOC request.
 
 * The EDHOC option is registered with CoAP option number 21.
 
