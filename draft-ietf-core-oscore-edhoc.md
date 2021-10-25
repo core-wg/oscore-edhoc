@@ -452,7 +452,7 @@ The following parameters are defined.
 
 * 'method', specifying an authentication method supported by the Server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Method Type" registry defined in {{Section 9.3 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying a different authentication method.
 
-* 'csuite', specifying an EDHOC ciphersuite supported by the Server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Method Type" registry defined in {{Section 9.2 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying a different authentication method.
+* 'csuite', specifying an EDHOC ciphersuite supported by the Server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Cipher Suites" registry defined in {{Section 9.2 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying a different authentication method.
 
 * 'cred_t', specifying type of authentication credentials supported by the Server. This parameter MAY occur multiple times, with each occurrence specifying a different authentication credential type. Possible values are: "x509", for X.509 certificate {{RFC5280}}; "c509", for C509 certificate {{I-D.ietf-cose-cbor-encoded-cert}}; "cwt" for CWT {{RFC8392}}; "ccs" for CWT Claims Set (CCS) {{RFC8392}}.
 
@@ -460,7 +460,7 @@ The following parameters are defined.
 
    Note that the values in the 'Label' column of the "COSE Headers Parameters" registry are strongly typed. On the contrary, Link Format is weakly typed and thus does not distinguish between, for instance, the string value "-10" and the integer value -10. Thus, if responses in Link Format are returned, string values which look like an integer are not supported. Therefore, such values MUST NOT be used in the 'idcred_t' parameter.
 
-* 'ead_1', 'ead_2', 'ead_3' and 'ead_4', specifying if the Server supports the use of external authorization data EAD_1, EAD_2, EAD_3 and EAD_4, respectively (see Section 3.8 {{Section 9.2 of I-D.ietf-lake-edhoc}}). For each of these parameters, the following applies.
+* 'ead_1', 'ead_2', 'ead_3' and 'ead_4', specifying if the Server supports the use of external authorization data EAD_1, EAD_2, EAD_3 and EAD_4, respectively (see {{Section 3.8 of I-D.ietf-lake-edhoc}}). For each of these parameters, the following applies.
 
    - It MUST occur at most once, with its presence denoting support from the server for the respective external authorization data.
 
