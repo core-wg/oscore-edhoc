@@ -209,7 +209,7 @@ To this end, the specific approach defined in this section consists of sending a
 
 That is, the EDHOC + OSCORE request is in practice the OSCORE Request from {{fig-non-combined}}, as still sent to a protected resource and with the correct CoAP method and options intended for accessing that resource. At the same time, the EDHOC + OSCORE request also transports the pair (C_R, EDHOC message_3) required for completing the EDHOC exchange. Note that C_R is not transported precisely in the request payload.
 
-As EDHOC message_3 may be too large to be included in a CoAP Option, e.g., if containing a large public key certificate chain, it has to be transported in the CoAP payload of the EDHOC + OSCORE request.
+Since EDHOC message_3 may be too large to be included in a CoAP Option, e.g., if containing a large public key certificate chain as ID_CRED_I (see {{Section 3.5.4 of I-D.ietf-lake-edhoc}}) or if conveying protected External Authorization Data as EAD_3 (see {{Section 3.8 of I-D.ietf-lake-edhoc}}), EDHOC message_3 has to be transported in the CoAP payload of the EDHOC + OSCORE request.
 
 The rest of this section specifies how to transport the data in the EDHOC + OSCORE request and their processing order. In particular, the use of this approach is explicitly signalled by including an EDHOC Option (see {{edhoc-option}}) in the EDHOC + OSCORE request. The processing of the EDHOC + OSCORE request is specified in {{client-processing}} for the Client side and in {{server-processing}} for the Server side.
 
@@ -239,11 +239,13 @@ The presence of this option means that the message payload contains also EDHOC d
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |Ver| T |  TKL  |      Code     |          Message ID           |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|   Token (if any, TKL bytes) ...
+| Token (if any, TKL bytes) ...
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|  OSCORE option  |   EDHOC option  | Other options (if any) ...
+| OSCORE option                                 | EDHOC option  |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|1 1 1 1 1 1 1 1|    Payload
+| Other options (if any) ...
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|1 1 1 1 1 1 1 1| Payload
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ~~~~~~~~~~~~~~~~~
 {: #fig-edhoc-opt title="CoAP message for EDHOC and OSCORE combined - signalled with the EDHOC Option" artwork-align="center"}
@@ -559,6 +561,8 @@ A binary string of N bytes in size is a valid CBOR encoding of an integer value 
 RFC Editor: Please remove this section.
 
 ## Version -02 to -03 ## {#sec-02-03}
+
+* Clarifications on transporting EDHOC message_3 in the CoAP payload.
 
 * Updated figures; editorial improvements.
 
