@@ -272,6 +272,8 @@ The Client prepares an EDHOC + OSCORE request as follows.
 
 5. Signal the usage of this approach, by including the new EDHOC Option defined in {{edhoc-option}} into the EDHOC + OSCORE request.
 
+With the same Server, the Client MUST NOT have more than one simultaneous outstanding interaction (see {{Section 4.7 of RFC7252}}) consisting of an EDHOC + OSCORE request and whose EDHOC data are intended to the EDHOC session with the same connection identifier C_R.
+
 ## Server Processing {#server-processing}
 
 In order to process a request containing the EDHOC option, i.e., an EDHOC + OSCORE request, the Server MUST perform the following steps.
@@ -565,6 +567,8 @@ RFC Editor: Please remove this section.
 ## Version -02 to -03 ## {#sec-02-03}
 
 * Clarifications on transporting EDHOC message_3 in the CoAP payload.
+
+* At most one simultaneous outstanding interaction as an EDHOC + OSCORE request with the same server for the same session with connection identifier C_R.
 
 * The EDHOC option is removed from the EDHOC + OSCORE request after processing the EDHOC data.
 
