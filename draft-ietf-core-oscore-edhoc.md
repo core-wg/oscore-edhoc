@@ -147,9 +147,11 @@ OSCORE Sec Ctx                                      OSCORE Sec Ctx
         |                                                  |
         | ---------------- OSCORE Request ---------------> |
         |   Header: 0.02 (POST)                            |
+        |   Payload: OSCORE-protected data                 |
         |                                                  |
         | <--------------- OSCORE Response --------------- |
-        |                         Header: 2.04 (Changed)   |
+        |                 Header: 2.04 (Changed)           |
+        |                 Payload: OSCORE-protected data   |
         |                                                  |
 ~~~~~~~~~~~~~~~~~
 {: #fig-non-combined title="EDHOC and OSCORE run sequentially" artwork-align="center"}
@@ -169,39 +171,41 @@ When running the purely-sequential flow of {{overview}}, the Client has all the 
 Hence, the Client can potentially send both EDHOC message_3 and the subsequent OSCORE Request at the same time. On a semantic level, this requires sending two REST requests at once, as in {{fig-combined}}.
 
 ~~~~~~~~~~~~~~~~~
-   CoAP Client                                       CoAP Server
-(EDHOC Initiator)                                 (EDHOC Responder)
-        |                                                  |
-        | ----------------- EDHOC Request ---------------> |
-        |   Header: 0.02 (POST)                            |
-        |   Uri-Path: "/.well-known/edhoc"                 |
-        |   Payload: true, EDHOC message_1                 |
-        |                                                  |
-        | <---------------- EDHOC Response---------------- |
-        |              Header: Changed (2.04)              |
-        |              Content-Format: application/edhoc   |
-        |              Payload: EDHOC message_2            |
-        |                                                  |
-EDHOC verification                                         |
-        +                                                  |
-  OSCORE Sec Ctx                                           |
-    Derivation                                             |
-        |                                                  |
-        | ------------ EDHOC + OSCORE Request -----------> |
-        |   Header: 0.02 (POST)                            |
-        |                                                  |
-        |                                         EDHOC verification
-        |                                                  +
-        |                                          OSCORE Sec Ctx
-        |                                             Derivation
-        |                                                  |
-        | <-------------- OSCORE Response ---------------- |
-        |                         Header: 2.04 (Changed)   |
-        |                                                  |
+   CoAP Client                                          CoAP Server
+(EDHOC Initiator)                                    (EDHOC Responder)
+        |                                                     |
+        | ------------------ EDHOC Request -----------------> |
+        |   Header: 0.02 (POST)                               |
+        |   Uri-Path: "/.well-known/edhoc"                    |
+        |   Payload: true, EDHOC message_1                    |
+        |                                                     |
+        | <----------------- EDHOC Response------------------ |
+        |                 Header: Changed (2.04)              |
+        |                 Content-Format: application/edhoc   |
+        |                 Payload: EDHOC message_2            |
+        |                                                     |
+EDHOC verification                                            |
+        +                                                     |
+  OSCORE Sec Ctx                                              |
+    Derivation                                                |
+        |                                                     |
+        | ------------- EDHOC + OSCORE Request -------------> |
+        |   Header: 0.02 (POST)                               |
+        |   Payload: EDHOC message_3 + OSCORE-protected data  |
+        |                                                     |
+        |                                            EDHOC verification
+        |                                                     +
+        |                                             OSCORE Sec Ctx
+        |                                                Derivation
+        |                                                     |
+        | <--------------- OSCORE Response ------------------ |
+        |                    Header: 2.04 (Changed)           |
+        |                    Payload: OSCORE-protected data   |
+        |                                                     |
 ~~~~~~~~~~~~~~~~~
 {: #fig-combined title="EDHOC and OSCORE combined" artwork-align="center"}
 
-To this end, the specific approach defined in this section consists of sending a single EDHOC + OSCORE request, which conveys the pair (C_R, EDHOC message_3) within an OSCORE protected CoAP message.
+To this end, the specific approach defined in this section consists of sending a single EDHOC + OSCORE request, which conveys the pair (C_R, EDHOC message_3) within an OSCORE protected CoAP message. Note that C_R is not transported in the request payload.
 
 That is, the EDHOC + OSCORE request is in practice the OSCORE Request from {{fig-non-combined}}, as still sent to a protected resource and with the correct CoAP method and options intended for accessing that resource. At the same time, the EDHOC + OSCORE request also transports the pair (C_R, EDHOC message_3) required for completing the EDHOC exchange.
 
@@ -553,6 +557,10 @@ A binary string of N bytes in size is a valid CBOR encoding of an integer value 
 # Document Updates # {#sec-document-updates}
 
 RFC Editor: Please remove this section.
+
+## Version -02 to -03 ## {#sec-02-03}
+
+* Updated figures; editorial improvements.
 
 ## Version -01 to -02 ## {#sec-01-02}
 
