@@ -274,9 +274,9 @@ The Client prepares an EDHOC + OSCORE request as follows.
 
 ## Server Processing {#server-processing}
 
-When receiving a request containing the EDHOC option, i.e., an EDHOC + OSCORE request, the Server MUST perform the following steps.
+In order to process a request containing the EDHOC option, i.e., an EDHOC + OSCORE request, the Server MUST perform the following steps.
 
-1. Check that the payload of the EDHOC + OSCORE request is a CBOR sequence composed of two CBOR byte strings. If this is not the case, the Server MUST stop processing the request and MUST reply with a 4.00 (Bad Request) error response.
+1. Check that the EDHOC + OSCORE request includes the OSCORE option and that the request payload is a CBOR sequence composed of two CBOR byte strings. If this is not the case, the Server MUST stop processing the request and MUST reply with a 4.00 (Bad Request) error response.
 
 2. Extract EDHOC message_3 from the payload of the EDHOC + OSCORE request, as the first CBOR byte string in the CBOR sequence.
 
@@ -294,9 +294,11 @@ When receiving a request containing the EDHOC option, i.e., an EDHOC + OSCORE re
 
 6. Extract the OSCORE ciphertext from the payload of the EDHOC + OSCORE request, as the value of the second CBOR byte string in the CBOR sequence.
 
-7. Rebuild the OSCORE protected CoAP request as the EDHOC + OSCORE request, where the payload is replaced with the OSCORE ciphertext extracted at step 6.
+7. Rebuild the OSCORE protected CoAP request, as the EDHOC + OSCORE request where the payload is replaced with the OSCORE ciphertext extracted at step 6. Then, remove the EDHOC option.
 
 8. Decrypt and verify the OSCORE protected CoAP request rebuilt at step 7, as per {{Section 8.2 of RFC8613}}, by using the OSCORE Security Context established at step 5.
+
+   If the decrypted request includes an EDHOC option but it does not include an OSCORE option, the Server MUST stop processing the request and MUST reply with a 4.00 (Bad Request) error response.
 
 9. Deliver the CoAP request resulting from step 8 to the application.
 
@@ -563,6 +565,10 @@ RFC Editor: Please remove this section.
 ## Version -02 to -03 ## {#sec-02-03}
 
 * Clarifications on transporting EDHOC message_3 in the CoAP payload.
+
+* The EDHOC option is removed from the EDHOC + OSCORE request after processing the EDHOC data.
+
+* Improved error handling on the CoAP server.
 
 * Updated figures; editorial improvements.
 
