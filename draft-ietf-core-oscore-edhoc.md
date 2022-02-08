@@ -615,6 +615,6 @@ RFC Editor: Please remove this section.
 # Acknowledgments
 {:numbered="false"}
 
-The authors sincerely thank Christian Amsuess, Klaus Hartke, Jim Schaad and Malisa Vucinic for their feedback and comments.
+The authors sincerely thank Christian Amsuess, Esko Dijk, Klaus Hartke, Jim Schaad and Malisa Vucinic for their feedback and comments.
 
 The work on this document has been partly supported by VINNOVA and the Celtic-Next project CRITISEC; and by the H2020 project SIFIS-Home (Grant agreement 952652).
