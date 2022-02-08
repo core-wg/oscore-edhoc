@@ -462,7 +462,7 @@ The following parameters are defined.
 
 * 'method', specifying an authentication method supported by the Server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Method Type" registry defined in {{Section 9.3 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying a different authentication method.
 
-* 'csuite', specifying an EDHOC ciphersuite supported by the Server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Cipher Suites" registry defined in {{Section 9.2 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying a different ciphersuite.
+* 'csuite', specifying an EDHOC cipher suite supported by the Server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Cipher Suites" registry defined in {{Section 9.2 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying a different cipher suite.
 
 * 'cred_t', specifying a type of authentication credential supported by the Server. This parameter MAY occur multiple times, with each occurrence specifying a different authentication credential type. Possible values are: "x509", for X.509 certificate {{RFC5280}}; "c509", for C509 certificate {{I-D.ietf-cose-cbor-encoded-cert}}; "cwt" for CWT {{RFC8392}}; "ccs" for CWT Claims Set (CCS) {{RFC8392}}.
 
@@ -577,6 +577,8 @@ RFC Editor: Please remove this section.
 * The EDHOC option is removed from the EDHOC + OSCORE request after processing the EDHOC data.
 
 * Improved error handling on the CoAP server.
+
+* Improved section on Web Linking.
 
 * Updated figures; editorial improvements.
 
