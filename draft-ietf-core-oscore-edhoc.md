@@ -419,7 +419,11 @@ The Initiator selects C_I as follows.
 
 1. The Initiator initializes a set ID_SET as the empty set.
 
-2. The Initiator selects an available OSCORE Recipient ID, ID*, which is not included in ID_SET.
+2. The Initiator selects an available OSCORE Recipient ID, namely ID*, which is not included in ID_SET. Consistently with the requirements in {{Section 3.3 of RFC8613}}, when selecting ID\*:
+
+    * The Initiator SHOULD select ID* only among the Recipient IDs which are currently not used in the sets of all its Recipient Contexts.
+
+    * The Initiator MUST NOT select a Recipient ID as ID* if this is currently used in a Recipient Context within a Security Context where the ID Context has zero-length.
 
 3. The Initiator converts ID* to the EDHOC connection identifier C_I, as per {{oscore-to-edhoc-id}}.
 
@@ -437,7 +441,11 @@ The Responder selects C_R as follows.
 
 1. The Responder initializes a set ID_SET as the empty set.
 
-2. The Responder selects an available OSCORE Recipient ID, ID*, which is not included in ID_SET.
+2. The Responder selects an available OSCORE Recipient ID, ID*, which is not included in ID_SET. Consistently with the requirements in {{Section 3.3 of RFC8613}}, when selecting ID\*:
+
+    * The Responder SHOULD select ID* only among the Recipient IDs which are currently not used in the sets of all its Recipient Contexts.
+
+    * The Responder MUST NOT select a Recipient ID as ID* if this is currently used in a Recipient Context within a Security Context where the ID Context has zero-length.
 
 3. The Responder converts ID* to the EDHOC connection identifier C_R, as per {{oscore-to-edhoc-id}}.
 
@@ -596,6 +604,8 @@ RFC Editor: Please remove this section.
 * At most one simultaneous outstanding interaction as an EDHOC + OSCORE request with the same server for the same session with connection identifier C_R.
 
 * The EDHOC option is removed from the EDHOC + OSCORE request after processing the EDHOC data.
+
+* Added explicit constraints when selecting a Recipient ID as C_X.
 
 * Added processing steps for when Block-wise is used.
 
