@@ -93,7 +93,7 @@ Furthermore, this document defines:
 
 * A method for deterministically converting an OSCORE Sender/Recipient ID to a corresponding EDHOC connection identifier (see {{conversion}}). While this method is required to be used when using the optimization above, it is recommended in general, since it ensures that an OSCORE Sender/Recipient ID is always converted to the EDHOC identifier with the smallest size.
 
-* A number of parameters corresponding to different information elements of an EDHOC applicability statement (see {{web-linking}}). These can be specified as target attributes in the link to an EDHOC resource associated to that applicability statement, thus enabling an enhanced discovery of such resource for CoAP clients.
+* A number of parameters corresponding to different information elements of an EDHOC applicability statement (see {{web-linking}}). These can be specified as target attributes in the link to an EDHOC resource associated with that applicability statement, thus enabling an enhanced discovery of such resource for CoAP clients.
 
 ## Terminology
 
@@ -117,7 +117,7 @@ Finally, the Client sends a POST request to the same EDHOC resource used earlier
 
 After this exchange takes place, and after successful verifications as specified in the EDHOC protocol, the Client and Server can derive an OSCORE Security Context, as defined in {{Section A.2 of I-D.ietf-lake-edhoc}}. After that, they can use OSCORE to protect their communications as per {{RFC8613}}.
 
-The Client and Server are required to agree in advance on certain information and parameters describing how they should use EDHOC. These are specified in an applicability statement see {{Section 3.9 of I-D.ietf-lake-edhoc}}, associated to the used EDHOC resource.
+The Client and Server are required to agree in advance on certain information and parameters describing how they should use EDHOC. These are specified in an applicability statement see {{Section 3.9 of I-D.ietf-lake-edhoc}}, associated with the used EDHOC resource.
 
 ~~~~~~~~~~~~~~~~~
    CoAP Client                                       CoAP Server
@@ -305,9 +305,9 @@ In order to process a request containing the EDHOC option, i.e., an EDHOC + OSCO
 
    Otherwise, perform the EDHOC processing on the EDHOC message_3 extracted at step 2 as per {{Section 5.4.3 of I-D.ietf-lake-edhoc}}, based on the protocol state of the retrieved EDHOC session.
 
-   The applicability statement used in the EDHOC session is the same one associated to the EDHOC resource where the server received the request conveying EDHOC message_1 that started the session. This is relevant in case the server provides multiple EDHOC resources, which may generally refer to different applicability statements.
+   The applicability statement used in the EDHOC session is the same one associated with the EDHOC resource where the server received the request conveying EDHOC message_1 that started the session. This is relevant in case the server provides multiple EDHOC resources, which may generally refer to different applicability statements.
 
-5. Establish a new OSCORE Security Context associated to the client as per {{Section A.2 of I-D.ietf-lake-edhoc}}, using the EDHOC output from step 4.
+5. Establish a new OSCORE Security Context associated with the client as per {{Section A.2 of I-D.ietf-lake-edhoc}}, using the EDHOC output from step 4.
 
 6. Extract the OSCORE ciphertext from the payload of the EDHOC + OSCORE request, as the value of the second CBOR byte string in the CBOR sequence.
 
@@ -375,9 +375,9 @@ In the following, {{oscore-to-edhoc-id}} defines a method for converting from OS
 
 When running EDHOC through a certain EDHOC resource, the Client and Server MUST both use the conversion method defined in {{oscore-to-edhoc-id}} and MUST perform the additional message processing specified in {{oscore-edhoc-message-processing}}, if at least one of the following conditions hold.
 
-* The applicability statement associated to the EDHOC resource indicates that the server supports the EDHOC + OSCORE request defined in {{edhoc-in-oscore}}.
+* The applicability statement associated with the EDHOC resource indicates that the server supports the EDHOC + OSCORE request defined in {{edhoc-in-oscore}}.
 
-* The applicability statement associated to the EDHOC resource indicates that the conversion method defined in {{oscore-to-edhoc-id}} is the one to use.
+* The applicability statement associated with the EDHOC resource indicates that the conversion method defined in {{oscore-to-edhoc-id}} is the one to use.
 
 Instead, if none of the above conditions hold, the Client and the Server can independently use any consistent conversion method, such as the one defined in {{oscore-to-edhoc-id}} or different ones defined in separate specifications. In particular, the Client and Server are not required to use the same conversion method. In fact, as per {{Section A.1 of I-D.ietf-lake-edhoc}}, it is sufficient that the two connection identifiers C_I and C_R exchanged during an EDHOC execution are different and not "equivalent", hence not convertible to the same OSCORE Sender/Recipient ID.
 
@@ -465,7 +465,7 @@ If any of the following conditions holds, the Initiator MUST discontinue the pro
 
 The applicability statement referred by the Client and Server can include the information elements introduced below, in accordance with the specified consistency rules.
 
-If the Server supports the EDHOC + OSCORE request within an EDHOC execution started at a certain EDHOC resource, then the applicability statement associated to that resource:
+If the Server supports the EDHOC + OSCORE request within an EDHOC execution started at a certain EDHOC resource, then the applicability statement associated with that resource:
 
 * MUST NOT specify that EDHOC message_4 shall be sent.
 
@@ -475,15 +475,15 @@ If the Server supports the EDHOC + OSCORE request within an EDHOC execution star
 
    If the support for the EDHOC + OSCORE request is explicitly specified and the method defined in {{conversion}} is not explicitly specified, then the Client and Server MUST use it as conversion method.
 
-If the Server does not support the EDHOC + OSCORE request within an EDHOC execution started at a certain EDHOC resource, then the applicability statement associated to that resource MAY specify a method to convert from EDHOC to OSCORE identifiers. In such a case, the Client and Server MUST use the specified conversion method, which MAY be the one defined in {{conversion}}.
+If the Server does not support the EDHOC + OSCORE request within an EDHOC execution started at a certain EDHOC resource, then the applicability statement associated with that resource MAY specify a method to convert from EDHOC to OSCORE identifiers. In such a case, the Client and Server MUST use the specified conversion method, which MAY be the one defined in {{conversion}}.
 
 # Web Linking # {#web-linking}
 
 {{Section 9.13 of I-D.ietf-lake-edhoc}} registers the resource type "core.edhoc", which can be used as target attribute in a web link {{RFC8288}} to an EDHOC resource, e.g., using a link-format document {{RFC6690}}. This enables Clients to discover the presence of EDHOC resources at a Server, possibly using the resource type as filter criterion.
 
-At the same time, the applicability statement associated to an EDHOC resource provides a number of information describing how the EDHOC protocol can be used through that resource. While a Client may become aware of the applicability statement through several means, it would be convenient to obtain its information elements upon discovering the EDHOC resources at the Server. This might aim at discovering especially the EDHOC resources whose associated applicability statement denotes a way of using EDHOC which is most suitable to the Client, e.g., with EDHOC cipher suites or authentication methods that the Client also supports or prefers.
+At the same time, the applicability statement associated with an EDHOC resource provides a number of information describing how the EDHOC protocol can be used through that resource. While a Client may become aware of the applicability statement through several means, it would be convenient to obtain its information elements upon discovering the EDHOC resources at the Server. This might aim at discovering especially the EDHOC resources whose associated applicability statement denotes a way of using EDHOC which is most suitable to the Client, e.g., with EDHOC cipher suites or authentication methods that the Client also supports or prefers.
 
-That is, it would be convenient that a Client discovering an EDHOC resource contextually obtains relevant pieces of information from the applicability statement associated to that resource. The resource discovery can occur by means of a direct interaction with the Server, or instead by means of the CoRE Resource Directory {{I-D.ietf-core-resource-directory}}, where the Server may have registered the links to its resources.
+That is, it would be convenient that a Client discovering an EDHOC resource contextually obtains relevant pieces of information from the applicability statement associated with that resource. The resource discovery can occur by means of a direct interaction with the Server, or instead by means of the CoRE Resource Directory {{I-D.ietf-core-resource-directory}}, where the Server may have registered the links to its resources.
 
 In order to enable the above, this section defines a number of parameters, each of which can be optionally specified as a target attribute with the same name in the link to the respective EDHOC resource, or as filter criteria in a discovery request from the Client. When specifying these parameters in a link to an EDHOC resource, the target attribute rt="core.edhoc" MUST be included, and the same consistency rules defined in {{app-statements}} for the corresponding information elements of an applicability statement MUST be followed.
 
