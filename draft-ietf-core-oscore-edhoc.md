@@ -41,7 +41,7 @@ author:
     ins: S. Hristozov
     name: Stefan Hristozov
     organization: Fraunhofer AISEC
-    email: stefan.hristozov@aisec.fraunhofer.de
+    email: stefan.hristozov@eriptic.com
  -
     ins: G. Selander
     name: Goeran Selander
