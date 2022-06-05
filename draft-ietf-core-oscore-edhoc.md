@@ -91,11 +91,7 @@ This optimization is desirable, since the number of protocol round trips impacts
 
 Without this optimization, it is not possible, not even in theory, to achieve the minimum number of flights. This optimization makes it possible also in practice, since the last message of the EDHOC protocol can be made relatively small (see {{Section 1.2 of I-D.ietf-lake-edhoc}}), thus allowing additional OSCORE-protected CoAP data within target MTU sizes.
 
-Furthermore, this document defines:
-
-* A method for deterministically converting an OSCORE Sender/Recipient ID to a corresponding EDHOC connection identifier (see {{conversion}}). While this method is required to be used when using the optimization above, it is recommended in general, since it ensures that an OSCORE Sender/Recipient ID is always converted to the EDHOC identifier with the smallest size.
-
-* A number of parameters corresponding to different information elements of an EDHOC application profile (see {{web-linking}}). These can be specified as target attributes in the link to an EDHOC resource associated with that application profile, thus enabling an enhanced discovery of such resource for CoAP clients.
+Furthermore, this document defines a number of parameters corresponding to different information elements of an EDHOC application profile (see {{web-linking}}). These can be specified as target attributes in the link to an EDHOC resource associated with that application profile, thus enabling an enhanced discovery of such resource for CoAP clients.
 
 ## Terminology
 
@@ -111,11 +107,11 @@ After successful processing of EDHOC message_3, both peers agree on a cryptograp
 
 {{Section A.2 of I-D.ietf-lake-edhoc}} specifies how to transfer EDHOC over CoAP. That is, the EDHOC data (referred to as "EDHOC messages") are transported in the payload of CoAP requests and responses. The default message flow consists in the CoAP Client acting as Initiator and the CoAP Server acting as Responder. Alternatively, the two roles can be reversed. In the rest of this document, EDHOC messages are considered to be transferred over CoAP.
 
-{{fig-non-combined}} shows a CoAP Client and Server running EDHOC as Initiator and Responder, respectively. That is, the Client sends a POST request to a reserved EDHOC resource at the Server, by default at the Uri-Path "/.well-known/edhoc". The request payload consists of the CBOR simple value "true" (0xf5) concatenated with EDHOC message_1, which also includes the EDHOC connection identifier C_I of the Client. The Content-Format of the request may be set to application/cid-edhoc+cbor-seq.
+{{fig-non-combined}} shows a CoAP Client and Server running EDHOC as Initiator and Responder, respectively. That is, the Client sends a POST request to a reserved EDHOC resource at the Server, by default at the Uri-Path "/.well-known/edhoc". The request payload consists of the CBOR simple value "true" (0xf5) concatenated with EDHOC message_1, which also includes the EDHOC connection identifier C_I of the Client represented as per {{Section 3.3 of I-D.ietf-lake-edhoc}}. The Content-Format of the request may be set to application/cid-edhoc+cbor-seq.
 
-This triggers the EDHOC exchange at the Server, which replies with a 2.04 (Changed) response. The response payload consists of EDHOC message_2, which also includes the EDHOC connection identifier C_R of the Server. The Content-Format of the response may be set to application/edhoc+cbor-seq.
+This triggers the EDHOC exchange at the Server, which replies with a 2.04 (Changed) response. The response payload consists of EDHOC message_2, which also includes the EDHOC connection identifier C_R of the Server represented as per {{Section 3.3 of I-D.ietf-lake-edhoc}}. The Content-Format of the response may be set to application/edhoc+cbor-seq.
 
-Finally, the Client sends a POST request to the same EDHOC resource used earlier to send EDHOC message_1. The request payload consists of the EDHOC connection identifier C_R, concatenated with EDHOC message_3. The Content-Format of the request may be set to application/cid-edhoc+cbor-seq.
+Finally, the Client sends a POST request to the same EDHOC resource used earlier to send EDHOC message_1. The request payload consists of the EDHOC connection identifier C_R represented as per {{Section 3.3 of I-D.ietf-lake-edhoc}}, concatenated with EDHOC message_3. The Content-Format of the request may be set to application/cid-edhoc+cbor-seq.
 
 After this exchange takes place, and after successful verifications as specified in the EDHOC protocol, the Client and Server can derive an OSCORE Security Context, as defined in {{Section A.1 of I-D.ietf-lake-edhoc}}. After that, they can use OSCORE to protect their communications as per {{RFC8613}}.
 
@@ -274,7 +270,7 @@ The Client prepares an EDHOC + OSCORE request as follows.
 
 4. Compose the EDHOC + OSCORE request, as the OSCORE-protected CoAP request resulting from step 2, where the payload is replaced with the CBOR sequence built at step 3.
 
-   Note that the new payload includes EDHOC message_3, but it does not include the EDHOC connection identifier C_R. As the Client is the EDHOC Initiator, C_R encodes the OSCORE Sender ID of the Client, which is already specified as 'kid' in the OSCORE Option of the request from step 2, hence of the EDHOC + OSCORE request.
+   Note that the new payload includes EDHOC message_3, but it does not include the EDHOC connection identifier C_R. As the Client is the EDHOC Initiator, C_R is the OSCORE Sender ID of the Client, which is already specified as 'kid' in the OSCORE Option of the request from step 2, hence of the EDHOC + OSCORE request.
 
 5. Signal the usage of this approach, by including the new EDHOC Option defined in {{edhoc-option}} into the EDHOC + OSCORE request.
 
@@ -304,9 +300,9 @@ In order to process a request containing the EDHOC option, i.e., an EDHOC + OSCO
 
 2. Extract EDHOC message_3 from the payload of the EDHOC + OSCORE request, as the first CBOR byte string in the CBOR sequence.
 
-3. Take the value of 'kid' from the OSCORE option of the EDHOC + OSCORE request (i.e., the OSCORE Sender ID of the Client), and use it to rebuild the EDHOC connection identifier C_R, as per {{oscore-to-edhoc-id}}.
+3. Take the value of 'kid' from the OSCORE option of the EDHOC + OSCORE request (i.e., the OSCORE Sender ID of the Client), and use it as the EDHOC connection identifier C_R.
 
-4. Retrieve the correct EDHOC session by using the connection identifier C_R rebuilt at step 3.
+4. Retrieve the correct EDHOC session by using the connection identifier C_R from step 3.
 
    If the application profile used in the EDHOC session specifies that EDHOC message_4 shall be sent, the Server MUST stop the EDHOC processing and consider it failed, as due to a client error.
 
@@ -346,7 +342,9 @@ A. If Block-wise is present in the request, then process the Outer Block options
 
 * The OSCORE Sender ID of the Client is 0x01.
 
-   As per {{oscore-to-edhoc-id}}, this corresponds to the numeric EDHOC connection identifier C_R with value 1. When using the purely-sequential flow shown in {{fig-non-combined}}, this would be prepended to EDHOC message_3 as the CBOR integer 1 (0x01 in CBOR encoding), in the payload of the second EDHOC request.
+   As per {{Section 3.3.3 of I-D.ietf-lake-edhoc}}, this straightforwardly corresponds to the EDHOC connection identifier C_R 0x01.
+
+   As per {{Section 3.3.2 of I-D.ietf-lake-edhoc}}, when using the purely-sequential flow shown in {{fig-non-combined}}, the same C_R with value 0x01 would be represented on the wire as the CBOR integer 1 (0x01 in CBOR encoding), and prepended to EDHOC message_3 in the payload of the second EDHOC request.
 
 * The EDHOC option is registered with CoAP option number 21.
 
@@ -374,99 +372,61 @@ o  Protected CoAP request (OSCORE message):
 ~~~~~~~~~~~~~~~~~
 {: #fig-edhoc-opt-2 title="Example of CoAP message with EDHOC and OSCORE combined" artwork-align="center"}
 
-# Conversion from OSCORE to EDHOC Identifiers # {#conversion}
+# Use of EDHOC Connection Identifiers with OSCORE # {#use-of-ids}
 
-{{Section A.1 of I-D.ietf-lake-edhoc}} defines how an EDHOC connection identifier is converted to an OSCORE Sender/Recipient ID.
+{{Section 3.3.3 of I-D.ietf-lake-edhoc}} defines the straightforward mapping from an EDHOC connection identifier to an OSCORE Sender/Recipient ID. That is, an EDHOC identifier and the corresponding OSCORE Sender/Recipient ID are both byte strings with the same value.
 
-In the following, {{oscore-to-edhoc-id}} defines a method for converting from OSCORE Sender/Recipient ID to EDHOC connection identifier.
-
-When running EDHOC through a certain EDHOC resource, the Client and Server MUST both use the conversion method defined in {{oscore-to-edhoc-id}} and MUST perform the additional message processing specified in {{oscore-edhoc-message-processing}}, if at least one of the following conditions hold.
-
-* The application profile associated with the EDHOC resource indicates that the server supports the EDHOC + OSCORE request defined in {{edhoc-in-oscore}}.
-
-* The application profile associated with the EDHOC resource indicates that the conversion method defined in {{oscore-to-edhoc-id}} is the one to use.
-
-Instead, if none of the above conditions hold, the Client and the Server can independently use any consistent conversion method, such as the one defined in {{oscore-to-edhoc-id}} or different ones defined in separate specifications. In particular, the Client and Server are not required to use the same conversion method. In fact, as per {{Section A.1 of I-D.ietf-lake-edhoc}}, it is sufficient that the two connection identifiers C_I and C_R exchanged during an EDHOC execution are different and not "equivalent", hence not convertible to the same OSCORE Sender/Recipient ID.
-
-Even in case none of the above conditions hold, it is RECOMMENDED for the Client and Server to use the conversion method defined in {{oscore-to-edhoc-id}}, since it ensures that an OSCORE Sender/Recipient ID is always converted to the EDHOC identifier with the smallest size among the two equivalent ones.
-
-## Conversion Method {#oscore-to-edhoc-id}
-
-The process defined in this section ensures that every OSCORE Sender/Recipient ID is converted to only one of the two corresponding, equivalent EDHOC connection identifiers, see {{Section A.1 of I-D.ietf-lake-edhoc}}.
-
-An OSCORE Sender/Recipient ID, OSCORE_ID, is converted to an EDHOC connection identifier, EDHOC_ID, as follows.
-
-* If OSCORE_ID is 0 bytes in size, it is converted to the empty byte string EDHOC_ID (0x40 in CBOR encoding).
-
-* If OSCORE_ID has a size in bytes different than 0, 1, 2, 3, 5 or 9, it is converted to a byte-valued EDHOC_ID, i.e., a CBOR byte string with value OSCORE_ID.
-
-   For example, the OSCORE_ID 0x001122334455 is converted to the byte-valued EDHOC_ID 0x001122334455 (0x46001122334455 in CBOR encoding).
-
-* If OSCORE_ID has a size in bytes equal to 1, 2, 3, 5 or 9 the following applies.
-
-   - If OSCORE_ID is a valid CBOR encoding for an integer value (i.e., it can be correctly decoded as a CBOR integer), then it is converted to a numeric EDHOC_ID having OSCORE_ID as its CBOR encoded form.
-
-      For example, the OSCORE_ID 0x01 is converted to the numeric EDHOC_ID 1 (0x01 in CBOR encoding), while the OSCORE_ID 0x2B is converted to the numeric EDHOC_ID -12 (0x2B in CBOR encoding).
-
-   - If OSCORE_ID is _not_ a valid CBOR encoding for an integer value (i.e., it _cannot_ be correctly decoded as a CBOR integer), then it is converted to a byte-valued EDHOC_ID having OSCORE_ID as its value.
-
-       For example, the OSCORE_ID 0xFF is converted to the byte-valued EDHOC_ID 0xFF (0x41FF in CBOR encoding).
-
-   Implementations can easily determine which case holds for a given OSCORE_ID with no need to try to actually CBOR-decode it, e.g., by using the approach in {{sec-cbor-numeric-check}}.
-
-When performing the conversions above, the two peers MUST always refer to Deterministically Encoded CBOR as specified in {{Section 4.2.1 of RFC8949}}, consistently with what is required by the EDHOC protocol {{I-D.ietf-lake-edhoc}}.
+Therefore, the conversion from an OSCORE Sender/Recipient ID to an EDHOC identifier is equally straightforward. In particular, at step 3 of {{server-processing}}, the value of 'kid' in the OSCORE Option of the EDHOC + OSCORE request is both the Server's Recipient ID (i.e., the Client's Sender ID) as well as the EDHOC Connection Identifier C_R of the Server.
 
 ## Additional Processing of EDHOC Messages {#oscore-edhoc-message-processing}
 
-This section specifies additional EDHOC message processing compared to what is specified in {{Section 5 of I-D.ietf-lake-edhoc}}.
+Compared to what is specified in {{Section 5 of I-D.ietf-lake-edhoc}}, the Client and Server MUST perform the additional message processing specified in the rest of this section.
 
 ### Initiator Processing of Message 1
 
-The Initiator selects C_I as follows.
+The Initiator selects C_I as follows. If the Initiator possibly performs multiple EDHOC executions concurrently, the following sequence of steps MUST be atomic.
 
 1. The Initiator initializes a set ID_SET as the empty set.
 
-2. The Initiator selects an available OSCORE Recipient ID, namely ID*, which is not included in ID_SET. Consistently with the requirements in {{Section 3.3 of RFC8613}}, when selecting ID\*:
+2. The Initiator selects an available OSCORE Recipient ID, namely ID\*, which is not included in ID_SET. Consistently with the requirements in {{Section 3.3 of RFC8613}}, when selecting ID\*:
 
-    * The Initiator SHOULD select ID* only among the Recipient IDs which are currently not used in the sets of all its Recipient Contexts.
+    * The Initiator MUST NOT select a Recipient ID as ID\* if this is currently used in a Recipient Context within a Security Context where the ID Context has zero-length.
 
-    * The Initiator MUST NOT select a Recipient ID as ID* if this is currently used in a Recipient Context within a Security Context where the ID Context has zero-length.
+    * The Initiator SHOULD select ID\* only among the Recipient IDs which are currently not used in the sets of all its Recipient Contexts.
 
-3. The Initiator converts ID* to the EDHOC connection identifier C_I, as per {{oscore-to-edhoc-id}}.
+3. If ID\* is already used as EDHOC Connection Identifier C_I, the Initiator adds ID\* to ID_SET and moves back to step 2. Otherwise, it moves to step 4.
 
-4. If the resulting C_I is already used, the Initiator adds ID* to ID_SET and moves back to step 2. Otherwise, it uses C_I as its EDHOC connection identifier.
-
-### Responder Processing of Message 1
-
-The Responder MUST discontinue the protocol and reply with an EDHOC error message with error code 1, formatted as defined in {{Section 6.2 of I-D.ietf-lake-edhoc}}, if C_I is a CBOR byte string and it has as value a valid CBOR encoding of an integer value (e.g., C_I is CBOR encoded as 0x4100).
-
-In fact, this would mean that the Initiator has not followed the conversion rule in {{oscore-to-edhoc-id}} when converting its (to be) OSCORE Recipient ID to C_I.
+4. The Initiator sets ID\* as a "not available" OSCORE Recipient ID, and uses it as its EDHOC connection identifier C_I.
 
 ### Responder Processing of Message 2
 
-The Responder selects C_R as follows.
+The Responder selects C_R as follows. If the Responder possibly performs multiple EDHOC executions concurrently, the following sequence of steps MUST be atomic.
 
 1. The Responder initializes a set ID_SET as the empty set.
 
-2. The Responder selects an available OSCORE Recipient ID, ID*, which is not included in ID_SET. Consistently with the requirements in {{Section 3.3 of RFC8613}}, when selecting ID\*:
+2. The Responder selects an available OSCORE Recipient ID, namely ID\*, which is not included in ID_SET. Consistently with the requirements in {{Section 3.3 of RFC8613}}, when selecting ID\*:
 
-    * The Responder SHOULD select ID* only among the Recipient IDs which are currently not used in the sets of all its Recipient Contexts.
+    * The Responder MUST NOT select a Recipient ID as ID\* if this is currently used in a Recipient Context within a Security Context where the ID Context has zero-length.
 
-    * The Responder MUST NOT select a Recipient ID as ID* if this is currently used in a Recipient Context within a Security Context where the ID Context has zero-length.
+    * The Responder SHOULD select ID\* only among the Recipient IDs which are currently not used in the sets of all its Recipient Contexts.
 
-3. The Responder converts ID* to the EDHOC connection identifier C_R, as per {{oscore-to-edhoc-id}}.
+3. If ID\* is already used as EDHOC Connection Identifier C_R, the Responder adds ID\* to ID_SET and moves back to step 2. Otherwise, it moves to step 5.
 
-4. If the resulting C_R is already used or it is equal byte-by-byte to the C_I specified in EDHOC message_1, the Initiator adds ID* to ID_SET and moves back to step 2. Otherwise, it uses C_R as its EDHOC connection identifier.
+4. If ID\* is equal to the EDHOC Connection Identifier C_I specified in EDHOC message_1 (i.e., after its decoding as per {{Section 3.3 of I-D.ietf-lake-edhoc}}), then the Responder adds ID\* to ID_SET and moves back to step 2. Otherwise, it moves to step 5.
+
+5. The Responder sets ID\* as a "not available" OSCORE Recipient ID, and uses it as its EDHOC connection identifier C_R.
 
 ### Initiator Processing of Message 2
 
-If any of the following conditions holds, the Initiator MUST discontinue the protocol and reply with an EDHOC error message with error code 1, formatted as defined in {{Section 6.2 of I-D.ietf-lake-edhoc}}.
+If the following condition holds, the Initiator MUST discontinue the protocol and reply with an EDHOC error message with error code 1, formatted as defined in {{Section 6.2 of I-D.ietf-lake-edhoc}}.
 
-* C_R is equal byte-by-byte to the C_I that was specified in EDHOC message_1.
+* The EDHOC Connection Identifier C_I is equal to the EDHOC Connection Identifier C_R specified in EDHOC message_2 (i.e., after its decoding as per {{Section 3.3 of I-D.ietf-lake-edhoc}}).
 
-* C_R is a CBOR byte string and it has as value a valid CBOR encoding of an integer value (e.g., C_R is CBOR encoded as 0x4100).
+\[
 
-   In fact, this would mean that the Responder has not followed the conversion rule in {{oscore-to-edhoc-id}} when converting its (to be) OSCORE Recipient ID to C_R.
+This might be more appropriate in {{Section 5.3.3 of I-D.ietf-lake-edhoc}}.
+
+\]
 
 # Extension and Consistency of Application Profiles # {#app-statements}
 
@@ -477,12 +437,6 @@ If the Server supports the EDHOC + OSCORE request within an EDHOC execution star
 * MUST NOT specify that EDHOC message_4 shall be sent.
 
 * SHOULD explicitly specify support for the EDHOC + OSCORE request.
-
-* SHOULD explicitly specify that the method to convert from EDHOC to OSCORE identifiers is the one defined in {{conversion}} and MUST NOT specify any other method than that.
-
-   If the support for the EDHOC + OSCORE request is explicitly specified and the method defined in {{conversion}} is not explicitly specified, then the Client and Server MUST use it as conversion method.
-
-If the Server does not support the EDHOC + OSCORE request within an EDHOC execution started at a certain EDHOC resource, then the application profile associated with that resource MAY specify a method to convert from EDHOC to OSCORE identifiers. In such a case, the Client and Server MUST use the specified conversion method, which MAY be the one defined in {{conversion}}.
 
 # Web Linking # {#web-linking}
 
@@ -514,10 +468,6 @@ The following parameters are defined.
 
 * 'comb_req', specifying, if present, that the server supports the EDHOC + OSCORE request defined in {{edhoc-in-oscore}}. A value MUST NOT be given to this parameter and any present value MUST be ignored by parsers.
 
-* 'osc_id_conv', specifying, if present, that the method to convert from OSCORE to EDHOC identifiers defined in {{conversion}} is used. A value MUST NOT be given to this parameter and any present value MUST be ignored by parsers.
-
-   The absence of this parameter does not mean that the method defined in {{conversion}} is not used. Also, consistently with {{app-statements}}, the presence of the 'comb_req' parameter implies the use of the method defined in {{conversion}}, and thus makes the additional presence of the 'osc_id_conv' parameter unnecessary.
-
 The example in {{fig-web-link-example}} shows how a Client discovers two EDHOC resources at a Server, obtaining information elements from the respective application profiles. The Link Format notation from {{Section 5 of RFC6690}} is used.
 
 ~~~~~~~~~~~~~~~~~
@@ -529,7 +479,7 @@ RES: 2.05 Content
     </edhoc/resA>;rt="core.edhoc";csuite="0";csuite="2";method="0";
     cred_t="c509";cred_t="ccs";idcred_t="4";comb_req,
     </edhoc/resB>;rt="core.edhoc";csuite="0";csuite="2";method="0";
-    method="3";cred_t="c509";cred_t="x509";idcred_t="34";osc_id_conv
+    method="3";cred_t="c509";cred_t="x509";idcred_t="34"
 ~~~~~~~~~~~~~~~~~
 {: #fig-web-link-example title="The Web Link" artwork-align="center"}
 
@@ -576,31 +526,6 @@ This document suggests 21 (TBD21) as option number to be assigned to the new EDH
 
 --- back
 
-# Checking CBOR Encoding of Numeric Values # {#sec-cbor-numeric-check}
-
-A binary string of N bytes in size is a valid CBOR encoding of an integer value if and only if both the following conditions hold, with reference to the table below.
-
-* The size N is one of the values specified in the "Size" column.
-
-* The first byte of the binary string is equal to one of the byte values specified in the "First byte" column, exactly for the row having N as value of the "Size" column.
-
-~~~~~~~~~~~~~~~~~
-+------+-----------------------+
-| Size | First byte            |
-+------+-----------------------+
-| 1    | 0x00-0x17 , 0x20-0x37 |
-+------+-----------------------+
-| 2    | 0x18 , 0x38           |
-+------+-----------------------+
-| 3    | 0x19 , 0x39           |
-+------+-----------------------+
-| 5    | 0x1A , 0x3A           |
-+------+-----------------------+
-| 9    | 0x1B , 0x3B           |
-+------+-----------------------+
-~~~~~~~~~~~~~~~~~
-{: artwork-align="center"}
-
 # Document Updates # {#sec-document-updates}
 
 RFC Editor: Please remove this section.
@@ -610,6 +535,8 @@ RFC Editor: Please remove this section.
 * Renamed "applicability statement" to "application profile".
 
 * Use the latest Content-Formats.
+
+* No more special conversion from OSCORE ID to EDHOC ID.
 
 * Editorial improvements.
 
