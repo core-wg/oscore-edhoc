@@ -58,7 +58,7 @@ normative:
   RFC8613:
   RFC8742:
   RFC8949:
-  I-D.ietf-core-resource-directory:
+  RFC9176:
   I-D.ietf-lake-edhoc:
   COSE.Header.Parameters:
     author:
@@ -483,7 +483,7 @@ If the Server does not support the EDHOC + OSCORE request within an EDHOC execut
 
 At the same time, the application profile associated with an EDHOC resource provides a number of information describing how the EDHOC protocol can be used through that resource. While a Client may become aware of the application profile through several means, it would be convenient to obtain its information elements upon discovering the EDHOC resources at the Server. This might aim at discovering especially the EDHOC resources whose associated application profile denotes a way of using EDHOC which is most suitable to the Client, e.g., with EDHOC cipher suites or authentication methods that the Client also supports or prefers.
 
-That is, it would be convenient that a Client discovering an EDHOC resource contextually obtains relevant pieces of information from the application profile associated with that resource. The resource discovery can occur by means of a direct interaction with the Server, or instead by means of the CoRE Resource Directory {{I-D.ietf-core-resource-directory}}, where the Server may have registered the links to its resources.
+That is, it would be convenient that a Client discovering an EDHOC resource contextually obtains relevant pieces of information from the application profile associated with that resource. The resource discovery can occur by means of a direct interaction with the Server, or instead by means of the CoRE Resource Directory {{RFC9176}}, where the Server may have registered the links to its resources.
 
 In order to enable the above, this section defines a number of parameters, each of which can be optionally specified as a target attribute with the same name in the link to the respective EDHOC resource, or as filter criteria in a discovery request from the Client. When specifying these parameters in a link to an EDHOC resource, the target attribute rt="core.edhoc" MUST be included, and the same consistency rules defined in {{app-statements}} for the corresponding information elements of an application profile MUST be followed.
 
