@@ -87,7 +87,7 @@ This document profiles this use of the EDHOC protocol, and specifies a number of
 
 This optimization is desirable, since the number of protocol round trips impacts on the minimum number of flights, which in turn can have a substantial impact on the latency of conveying the first OSCORE request, when using certain radio technologies.
 
-Without this optimization, it is not possible, not even in theory, to achieve the minimum number of flights. This optimization makes it possible also in practice, since the last message of the EDHOC protocol can be made relatively small (see {{Section 1.3 of I-D.ietf-lake-edhoc}}), thus allowing additional OSCORE-protected CoAP data within target MTU sizes.
+Without this optimization, it is not possible, not even in theory, to achieve the minimum number of flights. This optimization makes it possible also in practice, since the last message of the EDHOC protocol can be made relatively small (see {{Section 1.2 of I-D.ietf-lake-edhoc}}), thus allowing additional OSCORE-protected CoAP data within target MTU sizes.
 
 Furthermore, this document defines:
 
@@ -107,7 +107,7 @@ The EDHOC protocol allows two peers to agree on a cryptographic secret, in a mut
 
 After successful processing of EDHOC message_3, both peers agree on a cryptographic secret that can be used to derive further security material, and especially to establish an OSCORE Security Context {{RFC8613}}. The Responder can also send an optional EDHOC message_4 to achieve key confirmation, e.g., in deployments where no protected application message is sent from the Responder to the Initiator.
 
-{{Section A.3 of I-D.ietf-lake-edhoc}} specifies how to transfer EDHOC over CoAP. That is, the EDHOC data (referred to as "EDHOC messages") are transported in the payload of CoAP requests and responses. The default message flow consists in the CoAP Client acting as Initiator and the CoAP Server acting as Responder. Alternatively, the two roles can be reversed. In the rest of this document, EDHOC messages are considered to be transferred over CoAP.
+{{Section A.2 of I-D.ietf-lake-edhoc}} specifies how to transfer EDHOC over CoAP. That is, the EDHOC data (referred to as "EDHOC messages") are transported in the payload of CoAP requests and responses. The default message flow consists in the CoAP Client acting as Initiator and the CoAP Server acting as Responder. Alternatively, the two roles can be reversed. In the rest of this document, EDHOC messages are considered to be transferred over CoAP.
 
 {{fig-non-combined}} shows a CoAP Client and Server running EDHOC as Initiator and Responder, respectively. That is, the Client sends a POST request to a reserved EDHOC resource at the Server, by default at the Uri-Path "/.well-known/edhoc". The request payload consists of the CBOR simple value "true" (0xf5) concatenated with EDHOC message_1, which also includes the EDHOC connection identifier C_I of the Client. The Content-Format of the request may be set to application/cid-edhoc+cbor-seq.
 
@@ -115,7 +115,7 @@ This triggers the EDHOC exchange at the Server, which replies with a 2.04 (Chang
 
 Finally, the Client sends a POST request to the same EDHOC resource used earlier to send EDHOC message_1. The request payload consists of the EDHOC connection identifier C_R, concatenated with EDHOC message_3. The Content-Format of the request may be set to application/cid-edhoc+cbor-seq.
 
-After this exchange takes place, and after successful verifications as specified in the EDHOC protocol, the Client and Server can derive an OSCORE Security Context, as defined in {{Section A.2 of I-D.ietf-lake-edhoc}}. After that, they can use OSCORE to protect their communications as per {{RFC8613}}.
+After this exchange takes place, and after successful verifications as specified in the EDHOC protocol, the Client and Server can derive an OSCORE Security Context, as defined in {{Section A.1 of I-D.ietf-lake-edhoc}}. After that, they can use OSCORE to protect their communications as per {{RFC8613}}.
 
 The Client and Server are required to agree in advance on certain information and parameters describing how they should use EDHOC. These are specified in an application profile see {{Section 3.9 of I-D.ietf-lake-edhoc}}, associated with the used EDHOC resource.
 
@@ -213,7 +213,7 @@ To this end, the specific approach defined in this section consists of sending a
 
 That is, the EDHOC + OSCORE request is in practice the OSCORE Request from {{fig-non-combined}}, as still sent to a protected resource and with the correct CoAP method and options intended for accessing that resource. At the same time, the EDHOC + OSCORE request also transports the pair (C_R, EDHOC message_3) required for completing the EDHOC exchange. Note that C_R is not transported precisely in the request payload.
 
-Since EDHOC message_3 may be too large to be included in a CoAP Option, e.g., if conveying a protected large public key certificate chain as ID_CRED_I (see {{Section 3.5.4 of I-D.ietf-lake-edhoc}}) or if conveying protected External Authorization Data as EAD_3 (see {{Section 3.8 of I-D.ietf-lake-edhoc}}), EDHOC message_3 has to be transported in the CoAP payload of the EDHOC + OSCORE request.
+Since EDHOC message_3 may be too large to be included in a CoAP Option, e.g., if conveying a protected large public key certificate chain as ID_CRED_I (see {{Section 3.5.3 of I-D.ietf-lake-edhoc}}) or if conveying protected External Authorization Data as EAD_3 (see {{Section 3.8 of I-D.ietf-lake-edhoc}}), EDHOC message_3 has to be transported in the CoAP payload of the EDHOC + OSCORE request.
 
 The rest of this section specifies how to transport the data in the EDHOC + OSCORE request and their processing order. In particular, the use of this approach is explicitly signalled by including an EDHOC Option (see {{edhoc-option}}) in the EDHOC + OSCORE request. The processing of the EDHOC + OSCORE request is specified in {{client-processing}} for the Client side and in {{server-processing}} for the Server side.
 
@@ -312,7 +312,7 @@ In order to process a request containing the EDHOC option, i.e., an EDHOC + OSCO
 
    The application profile used in the EDHOC session is the same one associated with the EDHOC resource where the server received the request conveying EDHOC message_1 that started the session. This is relevant in case the server provides multiple EDHOC resources, which may generally refer to different application profiles.
 
-5. Establish a new OSCORE Security Context associated with the client as per {{Section A.2 of I-D.ietf-lake-edhoc}}, using the EDHOC output from step 4.
+5. Establish a new OSCORE Security Context associated with the client as per {{Section A.1 of I-D.ietf-lake-edhoc}}, using the EDHOC output from step 4.
 
 6. Extract the OSCORE ciphertext from the payload of the EDHOC + OSCORE request, as the value of the second CBOR byte string in the CBOR sequence.
 
@@ -324,9 +324,9 @@ In order to process a request containing the EDHOC option, i.e., an EDHOC + OSCO
 
 9. Deliver the CoAP request resulting from step 8 to the application.
 
-If steps 4 (EDHOC processing) and 8 (OSCORE processing) are both successfully completed, the Server MUST reply with an OSCORE-protected response, in order for the Client to achieve key confirmation (see {{Section 5.4.2 of I-D.ietf-lake-edhoc}}). The usage of EDHOC message_4 as defined in {{Section 5.5 of I-D.ietf-lake-edhoc}} is not applicable to the approach defined in this document.
+If steps 4 (EDHOC processing) and 8 (OSCORE processing) are both successfully completed, the Server MUST reply with an OSCORE-protected response (see {{Section 5.4.2 of I-D.ietf-lake-edhoc}}). The usage of EDHOC message_4 as defined in {{Section 5.5 of I-D.ietf-lake-edhoc}} is not applicable to the approach defined in this document.
 
-If step 4 (EDHOC processing) fails, the server discontinues the protocol as per {{Section 5.4.3 of I-D.ietf-lake-edhoc}} and responds with an EDHOC error message with error code 1, formatted as defined in {{Section 6.2 of I-D.ietf-lake-edhoc}}. In particular, the CoAP response conveying the EDHOC error message MUST have Content-Format set to application/edhoc+cbor-seq defined in {{Section 9.12 of I-D.ietf-lake-edhoc}}.
+If step 4 (EDHOC processing) fails, the server discontinues the protocol as per {{Section 5.4.3 of I-D.ietf-lake-edhoc}} and responds with an EDHOC error message with error code 1, formatted as defined in {{Section 6.2 of I-D.ietf-lake-edhoc}}. In particular, the CoAP response conveying the EDHOC error message MUST have Content-Format set to application/edhoc+cbor-seq defined in {{Section 9.9 of I-D.ietf-lake-edhoc}}.
 
 If step 4 (EDHOC processing) is successfully completed but step 8 (OSCORE processing) fails, the same OSCORE error handling as defined in {{Section 8.2 of RFC8613}} applies.
 
@@ -484,7 +484,7 @@ If the Server does not support the EDHOC + OSCORE request within an EDHOC execut
 
 # Web Linking # {#web-linking}
 
-{{Section 9.13 of I-D.ietf-lake-edhoc}} registers the resource type "core.edhoc", which can be used as target attribute in a web link {{RFC8288}} to an EDHOC resource, e.g., using a link-format document {{RFC6690}}. This enables Clients to discover the presence of EDHOC resources at a Server, possibly using the resource type as filter criterion.
+{{Section 9.10 of I-D.ietf-lake-edhoc}} registers the resource type "core.edhoc", which can be used as target attribute in a web link {{RFC8288}} to an EDHOC resource, e.g., using a link-format document {{RFC6690}}. This enables Clients to discover the presence of EDHOC resources at a Server, possibly using the resource type as filter criterion.
 
 At the same time, the application profile associated with an EDHOC resource provides a number of information describing how the EDHOC protocol can be used through that resource. While a Client may become aware of the application profile through several means, it would be convenient to obtain its information elements upon discovering the EDHOC resources at the Server. This might aim at discovering especially the EDHOC resources whose associated application profile denotes a way of using EDHOC which is most suitable to the Client, e.g., with EDHOC cipher suites or authentication methods that the Client also supports or prefers.
 
