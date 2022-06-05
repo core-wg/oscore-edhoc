@@ -109,51 +109,53 @@ After successful processing of EDHOC message_3, both peers agree on a cryptograp
 
 {{Section A.3 of I-D.ietf-lake-edhoc}} specifies how to transfer EDHOC over CoAP. That is, the EDHOC data (referred to as "EDHOC messages") are transported in the payload of CoAP requests and responses. The default message flow consists in the CoAP Client acting as Initiator and the CoAP Server acting as Responder. Alternatively, the two roles can be reversed. In the rest of this document, EDHOC messages are considered to be transferred over CoAP.
 
-{{fig-non-combined}} shows a CoAP Client and Server running EDHOC as Initiator and Responder, respectively. That is, the Client sends a POST request to a reserved EDHOC resource at the Server, by default at the Uri-Path "/.well-known/edhoc". The request payload consists of the CBOR simple value "true" (0xf5) concatenated with EDHOC message_1, which also includes the EDHOC connection identifier C_I of the Client.
+{{fig-non-combined}} shows a CoAP Client and Server running EDHOC as Initiator and Responder, respectively. That is, the Client sends a POST request to a reserved EDHOC resource at the Server, by default at the Uri-Path "/.well-known/edhoc". The request payload consists of the CBOR simple value "true" (0xf5) concatenated with EDHOC message_1, which also includes the EDHOC connection identifier C_I of the Client. The Content-Format of the request may be set to application/cid-edhoc+cbor-seq.
 
-This triggers the EDHOC exchange at the Server, which replies with a 2.04 (Changed) response. The response payload consists of EDHOC message_2, which also includes the EDHOC connection identifier C_R of the Server. The Content-Format of the response may be set to "application/edhoc".
+This triggers the EDHOC exchange at the Server, which replies with a 2.04 (Changed) response. The response payload consists of EDHOC message_2, which also includes the EDHOC connection identifier C_R of the Server. The Content-Format of the response may be set to application/edhoc+cbor-seq.
 
-Finally, the Client sends a POST request to the same EDHOC resource used earlier to send EDHOC message_1. The request payload consists of the EDHOC connection identifier C_R, concatenated with EDHOC message_3.
+Finally, the Client sends a POST request to the same EDHOC resource used earlier to send EDHOC message_1. The request payload consists of the EDHOC connection identifier C_R, concatenated with EDHOC message_3. The Content-Format of the request may be set to application/cid-edhoc+cbor-seq.
 
 After this exchange takes place, and after successful verifications as specified in the EDHOC protocol, the Client and Server can derive an OSCORE Security Context, as defined in {{Section A.2 of I-D.ietf-lake-edhoc}}. After that, they can use OSCORE to protect their communications as per {{RFC8613}}.
 
 The Client and Server are required to agree in advance on certain information and parameters describing how they should use EDHOC. These are specified in an application profile see {{Section 3.9 of I-D.ietf-lake-edhoc}}, associated with the used EDHOC resource.
 
 ~~~~~~~~~~~~~~~~~
-   CoAP Client                                       CoAP Server
-(EDHOC Initiator)                                 (EDHOC Responder)
-        |                                                  |
-        |                                                  |
-        | ----------------- EDHOC Request ---------------> |
-        |   Header: 0.02 (POST)                            |
-        |   Uri-Path: "/.well-known/edhoc"                 |
-        |   Payload: true, EDHOC message_1                 |
-        |                                                  |
-        | <---------------- EDHOC Response---------------- |
-        |              Header: 2.04 (Changed)              |
-        |              Content-Format: application/edhoc   |
-        |              Payload: EDHOC message_2            |
-        |                                                  |
-EDHOC verification                                         |
-        |                                                  |
-        | ----------------- EDHOC Request ---------------> |
-        |   Header: 0.02 (POST)                            |
-        |   Uri-Path: "/.well-known/edhoc"                 |
-        |   Payload: C_R, EDHOC message_3                  |
-        |                                                  |
-        |                                         EDHOC verification
-        |                                                  +
-OSCORE Sec Ctx                                      OSCORE Sec Ctx
-  Derivation                                          Derivation
-        |                                                  |
-        | ---------------- OSCORE Request ---------------> |
-        |   Header: 0.02 (POST)                            |
-        |   Payload: OSCORE-protected data                 |
-        |                                                  |
-        | <--------------- OSCORE Response --------------- |
-        |                 Header: 2.04 (Changed)           |
-        |                 Payload: OSCORE-protected data   |
-        |                                                  |
+   CoAP Client                                         CoAP Server
+(EDHOC Initiator)                                   (EDHOC Responder)
+        |                                                    |
+        |                                                    |
+        | ----------------- EDHOC Request -----------------> |
+        |   Header: 0.02 (POST)                              |
+        |   Uri-Path: "/.well-known/edhoc"                   |
+        |   Content-Format: application/cid-edhoc+cbor-seq   |
+        |   Payload: true, EDHOC message_1                   |
+        |                                                    |
+        | <---------------- EDHOC Response------------------ |
+        |       Header: 2.04 (Changed)                       |
+        |       Content-Format: application/edhoc+cbor-seq   |
+        |       Payload: EDHOC message_2                     |
+        |                                                    |
+EDHOC verification                                           |
+        |                                                    |
+        | ----------------- EDHOC Request -----------------> |
+        |   Header: 0.02 (POST)                              |
+        |   Uri-Path: "/.well-known/edhoc"                   |
+        |   Content-Format: application/cid-edhoc+cbor-seq   |
+        |   Payload: C_R, EDHOC message_3                    |
+        |                                                    |
+        |                                           EDHOC verification
+        |                                                    +
+OSCORE Sec Ctx                                        OSCORE Sec Ctx
+  Derivation                                            Derivation
+        |                                                    |
+        | ---------------- OSCORE Request -----------------> |
+        |   Header: 0.02 (POST)                              |
+        |   Payload: OSCORE-protected data                   |
+        |                                                    |
+        | <--------------- OSCORE Response ----------------- |
+        |                 Header: 2.04 (Changed)             |
+        |                 Payload: OSCORE-protected data     |
+        |                                                    |
 ~~~~~~~~~~~~~~~~~
 {: #fig-non-combined title="EDHOC and OSCORE run sequentially" artwork-align="center"}
 
@@ -178,12 +180,13 @@ Hence, the Client can potentially send both EDHOC message_3 and the subsequent O
         | ------------------ EDHOC Request -----------------> |
         |   Header: 0.02 (POST)                               |
         |   Uri-Path: "/.well-known/edhoc"                    |
+        |   Content-Format: application/cid-edhoc+cbor-seq    |
         |   Payload: true, EDHOC message_1                    |
         |                                                     |
         | <----------------- EDHOC Response------------------ |
-        |                 Header: Changed (2.04)              |
-        |                 Content-Format: application/edhoc   |
-        |                 Payload: EDHOC message_2            |
+        |        Header: Changed (2.04)                       |
+        |        Content-Format: application/edhoc+cbor-seq   |
+        |        Payload: EDHOC message_2                     |
         |                                                     |
 EDHOC verification                                            |
         +                                                     |
@@ -321,7 +324,7 @@ In order to process a request containing the EDHOC option, i.e., an EDHOC + OSCO
 
 If steps 4 (EDHOC processing) and 8 (OSCORE processing) are both successfully completed, the Server MUST reply with an OSCORE-protected response, in order for the Client to achieve key confirmation (see {{Section 5.4.2 of I-D.ietf-lake-edhoc}}). The usage of EDHOC message_4 as defined in {{Section 5.5 of I-D.ietf-lake-edhoc}} is not applicable to the approach defined in this document.
 
-If step 4 (EDHOC processing) fails, the server discontinues the protocol as per {{Section 5.4.3 of I-D.ietf-lake-edhoc}} and responds with an EDHOC error message with error code 1, formatted as defined in {{Section 6.2 of I-D.ietf-lake-edhoc}}. In particular, the CoAP response conveying the EDHOC error message MUST have Content-Format set to application/edhoc defined in {{Section 9.12 of I-D.ietf-lake-edhoc}}.
+If step 4 (EDHOC processing) fails, the server discontinues the protocol as per {{Section 5.4.3 of I-D.ietf-lake-edhoc}} and responds with an EDHOC error message with error code 1, formatted as defined in {{Section 6.2 of I-D.ietf-lake-edhoc}}. In particular, the CoAP response conveying the EDHOC error message MUST have Content-Format set to application/edhoc+cbor-seq defined in {{Section 9.12 of I-D.ietf-lake-edhoc}}.
 
 If step 4 (EDHOC processing) is successfully completed but step 8 (OSCORE processing) fails, the same OSCORE error handling as defined in {{Section 8.2 of RFC8613}} applies.
 
@@ -600,6 +603,8 @@ RFC Editor: Please remove this section.
 ## Version -03 to -04 ## {#sec-03-04}
 
 * Renamed "applicability statement" to "application profile".
+
+* Use the latest Content-Formats.
 
 * Editorial improvements.
 
