@@ -72,6 +72,8 @@ informative:
   RFC8392:
   I-D.ietf-cose-cbor-encoded-cert:
 
+entity:
+  SELF: "[RFC-XXXX]"
 
 --- abstract
 
@@ -539,9 +541,10 @@ TODO: more considerations
 
 # IANA Considerations
 
-RFC Editor: Please replace "\[\[this document\]\]" with the RFC number of this document and delete this paragraph.
-
 This document has the following actions for IANA.
+
+Note to RFC Editor: Please replace all occurrences of "{{&SELF}}" with
+the RFC number of this specification and delete this paragraph.
 
 ## CoAP Option Numbers Registry ## {#iana-coap-options}
 
@@ -565,7 +568,7 @@ This document suggests 21 (TBD21) as option number to be assigned to the new EDH
 +--------+-------+-------------------+
 | Number | Name  | Reference         |
 +--------+-------+-------------------+
-| TBD21  | EDHOC | [[this document]] |
+| TBD21  | EDHOC | [RFC-XXXX]        |
 +--------+-------+-------------------+
 ~~~~~~~~~~~
 {: artwork-align="center"}
