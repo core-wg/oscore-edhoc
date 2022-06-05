@@ -422,12 +422,6 @@ If the following condition holds, the Initiator MUST discontinue the protocol an
 
 * The EDHOC Connection Identifier C_I is equal to the EDHOC Connection Identifier C_R specified in EDHOC message_2 (i.e., after its decoding as per {{Section 3.3 of I-D.ietf-lake-edhoc}}).
 
-\[
-
-This might be more appropriate in {{Section 5.3.3 of I-D.ietf-lake-edhoc}}.
-
-\]
-
 # Extension and Consistency of Application Profiles # {#app-statements}
 
 The application profile referred by the Client and Server can include the information elements introduced below, in accordance with the specified consistency rules.
