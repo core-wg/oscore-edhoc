@@ -276,6 +276,8 @@ The Client prepares an EDHOC + OSCORE request as follows.
 
 5. Signal the usage of this approach, by including the new EDHOC Option defined in {{edhoc-option}} into the EDHOC + OSCORE request.
 
+   The application/cid-edhoc+cbor-seq media type does not apply to this message, whose media type is unnamed.
+
 6. Send the EDHOC + OSCORE request to the server.
 
 With the same Server, the Client MUST NOT have more than one simultaneous outstanding interaction (see {{Section 4.7 of RFC7252}}) consisting of an EDHOC + OSCORE request and whose EDHOC data are intended to the EDHOC session with the same connection identifier C_R.
