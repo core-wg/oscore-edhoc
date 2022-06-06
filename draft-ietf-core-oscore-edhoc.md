@@ -290,7 +290,7 @@ The Client takes the additional following step between steps 2 and 3 of {{client
 
 The Client takes the additional following step between steps 3 and 4 of {{client-processing}}.
 
-   B. If the size of the built CBOR sequence exceeds MAX_UNFRAGMENTED_SIZE (see {{Section 4.1.3.4.2 of RFC8613}}), the Client MUST stop processing the request and MUST abort the Block-wise tranfer. The Client can switch to the purely sequential workflow in {{fig-non-combined}}, hence separately sending first EDHOC message_3 and then the OSCORE-protected CoAP request once the EDHOC execution is completed.
+   B. If the size of the built CBOR sequence exceeds MAX_UNFRAGMENTED_SIZE (see {{Section 4.1.3.4.2 of RFC8613}}), the Client MUST stop processing the request and MUST abort the Block-wise tranfer. Then, the Client can continue by switching to the purely sequential workflow shown in {{fig-non-combined}}. That is, the Client first sends EDHOC message_3 prepended by the EDHOC Connection Identifier C_R represented as per {{Section 3.3 of I-D.ietf-lake-edhoc}}, and then sends the OSCORE-protected CoAP request once the EDHOC execution is completed.
 
 ## Server Processing {#server-processing}
 
