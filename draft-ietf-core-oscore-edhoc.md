@@ -278,7 +278,7 @@ The Client prepares an EDHOC + OSCORE request as follows.
 
 6. Send the EDHOC + OSCORE request to the server.
 
-With the same Server, the Client MUST NOT have more than one simultaneous outstanding interaction (see {{Section 4.7 of RFC7252}}) consisting of an EDHOC + OSCORE request and whose EDHOC data are intended to the EDHOC session with the same connection identifier C_R.
+With the same Server, the Client SHOULD NOT have multiple simultaneous outstanding interactions (see {{Section 4.7 of RFC7252}}) such that: they consist of an EDHOC + OSCORE request; and their EDHOC data pertain to the EDHOC session with the same connection identifier C_R.
 
 ### Supporting Block-wise {#client-blockwise}
 
@@ -529,6 +529,8 @@ RFC Editor: Please remove this section.
 * Renamed "applicability statement" to "application profile".
 
 * Use the latest Content-Formats.
+
+* Use of SHOULD NOT for multiple simultaneous outstanding interactions.
 
 * No more special conversion from OSCORE ID to EDHOC ID.
 
