@@ -479,7 +479,9 @@ RES: 2.05 Content
 
 # Security Considerations
 
-The same security considerations from OSCORE {{RFC8613}} and EDHOC {{I-D.ietf-lake-edhoc}} hold for this document.
+The same security considerations from OSCORE {{RFC8613}} and EDHOC {{I-D.ietf-lake-edhoc}} hold for this document. In addition, the following considerations also apply.
+
+{{client-processing}} defines that a Client SHOULD NOT have multiple outstanding EDHOC + OSCORE requests pertaining to the same EDHOC session. Even if a Client did not fulfill this requirement, it would not have any impact in terms of security. That is, the Server would still not process different instances of the same EDHOC message_3 more than once in the same EDHOC session (see {{Section 5.1 of I-D.ietf-lake-edhoc}}), and would still enforce replay protection of the OSCORE-protected request (see {{Section 7.4 of RFC8613}}).
 
 TODO: more considerations
 
@@ -533,6 +535,8 @@ RFC Editor: Please remove this section.
 * Use of SHOULD NOT for multiple simultaneous outstanding interactions.
 
 * No more special conversion from OSCORE ID to EDHOC ID.
+
+* Added security considerations.
 
 * Editorial improvements.
 
