@@ -456,9 +456,9 @@ The following parameters are defined.
 
 * 'ead_1', 'ead_2', 'ead_3' and 'ead_4', specifying, if present, that the Server supports the use of External Authorization Data EAD_1, EAD_2, EAD_3 and EAD_4, respectively (see {{Section 3.8 of I-D.ietf-lake-edhoc}}). For each of these parameters, the following applies.
 
-   - It MUST occur at most once, with its presence denoting support from the server for the respective external authorization data.
+   - It MAY occur multiple times, with its presence denoting support from the server for the respective external authorization data.
 
-   - It MUST specify a single value, which is taken from the 'Label' column of the "EDHOC External Authorization Data" registry defined in {{Section 9.5 of I-D.ietf-lake-edhoc}}.
+   - Each occurrence specifies a value taken from the 'Label' column of the "EDHOC External Authorization Data" registry defined in {{Section 9.5 of I-D.ietf-lake-edhoc}}, thus denoting support from the server for that particular type of external authorization data.
 
 * 'comb_req', specifying, if present, that the server supports the EDHOC + OSCORE request defined in {{edhoc-in-oscore}}. A value MUST NOT be given to this parameter and any present value MUST be ignored by parsers.
 
@@ -535,6 +535,8 @@ RFC Editor: Please remove this section.
 * Use of SHOULD NOT for multiple simultaneous outstanding interactions.
 
 * No more special conversion from OSCORE ID to EDHOC ID.
+
+* Wed Linking signaling of multiple supported EAD labels.
 
 * Added security considerations.
 
