@@ -13,25 +13,26 @@
 <meta content="
        The lightweight authenticated key exchange protocol EDHOC can be run over CoAP and used by two peers to establish an OSCORE Security Context. This document further profiles this use of the EDHOC protocol, by specifying a number of additional and optional mechanisms. These especially include an optimization approach for combining the execution of EDHOC with the first subsequent OSCORE transaction. This combination reduces the number of round trips required to set up an OSCORE Security Context and to complete an OSCORE transaction using that Security Context. 
     " name="description">
-<meta content="xml2rfc 3.12.2" name="generator">
+<meta content="xml2rfc 3.13.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-ietf-core-oscore-edhoc-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.12.2
-    Python 3.9.7
+  xml2rfc 3.13.0
+    Python 3.10.4
     appdirs 1.4.4
-    ConfigArgParse 1.3
-    google-i18n-address 2.5.0
+    ConfigArgParse 1.5.3
+    google-i18n-address 2.5.2
     html5lib 1.1
     intervaltree 3.1.0
-    Jinja2 2.11.3
+    Jinja2 3.1.2
     kitchen 1.2.6
-    lxml 4.6.5
-    pycountry 20.7.3
-    pyflakes 2.3.1
-    PyYAML 5.4.1
-    requests 2.26.0
-    setuptools 52.0.0
+    lxml 4.9.1
+    MarkupSafe 2.1.1
+    pycountry 22.3.5
+    pyflakes 2.4.0
+    PyYAML 6.0
+    requests 2.27.1
+    setuptools 59.4.0
     six 1.16.0
 -->
 <link href="draft-ietf-core-oscore-edhoc.xml" rel="alternate" type="application/rfc+xml">
@@ -156,6 +157,14 @@
   font-weight: 700;
   font-display: swap;
   src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Lora SemiBold'), local('Lora-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-semibold-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
@@ -339,7 +348,7 @@ ol, ul {
   padding: 0;
   margin: 0 0 0.5em 2em;
 }
-ol ol, ul ul, ol ul, ul ol {
+:is(ol, ul) :is(ol, ul) {
   margin-left: 1em;
 }
 li {
@@ -354,8 +363,7 @@ ul.empty, .ulEmpty {
 ul.empty li, .ulEmpty li {
   margin-top: 0.5em;
 }
-ul.compact, .ulCompact,
-ol.compact, .olCompact {
+:is(ul, ol).compact, .ulCompact, .olCompact {
   line-height: 100%;
   margin: 0 0 0 2em;
 }
@@ -371,7 +379,7 @@ dl > dd {
   margin-bottom: .8em;
   min-height: 1.3em;
 }
-dl.compact > dd, .dlCompact > dd {
+:is(dl.compact, .dlCompact) > dd {
   margin-bottom: 0em;
 }
 dl > dd > dl {
@@ -413,6 +421,9 @@ tt, code {
      remove leading to avoid altering the final height of lines */
   line-height: 0;
 }
+:is(h1, h2, h3, h4, h5, h6) :is(tt, code) {
+  font-size: 84%;
+}
 pre {
   border: 1px solid var(--line-color);
   font-size: 13.5px;
@@ -437,6 +448,19 @@ figcaption, caption {
   text-align: left;
 }
 @media screen {
+  /* Auto-collapse boilerplate. */
+  :is(#status-of-memo, #copyright) p {
+    margin: -2px 0;
+    max-height: 0;
+    transition: max-height 2s ease, margin 0.5s ease 0.5s;
+    overflow: hidden;
+  }
+  :is(#status-of-memo, #copyright):hover p,
+  :is(#status-of-memo, #copyright) h2:target ~ p {
+    margin: 0.5em 0;
+    max-height: 500px;
+    overflow: auto;
+  }
   pre, svg {
     display: inline-block;
     overflow-x: auto;
@@ -452,7 +476,7 @@ figcaption, caption {
     display: block;
     width: calc(100% - 25px);
   }
-  pre + .pilcrow, svg + .pilcrow {
+  :is(pre, svg) + .pilcrow {
     display: inline-block;
     vertical-align: text-bottom;
     padding-bottom: 8px;
@@ -501,17 +525,11 @@ th, td {
 th {
   background-color: var(--line-color);
 }
-tr:nth-child(2n) > td {
+:is(tr:nth-child(2n), thead+tbody > tr:nth-child(2n+1)) > td {
   background-color: var(--background-color);
 }
-tr:nth-child(2n+1) > td {
+:is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
   background-color: var(--highlight-color);
-}
-thead+tbody > tr:nth-child(2n) > td {
-  background-color: var(--highlight-color);
-}
-thead+tbody > tr:nth-child(2n+1) > td {
-  background-color: var(--background-color);
 }
 table caption {
   margin: 0;
@@ -551,8 +569,9 @@ hr {
 }
 .bcp14 {
   font-variant: small-caps;
+  font-weight: 600;
+  font-size: 14.5px;
 }
-
 .role {
   font-variant: all-small-caps;
 }
@@ -791,7 +810,7 @@ hr.addr {
     margin: 0 0 0 4px;
     font-size: var(--small-font-size);
   }
-  #toc ul p, #toc ul li {
+  #toc ul :is(p, li) {
     margin: 2px 0;
     line-height: 22px;
   }
@@ -901,13 +920,13 @@ dl.dlNewline > dt {
 }
 
 /* Provide styling for table cell text alignment */
-table .text-left, table .text-left {
+table .text-left {
   text-align: left;
 }
-table .text-center, table .text-center {
+table .text-center {
   text-align: center;
 }
-table .text-right, table .text-right {
+table .text-right {
   text-align: right;
 }
 
@@ -974,12 +993,6 @@ address div.right {
   }
 
 }
-/* Tweak the bcp14 keyword presentation */
-.bcp14 {
-  font-variant: small-caps;
-  font-weight: bold;
-  font-size: 0.9em;
-}
 
 /* Dark mode. */
 @media (prefers-color-scheme: dark) {
@@ -994,19 +1007,20 @@ address div.right {
   --pilcrow-strong: #666;
   scrollbar-color: #777 #333;
 }
-/* Trick: a prefix match works because only black and white are allowed */
-svg [stroke="black"], svg [stroke^="#000"] {
+}
+
+/* SVG Trick: a prefix match works because only black and white are allowed */
+svg :is([stroke="black"], [stroke^="#000"]) {
   stroke: var(--text-color);
 }
-svg [stroke="white"], svg [stroke^="#fff"] {
+svg :is([stroke="white"], [stroke^="#fff"]) {
   stroke: var(--background-color);
 }
-svg [fill="black"], svg [fill^="#000"], svg :not([fill]) {
+svg :is([fill="black"], [fill^="#000"], :not([fill])) {
   fill: var(--text-color);
 }
-svg [stroke="fill"], svg [fill^="#fff"] {
+svg :is([stroke="fill"], [fill^="#fff"]) {
   fill: var(--background-color);
-}
 }
 </style>
 
@@ -1016,11 +1030,11 @@ svg [stroke="fill"], svg [fill^="#fff"] {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Profiling EDHOC for CoAP and OSCORE</td>
-<td class="right">February 2022</td>
+<td class="right">July 2022</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Palombini, et al.</td>
-<td class="center">Expires 27 August 2022</td>
+<td class="center">Expires 12 January 2023</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1033,12 +1047,12 @@ svg [stroke="fill"], svg [fill^="#fff"] {
 <dd class="internet-draft">draft-ietf-core-oscore-edhoc-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2022-02-23" class="published">23 February 2022</time>
+<time datetime="2022-07-11" class="published">11 July 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-08-27">27 August 2022</time></dd>
+<dd class="expires"><time datetime="2023-01-12">12 January 2023</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1099,7 +1113,7 @@ svg [stroke="fill"], svg [fill^="#fff"] {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 27 August 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 12 January 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1167,80 +1181,85 @@ svg [stroke="fill"], svg [fill^="#fff"] {
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
-            <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-conversion-from-oscore-to-e" class="xref">Conversion from OSCORE to EDHOC Identifiers</a></p>
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-use-of-edhoc-connection-ide" class="xref">Use of EDHOC Connection Identifiers with OSCORE</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
-                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="xref">4.1</a>.  <a href="#name-conversion-method" class="xref">Conversion Method</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
-                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="xref">4.2</a>.  <a href="#name-additional-processing-of-ed" class="xref">Additional Processing of EDHOC Messages</a></p>
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="xref">4.1</a>.  <a href="#name-additional-processing-of-ed" class="xref">Additional Processing of EDHOC Messages</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.1">
-                    <p id="section-toc.1-1.4.2.2.2.1.1"><a href="#section-4.2.1" class="xref">4.2.1</a>.  <a href="#name-initiator-processing-of-mes" class="xref">Initiator Processing of Message 1</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1.2.1">
+                    <p id="section-toc.1-1.4.2.1.2.1.1"><a href="#section-4.1.1" class="xref">4.1.1</a>.  <a href="#name-initiator-processing-of-mes" class="xref">Initiator Processing of Message 1</a></p>
 </li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.2">
-                    <p id="section-toc.1-1.4.2.2.2.2.1"><a href="#section-4.2.2" class="xref">4.2.2</a>.  <a href="#name-responder-processing-of-mes" class="xref">Responder Processing of Message 1</a></p>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1.2.2">
+                    <p id="section-toc.1-1.4.2.1.2.2.1"><a href="#section-4.1.2" class="xref">4.1.2</a>.  <a href="#name-responder-processing-of-mes" class="xref">Responder Processing of Message 2</a></p>
 </li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.3">
-                    <p id="section-toc.1-1.4.2.2.2.3.1"><a href="#section-4.2.3" class="xref">4.2.3</a>.  <a href="#name-responder-processing-of-mess" class="xref">Responder Processing of Message 2</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.4">
-                    <p id="section-toc.1-1.4.2.2.2.4.1"><a href="#section-4.2.4" class="xref">4.2.4</a>.  <a href="#name-initiator-processing-of-mess" class="xref">Initiator Processing of Message 2</a></p>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1.2.3">
+                    <p id="section-toc.1-1.4.2.1.2.3.1"><a href="#section-4.1.3" class="xref">4.1.3</a>.  <a href="#name-initiator-processing-of-mess" class="xref">Initiator Processing of Message 2</a></p>
 </li>
                 </ul>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
-            <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-extension-and-consistency-o" class="xref">Extension and Consistency of Applicability Statement</a></p>
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-extension-and-consistency-o" class="xref">Extension and Consistency of Application Profiles</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-web-linking" class="xref">Web Linking</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-security-considerations" class="xref">Security Considerations</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-iana-considerations" class="xref">IANA Considerations</a></p>
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-considerations-on-using-blo" class="xref">Considerations on Using Block-wise</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
-                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="xref">8.1</a>.  <a href="#name-coap-option-numbers-registr" class="xref">CoAP Option Numbers Registry</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="xref">6.1</a>.  <a href="#name-pre-requirements" class="xref">Pre-requirements</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="xref">6.2</a>.  <a href="#name-effectively-using-block-wis" class="xref">Effectively Using Block-Wise</a></p>
 </li>
             </ul>
 </li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-web-linking" class="xref">Web Linking</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-security-considerations" class="xref">Security Considerations</a></p>
+</li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#section-9" class="xref">9</a>.  <a href="#name-references" class="xref">References</a></p>
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="xref">9</a>.  <a href="#name-iana-considerations" class="xref">IANA Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
-                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="xref">9.1</a>.  <a href="#name-normative-references" class="xref">Normative References</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2">
-                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="xref">9.2</a>.  <a href="#name-informative-references" class="xref">Informative References</a></p>
+                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="xref">9.1</a>.  <a href="#name-coap-option-numbers-registr" class="xref">CoAP Option Numbers Registry</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1"><a href="#appendix-A" class="xref">Appendix A</a>.  <a href="#name-checking-cbor-encoding-of-n" class="xref">Checking CBOR Encoding of Numeric Values</a></p>
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="xref">10</a>. <a href="#name-references" class="xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.1">
+                <p id="section-toc.1-1.10.2.1.1"><a href="#section-10.1" class="xref">10.1</a>.  <a href="#name-normative-references" class="xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2">
+                <p id="section-toc.1-1.10.2.2.1"><a href="#section-10.2" class="xref">10.2</a>.  <a href="#name-informative-references" class="xref">Informative References</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1"><a href="#appendix-B" class="xref">Appendix B</a>.  <a href="#name-document-updates" class="xref">Document Updates</a></p>
+            <p id="section-toc.1-1.11.1"><a href="#appendix-A" class="xref">Appendix A</a>.  <a href="#name-document-updates" class="xref">Document Updates</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1">
-                <p id="section-toc.1-1.11.2.1.1"><a href="#appendix-B.1" class="xref">B.1</a>.  <a href="#name-version-02-to-03" class="xref">Version -02 to -03</a></p>
+                <p id="section-toc.1-1.11.2.1.1"><a href="#appendix-A.1" class="xref">A.1</a>.  <a href="#name-version-03-to-04" class="xref">Version -03 to -04</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.2">
-                <p id="section-toc.1-1.11.2.2.1"><a href="#appendix-B.2" class="xref">B.2</a>.  <a href="#name-version-01-to-02" class="xref">Version -01 to -02</a></p>
+                <p id="section-toc.1-1.11.2.2.1"><a href="#appendix-A.2" class="xref">A.2</a>.  <a href="#name-version-02-to-03" class="xref">Version -02 to -03</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.3">
-                <p id="section-toc.1-1.11.2.3.1"><a href="#appendix-B.3" class="xref">B.3</a>.  <a href="#name-version-00-to-01" class="xref">Version -00 to -01</a></p>
+                <p id="section-toc.1-1.11.2.3.1"><a href="#appendix-A.3" class="xref">A.3</a>.  <a href="#name-version-01-to-02" class="xref">Version -01 to -02</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.4">
+                <p id="section-toc.1-1.11.2.4.1"><a href="#appendix-A.4" class="xref">A.4</a>.  <a href="#name-version-00-to-01" class="xref">Version -00 to -01</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1"><a href="#appendix-C" class="xref"></a><a href="#name-acknowledgments" class="xref">Acknowledgments</a></p>
+            <p id="section-toc.1-1.12.1"><a href="#appendix-B" class="xref"></a><a href="#name-acknowledgments" class="xref">Acknowledgments</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
-            <p id="section-toc.1-1.13.1"><a href="#appendix-D" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.13.1"><a href="#appendix-C" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1254,14 +1273,8 @@ svg [stroke="fill"], svg [fill^="#fff"] {
 <p id="section-1-1">Ephemeral Diffie-Hellman Over COSE (EDHOC) <span>[<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span> is a lightweight authenticated key exchange protocol, especially intended for use in constrained scenarios. In particular, EDHOC messages can be transported over the Constrained Application Protocol (CoAP) <span>[<a href="#RFC7252" class="xref">RFC7252</a>]</span> and used for establishing a Security Context for Object Security for Constrained RESTful Environments (OSCORE) <span>[<a href="#RFC8613" class="xref">RFC8613</a>]</span>.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">This document profiles this use of the EDHOC protocol, and specifies a number of additional and optional mechanisms. These especially include an optimization approach, that combines the EDHOC execution with the first subsequent OSCORE transaction (see <a href="#edhoc-in-oscore" class="xref">Section 3</a>). This allows for a minimum number of round trips necessary to setup the OSCORE Security Context and complete an OSCORE transaction, e.g., when an IoT device gets configured in a network for the first time.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">This optimization is desirable, since the number of protocol round trips impacts on the minimum number of flights, which in turn can have a substantial impact on the latency of conveying the first OSCORE request, when using certain radio technologies.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">Without this optimization, it is not possible, not even in theory, to achieve the minimum number of flights. This optimization makes it possible also in practice, since the last message of the EDHOC protocol can be made relatively small (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#section-1.3" class="relref">Section 1.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>), thus allowing additional OSCORE-protected CoAP data within target MTU sizes.<a href="#section-1-4" class="pilcrow">¶</a></p>
-<p id="section-1-5">Furthermore, this document defines:<a href="#section-1-5" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-1-6.1">A method for deterministically converting an OSCORE Sender/Recipient ID to a corresponding EDHOC connection identifier (see <a href="#conversion" class="xref">Section 4</a>). While this method is required to be used when using the optimization above, it is recommended in general, since it ensures that an OSCORE Sender/Recipient ID is always converted to the EDHOC identifier with the smallest size.<a href="#section-1-6.1" class="pilcrow">¶</a>
-</li>
-        <li class="normal" id="section-1-6.2">A number of parameters corresponding to different information elements of an EDHOC applicability statement (see <a href="#web-linking" class="xref">Section 6</a>). These can be specified as target attributes in the link to an EDHOC resource associated with that applicability statement, thus enabling an enhanced discovery of such resource for CoAP clients.<a href="#section-1-6.2" class="pilcrow">¶</a>
-</li>
-      </ul>
+<p id="section-1-4">Without this optimization, it is not possible, not even in theory, to achieve the minimum number of flights. This optimization makes it possible also in practice, since the last message of the EDHOC protocol can be made relatively small (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-1.2" class="relref">Section 1.2</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>), thus allowing additional OSCORE-protected CoAP data within target MTU sizes.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">Furthermore, this document defines a number of parameters corresponding to different information elements of an EDHOC application profile (see <a href="#web-linking" class="xref">Section 7</a>). These can be specified as target attributes in the link to an EDHOC resource associated with that application profile, thus enabling an enhanced discovery of such resource for CoAP clients.<a href="#section-1-5" class="pilcrow">¶</a></p>
 <div id="terminology">
 <section id="section-1.1">
         <h3 id="name-terminology">
@@ -1284,50 +1297,52 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
       </h2>
 <p id="section-2-1">The EDHOC protocol allows two peers to agree on a cryptographic secret, in a mutually-authenticated way and by using Diffie-Hellman ephemeral keys to achieve forward secrecy. The two peers are denoted as Initiator and Responder, as the one sending or receiving the initial EDHOC message_1, respectively.<a href="#section-2-1" class="pilcrow">¶</a></p>
 <p id="section-2-2">After successful processing of EDHOC message_3, both peers agree on a cryptographic secret that can be used to derive further security material, and especially to establish an OSCORE Security Context <span>[<a href="#RFC8613" class="xref">RFC8613</a>]</span>. The Responder can also send an optional EDHOC message_4 to achieve key confirmation, e.g., in deployments where no protected application message is sent from the Responder to the Initiator.<a href="#section-2-2" class="pilcrow">¶</a></p>
-<p id="section-2-3"><span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#appendix-A.3" class="relref">Appendix A.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span> specifies how to transfer EDHOC over CoAP. That is, the EDHOC data (referred to as "EDHOC messages") are transported in the payload of CoAP requests and responses. The default message flow consists in the CoAP Client acting as Initiator and the CoAP Server acting as Responder. Alternatively, the two roles can be reversed. In the rest of this document, EDHOC messages are considered to be transferred over CoAP.<a href="#section-2-3" class="pilcrow">¶</a></p>
-<p id="section-2-4"><a href="#fig-non-combined" class="xref">Figure 1</a> shows a CoAP Client and Server running EDHOC as Initiator and Responder, respectively. That is, the Client sends a POST request to a reserved EDHOC resource at the Server, by default at the Uri-Path "/.well-known/edhoc". The request payload consists of the CBOR simple value "true" (0xf5) concatenated with EDHOC message_1, which also includes the EDHOC connection identifier C_I of the Client.<a href="#section-2-4" class="pilcrow">¶</a></p>
-<p id="section-2-5">This triggers the EDHOC exchange at the Server, which replies with a 2.04 (Changed) response. The response payload consists of EDHOC message_2, which also includes the EDHOC connection identifier C_R of the Server. The Content-Format of the response may be set to "application/edhoc".<a href="#section-2-5" class="pilcrow">¶</a></p>
-<p id="section-2-6">Finally, the Client sends a POST request to the same EDHOC resource used earlier to send EDHOC message_1. The request payload consists of the EDHOC connection identifier C_R, concatenated with EDHOC message_3.<a href="#section-2-6" class="pilcrow">¶</a></p>
-<p id="section-2-7">After this exchange takes place, and after successful verifications as specified in the EDHOC protocol, the Client and Server can derive an OSCORE Security Context, as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#appendix-A.2" class="relref">Appendix A.2</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>. After that, they can use OSCORE to protect their communications as per <span>[<a href="#RFC8613" class="xref">RFC8613</a>]</span>.<a href="#section-2-7" class="pilcrow">¶</a></p>
-<p id="section-2-8">The Client and Server are required to agree in advance on certain information and parameters describing how they should use EDHOC. These are specified in an applicability statement see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#section-3.9" class="relref">Section 3.9</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>, associated with the used EDHOC resource.<a href="#section-2-8" class="pilcrow">¶</a></p>
+<p id="section-2-3"><span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#appendix-A.2" class="relref">Appendix A.2</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span> specifies how to transfer EDHOC over CoAP. That is, the EDHOC data (referred to as "EDHOC messages") are transported in the payload of CoAP requests and responses. The default message flow consists in the CoAP Client acting as Initiator and the CoAP Server acting as Responder. Alternatively, the two roles can be reversed. In the rest of this document, EDHOC messages are considered to be transferred over CoAP.<a href="#section-2-3" class="pilcrow">¶</a></p>
+<p id="section-2-4"><a href="#fig-non-combined" class="xref">Figure 1</a> shows a CoAP Client and Server running EDHOC as Initiator and Responder, respectively. That is, the Client sends a POST request to a reserved EDHOC resource at the Server, by default at the Uri-Path "/.well-known/edhoc". The request payload consists of the CBOR simple value "true" (0xf5) concatenated with EDHOC message_1, which also includes the EDHOC connection identifier C_I of the Client represented as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>. The Content-Format of the request may be set to application/cid-edhoc+cbor-seq.<a href="#section-2-4" class="pilcrow">¶</a></p>
+<p id="section-2-5">This triggers the EDHOC exchange at the Server, which replies with a 2.04 (Changed) response. The response payload consists of EDHOC message_2, which also includes the EDHOC connection identifier C_R of the Server represented as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>. The Content-Format of the response may be set to application/edhoc+cbor-seq.<a href="#section-2-5" class="pilcrow">¶</a></p>
+<p id="section-2-6">Finally, the Client sends a POST request to the same EDHOC resource used earlier to send EDHOC message_1. The request payload consists of the EDHOC connection identifier C_R represented as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>, concatenated with EDHOC message_3. The Content-Format of the request may be set to application/cid-edhoc+cbor-seq.<a href="#section-2-6" class="pilcrow">¶</a></p>
+<p id="section-2-7">After this exchange takes place, and after successful verifications as specified in the EDHOC protocol, the Client and Server can derive an OSCORE Security Context, as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#appendix-A.1" class="relref">Appendix A.1</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>. After that, they can use OSCORE to protect their communications as per <span>[<a href="#RFC8613" class="xref">RFC8613</a>]</span>.<a href="#section-2-7" class="pilcrow">¶</a></p>
+<p id="section-2-8">The Client and Server are required to agree in advance on certain information and parameters describing how they should use EDHOC. These are specified in an application profile see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-3.9" class="relref">Section 3.9</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>, associated with the used EDHOC resource.<a href="#section-2-8" class="pilcrow">¶</a></p>
 <span id="name-edhoc-and-oscore-run-sequen"></span><div id="fig-non-combined">
 <figure id="figure-1">
         <div class="alignCenter art-text artwork" id="section-2-9.1">
 <pre>
-   CoAP Client                                       CoAP Server
-(EDHOC Initiator)                                 (EDHOC Responder)
-        |                                                  |
-        |                                                  |
-        | ----------------- EDHOC Request ---------------&gt; |
-        |   Header: 0.02 (POST)                            |
-        |   Uri-Path: "/.well-known/edhoc"                 |
-        |   Payload: true, EDHOC message_1                 |
-        |                                                  |
-        | &lt;---------------- EDHOC Response---------------- |
-        |              Header: 2.04 (Changed)              |
-        |              Content-Format: application/edhoc   |
-        |              Payload: EDHOC message_2            |
-        |                                                  |
-EDHOC verification                                         |
-        |                                                  |
-        | ----------------- EDHOC Request ---------------&gt; |
-        |   Header: 0.02 (POST)                            |
-        |   Uri-Path: "/.well-known/edhoc"                 |
-        |   Payload: C_R, EDHOC message_3                  |
-        |                                                  |
-        |                                         EDHOC verification
-        |                                                  +
-OSCORE Sec Ctx                                      OSCORE Sec Ctx
-  Derivation                                          Derivation
-        |                                                  |
-        | ---------------- OSCORE Request ---------------&gt; |
-        |   Header: 0.02 (POST)                            |
-        |   Payload: OSCORE-protected data                 |
-        |                                                  |
-        | &lt;--------------- OSCORE Response --------------- |
-        |                 Header: 2.04 (Changed)           |
-        |                 Payload: OSCORE-protected data   |
-        |                                                  |
+   CoAP Client                                         CoAP Server
+(EDHOC Initiator)                                   (EDHOC Responder)
+        |                                                    |
+        |                                                    |
+        | ----------------- EDHOC Request -----------------&gt; |
+        |   Header: 0.02 (POST)                              |
+        |   Uri-Path: "/.well-known/edhoc"                   |
+        |   Content-Format: application/cid-edhoc+cbor-seq   |
+        |   Payload: true, EDHOC message_1                   |
+        |                                                    |
+        | &lt;---------------- EDHOC Response------------------ |
+        |       Header: 2.04 (Changed)                       |
+        |       Content-Format: application/edhoc+cbor-seq   |
+        |       Payload: EDHOC message_2                     |
+        |                                                    |
+EDHOC verification                                           |
+        |                                                    |
+        | ----------------- EDHOC Request -----------------&gt; |
+        |   Header: 0.02 (POST)                              |
+        |   Uri-Path: "/.well-known/edhoc"                   |
+        |   Content-Format: application/cid-edhoc+cbor-seq   |
+        |   Payload: C_R, EDHOC message_3                    |
+        |                                                    |
+        |                                           EDHOC verification
+        |                                                    +
+OSCORE Sec Ctx                                        OSCORE Sec Ctx
+  Derivation                                            Derivation
+        |                                                    |
+        | ---------------- OSCORE Request -----------------&gt; |
+        |   Header: 0.02 (POST)                              |
+        |   Payload: OSCORE-protected data                   |
+        |                                                    |
+        | &lt;--------------- OSCORE Response ----------------- |
+        |                 Header: 2.04 (Changed)             |
+        |                 Payload: OSCORE-protected data     |
+        |                                                    |
 </pre>
 </div>
 <figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
@@ -1357,12 +1372,13 @@ OSCORE Sec Ctx                                      OSCORE Sec Ctx
         | ------------------ EDHOC Request -----------------&gt; |
         |   Header: 0.02 (POST)                               |
         |   Uri-Path: "/.well-known/edhoc"                    |
+        |   Content-Format: application/cid-edhoc+cbor-seq    |
         |   Payload: true, EDHOC message_1                    |
         |                                                     |
         | &lt;----------------- EDHOC Response------------------ |
-        |                 Header: Changed (2.04)              |
-        |                 Content-Format: application/edhoc   |
-        |                 Payload: EDHOC message_2            |
+        |        Header: Changed (2.04)                       |
+        |        Content-Format: application/edhoc+cbor-seq   |
+        |        Payload: EDHOC message_2                     |
         |                                                     |
 EDHOC verification                                            |
         +                                                     |
@@ -1390,7 +1406,7 @@ EDHOC verification                                            |
 </div>
 <p id="section-3-6">To this end, the specific approach defined in this section consists of sending a single EDHOC + OSCORE request, which conveys the pair (C_R, EDHOC message_3) within an OSCORE-protected CoAP message.<a href="#section-3-6" class="pilcrow">¶</a></p>
 <p id="section-3-7">That is, the EDHOC + OSCORE request is in practice the OSCORE Request from <a href="#fig-non-combined" class="xref">Figure 1</a>, as still sent to a protected resource and with the correct CoAP method and options intended for accessing that resource. At the same time, the EDHOC + OSCORE request also transports the pair (C_R, EDHOC message_3) required for completing the EDHOC exchange. Note that C_R is not transported precisely in the request payload.<a href="#section-3-7" class="pilcrow">¶</a></p>
-<p id="section-3-8">Since EDHOC message_3 may be too large to be included in a CoAP Option, e.g., if conveying a protected large public key certificate chain as ID_CRED_I (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#section-3.5.4" class="relref">Section 3.5.4</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>) or if conveying protected External Authorization Data as EAD_3 (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#section-3.8" class="relref">Section 3.8</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>), EDHOC message_3 has to be transported in the CoAP payload of the EDHOC + OSCORE request.<a href="#section-3-8" class="pilcrow">¶</a></p>
+<p id="section-3-8">Since EDHOC message_3 may be too large to be included in a CoAP Option, e.g., if conveying a protected large public key certificate chain as ID_CRED_I (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-3.5.3" class="relref">Section 3.5.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>) or if conveying protected External Authorization Data as EAD_3 (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-3.8" class="relref">Section 3.8</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>), EDHOC message_3 has to be transported in the CoAP payload of the EDHOC + OSCORE request.<a href="#section-3-8" class="pilcrow">¶</a></p>
 <p id="section-3-9">The rest of this section specifies how to transport the data in the EDHOC + OSCORE request and their processing order. In particular, the use of this approach is explicitly signalled by including an EDHOC Option (see <a href="#edhoc-option" class="xref">Section 3.1</a>) in the EDHOC + OSCORE request. The processing of the EDHOC + OSCORE request is specified in <a href="#client-processing" class="xref">Section 3.2</a> for the Client side and in <a href="#server-processing" class="xref">Section 3.3</a> for the Server side.<a href="#section-3-9" class="pilcrow">¶</a></p>
 <div id="edhoc-option">
 <section id="section-3.1">
@@ -1449,7 +1465,7 @@ EDHOC verification                                            |
         </h3>
 <p id="section-3.2-1">The Client prepares an EDHOC + OSCORE request as follows.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-3.2-2">
-<li id="section-3.2-2.1">Compose EDHOC message_3 as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#section-5.4.2" class="relref">Section 5.4.2</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>.<a href="#section-3.2-2.1" class="pilcrow">¶</a>
+<li id="section-3.2-2.1">Compose EDHOC message_3 as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-5.4.2" class="relref">Section 5.4.2</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>.<a href="#section-3.2-2.1" class="pilcrow">¶</a>
 </li>
           <li id="section-3.2-2.2">
             <p id="section-3.2-2.2.1">Encrypt the original CoAP request as per <span><a href="https://rfc-editor.org/rfc/rfc8613#section-8.1" class="relref">Section 8.1</a> of [<a href="#RFC8613" class="xref">RFC8613</a>]</span>, using the new OSCORE Security Context established after receiving EDHOC message_2.<a href="#section-3.2-2.2.1" class="pilcrow">¶</a></p>
@@ -1468,14 +1484,17 @@ Note that the OSCORE ciphertext is not computed over EDHOC message_3, which is n
           <li id="section-3.2-2.4">
             <p id="section-3.2-2.4.1">Compose the EDHOC + OSCORE request, as the OSCORE-protected CoAP request resulting from step 2, where the payload is replaced with the CBOR sequence built at step 3.<a href="#section-3.2-2.4.1" class="pilcrow">¶</a></p>
 <p id="section-3.2-2.4.2">
-Note that the new payload includes EDHOC message_3, but it does not include the EDHOC connection identifier C_R. As the Client is the EDHOC Initiator, C_R encodes the OSCORE Sender ID of the Client, which is already specified as 'kid' in the OSCORE Option of the request from step 2, hence of the EDHOC + OSCORE request.<a href="#section-3.2-2.4.2" class="pilcrow">¶</a></p>
+Note that the new payload includes EDHOC message_3, but it does not include the EDHOC connection identifier C_R. As the Client is the EDHOC Initiator, C_R is the OSCORE Sender ID of the Client, which is already specified as 'kid' in the OSCORE Option of the request from step 2, hence of the EDHOC + OSCORE request.<a href="#section-3.2-2.4.2" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.2-2.5">Signal the usage of this approach, by including the new EDHOC Option defined in <a href="#edhoc-option" class="xref">Section 3.1</a> into the EDHOC + OSCORE request.<a href="#section-3.2-2.5" class="pilcrow">¶</a>
+          <li id="section-3.2-2.5">
+            <p id="section-3.2-2.5.1">Signal the usage of this approach, by including the new EDHOC Option defined in <a href="#edhoc-option" class="xref">Section 3.1</a> into the EDHOC + OSCORE request.<a href="#section-3.2-2.5.1" class="pilcrow">¶</a></p>
+<p id="section-3.2-2.5.2">
+The application/cid-edhoc+cbor-seq media type does not apply to this message, whose media type is unnamed.<a href="#section-3.2-2.5.2" class="pilcrow">¶</a></p>
 </li>
           <li id="section-3.2-2.6">Send the EDHOC + OSCORE request to the server.<a href="#section-3.2-2.6" class="pilcrow">¶</a>
 </li>
         </ol>
-<p id="section-3.2-3">With the same Server, the Client MUST NOT have more than one simultaneous outstanding interaction (see <span><a href="https://rfc-editor.org/rfc/rfc7252#section-4.7" class="relref">Section 4.7</a> of [<a href="#RFC7252" class="xref">RFC7252</a>]</span>) consisting of an EDHOC + OSCORE request and whose EDHOC data are intended to the EDHOC session with the same connection identifier C_R.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
+<p id="section-3.2-3">With the same Server, the Client SHOULD NOT have multiple simultaneous outstanding interactions (see <span><a href="https://rfc-editor.org/rfc/rfc7252#section-4.7" class="relref">Section 4.7</a> of [<a href="#RFC7252" class="xref">RFC7252</a>]</span>) such that: they consist of an EDHOC + OSCORE request; and their EDHOC data pertain to the EDHOC session with the same connection identifier C_R.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
 <div id="client-blockwise">
 <section id="section-3.2.1">
           <h4 id="name-supporting-block-wise">
@@ -1485,7 +1504,8 @@ Note that the new payload includes EDHOC message_3, but it does not include the 
 <p id="section-3.2.1-2">The Client takes the additional following step between steps 2 and 3 of <a href="#client-processing" class="xref">Section 3.2</a>.<a href="#section-3.2.1-2" class="pilcrow">¶</a></p>
 <p id="section-3.2.1-3">A. If the OSCORE-protected request from step 2 conveys a non-first inner block of the original CoAP request (i.e., the Block1 Option processed at step 2 had NUM different than 0), then the Client skips the following steps and sends the OSCORE-protected request to the Server. In particular, the Client MUST NOT include the EDHOC Option in the OSCORE-protected request.<a href="#section-3.2.1-3" class="pilcrow">¶</a></p>
 <p id="section-3.2.1-4">The Client takes the additional following step between steps 3 and 4 of <a href="#client-processing" class="xref">Section 3.2</a>.<a href="#section-3.2.1-4" class="pilcrow">¶</a></p>
-<p id="section-3.2.1-5">B. If the size of the built CBOR sequence exceeds MAX_UNFRAGMENTED_SIZE (see <span><a href="https://rfc-editor.org/rfc/rfc8613#section-4.1.3.4.2" class="relref">Section 4.1.3.4.2</a> of [<a href="#RFC8613" class="xref">RFC8613</a>]</span>), the Client MUST stop processing the request and MUST abort the Block-wise tranfer. The Client can switch to the purely sequential workflow in <a href="#fig-non-combined" class="xref">Figure 1</a>, hence separately sending first EDHOC message_3 and then the OSCORE-protected CoAP request once the EDHOC execution is completed.<a href="#section-3.2.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.2.1-5">B. If the size of the built CBOR sequence exceeds MAX_UNFRAGMENTED_SIZE (see <span><a href="https://rfc-editor.org/rfc/rfc8613#section-4.1.3.4.2" class="relref">Section 4.1.3.4.2</a> of [<a href="#RFC8613" class="xref">RFC8613</a>]</span>), the Client MUST stop processing the request and MUST abort the Block-wise transfer. Then, the Client can continue by switching to the purely sequential workflow shown in <a href="#fig-non-combined" class="xref">Figure 1</a>. That is, the Client first sends EDHOC message_3 prepended by the EDHOC Connection Identifier C_R represented as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>, and then sends the OSCORE-protected CoAP request once the EDHOC execution is completed.<a href="#section-3.2.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.2.1-6">Further considerations about the use of Block-wise together with the EDHOC + OSCORE request are provided in <a href="#block-wise-performance" class="xref">Section 6</a>.<a href="#section-3.2.1-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1501,18 +1521,18 @@ Note that the new payload includes EDHOC message_3, but it does not include the 
 </li>
           <li id="section-3.3-2.2">Extract EDHOC message_3 from the payload of the EDHOC + OSCORE request, as the first CBOR byte string in the CBOR sequence.<a href="#section-3.3-2.2" class="pilcrow">¶</a>
 </li>
-          <li id="section-3.3-2.3">Take the value of 'kid' from the OSCORE option of the EDHOC + OSCORE request (i.e., the OSCORE Sender ID of the Client), and use it to rebuild the EDHOC connection identifier C_R, as per <a href="#oscore-to-edhoc-id" class="xref">Section 4.1</a>.<a href="#section-3.3-2.3" class="pilcrow">¶</a>
+          <li id="section-3.3-2.3">Take the value of 'kid' from the OSCORE option of the EDHOC + OSCORE request (i.e., the OSCORE Sender ID of the Client), and use it as the EDHOC connection identifier C_R.<a href="#section-3.3-2.3" class="pilcrow">¶</a>
 </li>
           <li id="section-3.3-2.4">
-            <p id="section-3.3-2.4.1">Retrieve the correct EDHOC session by using the connection identifier C_R rebuilt at step 3.<a href="#section-3.3-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-3.3-2.4.1">Retrieve the correct EDHOC session by using the connection identifier C_R from step 3.<a href="#section-3.3-2.4.1" class="pilcrow">¶</a></p>
 <p id="section-3.3-2.4.2">
-If the applicability statement used in the EDHOC session specifies that EDHOC message_4 shall be sent, the Server MUST stop the EDHOC processing and consider it failed, as due to a client error.<a href="#section-3.3-2.4.2" class="pilcrow">¶</a></p>
+If the application profile used in the EDHOC session specifies that EDHOC message_4 shall be sent, the Server MUST stop the EDHOC processing and consider it failed, as due to a client error.<a href="#section-3.3-2.4.2" class="pilcrow">¶</a></p>
 <p id="section-3.3-2.4.3">
-Otherwise, perform the EDHOC processing on the EDHOC message_3 extracted at step 2 as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#section-5.4.3" class="relref">Section 5.4.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>, based on the protocol state of the retrieved EDHOC session.<a href="#section-3.3-2.4.3" class="pilcrow">¶</a></p>
+Otherwise, perform the EDHOC processing on the EDHOC message_3 extracted at step 2 as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-5.4.3" class="relref">Section 5.4.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>, based on the protocol state of the retrieved EDHOC session.<a href="#section-3.3-2.4.3" class="pilcrow">¶</a></p>
 <p id="section-3.3-2.4.4">
-The applicability statement used in the EDHOC session is the same one associated with the EDHOC resource where the server received the request conveying EDHOC message_1 that started the session. This is relevant in case the server provides multiple EDHOC resources, which may generally refer to different applicability statements.<a href="#section-3.3-2.4.4" class="pilcrow">¶</a></p>
+The application profile used in the EDHOC session is the same one associated with the EDHOC resource where the server received the request conveying EDHOC message_1 that started the session. This is relevant in case the server provides multiple EDHOC resources, which may generally refer to different application profiles.<a href="#section-3.3-2.4.4" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.3-2.5">Establish a new OSCORE Security Context associated with the client as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#appendix-A.2" class="relref">Appendix A.2</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>, using the EDHOC output from step 4.<a href="#section-3.3-2.5" class="pilcrow">¶</a>
+          <li id="section-3.3-2.5">Establish a new OSCORE Security Context associated with the client as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#appendix-A.1" class="relref">Appendix A.1</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>, using the EDHOC output from step 4.<a href="#section-3.3-2.5" class="pilcrow">¶</a>
 </li>
           <li id="section-3.3-2.6">Extract the OSCORE ciphertext from the payload of the EDHOC + OSCORE request, as the value of the second CBOR byte string in the CBOR sequence.<a href="#section-3.3-2.6" class="pilcrow">¶</a>
 </li>
@@ -1526,8 +1546,8 @@ If the decrypted request includes an EDHOC option but it does not include an OSC
           <li id="section-3.3-2.9">Deliver the CoAP request resulting from step 8 to the application.<a href="#section-3.3-2.9" class="pilcrow">¶</a>
 </li>
         </ol>
-<p id="section-3.3-3">If steps 4 (EDHOC processing) and 8 (OSCORE processing) are both successfully completed, the Server MUST reply with an OSCORE-protected response, in order for the Client to achieve key confirmation (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#section-5.4.2" class="relref">Section 5.4.2</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>). The usage of EDHOC message_4 as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#section-5.5" class="relref">Section 5.5</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span> is not applicable to the approach defined in this document.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
-<p id="section-3.3-4">If step 4 (EDHOC processing) fails, the server discontinues the protocol as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#section-5.4.3" class="relref">Section 5.4.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span> and responds with an EDHOC error message with error code 1, formatted as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#section-6.2" class="relref">Section 6.2</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>. In particular, the CoAP response conveying the EDHOC error message MUST have Content-Format set to application/edhoc defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#section-9.12" class="relref">Section 9.12</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>.<a href="#section-3.3-4" class="pilcrow">¶</a></p>
+<p id="section-3.3-3">If steps 4 (EDHOC processing) and 8 (OSCORE processing) are both successfully completed, the Server MUST reply with an OSCORE-protected response (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-5.4.2" class="relref">Section 5.4.2</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>). The usage of EDHOC message_4 as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-5.5" class="relref">Section 5.5</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span> is not applicable to the approach defined in this document.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
+<p id="section-3.3-4">If step 4 (EDHOC processing) fails, the server discontinues the protocol as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-5.4.3" class="relref">Section 5.4.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span> and responds with an EDHOC error message with error code 1, formatted as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-6.2" class="relref">Section 6.2</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>. In particular, the CoAP response conveying the EDHOC error message MUST have Content-Format set to application/edhoc+cbor-seq defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-9.9" class="relref">Section 9.9</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>.<a href="#section-3.3-4" class="pilcrow">¶</a></p>
 <p id="section-3.3-5">If step 4 (EDHOC processing) is successfully completed but step 8 (OSCORE processing) fails, the same OSCORE error handling as defined in <span><a href="https://rfc-editor.org/rfc/rfc8613#section-8.2" class="relref">Section 8.2</a> of [<a href="#RFC8613" class="xref">RFC8613</a>]</span> applies.<a href="#section-3.3-5" class="pilcrow">¶</a></p>
 <div id="server-blockwise">
 <section id="section-3.3.1">
@@ -1552,7 +1572,9 @@ If the decrypted request includes an EDHOC option but it does not include an OSC
           <li class="normal" id="section-3.4-2.2">
             <p id="section-3.4-2.2.1">The OSCORE Sender ID of the Client is 0x01.<a href="#section-3.4-2.2.1" class="pilcrow">¶</a></p>
 <p id="section-3.4-2.2.2">
-As per <a href="#oscore-to-edhoc-id" class="xref">Section 4.1</a>, this corresponds to the numeric EDHOC connection identifier C_R with value 1. When using the purely-sequential flow shown in <a href="#fig-non-combined" class="xref">Figure 1</a>, this would be prepended to EDHOC message_3 as the CBOR integer 1 (0x01 in CBOR encoding), in the payload of the second EDHOC request.<a href="#section-3.4-2.2.2" class="pilcrow">¶</a></p>
+As per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-3.3.3" class="relref">Section 3.3.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>, this straightforwardly corresponds to the EDHOC connection identifier C_R 0x01.<a href="#section-3.4-2.2.2" class="pilcrow">¶</a></p>
+<p id="section-3.4-2.2.3">
+As per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-3.3.2" class="relref">Section 3.3.2</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>, when using the purely-sequential flow shown in <a href="#fig-non-combined" class="xref">Figure 1</a>, the same C_R with value 0x01 would be represented on the wire as the CBOR integer 1 (0x01 in CBOR encoding), and prepended to EDHOC message_3 in the payload of the second EDHOC request.<a href="#section-3.4-2.2.3" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.4-2.3">The EDHOC option is registered with CoAP option number 21.<a href="#section-3.4-2.3" class="pilcrow">¶</a>
 </li>
@@ -1591,136 +1613,79 @@ o  Protected CoAP request (OSCORE message):
 </div>
 </section>
 </div>
-<div id="conversion">
+<div id="use-of-ids">
 <section id="section-4">
-      <h2 id="name-conversion-from-oscore-to-e">
-<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-conversion-from-oscore-to-e" class="section-name selfRef">Conversion from OSCORE to EDHOC Identifiers</a>
+      <h2 id="name-use-of-edhoc-connection-ide">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-use-of-edhoc-connection-ide" class="section-name selfRef">Use of EDHOC Connection Identifiers with OSCORE</a>
       </h2>
-<p id="section-4-1"><span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#appendix-A.1" class="relref">Appendix A.1</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span> defines how an EDHOC connection identifier is converted to an OSCORE Sender/Recipient ID.<a href="#section-4-1" class="pilcrow">¶</a></p>
-<p id="section-4-2">In the following, <a href="#oscore-to-edhoc-id" class="xref">Section 4.1</a> defines a method for converting from OSCORE Sender/Recipient ID to EDHOC connection identifier.<a href="#section-4-2" class="pilcrow">¶</a></p>
-<p id="section-4-3">When running EDHOC through a certain EDHOC resource, the Client and Server MUST both use the conversion method defined in <a href="#oscore-to-edhoc-id" class="xref">Section 4.1</a> and MUST perform the additional message processing specified in <a href="#oscore-edhoc-message-processing" class="xref">Section 4.2</a>, if at least one of the following conditions hold.<a href="#section-4-3" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-4-4.1">The applicability statement associated with the EDHOC resource indicates that the server supports the EDHOC + OSCORE request defined in <a href="#edhoc-in-oscore" class="xref">Section 3</a>.<a href="#section-4-4.1" class="pilcrow">¶</a>
-</li>
-        <li class="normal" id="section-4-4.2">The applicability statement associated with the EDHOC resource indicates that the conversion method defined in <a href="#oscore-to-edhoc-id" class="xref">Section 4.1</a> is the one to use.<a href="#section-4-4.2" class="pilcrow">¶</a>
-</li>
-      </ul>
-<p id="section-4-5">Instead, if none of the above conditions hold, the Client and the Server can independently use any consistent conversion method, such as the one defined in <a href="#oscore-to-edhoc-id" class="xref">Section 4.1</a> or different ones defined in separate specifications. In particular, the Client and Server are not required to use the same conversion method. In fact, as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#appendix-A.1" class="relref">Appendix A.1</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>, it is sufficient that the two connection identifiers C_I and C_R exchanged during an EDHOC execution are different and not "equivalent", hence not convertible to the same OSCORE Sender/Recipient ID.<a href="#section-4-5" class="pilcrow">¶</a></p>
-<p id="section-4-6">Even in case none of the above conditions hold, it is RECOMMENDED for the Client and Server to use the conversion method defined in <a href="#oscore-to-edhoc-id" class="xref">Section 4.1</a>, since it ensures that an OSCORE Sender/Recipient ID is always converted to the EDHOC identifier with the smallest size among the two equivalent ones.<a href="#section-4-6" class="pilcrow">¶</a></p>
-<div id="oscore-to-edhoc-id">
-<section id="section-4.1">
-        <h3 id="name-conversion-method">
-<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-conversion-method" class="section-name selfRef">Conversion Method</a>
-        </h3>
-<p id="section-4.1-1">The process defined in this section ensures that every OSCORE Sender/Recipient ID is converted to only one of the two corresponding, equivalent EDHOC connection identifiers, see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#appendix-A.1" class="relref">Appendix A.1</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
-<p id="section-4.1-2">An OSCORE Sender/Recipient ID, OSCORE_ID, is converted to an EDHOC connection identifier, EDHOC_ID, as follows.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-4.1-3.1">If OSCORE_ID is 0 bytes in size, it is converted to the empty byte string EDHOC_ID (0x40 in CBOR encoding).<a href="#section-4.1-3.1" class="pilcrow">¶</a>
-</li>
-          <li class="normal" id="section-4.1-3.2">
-            <p id="section-4.1-3.2.1">If OSCORE_ID has a size in bytes different than 0, 1, 2, 3, 5 or 9, it is converted to a byte-valued EDHOC_ID, i.e., a CBOR byte string with value OSCORE_ID.<a href="#section-4.1-3.2.1" class="pilcrow">¶</a></p>
-<p id="section-4.1-3.2.2">
-For example, the OSCORE_ID 0x001122334455 is converted to the byte-valued EDHOC_ID 0x001122334455 (0x46001122334455 in CBOR encoding).<a href="#section-4.1-3.2.2" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-4.1-3.3">
-            <p id="section-4.1-3.3.1">If OSCORE_ID has a size in bytes equal to 1, 2, 3, 5 or 9 the following applies.<a href="#section-4.1-3.3.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-4.1-3.3.2.1">
-                <p id="section-4.1-3.3.2.1.1">If OSCORE_ID is a valid CBOR encoding for an integer value (i.e., it can be correctly decoded as a CBOR integer), then it is converted to a numeric EDHOC_ID having OSCORE_ID as its CBOR encoded form.<a href="#section-4.1-3.3.2.1.1" class="pilcrow">¶</a></p>
-<p id="section-4.1-3.3.2.1.2">
-For example, the OSCORE_ID 0x01 is converted to the numeric EDHOC_ID 1 (0x01 in CBOR encoding), while the OSCORE_ID 0x2B is converted to the numeric EDHOC_ID -12 (0x2B in CBOR encoding).<a href="#section-4.1-3.3.2.1.2" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-4.1-3.3.2.2">
-                <p id="section-4.1-3.3.2.2.1">If OSCORE_ID is <em>not</em> a valid CBOR encoding for an integer value (i.e., it <em>cannot</em> be correctly decoded as a CBOR integer), then it is converted to a byte-valued EDHOC_ID having OSCORE_ID as its value.<a href="#section-4.1-3.3.2.2.1" class="pilcrow">¶</a></p>
-<p id="section-4.1-3.3.2.2.2">
-For example, the OSCORE_ID 0xFF is converted to the byte-valued EDHOC_ID 0xFF (0x41FF in CBOR encoding).<a href="#section-4.1-3.3.2.2.2" class="pilcrow">¶</a></p>
-</li>
-            </ul>
-<p id="section-4.1-3.3.3">
-Implementations can easily determine which case holds for a given OSCORE_ID with no need to try to actually CBOR-decode it, e.g., by using the approach in <a href="#sec-cbor-numeric-check" class="xref">Appendix A</a>.<a href="#section-4.1-3.3.3" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-4.1-4">When performing the conversions above, the two peers MUST always refer to Deterministically Encoded CBOR as specified in <span><a href="https://rfc-editor.org/rfc/rfc8949#section-4.2.1" class="relref">Section 4.2.1</a> of [<a href="#RFC8949" class="xref">RFC8949</a>]</span>, consistently with what is required by the EDHOC protocol <span>[<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>.<a href="#section-4.1-4" class="pilcrow">¶</a></p>
-</section>
-</div>
+<p id="section-4-1"><span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-3.3.3" class="relref">Section 3.3.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span> defines the straightforward mapping from an EDHOC connection identifier to an OSCORE Sender/Recipient ID. That is, an EDHOC identifier and the corresponding OSCORE Sender/Recipient ID are both byte strings with the same value.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-2">Therefore, the conversion from an OSCORE Sender/Recipient ID to an EDHOC identifier is equally straightforward. In particular, at step 3 of <a href="#server-processing" class="xref">Section 3.3</a>, the value of 'kid' in the OSCORE Option of the EDHOC + OSCORE request is both the Server's Recipient ID (i.e., the Client's Sender ID) as well as the EDHOC Connection Identifier C_R of the Server.<a href="#section-4-2" class="pilcrow">¶</a></p>
 <div id="oscore-edhoc-message-processing">
-<section id="section-4.2">
+<section id="section-4.1">
         <h3 id="name-additional-processing-of-ed">
-<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-additional-processing-of-ed" class="section-name selfRef">Additional Processing of EDHOC Messages</a>
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-additional-processing-of-ed" class="section-name selfRef">Additional Processing of EDHOC Messages</a>
         </h3>
-<p id="section-4.2-1">This section specifies additional EDHOC message processing compared to what is specified in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#section-5" class="relref">Section 5</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.1-1">Compared to what is specified in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-5" class="relref">Section 5</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>, the Client and Server MUST perform the additional message processing specified in the rest of this section.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
 <div id="initiator-processing-of-message-1">
-<section id="section-4.2.1">
+<section id="section-4.1.1">
           <h4 id="name-initiator-processing-of-mes">
-<a href="#section-4.2.1" class="section-number selfRef">4.2.1. </a><a href="#name-initiator-processing-of-mes" class="section-name selfRef">Initiator Processing of Message 1</a>
+<a href="#section-4.1.1" class="section-number selfRef">4.1.1. </a><a href="#name-initiator-processing-of-mes" class="section-name selfRef">Initiator Processing of Message 1</a>
           </h4>
-<p id="section-4.2.1-1">The Initiator selects C_I as follows.<a href="#section-4.2.1-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-4.2.1-2">
-<li id="section-4.2.1-2.1">The Initiator initializes a set ID_SET as the empty set.<a href="#section-4.2.1-2.1" class="pilcrow">¶</a>
+<p id="section-4.1.1-1">The Initiator selects C_I as follows. If the Initiator possibly performs multiple EDHOC executions concurrently, the following sequence of steps MUST be atomic.<a href="#section-4.1.1-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-4.1.1-2">
+<li id="section-4.1.1-2.1">The Initiator initializes a set ID_SET as the empty set.<a href="#section-4.1.1-2.1" class="pilcrow">¶</a>
 </li>
-            <li id="section-4.2.1-2.2">
-              <p id="section-4.2.1-2.2.1">The Initiator selects an available OSCORE Recipient ID, namely ID*, which is not included in ID_SET. Consistently with the requirements in <span><a href="https://rfc-editor.org/rfc/rfc8613#section-3.3" class="relref">Section 3.3</a> of [<a href="#RFC8613" class="xref">RFC8613</a>]</span>, when selecting ID*:<a href="#section-4.2.1-2.2.1" class="pilcrow">¶</a></p>
+            <li id="section-4.1.1-2.2">
+              <p id="section-4.1.1-2.2.1">The Initiator selects an available OSCORE Recipient ID, namely ID*, which is not included in ID_SET. Consistently with the requirements in <span><a href="https://rfc-editor.org/rfc/rfc8613#section-3.3" class="relref">Section 3.3</a> of [<a href="#RFC8613" class="xref">RFC8613</a>]</span>, when selecting ID*:<a href="#section-4.1.1-2.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.2.1-2.2.2.1">The Initiator SHOULD select ID* only among the Recipient IDs which are currently not used in the sets of all its Recipient Contexts.<a href="#section-4.2.1-2.2.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-4.1.1-2.2.2.1">The Initiator MUST NOT select a Recipient ID as ID* if this is currently used in a Recipient Context within a Security Context where the ID Context has zero-length.<a href="#section-4.1.1-2.2.2.1" class="pilcrow">¶</a>
 </li>
-                <li class="normal" id="section-4.2.1-2.2.2.2">The Initiator MUST NOT select a Recipient ID as ID* if this is currently used in a Recipient Context within a Security Context where the ID Context has zero-length.<a href="#section-4.2.1-2.2.2.2" class="pilcrow">¶</a>
+                <li class="normal" id="section-4.1.1-2.2.2.2">The Initiator SHOULD select ID* only among the Recipient IDs which are currently not used in the sets of all its Recipient Contexts.<a href="#section-4.1.1-2.2.2.2" class="pilcrow">¶</a>
 </li>
               </ul>
 </li>
-            <li id="section-4.2.1-2.3">The Initiator converts ID* to the EDHOC connection identifier C_I, as per <a href="#oscore-to-edhoc-id" class="xref">Section 4.1</a>.<a href="#section-4.2.1-2.3" class="pilcrow">¶</a>
+            <li id="section-4.1.1-2.3">If ID* is already used as EDHOC Connection Identifier C_I, the Initiator adds ID* to ID_SET and moves back to step 2. Otherwise, it moves to step 4.<a href="#section-4.1.1-2.3" class="pilcrow">¶</a>
 </li>
-            <li id="section-4.2.1-2.4">If the resulting C_I is already used, the Initiator adds ID* to ID_SET and moves back to step 2. Otherwise, it uses C_I as its EDHOC connection identifier.<a href="#section-4.2.1-2.4" class="pilcrow">¶</a>
+            <li id="section-4.1.1-2.4">The Initiator sets ID* as a "not available" OSCORE Recipient ID, and uses it as its EDHOC connection identifier C_I.<a href="#section-4.1.1-2.4" class="pilcrow">¶</a>
 </li>
           </ol>
 </section>
 </div>
-<div id="responder-processing-of-message-1">
-<section id="section-4.2.2">
-          <h4 id="name-responder-processing-of-mes">
-<a href="#section-4.2.2" class="section-number selfRef">4.2.2. </a><a href="#name-responder-processing-of-mes" class="section-name selfRef">Responder Processing of Message 1</a>
-          </h4>
-<p id="section-4.2.2-1">The Responder MUST discontinue the protocol and reply with an EDHOC error message with error code 1, formatted as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#section-6.2" class="relref">Section 6.2</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>, if C_I is a CBOR byte string and it has as value a valid CBOR encoding of an integer value (e.g., C_I is CBOR encoded as 0x4100).<a href="#section-4.2.2-1" class="pilcrow">¶</a></p>
-<p id="section-4.2.2-2">In fact, this would mean that the Initiator has not followed the conversion rule in <a href="#oscore-to-edhoc-id" class="xref">Section 4.1</a> when converting its (to be) OSCORE Recipient ID to C_I.<a href="#section-4.2.2-2" class="pilcrow">¶</a></p>
-</section>
-</div>
 <div id="responder-processing-of-message-2">
-<section id="section-4.2.3">
-          <h4 id="name-responder-processing-of-mess">
-<a href="#section-4.2.3" class="section-number selfRef">4.2.3. </a><a href="#name-responder-processing-of-mess" class="section-name selfRef">Responder Processing of Message 2</a>
+<section id="section-4.1.2">
+          <h4 id="name-responder-processing-of-mes">
+<a href="#section-4.1.2" class="section-number selfRef">4.1.2. </a><a href="#name-responder-processing-of-mes" class="section-name selfRef">Responder Processing of Message 2</a>
           </h4>
-<p id="section-4.2.3-1">The Responder selects C_R as follows.<a href="#section-4.2.3-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-4.2.3-2">
-<li id="section-4.2.3-2.1">The Responder initializes a set ID_SET as the empty set.<a href="#section-4.2.3-2.1" class="pilcrow">¶</a>
+<p id="section-4.1.2-1">The Responder selects C_R as follows. If the Responder possibly performs multiple EDHOC executions concurrently, the following sequence of steps MUST be atomic.<a href="#section-4.1.2-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-4.1.2-2">
+<li id="section-4.1.2-2.1">The Responder initializes a set ID_SET as the empty set.<a href="#section-4.1.2-2.1" class="pilcrow">¶</a>
 </li>
-            <li id="section-4.2.3-2.2">
-              <p id="section-4.2.3-2.2.1">The Responder selects an available OSCORE Recipient ID, ID*, which is not included in ID_SET. Consistently with the requirements in <span><a href="https://rfc-editor.org/rfc/rfc8613#section-3.3" class="relref">Section 3.3</a> of [<a href="#RFC8613" class="xref">RFC8613</a>]</span>, when selecting ID*:<a href="#section-4.2.3-2.2.1" class="pilcrow">¶</a></p>
+            <li id="section-4.1.2-2.2">
+              <p id="section-4.1.2-2.2.1">The Responder selects an available OSCORE Recipient ID, namely ID*, which is not included in ID_SET. Consistently with the requirements in <span><a href="https://rfc-editor.org/rfc/rfc8613#section-3.3" class="relref">Section 3.3</a> of [<a href="#RFC8613" class="xref">RFC8613</a>]</span>, when selecting ID*:<a href="#section-4.1.2-2.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.2.3-2.2.2.1">The Responder SHOULD select ID* only among the Recipient IDs which are currently not used in the sets of all its Recipient Contexts.<a href="#section-4.2.3-2.2.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-4.1.2-2.2.2.1">The Responder MUST NOT select a Recipient ID as ID* if this is currently used in a Recipient Context within a Security Context where the ID Context has zero-length.<a href="#section-4.1.2-2.2.2.1" class="pilcrow">¶</a>
 </li>
-                <li class="normal" id="section-4.2.3-2.2.2.2">The Responder MUST NOT select a Recipient ID as ID* if this is currently used in a Recipient Context within a Security Context where the ID Context has zero-length.<a href="#section-4.2.3-2.2.2.2" class="pilcrow">¶</a>
+                <li class="normal" id="section-4.1.2-2.2.2.2">The Responder SHOULD select ID* only among the Recipient IDs which are currently not used in the sets of all its Recipient Contexts.<a href="#section-4.1.2-2.2.2.2" class="pilcrow">¶</a>
 </li>
               </ul>
 </li>
-            <li id="section-4.2.3-2.3">The Responder converts ID* to the EDHOC connection identifier C_R, as per <a href="#oscore-to-edhoc-id" class="xref">Section 4.1</a>.<a href="#section-4.2.3-2.3" class="pilcrow">¶</a>
+            <li id="section-4.1.2-2.3">If ID* is already used as EDHOC Connection Identifier C_R, the Responder adds ID* to ID_SET and moves back to step 2. Otherwise, it moves to step 5.<a href="#section-4.1.2-2.3" class="pilcrow">¶</a>
 </li>
-            <li id="section-4.2.3-2.4">If the resulting C_R is already used or it is equal byte-by-byte to the C_I specified in EDHOC message_1, the Initiator adds ID* to ID_SET and moves back to step 2. Otherwise, it uses C_R as its EDHOC connection identifier.<a href="#section-4.2.3-2.4" class="pilcrow">¶</a>
+            <li id="section-4.1.2-2.4">If ID* is equal to the EDHOC Connection Identifier C_I specified in EDHOC message_1 (i.e., after its decoding as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>), then the Responder adds ID* to ID_SET and moves back to step 2. Otherwise, it moves to step 5.<a href="#section-4.1.2-2.4" class="pilcrow">¶</a>
+</li>
+            <li id="section-4.1.2-2.5">The Responder sets ID* as a "not available" OSCORE Recipient ID, and uses it as its EDHOC connection identifier C_R.<a href="#section-4.1.2-2.5" class="pilcrow">¶</a>
 </li>
           </ol>
 </section>
 </div>
 <div id="initiator-processing-of-message-2">
-<section id="section-4.2.4">
+<section id="section-4.1.3">
           <h4 id="name-initiator-processing-of-mess">
-<a href="#section-4.2.4" class="section-number selfRef">4.2.4. </a><a href="#name-initiator-processing-of-mess" class="section-name selfRef">Initiator Processing of Message 2</a>
+<a href="#section-4.1.3" class="section-number selfRef">4.1.3. </a><a href="#name-initiator-processing-of-mess" class="section-name selfRef">Initiator Processing of Message 2</a>
           </h4>
-<p id="section-4.2.4-1">If any of the following conditions holds, the Initiator MUST discontinue the protocol and reply with an EDHOC error message with error code 1, formatted as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#section-6.2" class="relref">Section 6.2</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>.<a href="#section-4.2.4-1" class="pilcrow">¶</a></p>
+<p id="section-4.1.3-1">If the following condition holds, the Initiator MUST discontinue the protocol and reply with an EDHOC error message with error code 1, formatted as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-6.2" class="relref">Section 6.2</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>.<a href="#section-4.1.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.2.4-2.1">C_R is equal byte-by-byte to the C_I that was specified in EDHOC message_1.<a href="#section-4.2.4-2.1" class="pilcrow">¶</a>
-</li>
-            <li class="normal" id="section-4.2.4-2.2">
-              <p id="section-4.2.4-2.2.1">C_R is a CBOR byte string and it has as value a valid CBOR encoding of an integer value (e.g., C_R is CBOR encoded as 0x4100).<a href="#section-4.2.4-2.2.1" class="pilcrow">¶</a></p>
-<p id="section-4.2.4-2.2.2">
-In fact, this would mean that the Responder has not followed the conversion rule in <a href="#oscore-to-edhoc-id" class="xref">Section 4.1</a> when converting its (to be) OSCORE Recipient ID to C_R.<a href="#section-4.2.4-2.2.2" class="pilcrow">¶</a></p>
+<li class="normal" id="section-4.1.3-2.1">The EDHOC Connection Identifier C_I is equal to the EDHOC Connection Identifier C_R specified in EDHOC message_2 (i.e., after its decoding as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>).<a href="#section-4.1.3-2.1" class="pilcrow">¶</a>
 </li>
           </ul>
 </section>
@@ -1732,67 +1697,157 @@ In fact, this would mean that the Responder has not followed the conversion rule
 <div id="app-statements">
 <section id="section-5">
       <h2 id="name-extension-and-consistency-o">
-<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-extension-and-consistency-o" class="section-name selfRef">Extension and Consistency of Applicability Statement</a>
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-extension-and-consistency-o" class="section-name selfRef">Extension and Consistency of Application Profiles</a>
       </h2>
-<p id="section-5-1">The applicability statement referred by the Client and Server can include the information elements introduced below, in accordance with the specified consistency rules.<a href="#section-5-1" class="pilcrow">¶</a></p>
-<p id="section-5-2">If the Server supports the EDHOC + OSCORE request within an EDHOC execution started at a certain EDHOC resource, then the applicability statement associated with that resource:<a href="#section-5-2" class="pilcrow">¶</a></p>
+<p id="section-5-1">The application profile referred by the Client and Server can include the information elements introduced below, in accordance with the specified consistency rules.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-2">If the Server supports the EDHOC + OSCORE request within an EDHOC execution started at a certain EDHOC resource, then the application profile associated with that resource:<a href="#section-5-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5-3.1">MUST NOT specify that EDHOC message_4 shall be sent.<a href="#section-5-3.1" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="section-5-3.2">SHOULD explicitly specify support for the EDHOC + OSCORE request.<a href="#section-5-3.2" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-5-3.3">
-          <p id="section-5-3.3.1">SHOULD explicitly specify that the method to convert from EDHOC to OSCORE identifiers is the one defined in <a href="#conversion" class="xref">Section 4</a> and MUST NOT specify any other method than that.<a href="#section-5-3.3.1" class="pilcrow">¶</a></p>
-<p id="section-5-3.3.2">
-If the support for the EDHOC + OSCORE request is explicitly specified and the method defined in <a href="#conversion" class="xref">Section 4</a> is not explicitly specified, then the Client and Server MUST use it as conversion method.<a href="#section-5-3.3.2" class="pilcrow">¶</a></p>
+      </ul>
+</section>
+</div>
+<div id="block-wise-performance">
+<section id="section-6">
+      <h2 id="name-considerations-on-using-blo">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-considerations-on-using-blo" class="section-name selfRef">Considerations on Using Block-wise</a>
+      </h2>
+<p id="section-6-1">This section provides guidelines and recommendations for Clients supporting both the EDHOC + OSCORE request defined in this document as well as Block-wise <span>[<a href="#RFC7959" class="xref">RFC7959</a>]</span>.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">The following especially considers a Client that may perform only "inner" Block-wise, but not "outer" Block-wise operations. That is, the considered Client does not (further) split an OSCORE-protected request like an intermediary (e.g., a proxy) might do. This is the typical case for OSCORE endpoints (see <span><a href="https://rfc-editor.org/rfc/rfc8613#section-4.1.3.4" class="relref">Section 4.1.3.4</a> of [<a href="#RFC8613" class="xref">RFC8613</a>]</span>).<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-3">The rest of this section refers to the following notation.<a href="#section-6-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6-4.1">SIZE_APP: the size in bytes of the application data to be included in a CoAP request. When Block-wise is used, this is referred to as the "body" to be fragmented into blocks.<a href="#section-6-4.1" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-6-4.2">SIZE_EDHOC: the size in bytes of EDHOC message_3, if this is sent as part of the EDHOC + OSCORE request. Otherwise, the size of EDHOC message_3 plus the size in bytes of the EDHOC Connection Identifier C_R, represented as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>.<a href="#section-6-4.2" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-6-4.3">SIZE_MTU: the maximum amount of transmittable bytes before having to use Block-wise. This is, for example, 64 KiB as maximum datagram size when using UDP, or 1280 bytes as the maximum size for an IPv6 MTU.<a href="#section-6-4.3" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-6-4.4">SIZE_OH: the size in bytes of the overall overhead due to all the communication layers underlying the application. This takes into account also the overhead introduced by the OSCORE processing.<a href="#section-6-4.4" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-6-4.5">LIMIT = (SIZE_MTU - SIZE_OH): the practical maximum size in bytes to be considered by the application before using Block-wise.<a href="#section-6-4.5" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-6-4.6">SIZE_BLOCK: the size in bytes of inner blocks.<a href="#section-6-4.6" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-6-4.7">ceil(): the ceiling function.<a href="#section-6-4.7" class="pilcrow">¶</a>
 </li>
       </ul>
-<p id="section-5-4">If the Server does not support the EDHOC + OSCORE request within an EDHOC execution started at a certain EDHOC resource, then the applicability statement associated with that resource MAY specify a method to convert from EDHOC to OSCORE identifiers. In such a case, the Client and Server MUST use the specified conversion method, which MAY be the one defined in <a href="#conversion" class="xref">Section 4</a>.<a href="#section-5-4" class="pilcrow">¶</a></p>
+<div id="block-wise-performance-pre-req">
+<section id="section-6.1">
+        <h3 id="name-pre-requirements">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-pre-requirements" class="section-name selfRef">Pre-requirements</a>
+        </h3>
+<p id="section-6.1-1">Before sending an EDHOC + OSCORE request, the Client has to perform the following checks. Note that, while the Client is able to fragment the application data, it cannot fragment the EDHOC + OSCORE request or the EDHOC message_3 added therein.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.1-2.1">
+            <p id="section-6.1-2.1.1">If inner Block-wise is not used, hence SIZE_APP &lt;= LIMIT, the Client must verify whether all the following conditions hold:<a href="#section-6.1-2.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.1-2.1.2.1">COND1: SIZE_EDHOC &lt;= LIMIT<a href="#section-6.1-2.1.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="normal" id="section-6.1-2.1.2.2">COND2: (SIZE_APP + SIZE_EDHOC) &lt;= LIMIT<a href="#section-6.1-2.1.2.2" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-6.1-2.2">
+            <p id="section-6.1-2.2.1">If inner Block-wise is used, the Client must verify whether all the following conditions hold:<a href="#section-6.1-2.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.1-2.2.2.1">COND3: SIZE_EDHOC &lt;= LIMIT<a href="#section-6.1-2.2.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="normal" id="section-6.1-2.2.2.2">COND4: (SIZE_BLOCK + SIZE_EDHOC) &lt;= LIMIT<a href="#section-6.1-2.2.2.2" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+        </ul>
+<p id="section-6.1-3">In either case, if not all the corresponding conditions hold, the Client MUST NOT send the EDHOC + OSCORE request. Instead, the Client can continue by switching to the purely sequential workflow shown in <a href="#fig-non-combined" class="xref">Figure 1</a>. That is, the Client first sends EDHOC message_3 prepended by the EDHOC Connection Identifier C_R represented as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>, and then sends the OSCORE-protected CoAP request once the EDHOC execution is completed.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="effectively-using-block-wise">
+<section id="section-6.2">
+        <h3 id="name-effectively-using-block-wis">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-effectively-using-block-wis" class="section-name selfRef">Effectively Using Block-Wise</a>
+        </h3>
+<p id="section-6.2-1">In order to avoid further fragmentation at lower layers when sending an EDHOC + OSCORE request, the Client has to use inner Block-wise if <em>any</em> of the following conditions holds:<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.2-2.1">COND5: SIZE_APP &gt; LIMIT<a href="#section-6.2-2.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-6.2-2.2">COND6: (SIZE_APP + SIZE_EDHOC) &gt; LIMIT<a href="#section-6.2-2.2" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-6.2-3">In particular, consistently with <a href="#block-wise-performance-pre-req" class="xref">Section 6.1</a>, the used SIZE_BLOCK has to be such that the following condition also holds:<a href="#section-6.2-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.2-4.1">COND7: (SIZE_BLOCK + SIZE_EDHOC) &lt;= LIMIT<a href="#section-6.2-4.1" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-6.2-5">Note that the Client might still use Block-wise due to reasons different from exceeding the size indicated by LIMIT.<a href="#section-6.2-5" class="pilcrow">¶</a></p>
+<p id="section-6.2-6">If <em>both</em> the conditions COND5 and COND6 hold, the use of Block-wise results in the following number of round trips for completing both the EDHOC execution and the first OSCORE-protected exchange.<a href="#section-6.2-6" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.2-7.1">If the original workflow shown in <a href="#fig-non-combined" class="xref">Figure 1</a> is used, the number of round trips RT_ORIG is equal to 1 + ceil(SIZE_EDHOC / SIZE_BLOCK) + ceil(SIZE_APP / SIZE_BLOCK).<a href="#section-6.2-7.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-6.2-7.2">If the optimized workflow shown in <a href="#fig-combined" class="xref">Figure 2</a> is used, the number of round trips RT_COMB is equal to 1 + ceil(SIZE_APP / SIZE_BLOCK).<a href="#section-6.2-7.2" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-6.2-8">It follows that RT_COMB &lt; RT_ORIG, i.e., the optimized workflow always yields a lower number of round trips.<a href="#section-6.2-8" class="pilcrow">¶</a></p>
+<p id="section-6.2-9">Instead, the conveniency of using the optimized workflow becomes questionable if <em>both</em> the following conditions hold:<a href="#section-6.2-9" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.2-10.1">COND8: SIZE_APP &lt;= LIMIT<a href="#section-6.2-10.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-6.2-10.2">COND9: (SIZE_APP + SIZE_EDHOC) &gt; LIMIT<a href="#section-6.2-10.2" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-6.2-11">That is, since SIZE_APP &lt;= LIMIT, using Block-wise would not be required when using the original workflow, provided that SIZE_EDHOC &lt;= LIMIT still holds.<a href="#section-6.2-11" class="pilcrow">¶</a></p>
+<p id="section-6.2-12">At the same time, using the combined workflow is in itself what actually triggers the use of blockwise, since (SIZE_APP + SIZE_EDHOC) &gt; LIMIT.<a href="#section-6.2-12" class="pilcrow">¶</a></p>
+<p id="section-6.2-13">Therefore, the following round trips are experienced by the Client.<a href="#section-6.2-13" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.2-14.1">The original workflow shown in <a href="#fig-non-combined" class="xref">Figure 1</a> and run without using Block-wise results in a number of round trips RT_ORIG equal to 3.<a href="#section-6.2-14.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-6.2-14.2">The optimized workflow shown in <a href="#fig-combined" class="xref">Figure 2</a> and run using Block-wise results in a number of round trips RT_COMB equal to 1 + ceil(SIZE_APP / SIZE_BLOCK).<a href="#section-6.2-14.2" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-6.2-15">It follows that RT_COMB &gt;= RT_ORIG, i.e., the optimized workflow might still be not worse than the original workflow in terms of round trips. This is the case only if the used SIZE_BLOCK is such that ceil(SIZE_APP / SIZE_BLOCK) is equal to 2, i.e., the EDHOC + OSCORE request is fragmented into only 2 inner blocks. However, even in such a case, there would be no advantage in terms or round trips compared to the original workflow, while still requiring the Client and Server to perform the processing due to using the EDHOC + OSCORE request and Block-wise transferring.<a href="#section-6.2-15" class="pilcrow">¶</a></p>
+<p id="section-6.2-16">Therefore, if both the conditions COND8 and COND9 hold, the Client SHOULD NOT send the EDHOC + OSCORE request. Instead, the Client SHOULD continue by switching to the purely sequential workflow shown in <a href="#fig-non-combined" class="xref">Figure 1</a>. That is, the Client first sends EDHOC message_3 prepended by the EDHOC Connection Identifier C_R represented as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>, and then sends the OSCORE-protected CoAP request once the EDHOC execution is completed.<a href="#section-6.2-16" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="web-linking">
-<section id="section-6">
+<section id="section-7">
       <h2 id="name-web-linking">
-<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-web-linking" class="section-name selfRef">Web Linking</a>
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-web-linking" class="section-name selfRef">Web Linking</a>
       </h2>
-<p id="section-6-1"><span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#section-9.13" class="relref">Section 9.13</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span> registers the resource type "core.edhoc", which can be used as target attribute in a web link <span>[<a href="#RFC8288" class="xref">RFC8288</a>]</span> to an EDHOC resource, e.g., using a link-format document <span>[<a href="#RFC6690" class="xref">RFC6690</a>]</span>. This enables Clients to discover the presence of EDHOC resources at a Server, possibly using the resource type as filter criterion.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">At the same time, the applicability statement associated with an EDHOC resource provides a number of information describing how the EDHOC protocol can be used through that resource. While a Client may become aware of the applicability statement through several means, it would be convenient to obtain its information elements upon discovering the EDHOC resources at the Server. This might aim at discovering especially the EDHOC resources whose associated applicability statement denotes a way of using EDHOC which is most suitable to the Client, e.g., with EDHOC cipher suites or authentication methods that the Client also supports or prefers.<a href="#section-6-2" class="pilcrow">¶</a></p>
-<p id="section-6-3">That is, it would be convenient that a Client discovering an EDHOC resource contextually obtains relevant pieces of information from the applicability statement associated with that resource. The resource discovery can occur by means of a direct interaction with the Server, or instead by means of the CoRE Resource Directory <span>[<a href="#I-D.ietf-core-resource-directory" class="xref">I-D.ietf-core-resource-directory</a>]</span>, where the Server may have registered the links to its resources.<a href="#section-6-3" class="pilcrow">¶</a></p>
-<p id="section-6-4">In order to enable the above, this section defines a number of parameters, each of which can be optionally specified as a target attribute with the same name in the link to the respective EDHOC resource, or as filter criteria in a discovery request from the Client. When specifying these parameters in a link to an EDHOC resource, the target attribute rt="core.edhoc" MUST be included, and the same consistency rules defined in <a href="#app-statements" class="xref">Section 5</a> for the corresponding information elements of an applicability statement MUST be followed.<a href="#section-6-4" class="pilcrow">¶</a></p>
-<p id="section-6-5">The following parameters are defined.<a href="#section-6-5" class="pilcrow">¶</a></p>
+<p id="section-7-1"><span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-9.10" class="relref">Section 9.10</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span> registers the resource type "core.edhoc", which can be used as target attribute in a web link <span>[<a href="#RFC8288" class="xref">RFC8288</a>]</span> to an EDHOC resource, e.g., using a link-format document <span>[<a href="#RFC6690" class="xref">RFC6690</a>]</span>. This enables Clients to discover the presence of EDHOC resources at a Server, possibly using the resource type as filter criterion.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-2">At the same time, the application profile associated with an EDHOC resource provides a number of information describing how the EDHOC protocol can be used through that resource. While a Client may become aware of the application profile through several means, it would be convenient to obtain its information elements upon discovering the EDHOC resources at the Server. This might aim at discovering especially the EDHOC resources whose associated application profile denotes a way of using EDHOC which is most suitable to the Client, e.g., with EDHOC cipher suites or authentication methods that the Client also supports or prefers.<a href="#section-7-2" class="pilcrow">¶</a></p>
+<p id="section-7-3">That is, it would be convenient that a Client discovering an EDHOC resource contextually obtains relevant pieces of information from the application profile associated with that resource. The resource discovery can occur by means of a direct interaction with the Server, or instead by means of the CoRE Resource Directory <span>[<a href="#RFC9176" class="xref">RFC9176</a>]</span>, where the Server may have registered the links to its resources.<a href="#section-7-3" class="pilcrow">¶</a></p>
+<p id="section-7-4">In order to enable the above, this section defines a number of parameters, each of which can be optionally specified as a target attribute with the same name in the link to the respective EDHOC resource, or as filter criteria in a discovery request from the Client. When specifying these parameters in a link to an EDHOC resource, the target attribute rt="core.edhoc" MUST be included, and the same consistency rules defined in <a href="#app-statements" class="xref">Section 5</a> for the corresponding information elements of an application profile MUST be followed.<a href="#section-7-4" class="pilcrow">¶</a></p>
+<p id="section-7-5">The following parameters are defined.<a href="#section-7-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6-6.1">'method', specifying an authentication method supported by the Server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Method Type" registry defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#section-9.3" class="relref">Section 9.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>. This parameter MAY occur multiple times, with each occurrence specifying a different authentication method.<a href="#section-6-6.1" class="pilcrow">¶</a>
+<li class="normal" id="section-7-6.1">'method', specifying an authentication method supported by the Server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Method Type" registry defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-9.3" class="relref">Section 9.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>. This parameter MAY occur multiple times, with each occurrence specifying a different authentication method.<a href="#section-7-6.1" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-6-6.2">'csuite', specifying an EDHOC cipher suite supported by the Server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Cipher Suites" registry defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#section-9.2" class="relref">Section 9.2</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>. This parameter MAY occur multiple times, with each occurrence specifying a different cipher suite.<a href="#section-6-6.2" class="pilcrow">¶</a>
+        <li class="normal" id="section-7-6.2">'csuite', specifying an EDHOC cipher suite supported by the Server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Cipher Suites" registry defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-9.2" class="relref">Section 9.2</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>. This parameter MAY occur multiple times, with each occurrence specifying a different cipher suite.<a href="#section-7-6.2" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-6-6.3">'cred_t', specifying a type of authentication credential supported by the Server. This parameter MAY occur multiple times, with each occurrence specifying a different authentication credential type. Possible values are: "x509", for X.509 certificate <span>[<a href="#RFC5280" class="xref">RFC5280</a>]</span>; "c509", for C509 certificate <span>[<a href="#I-D.ietf-cose-cbor-encoded-cert" class="xref">I-D.ietf-cose-cbor-encoded-cert</a>]</span>; "cwt" for CWT <span>[<a href="#RFC8392" class="xref">RFC8392</a>]</span>; "ccs" for CWT Claims Set (CCS) <span>[<a href="#RFC8392" class="xref">RFC8392</a>]</span>.<a href="#section-6-6.3" class="pilcrow">¶</a>
+        <li class="normal" id="section-7-6.3">'cred_t', specifying a type of authentication credential supported by the Server. This parameter MAY occur multiple times, with each occurrence specifying a different authentication credential type. Possible values are: "x509", for X.509 certificate <span>[<a href="#RFC5280" class="xref">RFC5280</a>]</span>; "c509", for C509 certificate <span>[<a href="#I-D.ietf-cose-cbor-encoded-cert" class="xref">I-D.ietf-cose-cbor-encoded-cert</a>]</span>; "cwt" for CWT <span>[<a href="#RFC8392" class="xref">RFC8392</a>]</span>; "ccs" for CWT Claims Set (CCS) <span>[<a href="#RFC8392" class="xref">RFC8392</a>]</span>.<a href="#section-7-6.3" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-6-6.4">
-          <p id="section-6-6.4.1">'idcred_t', specifying the type of identifiers supported by the Server for identifying authentication credentials. This parameter MUST specify a single value, which is taken from the 'Label' column of the "COSE Headers Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="xref">COSE.Header.Parameters</a>]</span>. This parameter MAY occur multiple times, with each occurrence specifying a different type of identifier for authentication credentials.<a href="#section-6-6.4.1" class="pilcrow">¶</a></p>
-<p id="section-6-6.4.2">
-Note that the values in the 'Label' column of the "COSE Headers Parameters" registry are strongly typed. On the contrary, Link Format is weakly typed and thus does not distinguish between, for instance, the string value "-10" and the integer value -10. Thus, if responses in Link Format are returned, string values which look like an integer are not supported. Therefore, such values MUST NOT be used in the 'idcred_t' parameter.<a href="#section-6-6.4.2" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-7-6.4">
+          <p id="section-7-6.4.1">'idcred_t', specifying the type of identifiers supported by the Server for identifying authentication credentials. This parameter MUST specify a single value, which is taken from the 'Label' column of the "COSE Headers Parameters" registry <span>[<a href="#COSE.Header.Parameters" class="xref">COSE.Header.Parameters</a>]</span>. This parameter MAY occur multiple times, with each occurrence specifying a different type of identifier for authentication credentials.<a href="#section-7-6.4.1" class="pilcrow">¶</a></p>
+<p id="section-7-6.4.2">
+Note that the values in the 'Label' column of the "COSE Headers Parameters" registry are strongly typed. On the contrary, Link Format is weakly typed and thus does not distinguish between, for instance, the string value "-10" and the integer value -10. Thus, if responses in Link Format are returned, string values which look like an integer are not supported. Therefore, such values MUST NOT be used in the 'idcred_t' parameter.<a href="#section-7-6.4.2" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-6-6.5">
-          <p id="section-6-6.5.1">'ead_1', 'ead_2', 'ead_3' and 'ead_4', specifying, if present, that the Server supports the use of External Authorization Data EAD_1, EAD_2, EAD_3 and EAD_4, respectively (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#section-3.8" class="relref">Section 3.8</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>). For each of these parameters, the following applies.<a href="#section-6-6.5.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-7-6.5">
+          <p id="section-7-6.5.1">'ead_1', 'ead_2', 'ead_3' and 'ead_4', specifying, if present, that the Server supports the use of External Authorization Data EAD_1, EAD_2, EAD_3 and EAD_4, respectively (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-3.8" class="relref">Section 3.8</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>). For each of these parameters, the following applies.<a href="#section-7-6.5.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6-6.5.2.1">It MUST occur at most once, with its presence denoting support from the server for the respective external authorization data.<a href="#section-6-6.5.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-7-6.5.2.1">It MAY occur multiple times, with its presence denoting support from the server for the respective external authorization data.<a href="#section-7-6.5.2.1" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-6-6.5.2.2">It MUST specify a single value, which is taken from the 'Label' column of the "EDHOC External Authorization Data" registry defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12#section-9.5" class="relref">Section 9.5</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>.<a href="#section-6-6.5.2.2" class="pilcrow">¶</a>
+            <li class="normal" id="section-7-6.5.2.2">Each occurrence specifies a value taken from the 'Label' column of the "EDHOC External Authorization Data" registry defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-9.5" class="relref">Section 9.5</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>, thus denoting support from the server for that particular type of external authorization data.<a href="#section-7-6.5.2.2" class="pilcrow">¶</a>
 </li>
           </ul>
 </li>
-        <li class="normal" id="section-6-6.6">'comb_req', specifying, if present, that the server supports the EDHOC + OSCORE request defined in <a href="#edhoc-in-oscore" class="xref">Section 3</a>. A value MUST NOT be given to this parameter and any present value MUST be ignored by parsers.<a href="#section-6-6.6" class="pilcrow">¶</a>
-</li>
-        <li class="normal" id="section-6-6.7">
-          <p id="section-6-6.7.1">'osc_id_conv', specifying, if present, that the method to convert from OSCORE to EDHOC identifiers defined in <a href="#conversion" class="xref">Section 4</a> is used. A value MUST NOT be given to this parameter and any present value MUST be ignored by parsers.<a href="#section-6-6.7.1" class="pilcrow">¶</a></p>
-<p id="section-6-6.7.2">
-The absence of this parameter does not mean that the method defined in <a href="#conversion" class="xref">Section 4</a> is not used. Also, consistently with <a href="#app-statements" class="xref">Section 5</a>, the presence of the 'comb_req' parameter implies the use of the method defined in <a href="#conversion" class="xref">Section 4</a>, and thus makes the additional presence of the 'osc_id_conv' parameter unnecessary.<a href="#section-6-6.7.2" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-7-6.6">'comb_req', specifying, if present, that the server supports the EDHOC + OSCORE request defined in <a href="#edhoc-in-oscore" class="xref">Section 3</a>. A value MUST NOT be given to this parameter and any present value MUST be ignored by parsers.<a href="#section-7-6.6" class="pilcrow">¶</a>
 </li>
       </ul>
-<p id="section-6-7">The example in <a href="#fig-web-link-example" class="xref">Figure 6</a> shows how a Client discovers two EDHOC resources at a Server, obtaining information elements from the respective applicability statements. The Link Format notation from <span><a href="https://rfc-editor.org/rfc/rfc6690#section-5" class="relref">Section 5</a> of [<a href="#RFC6690" class="xref">RFC6690</a>]</span> is used.<a href="#section-6-7" class="pilcrow">¶</a></p>
+<p id="section-7-7">The example in <a href="#fig-web-link-example" class="xref">Figure 6</a> shows how a Client discovers two EDHOC resources at a Server, obtaining information elements from the respective application profiles. The Link Format notation from <span><a href="https://rfc-editor.org/rfc/rfc6690#section-5" class="relref">Section 5</a> of [<a href="#RFC6690" class="xref">RFC6690</a>]</span> is used.<a href="#section-7-7" class="pilcrow">¶</a></p>
 <span id="name-the-web-link"></span><div id="fig-web-link-example">
 <figure id="figure-6">
-        <div class="alignCenter art-text artwork" id="section-6-8.1">
+        <div class="alignCenter art-text artwork" id="section-7-8.1">
 <pre>
 REQ: GET /.well-known/core
 
@@ -1802,7 +1857,7 @@ RES: 2.05 Content
     &lt;/edhoc/resA&gt;;rt="core.edhoc";csuite="0";csuite="2";method="0";
     cred_t="c509";cred_t="ccs";idcred_t="4";comb_req,
     &lt;/edhoc/resB&gt;;rt="core.edhoc";csuite="0";csuite="2";method="0";
-    method="3";cred_t="c509";cred_t="x509";idcred_t="34";osc_id_conv
+    method="3";cred_t="c509";cred_t="x509";idcred_t="34"
 </pre>
 </div>
 <figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
@@ -1812,71 +1867,69 @@ RES: 2.05 Content
 </section>
 </div>
 <div id="security-considerations">
-<section id="section-7">
+<section id="section-8">
       <h2 id="name-security-considerations">
-<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-7-1">The same security considerations from OSCORE <span>[<a href="#RFC8613" class="xref">RFC8613</a>]</span> and EDHOC <span>[<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span> hold for this document.<a href="#section-7-1" class="pilcrow">¶</a></p>
-<p id="section-7-2">TODO: more considerations<a href="#section-7-2" class="pilcrow">¶</a></p>
+<p id="section-8-1">The same security considerations from OSCORE <span>[<a href="#RFC8613" class="xref">RFC8613</a>]</span> and EDHOC <span>[<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span> hold for this document. In addition, the following considerations also apply.<a href="#section-8-1" class="pilcrow">¶</a></p>
+<p id="section-8-2"><a href="#client-processing" class="xref">Section 3.2</a> defines that a Client SHOULD NOT have multiple outstanding EDHOC + OSCORE requests pertaining to the same EDHOC session. Even if a Client did not fulfill this requirement, it would not have any impact in terms of security. That is, the Server would still not process different instances of the same EDHOC message_3 more than once in the same EDHOC session (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15#section-5.1" class="relref">Section 5.1</a> of [<a href="#I-D.ietf-lake-edhoc" class="xref">I-D.ietf-lake-edhoc</a>]</span>), and would still enforce replay protection of the OSCORE-protected request (see <span><a href="https://rfc-editor.org/rfc/rfc8613#section-7.4" class="relref">Section 7.4</a> of [<a href="#RFC8613" class="xref">RFC8613</a>]</span>).<a href="#section-8-2" class="pilcrow">¶</a></p>
+<p id="section-8-3">TODO: more considerations<a href="#section-8-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana-considerations">
-<section id="section-8">
+<section id="section-9">
       <h2 id="name-iana-considerations">
-<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-8-1">RFC Editor: Please replace "[[this document]]" with the RFC number of this document and delete this paragraph.<a href="#section-8-1" class="pilcrow">¶</a></p>
-<p id="section-8-2">This document has the following actions for IANA.<a href="#section-8-2" class="pilcrow">¶</a></p>
+<p id="section-9-1">This document has the following actions for IANA.<a href="#section-9-1" class="pilcrow">¶</a></p>
+<p id="section-9-2">Note to RFC Editor: Please replace all occurrences of "[RFC-XXXX]" with
+the RFC number of this specification and delete this paragraph.<a href="#section-9-2" class="pilcrow">¶</a></p>
 <div id="iana-coap-options">
-<section id="section-8.1">
+<section id="section-9.1">
         <h3 id="name-coap-option-numbers-registr">
-<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-coap-option-numbers-registr" class="section-name selfRef">CoAP Option Numbers Registry</a>
+<a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-coap-option-numbers-registr" class="section-name selfRef">CoAP Option Numbers Registry</a>
         </h3>
-<p id="section-8.1-1">IANA is asked to enter the following option number to the "CoAP Option Numbers" registry within the "CoRE Parameters" registry group.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
-<p id="section-8.1-2">[<a href="#section-8.1-2" class="pilcrow">¶</a></p>
-<p id="section-8.1-3">The CoAP option numbers 13 and 21 are both consistent with the properties of the EDHOC Option defined in <a href="#edhoc-option" class="xref">Section 3.1</a>, and they both allow the EDHOC Option to always result in an overall size of 1 byte. This is because:<a href="#section-8.1-3" class="pilcrow">¶</a></p>
+<p id="section-9.1-1">IANA is asked to enter the following option number to the "CoAP Option Numbers" registry within the "CoRE Parameters" registry group.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
+<p id="section-9.1-2">[<a href="#section-9.1-2" class="pilcrow">¶</a></p>
+<p id="section-9.1-3">The CoAP option numbers 13 and 21 are both consistent with the properties of the EDHOC Option defined in <a href="#edhoc-option" class="xref">Section 3.1</a>, and they both allow the EDHOC Option to always result in an overall size of 1 byte. This is because:<a href="#section-9.1-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8.1-4.1">The EDHOC option is always empty, i.e., with zero-length value; and<a href="#section-8.1-4.1" class="pilcrow">¶</a>
+<li class="normal" id="section-9.1-4.1">The EDHOC option is always empty, i.e., with zero-length value; and<a href="#section-9.1-4.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.1-4.2">Since the OSCORE option with option number 9 is always present in the CoAP request, the EDHOC option would be encoded with a maximum delta of 4 or 12, depending on its option number being 13 or 21.<a href="#section-8.1-4.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-9.1-4.2">Since the OSCORE option with option number 9 is always present in the CoAP request, the EDHOC option would be encoded with a maximum delta of 4 or 12, depending on its option number being 13 or 21.<a href="#section-9.1-4.2" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-8.1-5">At the time of writing, the CoAP option numbers 13 and 21 are both unassigned in the "CoAP Option Numbers" registry, as first available and consistent option numbers for the EDHOC option.<a href="#section-8.1-5" class="pilcrow">¶</a></p>
-<p id="section-8.1-6">This document suggests 21 (TBD21) as option number to be assigned to the new EDHOC option, since both 13 and 21 are consistent for the use case in question, but different use cases or protocols may make better use of the option number 13.<a href="#section-8.1-6" class="pilcrow">¶</a></p>
-<p id="section-8.1-7">]<a href="#section-8.1-7" class="pilcrow">¶</a></p>
-<div class="alignCenter art-text artwork" id="section-8.1-8">
+<p id="section-9.1-5">At the time of writing, the CoAP option numbers 13 and 21 are both unassigned in the "CoAP Option Numbers" registry, as first available and consistent option numbers for the EDHOC option.<a href="#section-9.1-5" class="pilcrow">¶</a></p>
+<p id="section-9.1-6">This document suggests 21 (TBD21) as option number to be assigned to the new EDHOC option, since both 13 and 21 are consistent for the use case in question, but different use cases or protocols may make better use of the option number 13.<a href="#section-9.1-6" class="pilcrow">¶</a></p>
+<p id="section-9.1-7">]<a href="#section-9.1-7" class="pilcrow">¶</a></p>
+<div class="alignCenter art-text artwork" id="section-9.1-8">
 <pre>
-+--------+-------+-------------------+
-| Number | Name  | Reference         |
-+--------+-------+-------------------+
-| TBD21  | EDHOC | [[this document]] |
-+--------+-------+-------------------+
-</pre><a href="#section-8.1-8" class="pilcrow">¶</a>
++--------+-------+------------+
+| Number | Name  | Reference  |
++--------+-------+------------+
+| TBD21  | EDHOC | [RFC-XXXX] |
++--------+-------+------------+
+</pre><a href="#section-9.1-8" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
 </section>
 </div>
-<section id="section-9">
+<section id="section-10">
       <h2 id="name-references">
-<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-references" class="section-name selfRef">References</a>
+<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-references" class="section-name selfRef">References</a>
       </h2>
-<section id="section-9.1">
+<section id="section-10.1">
         <h3 id="name-normative-references">
-<a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+<a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
 <dt id="COSE.Header.Parameters">[COSE.Header.Parameters]</dt>
         <dd>
 <span class="refAuthor">IANA</span>, <span class="refTitle">"COSE Header Parameters"</span>, <span>&lt;<a href="https://www.iana.org/assignments/cose/cose.xhtml#header-parameters">https://www.iana.org/assignments/cose/cose.xhtml#header-parameters</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="I-D.ietf-core-resource-directory">[I-D.ietf-core-resource-directory]</dt>
-        <dd>
-<span class="refAuthor">Amsüss, C.</span>, <span class="refAuthor">Shelby, Z.</span>, <span class="refAuthor">Koster, M.</span>, <span class="refAuthor">Bormann, C.</span>, and <span class="refAuthor">P. V. D. Stok</span>, <span class="refTitle">"CoRE Resource Directory"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-resource-directory-28</span>, <time datetime="2021-03-07" class="refDate">7 March 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-resource-directory-28">https://datatracker.ietf.org/doc/html/draft-ietf-core-resource-directory-28</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="I-D.ietf-lake-edhoc">[I-D.ietf-lake-edhoc]</dt>
         <dd>
-<span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Mattsson, J. P.</span>, and <span class="refAuthor">F. Palombini</span>, <span class="refTitle">"Ephemeral Diffie-Hellman Over COSE (EDHOC)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lake-edhoc-12</span>, <time datetime="2021-10-20" class="refDate">20 October 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12">https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-12</a>&gt;</span>. </dd>
+<span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Mattsson, J. P.</span>, and <span class="refAuthor">F. Palombini</span>, <span class="refTitle">"Ephemeral Diffie-Hellman Over COSE (EDHOC)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-lake-edhoc-15</span>, <time datetime="2022-07-10" class="refDate">10 July 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15">https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-15</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
@@ -1911,19 +1964,23 @@ RES: 2.05 Content
 <span class="refAuthor">Bormann, C.</span>, <span class="refTitle">"Concise Binary Object Representation (CBOR) Sequences"</span>, <span class="seriesInfo">RFC 8742</span>, <span class="seriesInfo">DOI 10.17487/RFC8742</span>, <time datetime="2020-02" class="refDate">February 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8742">https://www.rfc-editor.org/rfc/rfc8742</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8949">[RFC8949]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Bormann, C.</span> and <span class="refAuthor">P. Hoffman</span>, <span class="refTitle">"Concise Binary Object Representation (CBOR)"</span>, <span class="seriesInfo">STD 94</span>, <span class="seriesInfo">RFC 8949</span>, <span class="seriesInfo">DOI 10.17487/RFC8949</span>, <time datetime="2020-12" class="refDate">December 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8949">https://www.rfc-editor.org/rfc/rfc8949</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9176">[RFC9176]</dt>
+      <dd>
+<span class="refAuthor">Amsüss, C., Ed.</span>, <span class="refAuthor">Shelby, Z.</span>, <span class="refAuthor">Koster, M.</span>, <span class="refAuthor">Bormann, C.</span>, and <span class="refAuthor">P. van der Stok</span>, <span class="refTitle">"Constrained RESTful Environments (CoRE) Resource Directory"</span>, <span class="seriesInfo">RFC 9176</span>, <span class="seriesInfo">DOI 10.17487/RFC9176</span>, <time datetime="2022-04" class="refDate">April 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9176">https://www.rfc-editor.org/rfc/rfc9176</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
-<section id="section-9.2">
+<section id="section-10.2">
         <h3 id="name-informative-references">
-<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+<a href="#section-10.2" class="section-number selfRef">10.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
 <dt id="I-D.ietf-cose-cbor-encoded-cert">[I-D.ietf-cose-cbor-encoded-cert]</dt>
         <dd>
-<span class="refAuthor">Mattsson, J. P.</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Raza, S.</span>, <span class="refAuthor">Höglund, J.</span>, and <span class="refAuthor">M. Furuhed</span>, <span class="refTitle">"CBOR Encoded X.509 Certificates (C509 Certificates)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cose-cbor-encoded-cert-03</span>, <time datetime="2022-01-10" class="refDate">10 January 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cose-cbor-encoded-cert-03">https://datatracker.ietf.org/doc/html/draft-ietf-cose-cbor-encoded-cert-03</a>&gt;</span>. </dd>
+<span class="refAuthor">Mattsson, J. P.</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Raza, S.</span>, <span class="refAuthor">Höglund, J.</span>, and <span class="refAuthor">M. Furuhed</span>, <span class="refTitle">"CBOR Encoded X.509 Certificates (C509 Certificates)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cose-cbor-encoded-cert-04</span>, <time datetime="2022-07-10" class="refDate">10 July 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cose-cbor-encoded-cert-04">https://datatracker.ietf.org/doc/html/draft-ietf-cose-cbor-encoded-cert-04</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC5280">[RFC5280]</dt>
         <dd>
@@ -1936,108 +1993,102 @@ RES: 2.05 Content
 </dl>
 </section>
 </section>
-<div id="sec-cbor-numeric-check">
-<section id="appendix-A">
-      <h2 id="name-checking-cbor-encoding-of-n">
-<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-checking-cbor-encoding-of-n" class="section-name selfRef">Checking CBOR Encoding of Numeric Values</a>
-      </h2>
-<p id="appendix-A-1">A binary string of N bytes in size is a valid CBOR encoding of an integer value if and only if both the following conditions hold, with reference to the table below.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="appendix-A-2.1">The size N is one of the values specified in the "Size" column.<a href="#appendix-A-2.1" class="pilcrow">¶</a>
-</li>
-        <li class="normal" id="appendix-A-2.2">The first byte of the binary string is equal to one of the byte values specified in the "First byte" column, exactly for the row having N as value of the "Size" column.<a href="#appendix-A-2.2" class="pilcrow">¶</a>
-</li>
-      </ul>
-<div class="alignCenter art-text artwork" id="appendix-A-3">
-<pre>
-+------+-----------------------+
-| Size | First byte            |
-+------+-----------------------+
-| 1    | 0x00-0x17 , 0x20-0x37 |
-+------+-----------------------+
-| 2    | 0x18 , 0x38           |
-+------+-----------------------+
-| 3    | 0x19 , 0x39           |
-+------+-----------------------+
-| 5    | 0x1A , 0x3A           |
-+------+-----------------------+
-| 9    | 0x1B , 0x3B           |
-+------+-----------------------+
-</pre><a href="#appendix-A-3" class="pilcrow">¶</a>
-</div>
-</section>
-</div>
 <div id="sec-document-updates">
-<section id="appendix-B">
+<section id="appendix-A">
       <h2 id="name-document-updates">
-<a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-document-updates" class="section-name selfRef">Document Updates</a>
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-document-updates" class="section-name selfRef">Document Updates</a>
       </h2>
-<p id="appendix-B-1">RFC Editor: Please remove this section.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
-<div id="sec-02-03">
-<section id="appendix-B.1">
-        <h3 id="name-version-02-to-03">
-<a href="#appendix-B.1" class="section-number selfRef">B.1. </a><a href="#name-version-02-to-03" class="section-name selfRef">Version -02 to -03</a>
+<p id="appendix-A-1">RFC Editor: Please remove this section.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<div id="sec-03-04">
+<section id="appendix-A.1">
+        <h3 id="name-version-03-to-04">
+<a href="#appendix-A.1" class="section-number selfRef">A.1. </a><a href="#name-version-03-to-04" class="section-name selfRef">Version -03 to -04</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-B.1-1.1">Clarifications on transporting EDHOC message_3 in the CoAP payload.<a href="#appendix-B.1-1.1" class="pilcrow">¶</a>
+<li class="normal" id="appendix-A.1-1.1">Renamed "applicability statement" to "application profile".<a href="#appendix-A.1-1.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="appendix-B.1-1.2">At most one simultaneous outstanding interaction as an EDHOC + OSCORE request with the same server for the same session with connection identifier C_R.<a href="#appendix-B.1-1.2" class="pilcrow">¶</a>
+          <li class="normal" id="appendix-A.1-1.2">Use the latest Content-Formats.<a href="#appendix-A.1-1.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="appendix-B.1-1.3">The EDHOC option is removed from the EDHOC + OSCORE request after processing the EDHOC data.<a href="#appendix-B.1-1.3" class="pilcrow">¶</a>
+          <li class="normal" id="appendix-A.1-1.3">Use of SHOULD NOT for multiple simultaneous outstanding interactions.<a href="#appendix-A.1-1.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="appendix-B.1-1.4">Added explicit constraints when selecting a Recipient ID as C_X.<a href="#appendix-B.1-1.4" class="pilcrow">¶</a>
+          <li class="normal" id="appendix-A.1-1.4">No more special conversion from OSCORE ID to EDHOC ID.<a href="#appendix-A.1-1.4" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="appendix-B.1-1.5">Added processing steps for when Block-wise is used.<a href="#appendix-B.1-1.5" class="pilcrow">¶</a>
+          <li class="normal" id="appendix-A.1-1.5">Considerations on using Block-wise.<a href="#appendix-A.1-1.5" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="appendix-B.1-1.6">Improved error handling on the Server.<a href="#appendix-B.1-1.6" class="pilcrow">¶</a>
+          <li class="normal" id="appendix-A.1-1.6">Wed Linking signaling of multiple supported EAD labels.<a href="#appendix-A.1-1.6" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="appendix-B.1-1.7">Improved section on Web Linking.<a href="#appendix-B.1-1.7" class="pilcrow">¶</a>
+          <li class="normal" id="appendix-A.1-1.7">Added security considerations.<a href="#appendix-A.1-1.7" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="appendix-B.1-1.8">Updated figures; editorial improvements.<a href="#appendix-B.1-1.8" class="pilcrow">¶</a>
+          <li class="normal" id="appendix-A.1-1.8">Editorial improvements.<a href="#appendix-A.1-1.8" class="pilcrow">¶</a>
+</li>
+        </ul>
+</section>
+</div>
+<div id="sec-02-03">
+<section id="appendix-A.2">
+        <h3 id="name-version-02-to-03">
+<a href="#appendix-A.2" class="section-number selfRef">A.2. </a><a href="#name-version-02-to-03" class="section-name selfRef">Version -02 to -03</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="appendix-A.2-1.1">Clarifications on transporting EDHOC message_3 in the CoAP payload.<a href="#appendix-A.2-1.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-A.2-1.2">At most one simultaneous outstanding interaction as an EDHOC + OSCORE request with the same server for the same session with connection identifier C_R.<a href="#appendix-A.2-1.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-A.2-1.3">The EDHOC option is removed from the EDHOC + OSCORE request after processing the EDHOC data.<a href="#appendix-A.2-1.3" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-A.2-1.4">Added explicit constraints when selecting a Recipient ID as C_X.<a href="#appendix-A.2-1.4" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-A.2-1.5">Added processing steps for when Block-wise is used.<a href="#appendix-A.2-1.5" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-A.2-1.6">Improved error handling on the Server.<a href="#appendix-A.2-1.6" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-A.2-1.7">Improved section on Web Linking.<a href="#appendix-A.2-1.7" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-A.2-1.8">Updated figures; editorial improvements.<a href="#appendix-A.2-1.8" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-01-02">
-<section id="appendix-B.2">
+<section id="appendix-A.3">
         <h3 id="name-version-01-to-02">
-<a href="#appendix-B.2" class="section-number selfRef">B.2. </a><a href="#name-version-01-to-02" class="section-name selfRef">Version -01 to -02</a>
+<a href="#appendix-A.3" class="section-number selfRef">A.3. </a><a href="#name-version-01-to-02" class="section-name selfRef">Version -01 to -02</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-B.2-1.1">New title, abstract and introduction.<a href="#appendix-B.2-1.1" class="pilcrow">¶</a>
+<li class="normal" id="appendix-A.3-1.1">New title, abstract and introduction.<a href="#appendix-A.3-1.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="appendix-B.2-1.2">Restructured table of content.<a href="#appendix-B.2-1.2" class="pilcrow">¶</a>
+          <li class="normal" id="appendix-A.3-1.2">Restructured table of content.<a href="#appendix-A.3-1.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="appendix-B.2-1.3">Alignment with latest format of EDHOC messages.<a href="#appendix-B.2-1.3" class="pilcrow">¶</a>
+          <li class="normal" id="appendix-A.3-1.3">Alignment with latest format of EDHOC messages.<a href="#appendix-A.3-1.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="appendix-B.2-1.4">Guideline on ID conversions based on applicability statement.<a href="#appendix-B.2-1.4" class="pilcrow">¶</a>
+          <li class="normal" id="appendix-A.3-1.4">Guideline on ID conversions based on application profile.<a href="#appendix-A.3-1.4" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="appendix-B.2-1.5">Clarifications, extension and consistency on applicability statement.<a href="#appendix-B.2-1.5" class="pilcrow">¶</a>
+          <li class="normal" id="appendix-A.3-1.5">Clarifications, extension and consistency on application profile.<a href="#appendix-A.3-1.5" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="appendix-B.2-1.6">Section on web-linking.<a href="#appendix-B.2-1.6" class="pilcrow">¶</a>
+          <li class="normal" id="appendix-A.3-1.6">Section on web-linking.<a href="#appendix-A.3-1.6" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="appendix-B.2-1.7">RFC8126 terminology in IANA considerations.<a href="#appendix-B.2-1.7" class="pilcrow">¶</a>
+          <li class="normal" id="appendix-A.3-1.7">RFC8126 terminology in IANA considerations.<a href="#appendix-A.3-1.7" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="appendix-B.2-1.8">Revised Appendix "Checking CBOR Encoding of Numeric Values".<a href="#appendix-B.2-1.8" class="pilcrow">¶</a>
+          <li class="normal" id="appendix-A.3-1.8">Revised Appendix "Checking CBOR Encoding of Numeric Values".<a href="#appendix-A.3-1.8" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-00-01">
-<section id="appendix-B.3">
+<section id="appendix-A.4">
         <h3 id="name-version-00-to-01">
-<a href="#appendix-B.3" class="section-number selfRef">B.3. </a><a href="#name-version-00-to-01" class="section-name selfRef">Version -00 to -01</a>
+<a href="#appendix-A.4" class="section-number selfRef">A.4. </a><a href="#name-version-00-to-01" class="section-name selfRef">Version -00 to -01</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-B.3-1.1">Improved background overview of EDHOC.<a href="#appendix-B.3-1.1" class="pilcrow">¶</a>
+<li class="normal" id="appendix-A.4-1.1">Improved background overview of EDHOC.<a href="#appendix-A.4-1.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="appendix-B.3-1.2">Added explicit rules for converting OSCORE Sender/Recipient IDs to EDHOC connection identifiers following the removal of bstr_identifier from EDHOC.<a href="#appendix-B.3-1.2" class="pilcrow">¶</a>
+          <li class="normal" id="appendix-A.4-1.2">Added explicit rules for converting OSCORE Sender/Recipient IDs to EDHOC connection identifiers following the removal of bstr_identifier from EDHOC.<a href="#appendix-A.4-1.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="appendix-B.3-1.3">Revised section organization.<a href="#appendix-B.3-1.3" class="pilcrow">¶</a>
+          <li class="normal" id="appendix-A.4-1.3">Revised section organization.<a href="#appendix-A.4-1.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="appendix-B.3-1.4">Recommended number for EDHOC option changed to 21.<a href="#appendix-B.3-1.4" class="pilcrow">¶</a>
+          <li class="normal" id="appendix-A.4-1.4">Recommended number for EDHOC option changed to 21.<a href="#appendix-A.4-1.4" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="appendix-B.3-1.5">Editorial improvements.<a href="#appendix-B.3-1.5" class="pilcrow">¶</a>
+          <li class="normal" id="appendix-A.4-1.5">Editorial improvements.<a href="#appendix-A.4-1.5" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -2045,16 +2096,16 @@ RES: 2.05 Content
 </section>
 </div>
 <div id="acknowledgments">
-<section id="appendix-C">
+<section id="appendix-B">
       <h2 id="name-acknowledgments">
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
-<p id="appendix-C-1">The authors sincerely thank Christian Amsuess, Esko Dijk, Klaus Hartke, Jim Schaad and Malisa Vucinic for their feedback and comments.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
-<p id="appendix-C-2">The work on this document has been partly supported by VINNOVA and the Celtic-Next project CRITISEC; and by the H2020 project SIFIS-Home (Grant agreement 952652).<a href="#appendix-C-2" class="pilcrow">¶</a></p>
+<p id="appendix-B-1">The authors sincerely thank <span class="contact-name">Christian Amsüss</span>, <span class="contact-name">Esko Dijk</span>, <span class="contact-name">Klaus Hartke</span>, <span class="contact-name">Jim Schaad</span> and <span class="contact-name">Mališa Vučinić</span> for their feedback and comments.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-B-2">The work on this document has been partly supported by VINNOVA and the Celtic-Next project CRITISEC; and by the H2020 project SIFIS-Home (Grant agreement 952652).<a href="#appendix-B-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">
-<section id="appendix-D">
+<section id="appendix-C">
       <h2 id="name-authors-addresses">
 <a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
