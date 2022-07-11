@@ -1013,11 +1013,11 @@ Table of Contents
 
    ]
 
-                  +--------+-------+-------------------+
-                  | Number | Name  | Reference         |
-                  +--------+-------+-------------------+
-                  | TBD21  | EDHOC | [RFC-XXXX]        |
-                  +--------+-------+-------------------+
+                      +--------+-------+------------+
+                      | Number | Name  | Reference  |
+                      +--------+-------+------------+
+                      | TBD21  | EDHOC | [RFC-XXXX] |
+                      +--------+-------+------------+
 
 10.  References
 
@@ -1181,7 +1181,7 @@ A.4.  Version -00 to -01
 Acknowledgments
 
    The authors sincerely thank Christian Amsuess, Esko Dijk, Klaus
-   Hartke, Jim Schaad and Malisa Vucinic for their feedback and
+   Hartke, Jim Schaad and Mališa Vučinić for their feedback and
    comments.
 
    The work on this document has been partly supported by VINNOVA and
