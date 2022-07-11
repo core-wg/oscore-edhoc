@@ -290,7 +290,7 @@ The Client takes the additional following step between steps 2 and 3 of {{client
 
 The Client takes the additional following step between steps 3 and 4 of {{client-processing}}.
 
-   B. If the size of the built CBOR sequence exceeds MAX_UNFRAGMENTED_SIZE (see {{Section 4.1.3.4.2 of RFC8613}}), the Client MUST stop processing the request and MUST abort the Block-wise tranfer. Then, the Client can continue by switching to the purely sequential workflow shown in {{fig-non-combined}}. That is, the Client first sends EDHOC message_3 prepended by the EDHOC Connection Identifier C_R represented as per {{Section 3.3 of I-D.ietf-lake-edhoc}}, and then sends the OSCORE-protected CoAP request once the EDHOC execution is completed.
+   B. If the size of the built CBOR sequence exceeds MAX_UNFRAGMENTED_SIZE (see {{Section 4.1.3.4.2 of RFC8613}}), the Client MUST stop processing the request and MUST abort the Block-wise transfer. Then, the Client can continue by switching to the purely sequential workflow shown in {{fig-non-combined}}. That is, the Client first sends EDHOC message_3 prepended by the EDHOC Connection Identifier C_R represented as per {{Section 3.3 of I-D.ietf-lake-edhoc}}, and then sends the OSCORE-protected CoAP request once the EDHOC execution is completed.
 
 Further considerations about the use of Block-wise together with the EDHOC + OSCORE request are provided in {{block-wise-performance}}.
 
@@ -438,13 +438,13 @@ If the Server supports the EDHOC + OSCORE request within an EDHOC execution star
 
 This section provides guidelines and recommendations for Clients supporting both the EDHOC + OSCORE request defined in this document as well as Block-wise {{RFC7959}}.
 
-The following especially considers a Client that may perform only "inner" Block-wise, but not "outer" Block-wise operations. That is, the considered Client does not (further) split an OSCORE-protected request like an intermediary (e.g., a proxy) might do. This is the typical case for OSCORE endpoints (see Section 4.1.3.4 of {{RFC8613}}).
+The following especially considers a Client that may perform only "inner" Block-wise, but not "outer" Block-wise operations. That is, the considered Client does not (further) split an OSCORE-protected request like an intermediary (e.g., a proxy) might do. This is the typical case for OSCORE endpoints (see {{Section 4.1.3.4 of RFC8613}}).
 
 The rest of this section refers to the following notation.
 
 * SIZE\_APP: the size in bytes of the application data to be included in a CoAP request. When Block-wise is used, this is referred to as the "body" to be fragmented into blocks.
 
-* SIZE\_EDHOC: the size in bytes of EDHOC message_3, if this is sent as part of the EDHOC + OSCORE request. Otherwise, the size of EDHOC message_3 plus the size in bytes of the EDHOC Connection Identifier C_R, represented as as per {{Section 3.3 of I-D.ietf-lake-edhoc}}.
+* SIZE\_EDHOC: the size in bytes of EDHOC message_3, if this is sent as part of the EDHOC + OSCORE request. Otherwise, the size of EDHOC message_3 plus the size in bytes of the EDHOC Connection Identifier C_R, represented as per {{Section 3.3 of I-D.ietf-lake-edhoc}}.
 
 * SIZE\_MTU: the maximum amount of transmittable bytes before having to use Block-wise. This is, for example, 64 KiB as maximum datagram size when using UDP, or 1280 bytes as the maximum size for an IPv6 MTU.
 
