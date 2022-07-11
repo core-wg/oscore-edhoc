@@ -1180,7 +1180,7 @@ A.4.  Version -00 to -01
 
 Acknowledgments
 
-   The authors sincerely thank Christian Amsuess, Esko Dijk, Klaus
+   The authors sincerely thank Christian Amsüss, Esko Dijk, Klaus
    Hartke, Jim Schaad and Mališa Vučinić for their feedback and
    comments.
 
