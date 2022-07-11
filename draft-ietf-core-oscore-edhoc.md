@@ -1,8 +1,11 @@
 ---
+v: 3
+
 title: "Profiling EDHOC for CoAP and OSCORE"
 abbrev: "Profiling EDHOC for CoAP and OSCORE"
 docname: draft-ietf-core-oscore-edhoc-latest
 cat: std
+submissiontype: IETF
 
 ipr: trust200902
 area: Internet
@@ -591,11 +594,11 @@ This document suggests 21 (TBD21) as option number to be assigned to the new EDH
 \]
 
 ~~~~~~~~~~~
-+--------+-------+-------------------+
-| Number | Name  | Reference         |
-+--------+-------+-------------------+
-| TBD21  | EDHOC | [RFC-XXXX]        |
-+--------+-------+-------------------+
++--------+-------+------------+
+| Number | Name  | Reference  |
++--------+-------+------------+
+| TBD21  | EDHOC | [RFC-XXXX] |
++--------+-------+------------+
 ~~~~~~~~~~~
 {: artwork-align="center"}
 
@@ -675,6 +678,6 @@ RFC Editor: Please remove this section.
 # Acknowledgments
 {:numbered="false"}
 
-The authors sincerely thank Christian Amsuess, Esko Dijk, Klaus Hartke, Jim Schaad and Malisa Vucinic for their feedback and comments.
+The authors sincerely thank {{{Christian Amsuess}}}, {{{Esko Dijk}}}, {{{Klaus Hartke}}}, {{{Jim Schaad}}} and {{{Mališa Vučinić}}} for their feedback and comments.
 
 The work on this document has been partly supported by VINNOVA and the Celtic-Next project CRITISEC; and by the H2020 project SIFIS-Home (Grant agreement 952652).
