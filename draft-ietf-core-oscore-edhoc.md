@@ -563,7 +563,7 @@ Before sending an EDHOC + OSCORE request, the client has to perform the followin
    - COND3: SIZE\_EDHOC <= LIMIT
    - COND4: (SIZE\_BLOCK + SIZE\_EDHOC) <= LIMIT
 
-In either case, if not all the corresponding conditions hold, the client MUST NOT send the EDHOC + OSCORE request. Instead, the client can continue by switching to the purely sequential workflow shown in {{fig-non-combined}}. That is, the client first sends EDHOC message_3 prepended by the EDHOC Connection Identifier C_R encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}, and then sends the OSCORE-protected CoAP request once the EDHOC execution is completed.
+In either case, if not all the corresponding conditions hold, the client should not send the EDHOC + OSCORE request. Instead, the client can continue by switching to the purely sequential workflow shown in {{fig-non-combined}}. That is, the client first sends EDHOC message_3 prepended by the EDHOC Connection Identifier C_R encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}, and then sends the OSCORE-protected CoAP request once the EDHOC execution is completed.
 
 ## Effectively Using Block-Wise
 
@@ -603,7 +603,7 @@ Therefore, the following round trips are experienced by the client.
 
 It follows that RT_COMB >= RT_ORIG, i.e., the optimized workflow might still be not worse than the original workflow in terms of round trips. This is the case only if the used SIZE\_BLOCK is such that ceil(SIZE\_APP / SIZE\_BLOCK) is equal to 2, i.e., the EDHOC + OSCORE request is fragmented into only 2 inner blocks. However, even in such a case, there would be no advantage in terms or round trips compared to the original workflow, while still requiring the client and server to perform the processing due to using the EDHOC + OSCORE request and Block-wise transferring.
 
-Therefore, if both the conditions COND8 and COND9 hold, the client SHOULD NOT send the EDHOC + OSCORE request. Instead, the client SHOULD continue by switching to the purely sequential workflow shown in {{fig-non-combined}}. That is, the client first sends EDHOC message_3 prepended by the EDHOC Connection Identifier C_R encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}, and then sends the OSCORE-protected CoAP request once the EDHOC execution is completed.
+Therefore, if both the conditions COND8 and COND9 hold, the client should not send the EDHOC + OSCORE request. Instead, the client SHOULD continue by switching to the purely sequential workflow shown in {{fig-non-combined}}. That is, the client first sends EDHOC message_3 prepended by the EDHOC Connection Identifier C_R encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}, and then sends the OSCORE-protected CoAP request once the EDHOC execution is completed.
 
 # Document Updates # {#sec-document-updates}
 
