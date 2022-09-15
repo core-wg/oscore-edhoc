@@ -488,9 +488,15 @@ RES: 2.05 Content
 
 The same security considerations from OSCORE {{RFC8613}} and EDHOC {{I-D.ietf-lake-edhoc}} hold for this document. In addition, the following considerations also apply.
 
-{{client-processing}} defines that a client SHOULD NOT have multiple outstanding EDHOC + OSCORE requests pertaining to the same EDHOC session. Even if a client did not fulfill this requirement, it would not have any impact in terms of security. That is, the server would still not process different instances of the same EDHOC message_3 more than once in the same EDHOC session (see {{Section 5.1 of I-D.ietf-lake-edhoc}}), and would still enforce replay protection of the OSCORE-protected request (see {{Section 7.4 of RFC8613}}).
+{{client-processing}} specifies that a client SHOULD NOT have multiple outstanding EDHOC + OSCORE requests pertaining to the same EDHOC session. Even if a client did not fulfill this requirement, it would not have any impact in terms of security. That is, the server would still not process different instances of the same EDHOC message_3 more than once in the same EDHOC session (see {{Section 5.1 of I-D.ietf-lake-edhoc}}), and would still enforce replay protection of the OSCORE-protected request (see {{Sections 7.4 and 8.2 of RFC8613}}).
 
-TODO: more considerations
+With reference to the purely sequential workflow in {{fig-non-combined}}, the OSCORE request might have to undergo access control checks at the server, before being actually executed for accesing the target protected resource. The same MUST hold when the optimized workflow in {{fig-combined}} is used, i.e., when using the EDHOC + OSCORE request.
+
+That is, the rebuilt OSCORE-protected application request from step 7 in {{server-processing}} MUST undergo the same access control checks that would be performed on a traditional OSCORE-protected application request sent individually as shown in {{fig-non-combined}}.
+
+To this end, validated information to perform access control checks (e.g., an access token issued by a trusted party) has to be available at the server latest before starting to process the rebuilt OSCORE-protected application request. Such information may have been provided to the server separately before starting the EDHOC execution altogether, or instead as External Authorization Data during the EDHOC execution (see {{Section 3.8 of I-D.ietf-lake-edhoc}}).
+
+Thus, a successful completion of the EDHOC protocol and the following derivation of the OSCORE Security Context at the server do not play a role in determining whether the rebuilt OSCORE-protected request is authorized to access the target protected resource at the server.
 
 # IANA Considerations
 
@@ -614,7 +620,9 @@ RFC Editor: Please remove this section.
 
 * Clarifications on Web Linking parameters.
 
-* Revised IANA considerations to focus on the option number 21.
+* Added security considerations.
+
+* Revised IANA considerations to focus on the CoAP option number 21.
 
 * Guidelines on using Block-wise moved to an appendix.
 
