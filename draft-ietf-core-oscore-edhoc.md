@@ -453,7 +453,7 @@ The following parameters are defined.
 
 * 'csuite', specifying an EDHOC cipher suite supported by the server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Cipher Suites" registry defined in {{Section 9.2 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying a different cipher suite.
 
-* 'cred_t', specifying a type of authentication credential supported by the server. This parameter MAY occur multiple times, with each occurrence specifying a different authentication credential type. Possible values are: "x509", for X.509 certificate {{RFC5280}}; "c509", for C509 certificate {{I-D.ietf-cose-cbor-encoded-cert}}; "cwt" for CWT {{RFC8392}}; "ccs" for CWT Claims Set (CCS) {{RFC8392}}.
+* 'cred_t', specifying a type of authentication credential supported by the server. This parameter MUST specify a single value, and possible values are: "x509", for X.509 certificate {{RFC5280}}; "c509", for C509 certificate {{I-D.ietf-cose-cbor-encoded-cert}}; "cwt" for CWT {{RFC8392}}; "ccs" for CWT Claims Set (CCS) {{RFC8392}}. This parameter MAY occur multiple times, with each occurrence specifying a different authentication credential type.
 
 * 'idcred_t', specifying the type of identifiers supported by the server for identifying authentication credentials. This parameter MUST specify a single value, which is taken from the 'Label' column of the "COSE Headers Parameters" registry {{COSE.Header.Parameters}}. This parameter MAY occur multiple times, with each occurrence specifying a different type of identifier for authentication credentials.
 
@@ -610,6 +610,8 @@ Therefore, if both the conditions COND8 and COND9 hold, the client should not se
 RFC Editor: Please remove this section.
 
 ## Version -04 to -05 ## {#sec-04-05}
+
+* Clarifications on Web Linking parameters.
 
 * Guidelines on using Block-wise moved to an appendix.
 
