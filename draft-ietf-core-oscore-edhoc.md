@@ -234,6 +234,8 @@ The EDHOC Option has the properties summarized in {{fig-edhoc-option}}, which ex
 ~~~~~~~~~~~
 {: #fig-edhoc-option title="The EDHOC Option." artwork-align="center"}
 
+Note to RFC Editor: Following the registration of the CoAP Option Number 21 as per {{iana-coap-options}}, please replace "TBD21" with "21" in the figure above. Then, please delete this paragraph.
+
 The presence of this option means that the message payload contains also EDHOC data, that must be extracted and processed as defined in {{server-processing}}, before the rest of the message can be processed.
 
 {{fig-edhoc-opt}} shows the format of a CoAP message containing both the EDHOC data and the OSCORE ciphertext, using the newly defined EDHOC option for signalling.
@@ -501,20 +503,6 @@ the RFC number of this specification and delete this paragraph.
 
 IANA is asked to enter the following option number to the "CoAP Option Numbers" registry within the "CoRE Parameters" registry group.
 
-\[
-
-The CoAP option numbers 13 and 21 are both consistent with the properties of the EDHOC Option defined in {{edhoc-option}}, and they both allow the EDHOC Option to always result in an overall size of 1 byte. This is because:
-
-* The EDHOC option is always empty, i.e., with zero-length value; and
-
-* Since the OSCORE option with option number 9 is always present in the CoAP request, the EDHOC option would be encoded with a maximum delta of 4 or 12, depending on its option number being 13 or 21.
-
-At the time of writing, the CoAP option numbers 13 and 21 are both unassigned in the "CoAP Option Numbers" registry, as first available and consistent option numbers for the EDHOC option.
-
-This document suggests 21 (TBD21) as option number to be assigned to the new EDHOC option, since both 13 and 21 are consistent for the use case in question, but different use cases or protocols may make better use of the option number 13.
-
-\]
-
 ~~~~~~~~~~~
 +--------+-------+------------+
 | Number | Name  | Reference  |
@@ -524,6 +512,19 @@ This document suggests 21 (TBD21) as option number to be assigned to the new EDH
 ~~~~~~~~~~~
 {: artwork-align="center"}
 
+Note to RFC Editor: Following the registration of the CoAP Option Number 21, please replace "TBD21" with "21" in the table above. Then, please delete this paragraph and all the following text within the present {{iana-coap-options}}.
+
+\[
+
+The CoAP option number 21 is consistent with the properties of the EDHOC Option defined in {{edhoc-option}}, and it allows the EDHOC Option to always result in an overall size of 1 byte. This is because:
+
+* The EDHOC option is always empty, i.e., with zero-length value; and
+
+* Since the OSCORE Option with option number 9 is always present in the EDHOC + OSCORE request, the EDHOC Option is encoded with a delta equal to at most 12.
+
+Therefore, this document suggests 21 (TBD21) as option number to be assigned to the new EDHOC Option. Although the currently unassigned option number 13 would also work well for the same reasons in the use case in question, different use cases or protocols may make a better use of the option number 13. Hence the preference for the option number 21, and why it is _not_ necessary to register additional option numbers than 21.
+
+\]
 
 --- back
 
@@ -612,6 +613,8 @@ RFC Editor: Please remove this section.
 ## Version -04 to -05 ## {#sec-04-05}
 
 * Clarifications on Web Linking parameters.
+
+* Revised IANA considerations to focus on the option number 21.
 
 * Guidelines on using Block-wise moved to an appendix.
 
