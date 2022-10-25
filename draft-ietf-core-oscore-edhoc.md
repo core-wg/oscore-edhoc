@@ -146,8 +146,16 @@ EDHOC verification                                           |
         |                                                    |
         |                                           EDHOC verification
         |                                                    +
-OSCORE Sec Ctx                                        OSCORE Sec Ctx
-  Derivation                                            Derivation
+        |                                             OSCORE Sec Ctx
+        |                                               Derivation
+        |                                                    |
+        | <---------------- EDHOC Response------------------ |
+        |       Header: 2.04 (Changed)                       |
+        |       Content-Format: application/edhoc+cbor-seq   |
+        |       Payload: EDHOC message_4                     |
+        |                                                    |
+OSCORE Sec Ctx                                               |
+  Derivation                                                 |
         |                                                    |
         | ---------------- OSCORE Request -----------------> |
         |   Header: 0.02 (POST)                              |
