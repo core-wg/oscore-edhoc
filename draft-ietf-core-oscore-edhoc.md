@@ -469,11 +469,11 @@ The following parameters are defined.
 
    Note that the values in the 'Label' column of the "COSE Headers Parameters" registry are strongly typed. On the contrary, Link Format is weakly typed and thus does not distinguish between, for instance, the string value "-10" and the integer value -10. Thus, if responses in Link Format are returned, string values which look like an integer are not supported. Therefore, such values MUST NOT be used in the 'idcred-t' parameter.
 
-* 'ead-1', 'ead-2', 'ead-3' and 'ead-4', specifying, if present, that the server supports the use of External Authorization Data EAD_1, EAD_2, EAD_3 and EAD_4, respectively (see {{Section 3.8 of I-D.ietf-lake-edhoc}}). For each of these parameters, the following applies.
+* 'ead-1', 'ead-2', 'ead-3' and 'ead-4', specifying, if present, that the server supports the use of External Authorization Data EAD_1, EAD_2, EAD_3 and EAD_4, respectively (see {{Section 3.8 of I-D.ietf-lake-edhoc}}). For each of these parameters, the following applies, with 1 <= x <= 4.
 
-   - It MAY occur multiple times, with its presence denoting support from the server for the respective external authorization data.
+   - It MAY occur multiple times, and each occurrence of 'ead-x' denotes that the server supports an EAD item for the EAD_x field of EDHOC message_x.
 
-   - Each occurrence specifies a value taken from the 'Label' column of the "EDHOC External Authorization Data" registry defined in {{Section 9.5 of I-D.ietf-lake-edhoc}}, thus denoting support from the server for that particular type of external authorization data.
+   - Each occurrence of 'ead-x' specifies an ead_label, whose value is taken from the 'Label' column of the "EDHOC External Authorization Data" registry defined in {{Section 9.5 of I-D.ietf-lake-edhoc}}. This denotes that the server supports the EAD item with that ead_label for the EAD_x field.
 
 * 'comb-req', specifying, if present, that the server supports the EDHOC + OSCORE request defined in {{edhoc-in-oscore}}. A value MUST NOT be given to this parameter and any present value MUST be ignored by parsers.
 
@@ -629,6 +629,8 @@ RFC Editor: Please remove this section.
 * Extended figure on EDHOC sequential workflow.
 
 * Revised naming of target attributes.
+
+* Clarified semantics of target attributes 'ead-x'.
 
 ## Version -04 to -05 ## {#sec-04-05}
 
