@@ -624,6 +624,10 @@ Therefore, if both the conditions COND8 and COND9 hold, the client should not se
 
 RFC Editor: Please remove this section.
 
+## Version -05 to -06 ## {#sec-05-06}
+
+* Extended figure on EDHOC sequential workflow.
+
 ## Version -04 to -05 ## {#sec-04-05}
 
 * Clarifications on Web Linking parameters.
