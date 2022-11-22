@@ -166,7 +166,7 @@ OSCORE Sec Ctx                                               |
         |                 Payload: OSCORE-protected data     |
         |                                                    |
 ~~~~~~~~~~~~~~~~~
-{: #fig-non-combined title="EDHOC and OSCORE run sequentially" artwork-align="center"}
+{: #fig-non-combined title="EDHOC and OSCORE run sequentially. The optional message_4 is included in this example, without which that message needs no payload." artwork-align="center"}
 
 As shown in {{fig-non-combined}}, this purely-sequential flow where EDHOC is run first and then OSCORE is used takes three round trips to complete.
 
@@ -216,7 +216,7 @@ EDHOC verification                                            |
         |                    Payload: OSCORE-protected data   |
         |                                                     |
 ~~~~~~~~~~~~~~~~~
-{: #fig-combined title="EDHOC and OSCORE combined" artwork-align="center"}
+{: #fig-combined title="EDHOC and OSCORE combined." artwork-align="center"}
 
 To this end, the specific approach defined in this section consists of sending a single EDHOC + OSCORE request, which conveys the pair (C_R, EDHOC message_3) within an OSCORE-protected CoAP message.
 
@@ -263,7 +263,7 @@ The presence of this option means that the message payload contains also EDHOC d
 |1 1 1 1 1 1 1 1| Payload
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ~~~~~~~~~~~~~~~~~
-{: #fig-edhoc-opt title="CoAP message for EDHOC and OSCORE combined - signalled with the EDHOC Option" artwork-align="center"}
+{: #fig-edhoc-opt title="CoAP message for EDHOC and OSCORE combined - signalled with the EDHOC Option." artwork-align="center"}
 
 ## Client Processing {#client-processing}
 
@@ -385,7 +385,7 @@ o  Protected CoAP request (OSCORE message):
         4d612f1092f1776f1c1668b3825e
    (57 bytes)
 ~~~~~~~~~~~~~~~~~
-{: #fig-edhoc-opt-2 title="Example of CoAP message with EDHOC and OSCORE combined" artwork-align="center"}
+{: #fig-edhoc-opt-2 title="Example of CoAP message with EDHOC and OSCORE combined." artwork-align="center"}
 
 # Use of EDHOC Connection Identifiers with OSCORE # {#use-of-ids}
 
@@ -490,7 +490,7 @@ RES: 2.05 Content
     </edhoc/resB>;rt="core.edhoc";csuite="0";csuite="2";method="0";
     method="3";cred_t="c509";cred_t="x509";idcred_t="34"
 ~~~~~~~~~~~~~~~~~
-{: #fig-web-link-example title="The Web Link" artwork-align="center"}
+{: #fig-web-link-example title="The Web Link." artwork-align="center"}
 
 # Security Considerations
 
