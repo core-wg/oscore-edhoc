@@ -540,6 +540,59 @@ Therefore, this document suggests 21 (TBD21) as option number to be assigned to 
 
 \]
 
+## Target Attributes Registry ## {#iana-target-attributes}
+
+IANA is asked to register the following entries in the "Target Attributes" registry within the "CoRE Parameters" registry group.
+
+~~~~~~~~~~~
+Attribute Name: method
+Brief Description: A supported authentication method for EDHOC
+Change Controller: IESG
+Reference: [RFC-XXXX]
+
+Attribute Name: csuite
+Brief Description: A supported cipher suite for EDHOC
+Change Controller: IESG
+Reference: [RFC-XXXX]
+
+Attribute Name: cred-t
+Brief Description: A supported type of
+                   authentication credential for EDHOC
+Change Controller: IESG
+Reference: [RFC-XXXX]
+
+Attribute Name: idcred-t
+Brief Description: A supported type of
+                   authentication credential identifier for EDHOC
+Change Controller: IESG
+Reference: [RFC-XXXX]
+
+Attribute Name: ead-1
+Brief Description: A supported EDHOC EAD_1 item
+Change Controller: IESG
+Reference: [RFC-XXXX]
+
+Attribute Name: ead-2
+Brief Description: A supported EDHOC EAD_2 item
+Change Controller: IESG
+Reference: [RFC-XXXX]
+
+Attribute Name: ead-3
+Brief Description: A supported EDHOC EAD_3 item
+Change Controller: IESG
+Reference: [RFC-XXXX]
+
+Attribute Name: ead-4
+Brief Description: A supported EDHOC EAD_4 item
+Change Controller: IESG
+Reference: [RFC-XXXX]
+
+Attribute Name: comb-req
+Brief Description: Hint: support for the EDHOC+OSCORE request
+Change Controller: IESG
+Reference: [RFC-XXXX]
+~~~~~~~~~~~
+
 --- back
 
 # Considerations on Using Block-wise # {#block-wise-performance}
@@ -631,6 +684,8 @@ RFC Editor: Please remove this section.
 * Revised naming of target attributes.
 
 * Clarified semantics of target attributes 'ead-x'.
+
+* Registration of target attributes.
 
 ## Version -04 to -05 ## {#sec-04-05}
 
