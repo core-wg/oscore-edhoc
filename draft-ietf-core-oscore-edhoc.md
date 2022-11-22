@@ -469,11 +469,11 @@ The following parameters are defined.
 
    Note that the values in the 'Label' column of the "COSE Headers Parameters" registry are strongly typed. On the contrary, Link Format is weakly typed and thus does not distinguish between, for instance, the string value "-10" and the integer value -10. Thus, if responses in Link Format are returned, string values which look like an integer are not supported. Therefore, such values MUST NOT be used in the 'idcred-t' parameter.
 
-* 'ead-1', 'ead-2', 'ead-3' and 'ead-4', specifying, if present, that the server supports the use of External Authorization Data EAD_1, EAD_2, EAD_3 and EAD_4, respectively (see {{Section 3.8 of I-D.ietf-lake-edhoc}}). For each of these parameters, the following applies, with 1 <= x <= 4.
+* 'ead1', 'ead2', 'ead3' and 'ead4', specifying, if present, that the server supports the use of External Authorization Data EAD_1, EAD_2, EAD_3 and EAD_4, respectively (see {{Section 3.8 of I-D.ietf-lake-edhoc}}). For each of these parameters, the following applies, with 1 <= x <= 4.
 
-   - It MAY occur multiple times, and each occurrence of 'ead-x' denotes that the server supports an EAD item for the EAD_x field of EDHOC message_x.
+   - It MAY occur multiple times, and each occurrence of 'eadx' denotes that the server supports an EAD item for the EAD_x field of EDHOC message_x.
 
-   - Each occurrence of 'ead-x' specifies an ead_label, whose value is taken from the 'Label' column of the "EDHOC External Authorization Data" registry defined in {{Section 9.5 of I-D.ietf-lake-edhoc}}. This denotes that the server supports the EAD item with that ead_label for the EAD_x field.
+   - Each occurrence of 'eadx' specifies an ead_label, whose value is taken from the 'Label' column of the "EDHOC External Authorization Data" registry defined in {{Section 9.5 of I-D.ietf-lake-edhoc}}. This denotes that the server supports the EAD item with that ead_label for the EAD_x field.
 
 * 'comb-req', specifying, if present, that the server supports the EDHOC + OSCORE request defined in {{edhoc-in-oscore}}. A value MUST NOT be given to this parameter and any present value MUST be ignored by parsers.
 
@@ -567,22 +567,22 @@ Brief Description: A supported type of
 Change Controller: IESG
 Reference: [RFC-XXXX]
 
-Attribute Name: ead-1
+Attribute Name: ead1
 Brief Description: A supported EDHOC EAD_1 item
 Change Controller: IESG
 Reference: [RFC-XXXX]
 
-Attribute Name: ead-2
+Attribute Name: ead2
 Brief Description: A supported EDHOC EAD_2 item
 Change Controller: IESG
 Reference: [RFC-XXXX]
 
-Attribute Name: ead-3
+Attribute Name: ead3
 Brief Description: A supported EDHOC EAD_3 item
 Change Controller: IESG
 Reference: [RFC-XXXX]
 
-Attribute Name: ead-4
+Attribute Name: ead4
 Brief Description: A supported EDHOC EAD_4 item
 Change Controller: IESG
 Reference: [RFC-XXXX]
@@ -683,7 +683,7 @@ RFC Editor: Please remove this section.
 
 * Revised naming of target attributes.
 
-* Clarified semantics of target attributes 'ead-x'.
+* Clarified semantics of target attributes 'eadx'.
 
 * Registration of target attributes.
 
