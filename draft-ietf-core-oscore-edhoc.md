@@ -463,19 +463,19 @@ The following parameters are defined.
 
 * 'csuite', specifying an EDHOC cipher suite supported by the server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Cipher Suites" registry defined in {{Section 9.2 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying a different cipher suite.
 
-* 'cred_t', specifying a type of authentication credential supported by the server. This parameter MUST specify a single value, and possible values are: "x509", for X.509 certificate {{RFC5280}}; "c509", for C509 certificate {{I-D.ietf-cose-cbor-encoded-cert}}; "cwt" for CWT {{RFC8392}}; "ccs" for CWT Claims Set (CCS) {{RFC8392}}. This parameter MAY occur multiple times, with each occurrence specifying a different authentication credential type.
+* 'cred-t', specifying a type of authentication credential supported by the server. This parameter MUST specify a single value, and possible values are: "x509", for X.509 certificate {{RFC5280}}; "c509", for C509 certificate {{I-D.ietf-cose-cbor-encoded-cert}}; "cwt" for CWT {{RFC8392}}; "ccs" for CWT Claims Set (CCS) {{RFC8392}}. This parameter MAY occur multiple times, with each occurrence specifying a different authentication credential type.
 
-* 'idcred_t', specifying the type of identifiers supported by the server for identifying authentication credentials. This parameter MUST specify a single value, which is taken from the 'Label' column of the "COSE Headers Parameters" registry {{COSE.Header.Parameters}}. This parameter MAY occur multiple times, with each occurrence specifying a different type of identifier for authentication credentials.
+* 'idcred-t', specifying the type of identifiers supported by the server for identifying authentication credentials. This parameter MUST specify a single value, which is taken from the 'Label' column of the "COSE Headers Parameters" registry {{COSE.Header.Parameters}}. This parameter MAY occur multiple times, with each occurrence specifying a different type of identifier for authentication credentials.
 
-   Note that the values in the 'Label' column of the "COSE Headers Parameters" registry are strongly typed. On the contrary, Link Format is weakly typed and thus does not distinguish between, for instance, the string value "-10" and the integer value -10. Thus, if responses in Link Format are returned, string values which look like an integer are not supported. Therefore, such values MUST NOT be used in the 'idcred_t' parameter.
+   Note that the values in the 'Label' column of the "COSE Headers Parameters" registry are strongly typed. On the contrary, Link Format is weakly typed and thus does not distinguish between, for instance, the string value "-10" and the integer value -10. Thus, if responses in Link Format are returned, string values which look like an integer are not supported. Therefore, such values MUST NOT be used in the 'idcred-t' parameter.
 
-* 'ead_1', 'ead_2', 'ead_3' and 'ead_4', specifying, if present, that the server supports the use of External Authorization Data EAD_1, EAD_2, EAD_3 and EAD_4, respectively (see {{Section 3.8 of I-D.ietf-lake-edhoc}}). For each of these parameters, the following applies.
+* 'ead-1', 'ead-2', 'ead-3' and 'ead-4', specifying, if present, that the server supports the use of External Authorization Data EAD_1, EAD_2, EAD_3 and EAD_4, respectively (see {{Section 3.8 of I-D.ietf-lake-edhoc}}). For each of these parameters, the following applies.
 
    - It MAY occur multiple times, with its presence denoting support from the server for the respective external authorization data.
 
    - Each occurrence specifies a value taken from the 'Label' column of the "EDHOC External Authorization Data" registry defined in {{Section 9.5 of I-D.ietf-lake-edhoc}}, thus denoting support from the server for that particular type of external authorization data.
 
-* 'comb_req', specifying, if present, that the server supports the EDHOC + OSCORE request defined in {{edhoc-in-oscore}}. A value MUST NOT be given to this parameter and any present value MUST be ignored by parsers.
+* 'comb-req', specifying, if present, that the server supports the EDHOC + OSCORE request defined in {{edhoc-in-oscore}}. A value MUST NOT be given to this parameter and any present value MUST be ignored by parsers.
 
 The example in {{fig-web-link-example}} shows how a client discovers two EDHOC resources at a server, obtaining information elements from the respective application profiles. The Link Format notation from {{Section 5 of RFC6690}} is used.
 
@@ -486,9 +486,9 @@ RES: 2.05 Content
     </sensors/temp>;osc,
     </sensors/light>;if="sensor",
     </edhoc/resA>;rt="core.edhoc";csuite="0";csuite="2";method="0";
-    cred_t="c509";cred_t="ccs";idcred_t="4";comb_req,
+    cred-t="c509";cred-t="ccs";idcred-t="4";comb-req,
     </edhoc/resB>;rt="core.edhoc";csuite="0";csuite="2";method="0";
-    method="3";cred_t="c509";cred_t="x509";idcred_t="34"
+    method="3";cred-t="c509";cred-t="x509";idcred-t="34"
 ~~~~~~~~~~~~~~~~~
 {: #fig-web-link-example title="The Web Link." artwork-align="center"}
 
@@ -627,6 +627,8 @@ RFC Editor: Please remove this section.
 ## Version -05 to -06 ## {#sec-05-06}
 
 * Extended figure on EDHOC sequential workflow.
+
+* Revised naming of target attributes.
 
 ## Version -04 to -05 ## {#sec-04-05}
 
