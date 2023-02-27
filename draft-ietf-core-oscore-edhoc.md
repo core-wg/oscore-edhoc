@@ -108,7 +108,7 @@ The EDHOC protocol allows two peers to agree on a cryptographic secret, in a mut
 
 After successful processing of EDHOC message_3, both peers agree on a cryptographic secret that can be used to derive further security material, and especially to establish an OSCORE Security Context {{RFC8613}}. The Responder can also send an optional EDHOC message_4 to achieve key confirmation, e.g., in deployments where no protected application message is sent from the Responder to the Initiator.
 
-{{Section A.2 of I-D.ietf-lake-edhoc}} specifies how to transfer EDHOC over CoAP. That is, the EDHOC data (referred to as "EDHOC messages") are transported in the payload of CoAP requests and responses. The default message flow consists in the CoAP client acting as Initiator and the CoAP server acting as Responder. Alternatively, the two roles can be reversed. In the rest of this document, EDHOC messages are considered to be transferred over CoAP.
+{{Section A.2 of I-D.ietf-lake-edhoc}} specifies how to transfer EDHOC over CoAP. That is, the EDHOC data (referred to as "EDHOC messages") are transported in the payload of CoAP requests and responses. The default, forward message flow of EDHOC consists in the CoAP client acting as Initiator and the CoAP server acting as Responder. Alternatively, the two roles can be reversed, as per the reverse message flow of EDHOC. In the rest of this document, EDHOC messages are considered to be transferred over CoAP.
 
 {{fig-non-combined}} shows a CoAP client and a CoAP server running EDHOC as Initiator and Responder, respectively. That is, the client sends a POST request to a reserved EDHOC resource at the server, by default at the Uri-Path "/.well-known/edhoc". The request payload consists of the CBOR simple value "true" (0xf5) concatenated with EDHOC message_1, which also includes the EDHOC connection identifier C_I of the client encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}. The Content-Format of the request may be set to application/cid-edhoc+cbor-seq.
 
@@ -176,7 +176,7 @@ As shown in {{fig-non-combined}}, this purely-sequential flow where EDHOC is run
 
 This section defines an optimization for combining the EDHOC exchange with the first subsequent OSCORE transaction, thus minimizing the number of round trips between the two peers.
 
-This approach can be used only if the default EDHOC message flow is used, i.e., when the client acts as Initiator and the server acts as Responder, while it cannot be used in the case with reversed roles.
+This approach can be used only if the default, forward message flow of EDHOC is used, i.e., when the client acts as Initiator and the server acts as Responder. That is, it cannot be used in the case with reversed roles as per the reverse message flow of EDHOC.
 
 When running the purely-sequential flow of {{overview}}, the client has all the information to derive the OSCORE Security Context already after receiving EDHOC message_2 and before sending EDHOC message_3.
 
@@ -676,6 +676,12 @@ Therefore, if both the conditions COND8 and COND9 hold, the client should not se
 # Document Updates # {#sec-document-updates}
 
 RFC Editor: Please remove this section.
+
+## Version -06 to -07 ## {#sec-06-07}
+
+* Use of "forward message flow" and "reverse message flow".
+
+* Editorial improvements.
 
 ## Version -05 to -06 ## {#sec-05-06}
 
