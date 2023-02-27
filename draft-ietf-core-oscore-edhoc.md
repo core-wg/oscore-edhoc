@@ -112,7 +112,7 @@ After successful processing of EDHOC message_3, both peers agree on a cryptograp
 
 {{fig-non-combined}} shows a CoAP client and a CoAP server running EDHOC as Initiator and Responder, respectively. That is, the client sends a POST request to a reserved EDHOC resource at the server, by default at the Uri-Path "/.well-known/edhoc". The request payload consists of the CBOR simple value "true" (0xf5) concatenated with EDHOC message_1, which also includes the EDHOC connection identifier C_I of the client encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}. The Content-Format of the request may be set to application/cid-edhoc+cbor-seq.
 
-This triggers the EDHOC exchange at the server, which replies with a 2.04 (Changed) response. The response payload consists of EDHOC message_2, which also includes the EDHOC connection identifier C_R of the server encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}. The Content-Format of the response may be set to application/edhoc+cbor-seq.
+This triggers the EDHOC execution at the server, which replies with a 2.04 (Changed) response. The response payload consists of EDHOC message_2, which also includes the EDHOC connection identifier C_R of the server encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}. The Content-Format of the response may be set to application/edhoc+cbor-seq.
 
 Finally, the client sends a POST request to the same EDHOC resource used earlier to send EDHOC message_1. The request payload consists of the EDHOC connection identifier C_R encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}, concatenated with EDHOC message_3. The Content-Format of the request may be set to application/cid-edhoc+cbor-seq.
 
@@ -174,7 +174,7 @@ As shown in {{fig-non-combined}}, this purely-sequential flow where EDHOC is run
 
 # EDHOC Combined with OSCORE {#edhoc-in-oscore}
 
-This section defines an optimization for combining the EDHOC exchange with the first subsequent OSCORE transaction, thus minimizing the number of round trips between the two peers.
+This section defines an optimization for combining the EDHOC message exchange with the first subsequent OSCORE transaction, thus minimizing the number of round trips between the two peers.
 
 This approach can be used only if the default, forward message flow of EDHOC is used, i.e., when the client acts as Initiator and the server acts as Responder. That is, it cannot be used in the case with reversed roles as per the reverse message flow of EDHOC.
 
@@ -220,7 +220,7 @@ EDHOC verification                                            |
 
 To this end, the specific approach defined in this section consists of sending a single EDHOC + OSCORE request, which conveys the pair (C_R, EDHOC message_3) within an OSCORE-protected CoAP message.
 
-That is, the EDHOC + OSCORE request is in practice the OSCORE Request from {{fig-non-combined}}, as still sent to a protected resource and with the correct CoAP method and options intended for accessing that resource. At the same time, the EDHOC + OSCORE request also transports the pair (C_R, EDHOC message_3) required for completing the EDHOC exchange. Note that, as specified in {{client-processing}}, C_R is not transported precisely in the request payload.
+That is, the EDHOC + OSCORE request is in practice the OSCORE Request from {{fig-non-combined}}, as still sent to a protected resource and with the correct CoAP method and options intended for accessing that resource. At the same time, the EDHOC + OSCORE request also transports the pair (C_R, EDHOC message_3) required for completing the EDHOC session. Note that, as specified in {{client-processing}}, C_R is not transported precisely in the request payload.
 
 Since EDHOC message_3 may be too large to be included in a CoAP Option, e.g., if conveying a protected large public key certificate chain as ID_CRED_I (see {{Section 3.5.3 of I-D.ietf-lake-edhoc}}) or if conveying protected External Authorization Data as EAD_3 (see {{Section 3.8 of I-D.ietf-lake-edhoc}}), EDHOC message_3 has to be transported in the CoAP payload of the EDHOC + OSCORE request.
 
