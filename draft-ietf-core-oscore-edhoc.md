@@ -299,17 +299,19 @@ With the same server, the client SHOULD NOT have multiple simultaneous outstandi
 
 ### Supporting Block-wise {#client-blockwise}
 
-If Block-wise {{RFC7959}} is supported, the client may fragment the first application CoAP request before protecting it as an original message with OSCORE, as defined in {{Section 4.1.3.4.1 of RFC8613}}. In such a case, the OSCORE processing in step 2 of {{client-processing}} is performed on each inner block of the first application CoAP request, and the following also applies.
+If Block-wise {{RFC7959}} is supported, the client may fragment the first application CoAP request before protecting it as an original message with OSCORE, as defined in {{Section 4.1.3.4.1 of RFC8613}}.
 
-The client takes the additional following step between steps 2 and 3 of {{client-processing}}.
+In such a case, the OSCORE processing in step 2 of {{client-processing}} is performed on each inner block of the first application CoAP request, and the following also applies.
+
+* The client takes the additional following step between steps 2 and 3 of {{client-processing}}.
 
    A. If the OSCORE-protected request from step 2 conveys a non-first inner block of the first application CoAP request (i.e., the Block1 Option processed at step 2 had NUM different than 0), then the client skips the following steps and sends the OSCORE-protected request to the server. In particular, the client MUST NOT include the EDHOC Option in the OSCORE-protected request.
 
-The client takes the additional following step between steps 3 and 4 of {{client-processing}}.
+* The client takes the additional following step between steps 3 and 4 of {{client-processing}}.
 
    B. If the size of the built CBOR sequence exceeds MAX_UNFRAGMENTED_SIZE (see {{Section 4.1.3.4.2 of RFC8613}}), the client MUST stop processing the request and MUST abort the Block-wise transfer. Then, the client can continue by switching to the purely sequential workflow shown in {{fig-non-combined}}. That is, the client first sends EDHOC message_3 prepended by the EDHOC Connection Identifier C_R encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}, and then sends the OSCORE-protected CoAP request once the EDHOC execution is completed.
 
-Further considerations and guidelines about the use of Block-wise together with the EDHOC + OSCORE request are provided in {{block-wise-performance}}.
+The performance advantage of using the EDHOC + OSCORE request can be lost, when used in combination with Block-wise transfers that rely on specific parameter values and block sizes.
 
 ## Server Processing {#server-processing}
 
@@ -583,84 +585,6 @@ Reference: [RFC-XXXX]
 
 --- back
 
-# Considerations on Using Block-wise # {#block-wise-performance}
-
-This section provides guidelines and recommendations for clients supporting both the EDHOC + OSCORE request defined in this document as well as Block-wise {{RFC7959}}.
-
-The following especially considers a client that may perform only "inner" Block-wise, but not "outer" Block-wise operations. That is, the considered client does not (further) split an OSCORE-protected request like an intermediary (e.g., a proxy) might do. This is the typical case for OSCORE endpoints (see {{Section 4.1.3.4 of RFC8613}}).
-
-The rest of this section refers to the following notation.
-
-* SIZE\_APP: the size in bytes of the application data to be included in a CoAP request. When Block-wise is used, this is referred to as the "body" to be fragmented into blocks.
-
-* SIZE\_EDHOC: the size in bytes of EDHOC message_3, if this is sent as part of the EDHOC + OSCORE request. Otherwise, the size of EDHOC message_3 plus the size in bytes of the EDHOC Connection Identifier C_R, encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}.
-
-* SIZE\_MTU: the maximum amount of transmittable bytes before having to use Block-wise. This is, for example, 64 KiB as maximum datagram size when using UDP, or 1280 bytes as the maximum size for an IPv6 MTU.
-
-* SIZE\_OH: the size in bytes of the overall overhead due to all the communication layers underlying the application. This takes into account also the overhead introduced by the OSCORE processing.
-
-* LIMIT = (SIZE\_MTU - SIZE\_OH): the practical maximum size in bytes to be considered by the application before using Block-wise.
-
-* SIZE\_BLOCK: the size in bytes of inner blocks.
-
-* ceil(): the ceiling function.
-
-## Pre-requirements # {#block-wise-performance-pre-req}
-
-Before sending an EDHOC + OSCORE request, the client has to perform the following checks. Note that, while the client is able to fragment the application data, it cannot fragment the EDHOC + OSCORE request or the EDHOC message_3 added therein.
-
-* If inner Block-wise is not used, hence SIZE_APP <= LIMIT, the client must verify whether all the following conditions hold:
-
-   - COND1: SIZE_EDHOC <= LIMIT
-   - COND2: (SIZE\_APP + SIZE\_EDHOC) <= LIMIT
-
-* If inner Block-wise is used, the client must verify whether all the following conditions hold:
-
-   - COND3: SIZE\_EDHOC <= LIMIT
-   - COND4: (SIZE\_BLOCK + SIZE\_EDHOC) <= LIMIT
-
-In either case, if not all the corresponding conditions hold, the client should not send the EDHOC + OSCORE request. Instead, the client can continue by switching to the purely sequential workflow shown in {{fig-non-combined}}. That is, the client first sends EDHOC message_3 prepended by the EDHOC Connection Identifier C_R encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}, and then sends the OSCORE-protected CoAP request once the EDHOC execution is completed.
-
-## Effectively Using Block-Wise
-
-In order to avoid further fragmentation at lower layers when sending an EDHOC + OSCORE request, the client has to use inner Block-wise if _any_ of the following conditions holds:
-
-* COND5: SIZE\_APP > LIMIT
-* COND6: (SIZE\_APP + SIZE\_EDHOC) > LIMIT
-
-In particular, consistently with {{block-wise-performance-pre-req}}, the used SIZE\_BLOCK has to be such that the following condition also holds:
-
-* COND7: (SIZE\_BLOCK + SIZE\_EDHOC) <= LIMIT
-
-Note that the client might still use Block-wise due to reasons different from exceeding the size indicated by LIMIT.
-
-If _both_ the conditions COND5 and COND6 hold, the use of Block-wise results in the following number of round trips for completing both the EDHOC execution and the first OSCORE-protected exchange.
-
-* If the original workflow shown in {{fig-non-combined}} is used, the number of round trips RT_ORIG is equal to 1 + ceil(SIZE\_EDHOC / SIZE\_BLOCK) + ceil(SIZE\_APP / SIZE\_BLOCK).
-
-* If the optimized workflow shown in {{fig-combined}} is used, the number of round trips RT_COMB is equal to 1 + ceil(SIZE\_APP / SIZE\_BLOCK).
-
-It follows that RT_COMB < RT_ORIG, i.e., the optimized workflow always yields a lower number of round trips.
-
-Instead, the conveniency of using the optimized workflow becomes questionable if _both_ the following conditions hold:
-
-* COND8: SIZE\_APP <= LIMIT
-* COND9: (SIZE\_APP + SIZE\_EDHOC) > LIMIT
-
-That is, since SIZE\_APP <= LIMIT, using Block-wise would not be required when using the original workflow, provided that SIZE\_EDHOC <= LIMIT still holds.
-
-At the same time, using the combined workflow is in itself what actually triggers the use of blockwise, since (SIZE\_APP + SIZE\_EDHOC) > LIMIT.
-
-Therefore, the following round trips are experienced by the client.
-
-* The original workflow shown in {{fig-non-combined}} and run without using Block-wise results in a number of round trips RT_ORIG equal to 3.
-
-* The optimized workflow shown in {{fig-combined}} and run using Block-wise results in a number of round trips RT_COMB equal to 1 + ceil(SIZE\_APP / SIZE\_BLOCK).
-
-It follows that RT_COMB >= RT_ORIG, i.e., the optimized workflow might still be not worse than the original workflow in terms of round trips. This is the case only if the used SIZE\_BLOCK is such that ceil(SIZE\_APP / SIZE\_BLOCK) is equal to 2, i.e., the EDHOC + OSCORE request is fragmented into only 2 inner blocks. However, even in such a case, there would be no advantage in terms or round trips compared to the original workflow, while still requiring the client and server to perform the processing due to using the EDHOC + OSCORE request and Block-wise transferring.
-
-Therefore, if both the conditions COND8 and COND9 hold, the client should not send the EDHOC + OSCORE request. Instead, the client SHOULD continue by switching to the purely sequential workflow shown in {{fig-non-combined}}. That is, the client first sends EDHOC message_3 prepended by the EDHOC Connection Identifier C_R encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}, and then sends the OSCORE-protected CoAP request once the EDHOC execution is completed.
-
 # Document Updates # {#sec-document-updates}
 
 RFC Editor: Please remove this section.
@@ -672,6 +596,8 @@ RFC Editor: Please remove this section.
 * Revised examples.
 
 * Use of "forward message flow" and "reverse message flow".
+
+* High-level sentence replacing the appendix on Block-wise performance.
 
 * Editorial improvements.
 
