@@ -367,6 +367,8 @@ A. If Block-wise is present in the request, then process the Outer Block options
 
 * The EDHOC option is registered with CoAP option number 21.
 
+Note to RFC Editor: Please delete the last bullet point in the previous list, since, at the time of publication, the CoAP option number will be in fact registered.
+
 ~~~~~~~~~~~~~~~~~
 o  OSCORE option value: 0x090001 (3 bytes)
 
