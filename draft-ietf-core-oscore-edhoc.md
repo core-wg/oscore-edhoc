@@ -101,7 +101,7 @@ Furthermore, this document defines a number of parameters corresponding to diffe
 
 {::boilerplate bcp14}
 
-The reader is expected to be familiar with terms and concepts defined in CoAP {{RFC7252}}, CBOR {{RFC8949}}, CBOR sequences {{RFC8742}}, OSCORE {{RFC8613}} and EDHOC {{I-D.ietf-lake-edhoc}}.
+The reader is expected to be familiar with terms and concepts defined in CoAP {{RFC7252}}, CBOR {{RFC8949}}, CBOR sequences {{RFC8742}}, OSCORE {{RFC8613}}, and EDHOC {{I-D.ietf-lake-edhoc}}.
 
 # EDHOC Overview {#overview}
 
@@ -500,8 +500,7 @@ Thus, a successful completion of the EDHOC protocol and the following derivation
 
 This document has the following actions for IANA.
 
-Note to RFC Editor: Please replace all occurrences of "{{&SELF}}" with
-the RFC number of this specification and delete this paragraph.
+Note to RFC Editor: Please replace all occurrences of "{{&SELF}}" with the RFC number of this specification and delete this paragraph.
 
 ## CoAP Option Numbers Registry ## {#iana-coap-options}
 
