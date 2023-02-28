@@ -63,6 +63,7 @@ normative:
   RFC8949:
   RFC9176:
   I-D.ietf-lake-edhoc:
+  I-D.ietf-core-target-attr:
   COSE.Header.Parameters:
     author:
       org: IANA
@@ -542,7 +543,7 @@ Therefore, this document suggests 21 (TBD21) as option number to be assigned to 
 
 ## Target Attributes Registry ## {#iana-target-attributes}
 
-IANA is asked to register the following entries in the "Target Attributes" registry within the "CoRE Parameters" registry group.
+IANA is asked to register the following entries in the "Target Attributes" registry within the "CoRE Parameters" registry group, as per {{I-D.ietf-core-target-attr}}.
 
 ~~~~~~~~~~~
 Attribute Name: method
