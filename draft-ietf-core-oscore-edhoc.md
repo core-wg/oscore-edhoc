@@ -488,6 +488,12 @@ The same security considerations from OSCORE {{RFC8613}} and EDHOC {{I-D.ietf-la
 
 {{client-processing}} specifies that a client SHOULD NOT have multiple outstanding EDHOC + OSCORE requests pertaining to the same EDHOC session. Even if a client did not fulfill this requirement, it would not have any impact in terms of security. That is, the server would still not process different instances of the same EDHOC message_3 more than once in the same EDHOC session (see {{Section 5.1 of I-D.ietf-lake-edhoc}}), and would still enforce replay protection of the OSCORE-protected request (see {{Sections 7.4 and 8.2 of RFC8613}}).
 
+When using the optimized workflow in Figure 2, a minimum of 128-bit security against online brute force attacks is achieved after the client receives and successfully verifies the first OSCORE-protected response (see {{Section 8.1 of I-D.ietf-lake-edhoc}}). As an example, if EDHOC is used with method 3 (see {{Section 3.2 of I-D.ietf-lake-edhoc}}) and cipher suite 2 (see {{Section 3.6 of I-D.ietf-lake-edhoc}}), then the following holds.
+
+* The Initiator is authenticated with 128-bit security against online attacks. This is the sum of the 64-bit MACs in EDHOC message_3 and of the MAC in the AEAD of the first OSCORE-protected CoAP request, as rebuilt at step 7 of {{server-processing}}.
+
+* The Responder is authenticated with 128-bit security against online attacks. This is the sum of the 64-bit MACs in EDHOC message_2 and of the MAC in the AEAD of the first OSCORE-protected CoAP response.
+
 With reference to the purely sequential workflow in {{fig-non-combined}}, the OSCORE request might have to undergo access control checks at the server, before being actually executed for accesing the target protected resource. The same MUST hold when the optimized workflow in {{fig-combined}} is used, i.e., when using the EDHOC + OSCORE request.
 
 That is, the rebuilt OSCORE-protected application request from step 7 in {{server-processing}} MUST undergo the same access control checks that would be performed on a traditional OSCORE-protected application request sent individually as shown in {{fig-non-combined}}.
@@ -594,11 +600,13 @@ RFC Editor: Please remove this section.
 
 * Revised selection of EDHOC connection identifiers.
 
-* Revised examples.
-
 * Use of "forward message flow" and "reverse message flow".
 
+* Security consideration on the minimally achieved 128-bit security.
+
 * High-level sentence replacing the appendix on Block-wise performance.
+
+* Revised examples.
 
 * Editorial improvements.
 
