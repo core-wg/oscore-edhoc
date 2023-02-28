@@ -279,11 +279,11 @@ The client prepares an EDHOC + OSCORE request as follows.
 
    Note that the OSCORE ciphertext is not computed over EDHOC message_3, which is not protected by OSCORE. That is, the result of this step is the OSCORE Request as in {{fig-non-combined}}.
 
-3. Build a CBOR sequence {{RFC8742}} composed of two CBOR byte strings in the following order.
+3. Build a CBOR sequence {{RFC8742}} composed of two CBOR data items in the following order.
 
-   * The first CBOR byte string is the EDHOC message_3 resulting from step 1.
+   * The first CBOR data item is the single data item of EDHOC message_3 resulting from step 1. As per {{Section 5.4.1 of I-D.ietf-lake-edhoc}}, such a data item is CIPHERTEXT_3, which is a CBOR byte string.
 
-   * The second CBOR byte string has as value the OSCORE ciphertext of the OSCORE-protected CoAP request resulting from step 2.
+   * The second CBOR data item is a CBOR byte string, with value the OSCORE ciphertext of the OSCORE-protected CoAP request resulting from step 2.
 
 4. Compose the EDHOC + OSCORE request, as the OSCORE-protected CoAP request resulting from step 2, where the payload is replaced with the CBOR sequence built at step 3.
 
@@ -317,7 +317,7 @@ In order to process a request containing the EDHOC option, i.e., an EDHOC + OSCO
 
 1. Check that the EDHOC + OSCORE request includes the OSCORE option and that the request payload is a CBOR sequence composed of two CBOR byte strings. If this is not the case, the server MUST stop processing the request and MUST reply with a 4.00 (Bad Request) error response.
 
-2. Extract EDHOC message_3 from the payload of the EDHOC + OSCORE request, as the first CBOR byte string in the CBOR sequence.
+2. Extract EDHOC message_3 from the payload of the EDHOC + OSCORE request, as the first CBOR data item in the CBOR sequence.
 
 3. Take the value of 'kid' from the OSCORE option of the EDHOC + OSCORE request (i.e., the OSCORE Sender ID of the client), and use it as the EDHOC connection identifier C_R.
 
@@ -331,7 +331,7 @@ In order to process a request containing the EDHOC option, i.e., an EDHOC + OSCO
 
 5. Establish a new OSCORE Security Context associated with the client as per {{Section A.1 of I-D.ietf-lake-edhoc}}, using the EDHOC output from step 4.
 
-6. Extract the OSCORE ciphertext from the payload of the EDHOC + OSCORE request, as the value of the second CBOR byte string in the CBOR sequence.
+6. Extract the OSCORE ciphertext from the payload of the EDHOC + OSCORE request, as the value of the CBOR byte string specified as second CBOR data item in the CBOR sequence.
 
 7. Rebuild the OSCORE-protected CoAP request, as the EDHOC + OSCORE request where the payload is replaced with the OSCORE ciphertext extracted at step 6. Then, remove the EDHOC option.
 
