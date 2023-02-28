@@ -401,7 +401,7 @@ Therefore, the conversion from an OSCORE Sender/Recipient ID to an EDHOC identif
 
 ## Additional Processing of EDHOC Messages {#oscore-edhoc-message-processing}
 
-Compared to what is specified in {{Section 5 of I-D.ietf-lake-edhoc}}, the client and server MUST perform the additional message processing specified in the rest of this section.
+When using EDHOC to establish an OSCORE Security Context, the client and server MUST perform the following additional steps during an EDHOC execution, thus extending {{Section 5 of I-D.ietf-lake-edhoc}}.
 
 ### Initiator Processing of Message 1
 
