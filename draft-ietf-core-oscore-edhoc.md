@@ -275,7 +275,7 @@ The client prepares an EDHOC + OSCORE request as follows.
 
 1. Compose EDHOC message_3 as per {{Section 5.4.2 of I-D.ietf-lake-edhoc}}.
 
-2. Encrypt the first application CoAP request as an original message to protect, as per {{Section 8.1 of RFC8613}}, using the new OSCORE Security Context established after receiving EDHOC message_2.
+2. Establish the new OSCORE Security Context and use it to encrypt the original CoAP request as per {{Section 8.1 of RFC8613}}.
 
    Note that the OSCORE ciphertext is not computed over EDHOC message_3, which is not protected by OSCORE. That is, the result of this step is the OSCORE Request as in {{fig-non-combined}}.
 
@@ -589,6 +589,8 @@ Reference: [RFC-XXXX]
 RFC Editor: Please remove this section.
 
 ## Version -06 to -07 ## {#sec-06-07}
+
+* The client creates the OSCORE Security Context after creating EDHOC message_3.
 
 * Revised selection of EDHOC connection identifiers.
 
