@@ -472,11 +472,11 @@ REQ: GET /.well-known/core
 
 RES: 2.05 Content
     </sensors/temp>;osc,
-    </sensors/light>;if="sensor",
-    </edhoc/resA>;rt="core.edhoc";csuite="0";csuite="2";method="0";
-    cred-t="c509";cred-t="ccs";idcred-t="4";comb-req,
-    </edhoc/resB>;rt="core.edhoc";csuite="0";csuite="2";method="0";
-    method="3";cred-t="c509";cred-t="x509";idcred-t="34"
+    </sensors/light>;if=sensor,
+    </edhoc/resA>;rt=core.edhoc;csuite=0;csuite=2;method=0;
+    cred-t=c509;cred-t=ccs;idcred-t=4;comb-req,
+    </edhoc/resB>;rt=core.edhoc;csuite=0;csuite=2;method=0;
+    method=3;cred-t=c509;cred-t=x509;idcred-t=34
 ~~~~~~~~~~~~~~~~~
 {: #fig-web-link-example title="The Web Link." artwork-align="center"}
 
