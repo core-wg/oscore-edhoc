@@ -249,7 +249,7 @@ Note to RFC Editor: Following the registration of the CoAP Option Number 21 as p
 
 The presence of this option means that the message payload contains also EDHOC data, that must be extracted and processed as defined in {{server-processing}}, before the rest of the message can be processed.
 
-{{fig-edhoc-opt}} shows an example of CoAP message containing both the EDHOC data and the OSCORE ciphertext, using the newly defined EDHOC option for signalling.
+{{fig-edhoc-opt}} shows an example of CoAP message transported over UDP and containing both the EDHOC data and the OSCORE ciphertext, using the newly defined EDHOC option for signalling.
 
 
 ~~~~~~~~~~~~~~~~~
@@ -267,7 +267,7 @@ The presence of this option means that the message payload contains also EDHOC d
 |1 1 1 1 1 1 1 1| Payload ...
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ~~~~~~~~~~~~~~~~~
-{: #fig-edhoc-opt title="Example of CoAP message for EDHOC and OSCORE combined, signalled with the EDHOC Option." artwork-align="center"}
+{: #fig-edhoc-opt title="Example of CoAP message transported over UDP, combining EDHOC data and OSCORE data as signalled with the EDHOC Option." artwork-align="center"}
 
 ## Client Processing {#client-processing}
 
@@ -355,7 +355,7 @@ A. If Block-wise is present in the request, then process the Outer Block options
 
 ## Example of EDHOC + OSCORE Request # {#example}
 
-{{fig-edhoc-opt-2}} shows an example of EDHOC + OSCORE Request. In particular, the example assumes that:
+{{fig-edhoc-opt-2}} shows an example of EDHOC + OSCORE Request transported over UDP. In particular, the example assumes that:
 
 * The used OSCORE Partial IV is 0, consistently with the first request protected with the new OSCORE Security Context.
 
@@ -389,7 +389,7 @@ o  Protected CoAP request (OSCORE message):
         4d612f1092f1776f1c1668b3825e
    (57 bytes)
 ~~~~~~~~~~~~~~~~~
-{: #fig-edhoc-opt-2 title="Example of CoAP message with EDHOC and OSCORE combined." artwork-align="center"}
+{: #fig-edhoc-opt-2 title="Example of CoAP message transported over UDP, combining EDHOC data and OSCORE data as signalled with the EDHOC Option." artwork-align="center"}
 
 # Use of EDHOC Connection Identifiers with OSCORE # {#use-of-ids}
 
