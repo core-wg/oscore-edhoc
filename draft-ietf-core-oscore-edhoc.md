@@ -249,7 +249,8 @@ Note to RFC Editor: Following the registration of the CoAP Option Number 21 as p
 
 The presence of this option means that the message payload contains also EDHOC data, that must be extracted and processed as defined in {{server-processing}}, before the rest of the message can be processed.
 
-{{fig-edhoc-opt}} shows the format of a CoAP message containing both the EDHOC data and the OSCORE ciphertext, using the newly defined EDHOC option for signalling.
+{{fig-edhoc-opt}} shows an example of CoAP message containing both the EDHOC data and the OSCORE ciphertext, using the newly defined EDHOC option for signalling.
+
 
 ~~~~~~~~~~~~~~~~~
  0                   1                   2                   3
@@ -259,14 +260,14 @@ The presence of this option means that the message payload contains also EDHOC d
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 | Token (if any, TKL bytes) ...
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-| OSCORE Option                                 | EDHOC Option  |
+| Observe Option| OSCORE Option ...
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-| Other Options (if any) ...
+| EDHOC Option  | Other Options (if any) ...
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|1 1 1 1 1 1 1 1| Payload
+|1 1 1 1 1 1 1 1| Payload ...
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ~~~~~~~~~~~~~~~~~
-{: #fig-edhoc-opt title="CoAP message for EDHOC and OSCORE combined - signalled with the EDHOC Option." artwork-align="center"}
+{: #fig-edhoc-opt title="Example of CoAP message for EDHOC and OSCORE combined, signalled with the EDHOC Option." artwork-align="center"}
 
 ## Client Processing {#client-processing}
 
@@ -681,6 +682,8 @@ Therefore, if both the conditions COND8 and COND9 hold, the client should not se
 RFC Editor: Please remove this section.
 
 ## Version -06 to -07 ## {#sec-06-07}
+
+* Revised examples.
 
 * Use of "forward message flow" and "reverse message flow".
 
