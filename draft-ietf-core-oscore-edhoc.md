@@ -405,37 +405,19 @@ When using EDHOC to establish an OSCORE Security Context, the client and server 
 
 ### Initiator Processing of Message 1
 
-The Initiator selects C_I as follows. If the Initiator possibly performs multiple EDHOC executions concurrently, the following sequence of steps MUST be atomic.
+The Initiator selects an EDHOC Connection Identifier C_I as follows.
 
-1. The Initiator initializes a set ID_SET as the empty set.
+The Initiator MUST choose a C_I that is neither used in any current EDHOC session as this peer's EDHOC Connection Identifier, nor the Recipient ID in a current OSCORE Security Context where the ID Context is not present.
 
-2. The Initiator selects an available OSCORE Recipient ID, namely ID\*, which is not included in ID_SET. Consistently with the requirements in {{Section 3.3 of RFC8613}}, when selecting ID\*:
-
-    * The Initiator MUST NOT select a Recipient ID as ID\* if this is currently used in a Recipient Context within a Security Context where the ID Context has zero-length.
-
-    * The Initiator SHOULD select ID\* only among the Recipient IDs which are currently not used in the sets of all its Recipient Contexts.
-
-3. If ID\* is already used as EDHOC Connection Identifier C_I, the Initiator adds ID\* to ID_SET and moves back to step 2. Otherwise, it moves to step 4.
-
-4. The Initiator sets ID\* as a "not available" OSCORE Recipient ID, and uses it as its EDHOC connection identifier C_I.
+The chosen C_I SHOULD NOT be the Recipient ID of any current OSCORE Security Context.
 
 ### Responder Processing of Message 2
 
-The Responder selects C_R as follows. If the Responder possibly performs multiple EDHOC executions concurrently, the following sequence of steps MUST be atomic.
+The Responder selects an EDHOC Connection Identifier C_R as follows.
 
-1. The Responder initializes a set ID_SET as the empty set.
+The Responder MUST choose a C_R that is neither used in any current EDHOC session as this peer's EDHOC Connection Identifier, nor is equal to the EDHOC Connection Identifier C_I specified in the EDHOC message_1 of the present EDHOC session (i.e., after its decoding as per {{Section 3.3 of I-D.ietf-lake-edhoc}}), nor is the Recipient ID in a current OSCORE Security Context where the ID Context is not present.
 
-2. The Responder selects an available OSCORE Recipient ID, namely ID\*, which is not included in ID_SET. Consistently with the requirements in {{Section 3.3 of RFC8613}}, when selecting ID\*:
-
-    * The Responder MUST NOT select a Recipient ID as ID\* if this is currently used in a Recipient Context within a Security Context where the ID Context has zero-length.
-
-    * The Responder SHOULD select ID\* only among the Recipient IDs which are currently not used in the sets of all its Recipient Contexts.
-
-3. If ID\* is already used as EDHOC Connection Identifier C_R, the Responder adds ID\* to ID_SET and moves back to step 2. Otherwise, it moves to step 5.
-
-4. If ID\* is equal to the EDHOC Connection Identifier C_I specified in EDHOC message_1 (i.e., after its decoding as per {{Section 3.3 of I-D.ietf-lake-edhoc}}), then the Responder adds ID\* to ID_SET and moves back to step 2. Otherwise, it moves to step 5.
-
-5. The Responder sets ID\* as a "not available" OSCORE Recipient ID, and uses it as its EDHOC connection identifier C_R.
+The chosen C_R SHOULD NOT be the Recipient ID of any current OSCORE Security Context.
 
 ### Initiator Processing of Message 2
 
@@ -684,6 +666,8 @@ Therefore, if both the conditions COND8 and COND9 hold, the client should not se
 RFC Editor: Please remove this section.
 
 ## Version -06 to -07 ## {#sec-06-07}
+
+* Revised selection of EDHOC connection identifiers.
 
 * Revised examples.
 
