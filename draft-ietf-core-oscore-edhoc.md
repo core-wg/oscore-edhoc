@@ -275,7 +275,7 @@ The client prepares an EDHOC + OSCORE request as follows.
 
 1. Compose EDHOC message_3 as per {{Section 5.4.2 of I-D.ietf-lake-edhoc}}.
 
-2. Encrypt the original CoAP request as per {{Section 8.1 of RFC8613}}, using the new OSCORE Security Context established after receiving EDHOC message_2.
+2. Encrypt the first application CoAP request as an original message to protect, as per {{Section 8.1 of RFC8613}}, using the new OSCORE Security Context established after receiving EDHOC message_2.
 
    Note that the OSCORE ciphertext is not computed over EDHOC message_3, which is not protected by OSCORE. That is, the result of this step is the OSCORE Request as in {{fig-non-combined}}.
 
@@ -299,11 +299,11 @@ With the same server, the client SHOULD NOT have multiple simultaneous outstandi
 
 ### Supporting Block-wise {#client-blockwise}
 
-If Block-wise {{RFC7959}} is supported, the client may fragment the original CoAP request before protecting it with OSCORE, as defined in {{Section 4.1.3.4.1 of RFC8613}}. In such a case, the OSCORE processing in step 2 of {{client-processing}} is performed on each inner block of the original CoAP request, and the following also applies.
+If Block-wise {{RFC7959}} is supported, the client may fragment the first application CoAP request before protecting it as an original message with OSCORE, as defined in {{Section 4.1.3.4.1 of RFC8613}}. In such a case, the OSCORE processing in step 2 of {{client-processing}} is performed on each inner block of the first application CoAP request, and the following also applies.
 
 The client takes the additional following step between steps 2 and 3 of {{client-processing}}.
 
-   A. If the OSCORE-protected request from step 2 conveys a non-first inner block of the original CoAP request (i.e., the Block1 Option processed at step 2 had NUM different than 0), then the client skips the following steps and sends the OSCORE-protected request to the server. In particular, the client MUST NOT include the EDHOC Option in the OSCORE-protected request.
+   A. If the OSCORE-protected request from step 2 conveys a non-first inner block of the first application CoAP request (i.e., the Block1 Option processed at step 2 had NUM different than 0), then the client skips the following steps and sends the OSCORE-protected request to the server. In particular, the client MUST NOT include the EDHOC Option in the OSCORE-protected request.
 
 The client takes the additional following step between steps 3 and 4 of {{client-processing}}.
 
