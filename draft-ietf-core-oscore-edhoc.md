@@ -540,49 +540,49 @@ Therefore, this document suggests 21 (TBD21) as option number to be assigned to 
 IANA is asked to register the following entries in the "Target Attributes" registry within the "CoRE Parameters" registry group, as per {{I-D.ietf-core-target-attr}}.
 
 ~~~~~~~~~~~
-Attribute Name: method
+Attribute Name: ed-method
 Brief Description: A supported authentication method for EDHOC
 Change Controller: IESG
 Reference: [RFC-XXXX]
 
-Attribute Name: csuite
+Attribute Name: ed-csuite
 Brief Description: A supported cipher suite for EDHOC
 Change Controller: IESG
 Reference: [RFC-XXXX]
 
-Attribute Name: cred-t
+Attribute Name: ed-cred-t
 Brief Description: A supported type of
                    authentication credential for EDHOC
 Change Controller: IESG
 Reference: [RFC-XXXX]
 
-Attribute Name: idcred-t
+Attribute Name: ed-idcred-t
 Brief Description: A supported type of
                    authentication credential identifier for EDHOC
 Change Controller: IESG
 Reference: [RFC-XXXX]
 
-Attribute Name: ead1
+Attribute Name: ed-ead1
 Brief Description: A supported EDHOC EAD_1 item
 Change Controller: IESG
 Reference: [RFC-XXXX]
 
-Attribute Name: ead2
+Attribute Name: ed-ead2
 Brief Description: A supported EDHOC EAD_2 item
 Change Controller: IESG
 Reference: [RFC-XXXX]
 
-Attribute Name: ead3
+Attribute Name: ed-ead3
 Brief Description: A supported EDHOC EAD_3 item
 Change Controller: IESG
 Reference: [RFC-XXXX]
 
-Attribute Name: ead4
+Attribute Name: ed-ead4
 Brief Description: A supported EDHOC EAD_4 item
 Change Controller: IESG
 Reference: [RFC-XXXX]
 
-Attribute Name: comb-req
+Attribute Name: ed-comb-req
 Brief Description: Hint: support for the EDHOC+OSCORE request
 Change Controller: IESG
 Reference: [RFC-XXXX]
