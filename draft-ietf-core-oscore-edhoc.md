@@ -462,11 +462,17 @@ The following parameters are defined.
 
    Note that the values in the 'Label' column of the "COSE Header Parameters" registry are strongly typed. On the contrary, Link Format is weakly typed and thus does not distinguish between, for instance, the string value "-10" and the integer value -10. Thus, if responses in Link Format are returned, string values which look like an integer are not supported. Therefore, such values MUST NOT be used in the 'ed-idcred-t' parameter.
 
-* 'ed-ead1', 'ed-ead2', 'ed-ead3' and 'ed-ead4', specifying, if present, that the server supports the use of External Authorization Data EAD_1, EAD_2, EAD_3 and EAD_4, respectively (see {{Section 3.8 of I-D.ietf-lake-edhoc}}). For each of these parameters, the following applies, with 1 <= x <= 4.
+* 'ead1', 'ead2', 'ead3' and 'ead4', specifying, if present, that the server supports specific External Authorization Data (EAD) items to use in the EDHOC message fields EAD_1, EAD_2, EAD_3 and EAD_4, respectively (see {{Section 3.8 of I-D.ietf-lake-edhoc}}). For each of these parameters, the following applies, with 1 <= x <= 4.
 
    - It MAY occur multiple times, and each occurrence of 'ed-eadx' denotes that the server supports an EAD item for the EAD_x field of EDHOC message_x.
 
    - Each occurrence of 'ed-eadx' specifies an ead_label, whose value is taken from the 'Label' column of the "EDHOC External Authorization Data" registry defined in {{Section 9.5 of I-D.ietf-lake-edhoc}}. This denotes that the server supports the EAD item with that ead_label for the EAD_x field.
+
+   For example, the following set of target attributes
+
+   ead1=5;ead2=10;ead3=5;ead3=42
+
+   denotes that the server supports the use of: the EAD item with ead_label 5 in EAD_1 and EAD_3; the EAD item with ead_label 10 in EAD_2; and the EAD item with ead_label 42 in EAD_3.
 
 * 'ed-comb-req', specifying, if present, that the server supports the EDHOC + OSCORE request defined in {{edhoc-in-oscore}}. A value MUST NOT be given to this parameter and any present value MUST be ignored by parsers.
 
@@ -624,6 +630,8 @@ RFC Editor: Please remove this section.
 * Target attribute names prefixed by "ed-".
 
 * Defined new target attributes "ed-i" and "ed-r".
+
+* Clarified semantics of target attributes "ed-eadx".
 
 * Security consideration on the minimally achieved 128-bit security.
 
