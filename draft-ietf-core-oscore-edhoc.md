@@ -462,7 +462,7 @@ The following parameters are defined.
 
    Note that the values in the 'Label' column of the "COSE Header Parameters" registry are strongly typed. On the contrary, Link Format is weakly typed and thus does not distinguish between, for instance, the string value "-10" and the integer value -10. Thus, if responses in Link Format are returned, string values which look like an integer are not supported. Therefore, such values MUST NOT be used in the 'ed-idcred-t' parameter.
 
-* 'ead1', 'ead2', 'ead3' and 'ead4', specifying, if present, that the server supports specific External Authorization Data (EAD) items to use in the EDHOC message fields EAD_1, EAD_2, EAD_3 and EAD_4, respectively (see {{Section 3.8 of I-D.ietf-lake-edhoc}}). For each of these parameters, the following applies, with 1 <= x <= 4.
+* 'ed-ead1', 'ed-ead2', 'ed-ead3' and 'ed-ead4', specifying, if present, that the server supports specific External Authorization Data (EAD) items to use in the EDHOC message fields EAD_1, EAD_2, EAD_3 and EAD_4, respectively (see {{Section 3.8 of I-D.ietf-lake-edhoc}}). For each of these parameters, the following applies, with 1 <= x <= 4.
 
    - It MAY occur multiple times, and each occurrence of 'ed-eadx' denotes that the server supports an EAD item for the EAD_x field of EDHOC message_x.
 
@@ -470,7 +470,7 @@ The following parameters are defined.
 
    For example, the following set of target attributes
 
-   ead1=5;ead2=10;ead3=5;ead3=42
+   ed-ead1=5;ed-ead2=10;ed-ead3=5;ed-ead3=42
 
    denotes that the server supports the use of: the EAD item with ead_label 5 in EAD_1 and EAD_3; the EAD item with ead_label 10 in EAD_2; and the EAD item with ead_label 42 in EAD_3.
 
