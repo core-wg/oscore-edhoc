@@ -448,6 +448,10 @@ In order to enable the above, this section defines a number of parameters, each 
 
 The following parameters are defined.
 
+* 'ed-i', specifying, if present, that the server supports the EDHOC Initiator role, hence the reverse message flow of EDHOC. A value MUST NOT be given to this parameter and any present value MUST be ignored by parsers.
+
+* 'ed-r', specifying, if present, that the server supports the EDHOC Responder role, hence the forward message flow of EDHOC. A value MUST NOT be given to this parameter and any present value MUST be ignored by parsers.
+
 * 'ed-method', specifying an authentication method supported by the server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Method Type" registry defined in {{Section 9.3 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying a different authentication method.
 
 * 'ed-csuite', specifying an EDHOC cipher suite supported by the server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Cipher Suites" registry defined in {{Section 9.2 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying a different cipher suite.
@@ -475,9 +479,9 @@ RES: 2.05 Content
     </sensors/temp>;osc,
     </sensors/light>;if=sensor,
     </edhoc/resA>;rt=core.edhoc;ed-csuite=0;ed-csuite=2;ed-method=0;
-    ed-cred-t=c509;ed-cred-t=ccs;ed-idcred-t=4;ed-comb-req,
+    ed-cred-t=c509;ed-cred-t=ccs;ed-idcred-t=4;ed-i;ed-r;ed-comb-req,
     </edhoc/resB>;rt=core.edhoc;ed-csuite=0;ed-csuite=2;ed-method=0;
-    ed-method=3;ed-cred-t=c509;ed-cred-t=x509;ed-idcred-t=34
+    ed-method=3;ed-cred-t=c509;ed-cred-t=x509;ed-idcred-t=34;ed-i;ed-r
 ~~~~~~~~~~~~~~~~~
 {: #fig-web-link-example title="The Web Link." artwork-align="center"}
 
@@ -539,6 +543,16 @@ Therefore, this document suggests 21 (TBD21) as option number to be assigned to 
 IANA is asked to register the following entries in the "Target Attributes" registry within the "CoRE Parameters" registry group, as per {{I-D.ietf-core-target-attr}}.
 
 ~~~~~~~~~~~
+Attribute Name: ed-i
+Brief Description: Hint: support for the EDHOC Initiator role
+Change Controller: IESG
+Reference: [RFC-XXXX]
+
+Attribute Name: ed-r
+Brief Description: Hint: support for the EDHOC Responder role
+Change Controller: IESG
+Reference: [RFC-XXXX]
+
 Attribute Name: ed-method
 Brief Description: A supported authentication method for EDHOC
 Change Controller: IESG
@@ -606,6 +620,8 @@ RFC Editor: Please remove this section.
 * More future-proof error handling on the server side.
 
 * Target attribute names prefixed by "ed-".
+
+* Defined new target attributes "ed-i" and "ed-r".
 
 * Security consideration on the minimally achieved 128-bit security.
 
