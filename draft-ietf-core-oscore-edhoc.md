@@ -484,8 +484,9 @@ REQ: GET /.well-known/core
 RES: 2.05 Content
     </sensors/temp>;osc,
     </sensors/light>;if=sensor,
-    </.well-known/edhoc>;rt=core.edhoc;ed-csuite=0;ed-csuite=2;ed-method=0;
-    ed-cred-t=c509;ed-cred-t=ccs;ed-idcred-t=4;ed-i;ed-r;ed-comb-req
+    </.well-known/edhoc>;rt=core.edhoc;ed-csuite=0;ed-csuite=2;
+        ed-method=0;ed-cred-t=c509;ed-cred-t=ccs;ed-idcred-t=4;
+        ed-i;ed-r;ed-comb-req
 ~~~~~~~~~~~~~~~~~
 {: #fig-web-link-example title="The Web Link." artwork-align="center"}
 
