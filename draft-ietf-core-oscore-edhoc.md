@@ -338,7 +338,7 @@ In order to process a request containing the EDHOC option, i.e., an EDHOC + OSCO
 
 8. Decrypt and verify the OSCORE-protected CoAP request rebuilt at step 7, as per {{Section 8.2 of RFC8613}}, by using the OSCORE Security Context established at step 5.
 
-   If the decrypted request includes an EDHOC option but it does not include an OSCORE option, the server MUST stop processing the request and MUST reply with a 4.00 (Bad Request) error response.
+   When the decrypted request is checked for any critical CoAP options (as it is during regular CoAP processing), the presence of an EDHOC option MUST be regarded as an unprocessed critical option, unless it is processed by some further mechanism.
 
 9. Deliver the CoAP request resulting from step 8 to the application.
 
@@ -602,6 +602,8 @@ RFC Editor: Please remove this section.
 * Use of "forward message flow" and "reverse message flow".
 
 * The payload of the combined request is not a CBOR sequence anymore.
+
+* More future-proof error handling on the server side.
 
 * Target attribute names prefixed by "ed-".
 
