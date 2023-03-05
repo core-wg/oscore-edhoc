@@ -62,6 +62,7 @@ normative:
   RFC8949:
   RFC9176:
   I-D.ietf-lake-edhoc:
+  I-D.ietf-cose-cbor-encoded-cert:
   COSE.Header.Parameters:
     author:
       org: IANA
@@ -72,7 +73,6 @@ normative:
 informative:
   RFC5280:
   RFC8392:
-  I-D.ietf-cose-cbor-encoded-cert:
   I-D.ietf-core-target-attr:
 
 entity:
