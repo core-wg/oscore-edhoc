@@ -59,7 +59,6 @@ normative:
   RFC8174:
   RFC8288:
   RFC8613:
-  RFC8742:
   RFC8949:
   RFC9176:
   I-D.ietf-lake-edhoc:
@@ -101,7 +100,7 @@ Furthermore, this document defines a number of parameters corresponding to diffe
 
 {::boilerplate bcp14}
 
-The reader is expected to be familiar with terms and concepts defined in CoAP {{RFC7252}}, CBOR {{RFC8949}}, CBOR sequences {{RFC8742}}, OSCORE {{RFC8613}}, and EDHOC {{I-D.ietf-lake-edhoc}}.
+The reader is expected to be familiar with terms and concepts defined in CoAP {{RFC7252}}, CBOR {{RFC8949}}, OSCORE {{RFC8613}}, and EDHOC {{I-D.ietf-lake-edhoc}}.
 
 # EDHOC Overview {#overview}
 
@@ -279,13 +278,13 @@ The client prepares an EDHOC + OSCORE request as follows.
 
    Note that the OSCORE ciphertext is not computed over EDHOC message_3, which is not protected by OSCORE. That is, the result of this step is the OSCORE Request as in {{fig-non-combined}}.
 
-3. Build a CBOR sequence {{RFC8742}} composed of two CBOR data items in the following order.
+3. Build COMB_PAYLOAD as the concatenation of EDHOC_MSG_3 and OSCORE_PAYLOAD in this order: COMB_PAYLOAD = EDHOC_MSG_3 \| OSCORE_PAYLOAD, where \| denotes byte string concatenation and:
 
-   * The first CBOR data item is the single data item of EDHOC message_3 resulting from step 1. As per {{Section 5.4.1 of I-D.ietf-lake-edhoc}}, such a data item is CIPHERTEXT_3, which is a CBOR byte string.
+   * EDHOC_MSG_3 is the binary encoding of EDHOC message_3 resulting from step 1. As per {{Section 5.4.1 of I-D.ietf-lake-edhoc}}, EDHOC message_3 consists of one CBOR data item CIPHERTEXT_3, which is a CBOR byte string. Therefore, EDHOC_MGS_3 is the binary encoding of CIPHERTEXT_3.
 
-   * The second CBOR data item is a CBOR byte string, with value the OSCORE ciphertext of the OSCORE-protected CoAP request resulting from step 2.
+   * OSCORE_PAYLOAD is the OSCORE ciphertext of the OSCORE-protected CoAP request resulting from step 2.
 
-4. Compose the EDHOC + OSCORE request, as the OSCORE-protected CoAP request resulting from step 2, where the payload is replaced with the CBOR sequence built at step 3.
+4. Compose the EDHOC + OSCORE request, as the OSCORE-protected CoAP request resulting from step 2, where the payload is replaced with COMB_PAYLOAD built at step 3.
 
    Note that the new payload includes EDHOC message_3, but it does not include the EDHOC connection identifier C_R. As the client is the EDHOC Initiator, C_R is the OSCORE Sender ID of the client, which is already specified as 'kid' in the OSCORE Option of the request from step 2, hence of the EDHOC + OSCORE request.
 
@@ -309,7 +308,7 @@ In such a case, the OSCORE processing in step 2 of {{client-processing}} is perf
 
 * The client takes the additional following step between steps 3 and 4 of {{client-processing}}.
 
-   B. If the size of the built CBOR sequence exceeds MAX_UNFRAGMENTED_SIZE (see {{Section 4.1.3.4.2 of RFC8613}}), the client MUST stop processing the request and MUST abort the Block-wise transfer. Then, the client can continue by switching to the purely sequential workflow shown in {{fig-non-combined}}. That is, the client first sends EDHOC message_3 prepended by the EDHOC Connection Identifier C_R encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}, and then sends the OSCORE-protected CoAP request once the EDHOC execution is completed.
+   B. If the size of COMB_PAYLOAD exceeds MAX_UNFRAGMENTED_SIZE (see {{Section 4.1.3.4.2 of RFC8613}}), the client MUST stop processing the request and MUST abort the Block-wise transfer. Then, the client can continue by switching to the purely sequential workflow shown in {{fig-non-combined}}. That is, the client first sends EDHOC message_3 prepended by the EDHOC Connection Identifier C_R encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}, and then sends the OSCORE-protected CoAP request once the EDHOC execution is completed.
 
 The performance advantage of using the EDHOC + OSCORE request can be lost, when used in combination with Block-wise transfers that rely on specific parameter values and block sizes.
 
@@ -317,9 +316,9 @@ The performance advantage of using the EDHOC + OSCORE request can be lost, when 
 
 In order to process a request containing the EDHOC option, i.e., an EDHOC + OSCORE request, the server MUST perform the following steps.
 
-1. Check that the EDHOC + OSCORE request includes the OSCORE option and that the request payload is a CBOR sequence composed of two CBOR byte strings. If this is not the case, the server MUST stop processing the request and MUST reply with a 4.00 (Bad Request) error response.
+1. Check that the EDHOC + OSCORE request includes the OSCORE option and that the request payload has the format defined at step 3 of {{client-processing}} for COMB_PAYLOAD. If this is not the case, the server MUST stop processing the request and MUST reply with a 4.00 (Bad Request) error response.
 
-2. Extract EDHOC message_3 from the payload of the EDHOC + OSCORE request, as the first CBOR data item in the CBOR sequence.
+2. Extract EDHOC message_3 from the payload COMB_PAYLOAD of the EDHOC + OSCORE request, as the first element EDHOC_MSG_3 (see step 3 of {{client-processing}}).
 
 3. Take the value of 'kid' from the OSCORE option of the EDHOC + OSCORE request (i.e., the OSCORE Sender ID of the client), and use it as the EDHOC connection identifier C_R.
 
@@ -333,7 +332,7 @@ In order to process a request containing the EDHOC option, i.e., an EDHOC + OSCO
 
 5. Establish a new OSCORE Security Context associated with the client as per {{Section A.1 of I-D.ietf-lake-edhoc}}, using the EDHOC output from step 4.
 
-6. Extract the OSCORE ciphertext from the payload of the EDHOC + OSCORE request, as the value of the CBOR byte string specified as second CBOR data item in the CBOR sequence.
+6. Extract the OSCORE ciphertext from the payload COMB_PAYLOAD of the EDHOC + OSCORE request, as the second element OSCORE_PAYLOAD (see step 3 of {{client-processing}}).
 
 7. Rebuild the OSCORE-protected CoAP request, as the EDHOC + OSCORE request where the payload is replaced with the OSCORE ciphertext extracted at step 6. Then, remove the EDHOC option.
 
@@ -390,8 +389,8 @@ o  Protected CoAP request (OSCORE message):
      63 090001              ; OSCORE Option
      c0                     ; EDHOC Option
      ff 52d5535f3147e85f1cfacd9e78abf9e0a81bbf
-        4d612f1092f1776f1c1668b3825e
-   (57 bytes)
+        612f1092f1776f1c1668b3825e
+   (56 bytes)
 ~~~~~~~~~~~~~~~~~
 {: #fig-edhoc-opt-2 title="Example of CoAP message transported over UDP, combining EDHOC data and OSCORE data as signalled with the EDHOC Option." artwork-align="center"}
 
@@ -601,6 +600,8 @@ RFC Editor: Please remove this section.
 * Revised selection of EDHOC connection identifiers.
 
 * Use of "forward message flow" and "reverse message flow".
+
+* The payload of the combined request is not a CBOR sequence anymore.
 
 * Target attribute names prefixed by "ed-".
 
