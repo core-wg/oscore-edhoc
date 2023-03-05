@@ -580,22 +580,22 @@ Change Controller: IESG
 Reference: [RFC-XXXX]
 
 Attribute Name: ed-ead1
-Brief Description: A supported EDHOC EAD_1 item
+Brief Description: A supported EAD item for EDHOC EAD_1
 Change Controller: IESG
 Reference: [RFC-XXXX]
 
 Attribute Name: ed-ead2
-Brief Description: A supported EDHOC EAD_2 item
+Brief Description: A supported EAD item for EDHOC EAD_2
 Change Controller: IESG
 Reference: [RFC-XXXX]
 
 Attribute Name: ed-ead3
-Brief Description: A supported EDHOC EAD_3 item
+Brief Description: A supported EAD item for EDHOC EAD_3
 Change Controller: IESG
 Reference: [RFC-XXXX]
 
 Attribute Name: ed-ead4
-Brief Description: A supported EDHOC EAD_4 item
+Brief Description: A supported EAD item for EDHOC EAD_4
 Change Controller: IESG
 Reference: [RFC-XXXX]
 
