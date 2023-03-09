@@ -458,21 +458,11 @@ The following parameters are defined.
 
 * 'ed-cred-t', specifying a type of authentication credential supported by the server. This parameter MUST specify a single value, and possible values are: "x509", for X.509 certificate {{RFC5280}}; "c509", for C509 certificate {{I-D.ietf-cose-cbor-encoded-cert}}; "cwt" for CWT {{RFC8392}}; "ccs" for CWT Claims Set (CCS) {{RFC8392}}. This parameter MAY occur multiple times, with each occurrence specifying a different authentication credential type.
 
-* 'ed-idcred-t', specifying the type of identifiers supported by the server for identifying authentication credentials. This parameter MUST specify a single value, which is taken from the 'Label' column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}}. This parameter MAY occur multiple times, with each occurrence specifying a different type of identifier for authentication credentials.
+* 'ed-idcred-t', specifying a type of identifiers supported by the server for identifying authentication credentials. This parameter MUST specify a single value, which is taken from the 'Label' column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}}. This parameter MAY occur multiple times, with each occurrence specifying a different type of identifier for authentication credentials.
 
    Note that the values in the 'Label' column of the "COSE Header Parameters" registry are strongly typed. On the contrary, Link Format is weakly typed and thus does not distinguish between, for instance, the string value "-10" and the integer value -10. Thus, if responses in Link Format are returned, string values which look like an integer are not supported. Therefore, such values MUST NOT be used in the 'ed-idcred-t' parameter.
 
-* 'ed-ead1', 'ed-ead2', 'ed-ead3' and 'ed-ead4', specifying, if present, that the server supports specific External Authorization Data (EAD) items to use in the EDHOC message fields EAD_1, EAD_2, EAD_3 and EAD_4, respectively (see {{Section 3.8 of I-D.ietf-lake-edhoc}}). For each of these parameters, the following applies, with 1 <= x <= 4.
-
-   - It MAY occur multiple times, and each occurrence of 'ed-eadx' denotes that the server supports an EAD item for the EAD_x field of EDHOC message_x.
-
-   - Each occurrence of 'ed-eadx' specifies an ead_label, whose value is taken from the 'Label' column of the "EDHOC External Authorization Data" registry defined in {{Section 9.5 of I-D.ietf-lake-edhoc}}. This denotes that the server supports the EAD item with that ead_label for the EAD_x field.
-
-   For example, the following set of target attributes
-
-   ed-ead1=5;ed-ead2=10;ed-ead3=5;ed-ead3=42
-
-   denotes that the server supports the use of: the EAD item with ead_label 5 in EAD_1 and EAD_3; the EAD item with ead_label 10 in EAD_2; and the EAD item with ead_label 42 in EAD_3.
+* 'ed-ead', specifying the support of the server for an External Authorization Data (EAD) item (see {{Section 3.8 of I-D.ietf-lake-edhoc}}). This parameter MUST specify a single value, which is taken from the 'Label' column of the "EDHOC External Authorization Data" registry defined in {{Section 9.5 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying the ead_label of an EAD item that the server supports.
 
 * 'ed-comb-req', specifying, if present, that the server supports the EDHOC + OSCORE request defined in {{edhoc-in-oscore}}. A value MUST NOT be given to this parameter and any present value MUST be ignored by parsers.
 
@@ -632,7 +622,7 @@ RFC Editor: Please remove this section.
 
 * Defined new target attributes "ed-i" and "ed-r".
 
-* Clarified semantics of target attributes "ed-eadx".
+* Defined single target attribute "ed-ead" signaling supported EAD items.
 
 * Security consideration on the minimally achieved 128-bit security.
 
