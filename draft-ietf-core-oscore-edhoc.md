@@ -56,6 +56,7 @@ normative:
   RFC6690:
   RFC7252:
   RFC7959:
+  RFC8126:
   RFC8174:
   RFC8288:
   RFC8613:
@@ -452,13 +453,13 @@ The following parameters are defined.
 
 * 'ed-r', specifying, if present, that the server supports the EDHOC Responder role, hence the forward message flow of EDHOC. A value MUST NOT be given to this parameter and any present value MUST be ignored by parsers.
 
-* 'ed-method', specifying an authentication method supported by the server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Method Type" registry defined in {{Section 9.3 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying a different authentication method.
+* 'ed-method', specifying an authentication method supported by the server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Method Type" registry defined in {{Section 9.3 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying an authentication method.
 
-* 'ed-csuite', specifying an EDHOC cipher suite supported by the server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Cipher Suites" registry defined in {{Section 9.2 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying a different cipher suite.
+* 'ed-csuite', specifying an EDHOC cipher suite supported by the server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Cipher Suites" registry defined in {{Section 9.2 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying a cipher suite.
 
-* 'ed-cred-t', specifying a type of authentication credential supported by the server. This parameter MUST specify a single value, and possible values are: "x509", for X.509 certificate {{RFC5280}}; "c509", for C509 certificate {{I-D.ietf-cose-cbor-encoded-cert}}; "cwt" for CWT {{RFC8392}}; "ccs" for CWT Claims Set (CCS) {{RFC8392}}. This parameter MAY occur multiple times, with each occurrence specifying a different authentication credential type.
+* 'ed-cred-t', specifying a type of authentication credential supported by the server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Authentication Credential Types" Registry defined in {{iana-edhoc-auth-cred-types}} of this document. This parameter MAY occur multiple times, with each occurrence specifying an authentication credential type.
 
-* 'ed-idcred-t', specifying a type of identifier supported by the server for identifying authentication credentials. This parameter MUST specify a single value, which is taken from the 'Label' column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}}. This parameter MAY occur multiple times, with each occurrence specifying a different type of identifier for authentication credentials.
+* 'ed-idcred-t', specifying a type of identifier supported by the server for identifying authentication credentials. This parameter MUST specify a single value, which is taken from the 'Label' column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}}. This parameter MAY occur multiple times, with each occurrence specifying a type of identifier for authentication credentials.
 
    Note that the values in the 'Label' column of the "COSE Header Parameters" registry are strongly typed. On the contrary, Link Format is weakly typed and thus does not distinguish between, for instance, the string value "-10" and the integer value -10. Thus, if responses in Link Format are returned, string values which look like an integer are not supported. Therefore, such values MUST NOT be used in the 'ed-idcred-t' parameter.
 
@@ -475,7 +476,7 @@ RES: 2.05 Content
     </sensors/temp>;osc,
     </sensors/light>;if=sensor,
     </.well-known/edhoc>;rt=core.edhoc;ed-csuite=0;ed-csuite=2;
-        ed-method=0;ed-cred-t=c509;ed-cred-t=ccs;ed-idcred-t=4;
+        ed-method=0;ed-cred-t=1;ed-cred-t=3;ed-idcred-t=4;
         ed-i;ed-r;ed-comb-req
 ~~~~~~~~~~~~~~~~~
 {: #fig-web-link-example title="The Web Link." artwork-align="center"}
@@ -582,6 +583,55 @@ Change Controller: IESG
 Reference: [RFC-XXXX]
 ~~~~~~~~~~~
 
+## EDHOC Authentication Credential Types Registry ## {#iana-edhoc-auth-cred-types}
+
+IANA is requested to create a new "EDHOC Authentication Credential Types" registry within the "Ephemeral Diffie-Hellman Over COSE (EDHOC)" registry group defined in {{I-D.ietf-lake-edhoc}}.
+
+The registry uses the "Expert Review" registration procedure {{RFC8126}}. Expert Review guidelines are provided in {{review}}.
+
+The columns of this registry are:
+
+* Value: This field contains the value used to identify the type of authentication credential. These values MUST be unique. The value can be an unsigned integer or a negative integer. Different ranges of values use different registration policies {{RFC8126}}. Integer values from -24 to 23 are designated as "Standards Action With Expert Review". Integer values from -65536 to -25 and from 24 to 65535 are designated as "Specification Required". Integer values smaller than -65536 and greater than 65535 are marked as "Private Use".
+
+* Description: This field contains a short description of the type of authentication credential.
+
+* Reference: This field contains a pointer to the public specification for the type of authentication credential.
+
+Initial entries in this registry are as listed in {{pre-reg}}.
+
+~~~~~~~~~~~
++-------+-----------------------+-----------------------------------+
+| Value | Description           | Reference                         |
++-------+-----------------------+-----------------------------------+
+| 0     | CBOR Web Token (CWT)  | [RFC8392]                         |
+|       | containing a COSE_Key |                                   |
+|       | in a 'cnf' claim      |                                   |
++-------+-----------------------+-----------------------------------+
+| 1     | CWT Claims Set (CCS)  | [RFC8392]                         |
+|       | containing a COSE_Key |                                   |
+|       | in a 'cnf' claim      |                                   |
++-------+-----------------------+-----------------------------------+
+| 2     | X.509 certificate     | [RFC5280]                         |
++-------+-----------------------+-----------------------------------+
+| 3     | C509 certificate      | [I-D.ietf-cose-cbor-encoded-cert] |
++-------+-----------------------+-----------------------------------+
+~~~~~~~~~~~
+{: #pre-reg title="Initial Entries in the \"EDHOC Authentication Credential Types\" Registry" artwork-align="center"}
+
+## Expert Review Instructions ## {#review}
+
+The IANA registry established in this document is defined as "Expert Review". This section gives some general guidelines for what the experts should be looking for, but they are being designated as experts for a reason so they should be given substantial latitude.
+
+Expert reviewers should take into consideration the following points:
+
+* Clarity and correctness of registrations. Experts are expected to check the clarity of purpose and use of the requested entries. Experts need to make sure that registered identifiers indicate a type of authentication credential whose format and encoding is clearly defined in the corresponding specification. Identifiers of types of authentication credentials that do not meet these objective of clarity and completeness must not be registered.
+
+* Point squatting should be discouraged. Reviewers are encouraged to get sufficient information for registration requests to ensure that the usage is not going to duplicate one that is already registered and that the point is likely to be used in deployments. The zones tagged as "Private Use" are intended for testing purposes and closed environments. Code points in other ranges should not be assigned for testing.
+
+* Specifications are required for the "Standards Action With Expert Review" range of point assignment. Specifications should exist for "Specification Required" ranges, but early assignment before a specification is available is considered to be permissible. When specifications are not provided, the description provided needs to have sufficient information to identify what the point is being used for.
+
+* Experts should take into account the expected usage of fields when approving point assignment. The fact that there is a range for Standards Track documents does not mean that a Standards Track document cannot have points assigned outside of that range. The length of the encoded value should be weighed against how many code points of that length are left, the size of device it will be used on, and the number of code points left that encode to that size.
+
 --- back
 
 # Document Updates # {#sec-document-updates}
@@ -611,6 +661,8 @@ RFC Editor: Please remove this section.
 * Defined single target attribute "ed-ead" signaling supported EAD items.
 
 * Security consideration on the minimally achieved 128-bit security.
+
+* Defined and used the "EDHOC Authentication Credential Types" Registry.
 
 * High-level sentence replacing the appendix on Block-wise performance.
 
