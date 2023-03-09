@@ -458,7 +458,7 @@ The following parameters are defined.
 
 * 'ed-cred-t', specifying a type of authentication credential supported by the server. This parameter MUST specify a single value, and possible values are: "x509", for X.509 certificate {{RFC5280}}; "c509", for C509 certificate {{I-D.ietf-cose-cbor-encoded-cert}}; "cwt" for CWT {{RFC8392}}; "ccs" for CWT Claims Set (CCS) {{RFC8392}}. This parameter MAY occur multiple times, with each occurrence specifying a different authentication credential type.
 
-* 'ed-idcred-t', specifying a type of identifiers supported by the server for identifying authentication credentials. This parameter MUST specify a single value, which is taken from the 'Label' column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}}. This parameter MAY occur multiple times, with each occurrence specifying a different type of identifier for authentication credentials.
+* 'ed-idcred-t', specifying a type of identifier supported by the server for identifying authentication credentials. This parameter MUST specify a single value, which is taken from the 'Label' column of the "COSE Header Parameters" registry {{COSE.Header.Parameters}}. This parameter MAY occur multiple times, with each occurrence specifying a different type of identifier for authentication credentials.
 
    Note that the values in the 'Label' column of the "COSE Header Parameters" registry are strongly typed. On the contrary, Link Format is weakly typed and thus does not distinguish between, for instance, the string value "-10" and the integer value -10. Thus, if responses in Link Format are returned, string values which look like an integer are not supported. Therefore, such values MUST NOT be used in the 'ed-idcred-t' parameter.
 
@@ -570,23 +570,9 @@ Brief Description: A supported type of
 Change Controller: IESG
 Reference: [RFC-XXXX]
 
-Attribute Name: ed-ead1
-Brief Description: A supported EAD item for EDHOC EAD_1
-Change Controller: IESG
-Reference: [RFC-XXXX]
-
-Attribute Name: ed-ead2
-Brief Description: A supported EAD item for EDHOC EAD_2
-Change Controller: IESG
-Reference: [RFC-XXXX]
-
-Attribute Name: ed-ead3
-Brief Description: A supported EAD item for EDHOC EAD_3
-Change Controller: IESG
-Reference: [RFC-XXXX]
-
-Attribute Name: ed-ead4
-Brief Description: A supported EAD item for EDHOC EAD_4
+Attribute Name: ed-ead
+Brief Description: A supported External Authorization Data (EAD)
+                   item for EDHOC
 Change Controller: IESG
 Reference: [RFC-XXXX]
 
