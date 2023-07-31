@@ -109,53 +109,54 @@ After this exchange takes place, and after successful verifications as specified
 
 The client and server are required to agree in advance on certain information and parameters describing how they should use EDHOC. These are specified in an application profile associated with the used EDHOC resource (see {{Section 3.9 of I-D.ietf-lake-edhoc}}.
 
+~~~~~~~~~~~~~~~~~ aasvg
+  CoAP client                                         CoAP server
+(EDHOC Initiator)                                 (EDHOC Responder)
+       |                                                    |
+       |                                                    |
+       | ----------------- EDHOC Request -----------------> |
+       |   Header: 0.02 (POST)                              |
+       |   Uri-Path: "/.well-known/edhoc"                   |
+       |   Content-Format: application/cid-edhoc+cbor-seq   |
+       |   Payload: true, EDHOC message_1                   |
+       |                                                    |
+       | <---------------- EDHOC Response------------------ |
+       |       Header: 2.04 (Changed)                       |
+       |       Content-Format: application/edhoc+cbor-seq   |
+       |       Payload: EDHOC message_2                     |
+       |                                                    |
+EDHOC verification                                          |
+       |                                                    |
+       | ----------------- EDHOC Request -----------------> |
+       |   Header: 0.02 (POST)                              |
+       |   Uri-Path: "/.well-known/edhoc"                   |
+       |   Content-Format: application/cid-edhoc+cbor-seq   |
+       |   Payload: C_R, EDHOC message_3                    |
+       |                                                    |
+       |                                         EDHOC verification
+       |                                                    +
+       |                                            OSCORE Sec Ctx
+       |                                             Derivation
+       |                                                    |
+       | <---------------- EDHOC Response------------------ |
+       |       Header: 2.04 (Changed)                       |
+       |       Content-Format: application/edhoc+cbor-seq   |
+       |       Payload: EDHOC message_4                     |
+       |                                                    |
+OSCORE Sec Ctx                                              |
+ Derivation                                                 |
+       |                                                    |
+       | ---------------- OSCORE Request -----------------> |
+       |   Header: 0.02 (POST)                              |
+       |   Payload: OSCORE-protected data                   |
+       |                                                    |
+       | <--------------- OSCORE Response ----------------- |
+       |                 Header: 2.04 (Changed)             |
+       |                 Payload: OSCORE-protected data     |
+       |                                                    |
 ~~~~~~~~~~~~~~~~~
-   CoAP client                                         CoAP server
-(EDHOC Initiator)                                   (EDHOC Responder)
-        |                                                    |
-        |                                                    |
-        | ----------------- EDHOC Request -----------------> |
-        |   Header: 0.02 (POST)                              |
-        |   Uri-Path: "/.well-known/edhoc"                   |
-        |   Content-Format: application/cid-edhoc+cbor-seq   |
-        |   Payload: true, EDHOC message_1                   |
-        |                                                    |
-        | <---------------- EDHOC Response------------------ |
-        |       Header: 2.04 (Changed)                       |
-        |       Content-Format: application/edhoc+cbor-seq   |
-        |       Payload: EDHOC message_2                     |
-        |                                                    |
-EDHOC verification                                           |
-        |                                                    |
-        | ----------------- EDHOC Request -----------------> |
-        |   Header: 0.02 (POST)                              |
-        |   Uri-Path: "/.well-known/edhoc"                   |
-        |   Content-Format: application/cid-edhoc+cbor-seq   |
-        |   Payload: C_R, EDHOC message_3                    |
-        |                                                    |
-        |                                           EDHOC verification
-        |                                                    +
-        |                                             OSCORE Sec Ctx
-        |                                               Derivation
-        |                                                    |
-        | <---------------- EDHOC Response------------------ |
-        |       Header: 2.04 (Changed)                       |
-        |       Content-Format: application/edhoc+cbor-seq   |
-        |       Payload: EDHOC message_4                     |
-        |                                                    |
-OSCORE Sec Ctx                                               |
-  Derivation                                                 |
-        |                                                    |
-        | ---------------- OSCORE Request -----------------> |
-        |   Header: 0.02 (POST)                              |
-        |   Payload: OSCORE-protected data                   |
-        |                                                    |
-        | <--------------- OSCORE Response ----------------- |
-        |                 Header: 2.04 (Changed)             |
-        |                 Payload: OSCORE-protected data     |
-        |                                                    |
-~~~~~~~~~~~~~~~~~
-{: #fig-non-combined title="EDHOC and OSCORE run sequentially. The optional message_4 is included in this example, without which that message needs no payload." artwork-align="center"}
+{: #fig-non-combined title="EDHOC and OSCORE run sequentially.
+ The optional message_4 is included in this example, without which that message needs no payload." artwork-align="center"}
 
 As shown in {{fig-non-combined}}, this purely-sequential flow where EDHOC is run first and then OSCORE is used takes three round trips to complete.
 
@@ -171,39 +172,39 @@ When running the purely-sequential flow of {{overview}}, the client has all the 
 
 Hence, the client can potentially send both EDHOC message_3 and the subsequent OSCORE Request at the same time. On a semantic level, this requires sending two REST requests at once, as in {{fig-combined}}.
 
-~~~~~~~~~~~~~~~~~
-   CoAP client                                          CoAP server
-(EDHOC Initiator)                                    (EDHOC Responder)
-        |                                                     |
-        | ------------------ EDHOC Request -----------------> |
-        |   Header: 0.02 (POST)                               |
-        |   Uri-Path: "/.well-known/edhoc"                    |
-        |   Content-Format: application/cid-edhoc+cbor-seq    |
-        |   Payload: true, EDHOC message_1                    |
-        |                                                     |
-        | <----------------- EDHOC Response------------------ |
-        |        Header: Changed (2.04)                       |
-        |        Content-Format: application/edhoc+cbor-seq   |
-        |        Payload: EDHOC message_2                     |
-        |                                                     |
-EDHOC verification                                            |
-        +                                                     |
-  OSCORE Sec Ctx                                              |
-    Derivation                                                |
-        |                                                     |
-        | ------------- EDHOC + OSCORE Request -------------> |
-        |   Header: 0.02 (POST)                               |
-        |   Payload: EDHOC message_3 + OSCORE-protected data  |
-        |                                                     |
-        |                                            EDHOC verification
-        |                                                     +
-        |                                             OSCORE Sec Ctx
-        |                                                Derivation
-        |                                                     |
-        | <--------------- OSCORE Response ------------------ |
-        |                    Header: 2.04 (Changed)           |
-        |                    Payload: OSCORE-protected data   |
-        |                                                     |
+~~~~~~~~~~~~~~~~~ aasvg
+  CoAP client                                          CoAP server
+(EDHOC Initiator)                                  (EDHOC Responder)
+       |                                                     |
+       | ------------------ EDHOC Request -----------------> |
+       |   Header: 0.02 (POST)                               |
+       |   Uri-Path: "/.well-known/edhoc"                    |
+       |   Content-Format: application/cid-edhoc+cbor-seq    |
+       |   Payload: true, EDHOC message_1                    |
+       |                                                     |
+       | <----------------- EDHOC Response------------------ |
+       |        Header: Changed (2.04)                       |
+       |        Content-Format: application/edhoc+cbor-seq   |
+       |        Payload: EDHOC message_2                     |
+       |                                                     |
+EDHOC verification                                           |
+       +                                                     |
+ OSCORE Sec Ctx                                              |
+   Derivation                                                |
+       |                                                     |
+       | ------------- EDHOC + OSCORE Request -------------> |
+       |   Header: 0.02 (POST)                               |
+       |   Payload: EDHOC message_3 + OSCORE-protected data  |
+       |                                                     |
+       |                                          EDHOC verification
+       |                                                     +
+       |                                            OSCORE Sec Ctx
+       |                                               Derivation
+       |                                                     |
+       | <--------------- OSCORE Response ------------------ |
+       |                    Header: 2.04 (Changed)           |
+       |                    Payload: OSCORE-protected data   |
+       |                                                     |
 ~~~~~~~~~~~~~~~~~
 {: #fig-combined title="EDHOC and OSCORE combined." artwork-align="center"}
 
