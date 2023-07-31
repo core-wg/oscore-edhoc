@@ -354,18 +354,18 @@ A. If Block-wise is present in the request, then process the Outer Block options
 
 Note to RFC Editor: Please delete the last bullet point in the previous list, since, at the time of publication, the CoAP option number will be in fact registered.
 
-~~~~~~~~~~~~~~~~~
-o  OSCORE option value: 0x090001 (3 bytes)
+This results in the following components shown in {{fig-edhoc-opt-2}}:
 
-o  EDHOC option value: - (0 bytes)
+* OSCORE option value: 0x090001 (3 bytes)
 
-o  EDHOC message_3: 0x52d5535f3147e85f1cfacd9e78abf9e0a81bbf (19 bytes)
+* EDHOC option value: - (0 bytes)
 
-o  OSCORE ciphertext: 0x612f1092f1776f1c1668b3825e (13 bytes)
+* EDHOC message_3: 0x52d5535f3147e85f1cfacd9e78abf9e0a81bbf (19 bytes)
 
-From there:
+* OSCORE ciphertext: 0x612f1092f1776f1c1668b3825e (13 bytes)
 
-o  Protected CoAP request (OSCORE message):
+~~~~~~~~~~~~~~~~~~
+Protected CoAP request (OSCORE message):
 
    0x44025d1f               ; CoAP 4-byte header
      00003974               ; Token
