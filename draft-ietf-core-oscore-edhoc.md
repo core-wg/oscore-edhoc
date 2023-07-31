@@ -12,52 +12,38 @@ area: Internet
 workgroup: CoRE Working Group
 keyword: Internet-Draft
 
-stand_alone: yes
 coding: utf-8
-pi: [toc, sortrefs, symrefs]
 
 author:
- -
-    ins: F. Palombini
-    name: Francesca Palombini
+ -  name: Francesca Palombini
     organization: Ericsson
     email: francesca.palombini@ericsson.com
- -
-    ins: M. Tiloca
-    name: Marco Tiloca
+ -  name: Marco Tiloca
     org: RISE AB
     street: Isafjordsgatan 22
     city: Kista
     code: SE-16440 Stockholm
     country: Sweden
     email: marco.tiloca@ri.se
- -
-    ins: R. Hoeglund
-    name: Rikard Hoeglund
+ -  name: Rikard Höglund
     org: RISE AB
     street: Isafjordsgatan 22
     city: Kista
     code: SE-16440 Stockholm
     country: Sweden
     email: rikard.hoglund@ri.se
- -
-    ins: S. Hristozov
-    name: Stefan Hristozov
+ -  name: Stefan Hristozov
     organization: Fraunhofer AISEC
     email: stefan.hristozov@eriptic.com
- -
-    ins: G. Selander
-    name: Goeran Selander
+ -  name: Göran Selander
     organization: Ericsson
     email: goran.selander@ericsson.com
 
 normative:
-  RFC2119:
   RFC6690:
   RFC7252:
   RFC7959:
   RFC8126:
-  RFC8174:
   RFC8288:
   RFC8613:
   RFC8949:
