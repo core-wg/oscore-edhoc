@@ -537,7 +537,11 @@ The registry uses the "Expert Review" registration procedure {{RFC8126}}. Expert
 
 The columns of this registry are:
 
-* Value: This field contains the value used to identify the type of authentication credential. These values MUST be unique. The value can be an unsigned integer or a negative integer. Different ranges of values use different registration policies {{RFC8126}}. Integer values from -24 to 23 are designated as "Standards Action With Expert Review". Integer values from -65536 to -25 and from 24 to 65535 are designated as "Specification Required". Integer values smaller than -65536 and greater than 65535 are marked as "Private Use".
+* Value: This field contains the value used to identify the type of authentication credential. These values MUST be unique. The value can be an unsigned integer or a negative integer. Different ranges of values use different registration policies {{RFC8126}}:
+
+   * Integer values from -24 to 23 are designated as "Standards Action With Expert Review". 
+   * Integer values from -65536 to -25 and from 24 to 65535 are designated as "Specification Required". 
+   * Integer values smaller than -65536 and greater than 65535 are marked as "Private Use".
 
 * Description: This field contains a short description of the type of authentication credential.
 
