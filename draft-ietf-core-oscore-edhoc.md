@@ -569,8 +569,7 @@ Expert reviewers should take into consideration the following points:
 --- back
 
 # Document Updates # {#sec-document-updates}
-
-RFC Editor: Please remove this section.
+{:removeinrfc}
 
 ## Version -06 to -07 ## {#sec-06-07}
 
