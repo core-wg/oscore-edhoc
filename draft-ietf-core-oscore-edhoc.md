@@ -49,7 +49,7 @@ normative:
   RFC8949:
   RFC9176:
   I-D.ietf-lake-edhoc:
-  I-D.ietf-core-target-attr:
+  I-D.ietf-core-target-attr: # note: this draft is informational!
   COSE.Header.Parameters:
     author:
       org: IANA
