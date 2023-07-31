@@ -222,15 +222,11 @@ This section defines the EDHOC Option. The option is used in a CoAP request, to 
 
 The EDHOC Option has the properties summarized in {{fig-edhoc-option}}, which extends Table 4 of {{RFC7252}}. The option is Critical, Safe-to-Forward, and part of the Cache-Key. The option MUST occur at most once and is always empty. If any value is sent, the value is simply ignored. The option is intended only for CoAP requests and is of Class U for OSCORE {{RFC8613}}.
 
-~~~~~~~~~~~
-+-------+---+---+---+---+-------+--------+--------+---------+
 | No.   | C | U | N | R | Name  | Format | Length | Default |
-+-------+---+---+---+---+-------+--------+--------+---------+
 | TBD21 | x |   |   |   | EDHOC | Empty  |   0    | (none)  |
-+-------+---+---+---+---+-------+--------+--------+---------+
-       C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable
-~~~~~~~~~~~
-{: #fig-edhoc-option title="The EDHOC Option." artwork-align="center"}
+{: #fig-edhoc-option title="The EDHOC Option.
+ C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable" align="center"}
+
 
 Note to RFC Editor: Following the registration of the CoAP Option Number 21 as per {{iana-coap-options}}, please replace "TBD21" with "21" in the figure above. Then, please delete this paragraph.
 
@@ -498,14 +494,9 @@ Note to RFC Editor: Please replace all occurrences of "{{&SELF}}" with the RFC n
 
 IANA is asked to enter the following option number to the "CoAP Option Numbers" registry within the "CoRE Parameters" registry group.
 
-~~~~~~~~~~~
-+--------+-------+------------+
 | Number | Name  | Reference  |
-+--------+-------+------------+
 | TBD21  | EDHOC | [RFC-XXXX] |
-+--------+-------+------------+
-~~~~~~~~~~~
-{: artwork-align="center"}
+{: align="center" title="Registrations in CoAP Option Numbers Registry"}
 
 Note to RFC Editor: Following the registration of the CoAP Option Number 21, please replace "TBD21" with "21" in the table above. Then, please delete this paragraph and all the following text within the present {{iana-coap-options}}.
 
@@ -524,51 +515,19 @@ Therefore, this document suggests 21 (TBD21) as option number to be assigned to 
 ## Target Attributes Registry ## {#iana-target-attributes}
 
 IANA is asked to register the following entries in the "Target Attributes" registry within the "CoRE Parameters" registry group, as per {{I-D.ietf-core-target-attr}}.
+For all entries, the Change Controller is IETF, and the reference is \[RFC-XXXX].
 
-~~~~~~~~~~~
-Attribute Name: ed-i
-Brief Description: Hint: support for the EDHOC Initiator role
-Change Controller: IESG
-Reference: [RFC-XXXX]
+| Attribute Name: | Brief Description:                                                 |
+| ed-i            | Hint: support for the EDHOC Initiator role                         |
+| ed-r            | Hint: support for the EDHOC Responder role                         |
+| ed-method       | A supported authentication method for EDHOC                        |
+| ed-csuite       | A supported cipher suite for EDHOC                                 |
+| ed-cred-t       | A supported type of authentication credential for EDHOC            |
+| ed-idcred-t     | A supported type of authentication credential identifier for EDHOC |
+| ed-ead          | A supported External Authorization Data (EAD) item for EDHOC       |
+| ed-comb-req     | Hint: support for the EDHOC+OSCORE request                         |
+{: align="center" title="Registrations in Target Attributes Registry"}
 
-Attribute Name: ed-r
-Brief Description: Hint: support for the EDHOC Responder role
-Change Controller: IESG
-Reference: [RFC-XXXX]
-
-Attribute Name: ed-method
-Brief Description: A supported authentication method for EDHOC
-Change Controller: IESG
-Reference: [RFC-XXXX]
-
-Attribute Name: ed-csuite
-Brief Description: A supported cipher suite for EDHOC
-Change Controller: IESG
-Reference: [RFC-XXXX]
-
-Attribute Name: ed-cred-t
-Brief Description: A supported type of
-                   authentication credential for EDHOC
-Change Controller: IESG
-Reference: [RFC-XXXX]
-
-Attribute Name: ed-idcred-t
-Brief Description: A supported type of
-                   authentication credential identifier for EDHOC
-Change Controller: IESG
-Reference: [RFC-XXXX]
-
-Attribute Name: ed-ead
-Brief Description: A supported External Authorization Data (EAD)
-                   item for EDHOC
-Change Controller: IESG
-Reference: [RFC-XXXX]
-
-Attribute Name: ed-comb-req
-Brief Description: Hint: support for the EDHOC+OSCORE request
-Change Controller: IESG
-Reference: [RFC-XXXX]
-~~~~~~~~~~~
 
 ## EDHOC Authentication Credential Types Registry ## {#iana-edhoc-auth-cred-types}
 
@@ -586,28 +545,16 @@ The columns of this registry are:
 
 Initial entries in this registry are as listed in {{pre-reg}}.
 
-~~~~~~~~~~~
-+-------+-----------------------+-----------------------------------+
-| Value | Description           | Reference                         |
-+-------+-----------------------+-----------------------------------+
-| 0     | CBOR Web Token (CWT)  | [RFC8392]                         |
-|       | containing a COSE_Key |                                   |
-|       | in a 'cnf' claim      |                                   |
-+-------+-----------------------+-----------------------------------+
-| 1     | CWT Claims Set (CCS)  | [RFC8392]                         |
-|       | containing a COSE_Key |                                   |
-|       | in a 'cnf' claim      |                                   |
-+-------+-----------------------+-----------------------------------+
-| 2     | X.509 certificate     | [RFC5280]                         |
-+-------+-----------------------+-----------------------------------+
-| 3     | C509 certificate      | [I-D.ietf-cose-cbor-encoded-cert] |
-+-------+-----------------------+-----------------------------------+
-~~~~~~~~~~~
-{: #pre-reg title="Initial Entries in the \"EDHOC Authentication Credential Types\" Registry" artwork-align="center"}
+| Value | Description                                                 | Reference                         |
+|     0 | CBOR Web Token (CWT) containing a COSE_Key in a 'cnf' claim | [RFC8392]                         |
+|     1 | CWT Claims Set (CCS) containing a COSE_Key in a 'cnf' claim | [RFC8392]                         |
+|     2 | X.509 certificate                                           | [RFC5280]                         |
+|     3 | C509 certificate                                            | [I-D.ietf-cose-cbor-encoded-cert] |
+{: #pre-reg title="Initial Entries in the \"EDHOC Authentication Credential Types\" Registry" align="center"}
 
 ## Expert Review Instructions ## {#review}
 
-The IANA registry established in this document is defined as "Expert Review". This section gives some general guidelines for what the experts should be looking for, but they are being designated as experts for a reason so they should be given substantial latitude.
+The IANA registry established in this document is defined as "Expert Review". This section gives some general guidelines for what the experts should be looking for; but they are being designated as experts for a reason, so they should be given substantial latitude.
 
 Expert reviewers should take into consideration the following points:
 
