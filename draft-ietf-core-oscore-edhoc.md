@@ -418,13 +418,11 @@ If the following condition holds, the Initiator MUST discontinue the protocol an
 
 # Extension and Consistency of Application Profiles # {#app-statements}
 
-The application profile referred by the client and server can include the information elements introduced below, in accordance with the specified consistency rules.
+The application profile referred by the client and server can include the information below, according to the specified consistency rules.
 
-If the server supports the EDHOC + OSCORE request within an EDHOC execution started at a certain EDHOC resource, then the application profile associated with that resource:
+If the server supports the EDHOC + OSCORE request within an EDHOC execution started at a certain EDHOC resource, then the application profile associated with that resource SHOULD explicitly specify support for the EDHOC + OSCORE request.
 
-* MUST NOT specify that EDHOC message_4 shall be sent.
-
-* SHOULD explicitly specify support for the EDHOC + OSCORE request.
+In case the application profile indicates that the server supports the optional EDHOC message_4 (see {{Section 5.5 of I-D.ietf-lake-edhoc}}), the client has to bear in mind that the usage of EDHOC message_4 is not applicable to the optimized workflow based on the EDHOC + OSCORE request (see {{server-processing}}).
 
 # Web Linking # {#web-linking}
 
