@@ -224,7 +224,7 @@ The rest of this section specifies how to transport the data in the EDHOC + OSCO
 
 This section defines the EDHOC Option. The option is used in a CoAP request, to signal that the request payload conveys both an EDHOC message_3 and OSCORE-protected data, combined together.
 
-The EDHOC Option has the properties summarized in {{fig-edhoc-option}}, which extends Table 4 of {{RFC7252}}. The option is Critical, Safe-to-Forward, and part of the Cache-Key. The option MUST occur at most once and is always empty. If any value is sent, the value is simply ignored. The option is intended only for CoAP requests and is of Class U for OSCORE {{RFC8613}}.
+The EDHOC Option has the properties summarized in {{fig-edhoc-option}}, which extends Table 4 of {{RFC7252}}. The option is Critical, Safe-to-Forward, and part of the Cache-Key. The option MUST occur at most once and MUST be empty. If any value is sent, the recipient MUST ignore it. Future documents may update the definition of the option, by expanding its semantics and specifying admitted values. The option is intended only for CoAP requests and is of Class U for OSCORE {{RFC8613}}.
 
 | No.   | C | U | N | R | Name  | Format | Length | Default |
 | TBD21 | x |   |   |   | EDHOC | Empty  |   0    | (none)  |
