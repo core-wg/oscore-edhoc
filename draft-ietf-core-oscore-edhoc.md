@@ -400,7 +400,7 @@ The Initiator selects an EDHOC Connection Identifier C_I as follows.
 
 The Initiator MUST choose a C_I that is neither used in any current EDHOC session as this peer's EDHOC Connection Identifier, nor the Recipient ID in a current OSCORE Security Context where the ID Context is not present.
 
-The chosen C_I SHOULD NOT be the Recipient ID of any current OSCORE Security Context.
+The chosen C_I SHOULD NOT be the Recipient ID of any current OSCORE Security Context. Unless the two peers concurrently use alternative methods to establish OSCORE Security Contexts, this allows the Responder to always omit the 'kid context' in the OSCORE Option of its messages sent to the Initiator, when protecting those with an OSCORE Security Context where C_I is the Responder's OSCORE Sender ID (see {{Section 6.1 of RFC8613}}).
 
 ### Responder Processing of Message 2
 
@@ -408,7 +408,7 @@ The Responder selects an EDHOC Connection Identifier C_R as follows.
 
 The Responder MUST choose a C_R that is neither used in any current EDHOC session as this peer's EDHOC Connection Identifier, nor is equal to the EDHOC Connection Identifier C_I specified in the EDHOC message_1 of the present EDHOC session (i.e., after its decoding as per {{Section 3.3 of I-D.ietf-lake-edhoc}}), nor is the Recipient ID in a current OSCORE Security Context where the ID Context is not present.
 
-The chosen C_R SHOULD NOT be the Recipient ID of any current OSCORE Security Context.
+The chosen C_R SHOULD NOT be the Recipient ID of any current OSCORE Security Context. Unless the two peers concurrently use alternative methods to establish OSCORE Security Contexts, this allows the Initiator to always omit the 'kid context' in the OSCORE Option of its messages sent to the Responder, when protecting those with an OSCORE Security Context where C_R is the Initiator's OSCORE Sender ID (see {{Section 6.1 of RFC8613}}).
 
 ### Initiator Processing of Message 2
 
