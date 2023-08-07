@@ -284,6 +284,8 @@ The client prepares an EDHOC + OSCORE request as follows.
 
 With the same server, the client SHOULD NOT have multiple simultaneous outstanding interactions (see {{Section 4.7 of RFC7252}}) such that: they consist of an EDHOC + OSCORE request; and their EDHOC data pertain to the EDHOC session with the same connection identifier C_R.
 
+An exception applies for clients that operate under particular time constraints over particularly unreliable networks, thus raising the chances to promptly complete the EDHOC execution with the server through multiple, simultaneous EDHOC + OSCORE requests. As discussed in {{security-considerations}}, this does not have any impact in terms of security.
+
 ### Supporting Block-wise {#client-blockwise}
 
 If Block-wise {{RFC7959}} is supported, the client may fragment the first application CoAP request before protecting it as an original message with OSCORE, as defined in {{Section 4.1.3.4.1 of RFC8613}}.
@@ -470,7 +472,7 @@ RES: 2.05 Content
 ~~~~~~~~~~~~~~~~~
 {: #fig-web-link-example title="The Web Link." artwork-align="center"}
 
-# Security Considerations
+# Security Considerations # {#security-considerations}
 
 The same security considerations from OSCORE {{RFC8613}} and EDHOC {{I-D.ietf-lake-edhoc}} hold for this document. In addition, the following considerations also apply.
 
