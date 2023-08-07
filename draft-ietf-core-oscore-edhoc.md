@@ -515,7 +515,7 @@ Therefore, this document suggests 21 (TBD21) as option number to be assigned to 
 ## Target Attributes Registry ## {#iana-target-attributes}
 
 IANA is asked to register the following entries in the "Target Attributes" registry within the "CoRE Parameters" registry group, as per {{I-D.ietf-core-target-attr}}.
-For all entries, the Change Controller is IETF, and the reference is \[RFC-XXXX].
+For all entries, the Change Controller is IESG, and the reference is \[RFC-XXXX].
 
 | Attribute Name: | Brief Description:                                                 |
 | ed-i            | Hint: support for the EDHOC Initiator role                         |
