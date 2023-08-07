@@ -156,8 +156,7 @@ OSCORE Sec Ctx                                              |
        |                                                    |
 ~~~~~~~~~~~~~~~~~
 {: #fig-non-combined title="EDHOC and OSCORE run sequentially.
-
-The optional message_4 is included in this example, without which that message needs no payload." artwork-align="center"}
+ The optional message_4 is included in this example, without which that message needs no payload." artwork-align="center"}
 
 As shown in {{fig-non-combined}}, this purely-sequential flow where EDHOC is run first and then OSCORE is used takes three round trips to complete.
 
@@ -230,8 +229,7 @@ The EDHOC Option has the properties summarized in {{fig-edhoc-option}}, which ex
 | No.   | C | U | N | R | Name  | Format | Length | Default |
 | TBD21 | x |   |   |   | EDHOC | Empty  |   0    | (none)  |
 {: #fig-edhoc-option title="The EDHOC Option.
-
-C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable" align="center"}
+ C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable" align="center"}
 
 
 Note to RFC Editor: Following the registration of the CoAP Option Number 21 as per {{iana-coap-options}}, please replace "TBD21" with "21" in the figure above. Then, please delete this paragraph.
