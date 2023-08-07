@@ -375,12 +375,11 @@ Protected CoAP request (OSCORE message):
 
    0x44025d1f               ; CoAP 4-byte header
      00003974               ; Token
-     39 6c6f63616c686f7374  ; Uri-Host Option: "localhost"
-     63 090001              ; OSCORE Option
+     93 090001              ; OSCORE Option
      c0                     ; EDHOC Option
      ff 52d5535f3147e85f1cfacd9e78abf9e0a81bbf
         612f1092f1776f1c1668b3825e
-   (56 bytes)
+   (46 bytes)
 ~~~~~~~~~~~~~~~~~
 {: #fig-edhoc-opt-2 title="Example of CoAP message transported over UDP, combining EDHOC data and OSCORE data as signalled with the EDHOC Option." artwork-align="center"}
 
