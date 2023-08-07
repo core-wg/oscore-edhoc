@@ -192,7 +192,7 @@ EDHOC verification                                           |
  OSCORE Sec Ctx                                              |
    Derivation                                                |
        |                                                     |
-       | ------------- EDHOC + OSCORE Request -------------> |
+       | -------------- EDHOC + OSCORE Request ------------> |
        |   Header: 0.02 (POST)                               |
        |   Payload: EDHOC message_3 + OSCORE-protected data  |
        |                                                     |
