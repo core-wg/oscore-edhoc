@@ -12,58 +12,44 @@ area: Internet
 workgroup: CoRE Working Group
 keyword: Internet-Draft
 
-stand_alone: yes
 coding: utf-8
-pi: [toc, sortrefs, symrefs]
 
 author:
- -
-    ins: F. Palombini
-    name: Francesca Palombini
+ -  name: Francesca Palombini
     organization: Ericsson
     email: francesca.palombini@ericsson.com
- -
-    ins: M. Tiloca
-    name: Marco Tiloca
+ -  name: Marco Tiloca
     org: RISE AB
     street: Isafjordsgatan 22
     city: Kista
     code: SE-16440 Stockholm
     country: Sweden
     email: marco.tiloca@ri.se
- -
-    ins: R. Hoeglund
-    name: Rikard Hoeglund
+ -  name: Rikard Höglund
     org: RISE AB
     street: Isafjordsgatan 22
     city: Kista
     code: SE-16440 Stockholm
     country: Sweden
     email: rikard.hoglund@ri.se
- -
-    ins: S. Hristozov
-    name: Stefan Hristozov
+ -  name: Stefan Hristozov
     organization: Fraunhofer AISEC
     email: stefan.hristozov@eriptic.com
- -
-    ins: G. Selander
-    name: Goeran Selander
+ -  name: Göran Selander
     organization: Ericsson
     email: goran.selander@ericsson.com
 
 normative:
-  RFC2119:
   RFC6690:
   RFC7252:
   RFC7959:
   RFC8126:
-  RFC8174:
   RFC8288:
   RFC8613:
   RFC8949:
   RFC9176:
   I-D.ietf-lake-edhoc:
-  I-D.ietf-core-target-attr:
+  I-D.ietf-core-target-attr: # note: this draft is informational!
   COSE.Header.Parameters:
     author:
       org: IANA
@@ -123,53 +109,54 @@ After this exchange takes place, and after successful verifications as specified
 
 The client and server are required to agree in advance on certain information and parameters describing how they should use EDHOC. These are specified in an application profile associated with the used EDHOC resource (see {{Section 3.9 of I-D.ietf-lake-edhoc}}.
 
+~~~~~~~~~~~~~~~~~ aasvg
+  CoAP client                                         CoAP server
+(EDHOC Initiator)                                 (EDHOC Responder)
+       |                                                    |
+       |                                                    |
+       | ----------------- EDHOC Request -----------------> |
+       |   Header: 0.02 (POST)                              |
+       |   Uri-Path: "/.well-known/edhoc"                   |
+       |   Content-Format: application/cid-edhoc+cbor-seq   |
+       |   Payload: true, EDHOC message_1                   |
+       |                                                    |
+       | <---------------- EDHOC Response------------------ |
+       |       Header: 2.04 (Changed)                       |
+       |       Content-Format: application/edhoc+cbor-seq   |
+       |       Payload: EDHOC message_2                     |
+       |                                                    |
+EDHOC verification                                          |
+       |                                                    |
+       | ----------------- EDHOC Request -----------------> |
+       |   Header: 0.02 (POST)                              |
+       |   Uri-Path: "/.well-known/edhoc"                   |
+       |   Content-Format: application/cid-edhoc+cbor-seq   |
+       |   Payload: C_R, EDHOC message_3                    |
+       |                                                    |
+       |                                         EDHOC verification
+       |                                                    +
+       |                                            OSCORE Sec Ctx
+       |                                             Derivation
+       |                                                    |
+       | <---------------- EDHOC Response------------------ |
+       |       Header: 2.04 (Changed)                       |
+       |       Content-Format: application/edhoc+cbor-seq   |
+       |       Payload: EDHOC message_4                     |
+       |                                                    |
+OSCORE Sec Ctx                                              |
+ Derivation                                                 |
+       |                                                    |
+       | ---------------- OSCORE Request -----------------> |
+       |   Header: 0.02 (POST)                              |
+       |   Payload: OSCORE-protected data                   |
+       |                                                    |
+       | <--------------- OSCORE Response ----------------- |
+       |                 Header: 2.04 (Changed)             |
+       |                 Payload: OSCORE-protected data     |
+       |                                                    |
 ~~~~~~~~~~~~~~~~~
-   CoAP client                                         CoAP server
-(EDHOC Initiator)                                   (EDHOC Responder)
-        |                                                    |
-        |                                                    |
-        | ----------------- EDHOC Request -----------------> |
-        |   Header: 0.02 (POST)                              |
-        |   Uri-Path: "/.well-known/edhoc"                   |
-        |   Content-Format: application/cid-edhoc+cbor-seq   |
-        |   Payload: true, EDHOC message_1                   |
-        |                                                    |
-        | <---------------- EDHOC Response------------------ |
-        |       Header: 2.04 (Changed)                       |
-        |       Content-Format: application/edhoc+cbor-seq   |
-        |       Payload: EDHOC message_2                     |
-        |                                                    |
-EDHOC verification                                           |
-        |                                                    |
-        | ----------------- EDHOC Request -----------------> |
-        |   Header: 0.02 (POST)                              |
-        |   Uri-Path: "/.well-known/edhoc"                   |
-        |   Content-Format: application/cid-edhoc+cbor-seq   |
-        |   Payload: C_R, EDHOC message_3                    |
-        |                                                    |
-        |                                           EDHOC verification
-        |                                                    +
-        |                                             OSCORE Sec Ctx
-        |                                               Derivation
-        |                                                    |
-        | <---------------- EDHOC Response------------------ |
-        |       Header: 2.04 (Changed)                       |
-        |       Content-Format: application/edhoc+cbor-seq   |
-        |       Payload: EDHOC message_4                     |
-        |                                                    |
-OSCORE Sec Ctx                                               |
-  Derivation                                                 |
-        |                                                    |
-        | ---------------- OSCORE Request -----------------> |
-        |   Header: 0.02 (POST)                              |
-        |   Payload: OSCORE-protected data                   |
-        |                                                    |
-        | <--------------- OSCORE Response ----------------- |
-        |                 Header: 2.04 (Changed)             |
-        |                 Payload: OSCORE-protected data     |
-        |                                                    |
-~~~~~~~~~~~~~~~~~
-{: #fig-non-combined title="EDHOC and OSCORE run sequentially. The optional message_4 is included in this example, without which that message needs no payload." artwork-align="center"}
+{: #fig-non-combined title="EDHOC and OSCORE run sequentially.
+ The optional message_4 is included in this example, without which that message needs no payload." artwork-align="center"}
 
 As shown in {{fig-non-combined}}, this purely-sequential flow where EDHOC is run first and then OSCORE is used takes three round trips to complete.
 
@@ -185,39 +172,39 @@ When running the purely-sequential flow of {{overview}}, the client has all the 
 
 Hence, the client can potentially send both EDHOC message_3 and the subsequent OSCORE Request at the same time. On a semantic level, this requires sending two REST requests at once, as in {{fig-combined}}.
 
-~~~~~~~~~~~~~~~~~
-   CoAP client                                          CoAP server
-(EDHOC Initiator)                                    (EDHOC Responder)
-        |                                                     |
-        | ------------------ EDHOC Request -----------------> |
-        |   Header: 0.02 (POST)                               |
-        |   Uri-Path: "/.well-known/edhoc"                    |
-        |   Content-Format: application/cid-edhoc+cbor-seq    |
-        |   Payload: true, EDHOC message_1                    |
-        |                                                     |
-        | <----------------- EDHOC Response------------------ |
-        |        Header: Changed (2.04)                       |
-        |        Content-Format: application/edhoc+cbor-seq   |
-        |        Payload: EDHOC message_2                     |
-        |                                                     |
-EDHOC verification                                            |
-        +                                                     |
-  OSCORE Sec Ctx                                              |
-    Derivation                                                |
-        |                                                     |
-        | ------------- EDHOC + OSCORE Request -------------> |
-        |   Header: 0.02 (POST)                               |
-        |   Payload: EDHOC message_3 + OSCORE-protected data  |
-        |                                                     |
-        |                                            EDHOC verification
-        |                                                     +
-        |                                             OSCORE Sec Ctx
-        |                                                Derivation
-        |                                                     |
-        | <--------------- OSCORE Response ------------------ |
-        |                    Header: 2.04 (Changed)           |
-        |                    Payload: OSCORE-protected data   |
-        |                                                     |
+~~~~~~~~~~~~~~~~~ aasvg
+  CoAP client                                          CoAP server
+(EDHOC Initiator)                                  (EDHOC Responder)
+       |                                                     |
+       | ------------------ EDHOC Request -----------------> |
+       |   Header: 0.02 (POST)                               |
+       |   Uri-Path: "/.well-known/edhoc"                    |
+       |   Content-Format: application/cid-edhoc+cbor-seq    |
+       |   Payload: true, EDHOC message_1                    |
+       |                                                     |
+       | <----------------- EDHOC Response------------------ |
+       |        Header: Changed (2.04)                       |
+       |        Content-Format: application/edhoc+cbor-seq   |
+       |        Payload: EDHOC message_2                     |
+       |                                                     |
+EDHOC verification                                           |
+       +                                                     |
+ OSCORE Sec Ctx                                              |
+   Derivation                                                |
+       |                                                     |
+       | ------------- EDHOC + OSCORE Request -------------> |
+       |   Header: 0.02 (POST)                               |
+       |   Payload: EDHOC message_3 + OSCORE-protected data  |
+       |                                                     |
+       |                                          EDHOC verification
+       |                                                     +
+       |                                            OSCORE Sec Ctx
+       |                                               Derivation
+       |                                                     |
+       | <--------------- OSCORE Response ------------------ |
+       |                    Header: 2.04 (Changed)           |
+       |                    Payload: OSCORE-protected data   |
+       |                                                     |
 ~~~~~~~~~~~~~~~~~
 {: #fig-combined title="EDHOC and OSCORE combined." artwork-align="center"}
 
@@ -235,15 +222,11 @@ This section defines the EDHOC Option. The option is used in a CoAP request, to 
 
 The EDHOC Option has the properties summarized in {{fig-edhoc-option}}, which extends Table 4 of {{RFC7252}}. The option is Critical, Safe-to-Forward, and part of the Cache-Key. The option MUST occur at most once and is always empty. If any value is sent, the value is simply ignored. The option is intended only for CoAP requests and is of Class U for OSCORE {{RFC8613}}.
 
-~~~~~~~~~~~
-+-------+---+---+---+---+-------+--------+--------+---------+
 | No.   | C | U | N | R | Name  | Format | Length | Default |
-+-------+---+---+---+---+-------+--------+--------+---------+
 | TBD21 | x |   |   |   | EDHOC | Empty  |   0    | (none)  |
-+-------+---+---+---+---+-------+--------+--------+---------+
-       C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable
-~~~~~~~~~~~
-{: #fig-edhoc-option title="The EDHOC Option." artwork-align="center"}
+{: #fig-edhoc-option title="The EDHOC Option.
+ C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable" align="center"}
+
 
 Note to RFC Editor: Following the registration of the CoAP Option Number 21 as per {{iana-coap-options}}, please replace "TBD21" with "21" in the figure above. Then, please delete this paragraph.
 
@@ -371,18 +354,18 @@ A. If Block-wise is present in the request, then process the Outer Block options
 
 Note to RFC Editor: Please delete the last bullet point in the previous list, since, at the time of publication, the CoAP option number will be in fact registered.
 
-~~~~~~~~~~~~~~~~~
-o  OSCORE option value: 0x090001 (3 bytes)
+This results in the following components shown in {{fig-edhoc-opt-2}}:
 
-o  EDHOC option value: - (0 bytes)
+* OSCORE option value: 0x090001 (3 bytes)
 
-o  EDHOC message_3: 0x52d5535f3147e85f1cfacd9e78abf9e0a81bbf (19 bytes)
+* EDHOC option value: - (0 bytes)
 
-o  OSCORE ciphertext: 0x612f1092f1776f1c1668b3825e (13 bytes)
+* EDHOC message_3: 0x52d5535f3147e85f1cfacd9e78abf9e0a81bbf (19 bytes)
 
-From there:
+* OSCORE ciphertext: 0x612f1092f1776f1c1668b3825e (13 bytes)
 
-o  Protected CoAP request (OSCORE message):
+~~~~~~~~~~~~~~~~~~
+Protected CoAP request (OSCORE message):
 
    0x44025d1f               ; CoAP 4-byte header
      00003974               ; Token
@@ -399,7 +382,7 @@ o  Protected CoAP request (OSCORE message):
 
 {{Section 3.3.3 of I-D.ietf-lake-edhoc}} defines the straightforward mapping from an EDHOC connection identifier to an OSCORE Sender/Recipient ID. That is, an EDHOC identifier and the corresponding OSCORE Sender/Recipient ID are both byte strings with the same value.
 
-Therefore, the conversion from an OSCORE Sender/Recipient ID to an EDHOC identifier is equally straightforward. In particular, at step 3 of {{server-processing}}, the value of 'kid' in the OSCORE Option of the EDHOC + OSCORE request is both the server's Recipient ID (i.e., the client's Sender ID) as well as the EDHOC Connection Identifier C_R of the server.
+Therefore, the conversion from an OSCORE Sender/Recipient ID to an EDHOC identifier is equally straightforward. In particular, at step 3 of {{server-processing}}, the value of 'kid' in the OSCORE Option of the EDHOC + OSCORE request is both the server's Recipient ID (i.e., the client's Sender ID) and the EDHOC Connection Identifier C_R of the server.
 
 ## Additional Processing of EDHOC Messages {#oscore-edhoc-message-processing}
 
@@ -441,7 +424,7 @@ If the server supports the EDHOC + OSCORE request within an EDHOC execution star
 
 {{Section 9.10 of I-D.ietf-lake-edhoc}} registers the resource type "core.edhoc", which can be used as target attribute in a web link {{RFC8288}} to an EDHOC resource, e.g., using a link-format document {{RFC6690}}. This enables clients to discover the presence of EDHOC resources at a server, possibly using the resource type as filter criterion.
 
-At the same time, the application profile associated with an EDHOC resource provides a number of information describing how the EDHOC protocol can be used through that resource. While a client may become aware of the application profile through several means, it would be convenient to obtain its information elements upon discovering the EDHOC resources at the server. This might aim at discovering especially the EDHOC resources whose associated application profile denotes a way of using EDHOC which is most suitable to the client, e.g., with EDHOC cipher suites or authentication methods that the client also supports or prefers.
+At the same time, the application profile associated with an EDHOC resource provides information describing how the EDHOC protocol can be used through that resource. While a client may become aware of the application profile through several means, it would be convenient to obtain its information elements upon discovering the EDHOC resources at the server. This might aim at discovering especially the EDHOC resources whose associated application profile denotes a way of using EDHOC which is most suitable to the client, e.g., with EDHOC cipher suites or authentication methods that the client also supports or prefers.
 
 That is, it would be convenient that a client discovering an EDHOC resource contextually obtains relevant pieces of information from the application profile associated with that resource. The resource discovery can occur by means of a direct interaction with the server, or instead by means of the CoRE Resource Directory {{RFC9176}}, where the server may have registered the links to its resources.
 
@@ -493,7 +476,7 @@ When using the optimized workflow in Figure 2, a minimum of 128-bit security aga
 
 * The Responder is authenticated with 128-bit security against online attacks. This is the sum of the 64-bit MACs in EDHOC message_2 and of the MAC in the AEAD of the first OSCORE-protected CoAP response.
 
-With reference to the purely sequential workflow in {{fig-non-combined}}, the OSCORE request might have to undergo access control checks at the server, before being actually executed for accesing the target protected resource. The same MUST hold when the optimized workflow in {{fig-combined}} is used, i.e., when using the EDHOC + OSCORE request.
+With reference to the purely sequential workflow in {{fig-non-combined}}, the OSCORE request might have to undergo access control checks at the server, before being actually executed for accessing the target protected resource. The same MUST hold when the optimized workflow in {{fig-combined}} is used, i.e., when using the EDHOC + OSCORE request.
 
 That is, the rebuilt OSCORE-protected application request from step 7 in {{server-processing}} MUST undergo the same access control checks that would be performed on a traditional OSCORE-protected application request sent individually as shown in {{fig-non-combined}}.
 
@@ -511,14 +494,9 @@ Note to RFC Editor: Please replace all occurrences of "{{&SELF}}" with the RFC n
 
 IANA is asked to enter the following option number to the "CoAP Option Numbers" registry within the "CoRE Parameters" registry group.
 
-~~~~~~~~~~~
-+--------+-------+------------+
 | Number | Name  | Reference  |
-+--------+-------+------------+
 | TBD21  | EDHOC | [RFC-XXXX] |
-+--------+-------+------------+
-~~~~~~~~~~~
-{: artwork-align="center"}
+{: align="center" title="Registrations in CoAP Option Numbers Registry"}
 
 Note to RFC Editor: Following the registration of the CoAP Option Number 21, please replace "TBD21" with "21" in the table above. Then, please delete this paragraph and all the following text within the present {{iana-coap-options}}.
 
@@ -537,51 +515,19 @@ Therefore, this document suggests 21 (TBD21) as option number to be assigned to 
 ## Target Attributes Registry ## {#iana-target-attributes}
 
 IANA is asked to register the following entries in the "Target Attributes" registry within the "CoRE Parameters" registry group, as per {{I-D.ietf-core-target-attr}}.
+For all entries, the Change Controller is IESG, and the reference is \[RFC-XXXX].
 
-~~~~~~~~~~~
-Attribute Name: ed-i
-Brief Description: Hint: support for the EDHOC Initiator role
-Change Controller: IESG
-Reference: [RFC-XXXX]
+| Attribute Name: | Brief Description:                                                 |
+| ed-i            | Hint: support for the EDHOC Initiator role                         |
+| ed-r            | Hint: support for the EDHOC Responder role                         |
+| ed-method       | A supported authentication method for EDHOC                        |
+| ed-csuite       | A supported cipher suite for EDHOC                                 |
+| ed-cred-t       | A supported type of authentication credential for EDHOC            |
+| ed-idcred-t     | A supported type of authentication credential identifier for EDHOC |
+| ed-ead          | A supported External Authorization Data (EAD) item for EDHOC       |
+| ed-comb-req     | Hint: support for the EDHOC+OSCORE request                         |
+{: align="center" title="Registrations in Target Attributes Registry"}
 
-Attribute Name: ed-r
-Brief Description: Hint: support for the EDHOC Responder role
-Change Controller: IESG
-Reference: [RFC-XXXX]
-
-Attribute Name: ed-method
-Brief Description: A supported authentication method for EDHOC
-Change Controller: IESG
-Reference: [RFC-XXXX]
-
-Attribute Name: ed-csuite
-Brief Description: A supported cipher suite for EDHOC
-Change Controller: IESG
-Reference: [RFC-XXXX]
-
-Attribute Name: ed-cred-t
-Brief Description: A supported type of
-                   authentication credential for EDHOC
-Change Controller: IESG
-Reference: [RFC-XXXX]
-
-Attribute Name: ed-idcred-t
-Brief Description: A supported type of
-                   authentication credential identifier for EDHOC
-Change Controller: IESG
-Reference: [RFC-XXXX]
-
-Attribute Name: ed-ead
-Brief Description: A supported External Authorization Data (EAD)
-                   item for EDHOC
-Change Controller: IESG
-Reference: [RFC-XXXX]
-
-Attribute Name: ed-comb-req
-Brief Description: Hint: support for the EDHOC+OSCORE request
-Change Controller: IESG
-Reference: [RFC-XXXX]
-~~~~~~~~~~~
 
 ## EDHOC Authentication Credential Types Registry ## {#iana-edhoc-auth-cred-types}
 
@@ -591,7 +537,11 @@ The registry uses the "Expert Review" registration procedure {{RFC8126}}. Expert
 
 The columns of this registry are:
 
-* Value: This field contains the value used to identify the type of authentication credential. These values MUST be unique. The value can be an unsigned integer or a negative integer. Different ranges of values use different registration policies {{RFC8126}}. Integer values from -24 to 23 are designated as "Standards Action With Expert Review". Integer values from -65536 to -25 and from 24 to 65535 are designated as "Specification Required". Integer values smaller than -65536 and greater than 65535 are marked as "Private Use".
+* Value: This field contains the value used to identify the type of authentication credential. These values MUST be unique. The value can be an unsigned integer or a negative integer. Different ranges of values use different registration policies {{RFC8126}}:
+
+   * Integer values from -24 to 23 are designated as "Standards Action With Expert Review".
+   * Integer values from -65536 to -25 and from 24 to 65535 are designated as "Specification Required".
+   * Integer values smaller than -65536 and greater than 65535 are marked as "Private Use".
 
 * Description: This field contains a short description of the type of authentication credential.
 
@@ -599,28 +549,16 @@ The columns of this registry are:
 
 Initial entries in this registry are as listed in {{pre-reg}}.
 
-~~~~~~~~~~~
-+-------+-----------------------+-----------------------------------+
-| Value | Description           | Reference                         |
-+-------+-----------------------+-----------------------------------+
-| 0     | CBOR Web Token (CWT)  | [RFC8392]                         |
-|       | containing a COSE_Key |                                   |
-|       | in a 'cnf' claim      |                                   |
-+-------+-----------------------+-----------------------------------+
-| 1     | CWT Claims Set (CCS)  | [RFC8392]                         |
-|       | containing a COSE_Key |                                   |
-|       | in a 'cnf' claim      |                                   |
-+-------+-----------------------+-----------------------------------+
-| 2     | X.509 certificate     | [RFC5280]                         |
-+-------+-----------------------+-----------------------------------+
-| 3     | C509 certificate      | [I-D.ietf-cose-cbor-encoded-cert] |
-+-------+-----------------------+-----------------------------------+
-~~~~~~~~~~~
-{: #pre-reg title="Initial Entries in the \"EDHOC Authentication Credential Types\" Registry" artwork-align="center"}
+| Value | Description                                                 | Reference                         |
+|     0 | CBOR Web Token (CWT) containing a COSE_Key in a 'cnf' claim | [RFC8392]                         |
+|     1 | CWT Claims Set (CCS) containing a COSE_Key in a 'cnf' claim | [RFC8392]                         |
+|     2 | X.509 certificate                                           | [RFC5280]                         |
+|     3 | C509 certificate                                            | [I-D.ietf-cose-cbor-encoded-cert] |
+{: #pre-reg title="Initial Entries in the \"EDHOC Authentication Credential Types\" Registry" align="center"}
 
 ## Expert Review Instructions ## {#review}
 
-The IANA registry established in this document is defined as "Expert Review". This section gives some general guidelines for what the experts should be looking for, but they are being designated as experts for a reason so they should be given substantial latitude.
+The IANA registry established in this document is defined as "Expert Review". This section gives some general guidelines for what the experts should be looking for; but they are being designated as experts for a reason, so they should be given substantial latitude.
 
 Expert reviewers should take into consideration the following points:
 
@@ -635,8 +573,7 @@ Expert reviewers should take into consideration the following points:
 --- back
 
 # Document Updates # {#sec-document-updates}
-
-RFC Editor: Please remove this section.
+{:removeinrfc}
 
 ## Version -06 to -07 ## {#sec-06-07}
 
@@ -761,6 +698,6 @@ RFC Editor: Please remove this section.
 # Acknowledgments
 {:numbered="false"}
 
-The authors sincerely thank {{{Christian Amsüss}}}, {{{Esko Dijk}}}, {{{Klaus Hartke}}}, {{{John Preuß Mattsson}}}, {{{David Navarro}}}, {{{Jim Schaad}}} and {{{Mališa Vučinić}}} for their feedback and comments.
+The authors sincerely thank {{{Christian Amsüss}}}, {{{Esko Dijk}}}, {{{Klaus Hartke}}}, {{{John Preuß Mattsson}}}, {{{David Navarro}}}, {{{Jim Schaad}}}, and {{{Mališa Vučinić}}} for their feedback and comments.
 
 The work on this document has been partly supported by VINNOVA and the Celtic-Next project CRITISEC; and by the H2020 project SIFIS-Home (Grant agreement 952652).
