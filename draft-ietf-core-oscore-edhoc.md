@@ -81,7 +81,7 @@ This optimization is desirable, since the number of protocol round trips influen
 
 Without this optimization, it is not possible, not even in theory, to achieve the minimum number of flights. This optimization makes it possible also in practice, since the last message of the EDHOC protocol can be made relatively small (see {{Section 1.2 of I-D.ietf-lake-edhoc}}), thus allowing additional OSCORE-protected CoAP data within target MTU sizes.
 
-Furthermore, this document defines a number of parameters corresponding to different information elements of an EDHOC application profile (see {{web-linking}}). These can be specified as target attributes in the link to an EDHOC resource associated with that application profile, thus enabling an enhanced discovery of such resource for CoAP clients.
+Furthermore, this document defines a number of parameters corresponding to different information elements of an EDHOC application profile (see {{web-linking}}). These can be specified as target attributes in the link to an EDHOC resource associated with that application profile, thus enabling an enhanced discovery of such a resource for CoAP clients.
 
 ## Terminology
 
@@ -232,7 +232,7 @@ Note to RFC Editor: Following the registration of the CoAP Option Number 21 as p
 
 The presence of this option means that the message payload also contains EDHOC data, which must be extracted and processed as defined in {{server-processing}}, before the rest of the message can be processed.
 
-{{fig-edhoc-opt}} shows an example of CoAP message transported over UDP and containing both the EDHOC data and the OSCORE ciphertext, using the newly defined EDHOC option for signalling.
+{{fig-edhoc-opt}} shows an example of a CoAP message transported over UDP and containing both the EDHOC data and the OSCORE ciphertext, using the newly defined EDHOC option for signalling.
 
 
 ~~~~~~~~~~~~~~~~~
