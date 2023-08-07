@@ -156,7 +156,8 @@ OSCORE Sec Ctx                                              |
        |                                                    |
 ~~~~~~~~~~~~~~~~~
 {: #fig-non-combined title="EDHOC and OSCORE run sequentially.
- The optional message_4 is included in this example, without which that message needs no payload." artwork-align="center"}
+
+The optional message_4 is included in this example, without which that message needs no payload." artwork-align="center"}
 
 As shown in {{fig-non-combined}}, this purely-sequential flow where EDHOC is run first and then OSCORE is used takes three round trips to complete.
 
@@ -210,7 +211,11 @@ EDHOC verification                                           |
 
 To this end, the specific approach defined in this section consists of sending a single EDHOC + OSCORE request, which conveys the pair (C_R, EDHOC message_3) within an OSCORE-protected CoAP message.
 
-That is, the EDHOC + OSCORE request is in practice the OSCORE Request from {{fig-non-combined}}, as still sent to a protected resource and with the correct CoAP method and options intended for accessing that resource. At the same time, the EDHOC + OSCORE request also transports the pair (C_R, EDHOC message_3) required for completing the EDHOC session. Note that, as specified in {{client-processing}}, C_R is transported in the OSCORE Option rather than in the request payload.
+That is, the EDHOC + OSCORE request is composed of following two parts combined together in a single CoAP message.
+
+* The OSCORE Request from {{fig-non-combined}}, which is also in this case sent to a protected resource, with the correct CoAP method and options intended for accessing that resource.
+
+* EDHOC data consisting of the pair (C_R, EDHOC message_3) required for completing the EDHOC session. Note that, as specified in {{client-processing}}, C_R is transported in the OSCORE Option of the OSCORE Request rather than in the request payload.
 
 Since EDHOC message_3 may be too large to be included in a CoAP Option, e.g., if conveying a protected large public key certificate chain as ID_CRED_I (see {{Section 3.5.3 of I-D.ietf-lake-edhoc}}) or if conveying protected External Authorization Data as EAD_3 (see {{Section 3.8 of I-D.ietf-lake-edhoc}}), EDHOC message_3 has to be transported in the CoAP payload of the EDHOC + OSCORE request.
 
@@ -225,7 +230,8 @@ The EDHOC Option has the properties summarized in {{fig-edhoc-option}}, which ex
 | No.   | C | U | N | R | Name  | Format | Length | Default |
 | TBD21 | x |   |   |   | EDHOC | Empty  |   0    | (none)  |
 {: #fig-edhoc-option title="The EDHOC Option.
- C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable" align="center"}
+
+C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable" align="center"}
 
 
 Note to RFC Editor: Following the registration of the CoAP Option Number 21 as per {{iana-coap-options}}, please replace "TBD21" with "21" in the figure above. Then, please delete this paragraph.
