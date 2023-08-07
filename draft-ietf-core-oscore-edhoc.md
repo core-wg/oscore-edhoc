@@ -264,7 +264,7 @@ The client prepares an EDHOC + OSCORE request as follows.
 
 3. Build COMB_PAYLOAD as the concatenation of EDHOC_MSG_3 and OSCORE_PAYLOAD in this order: COMB_PAYLOAD = EDHOC_MSG_3 \| OSCORE_PAYLOAD, where \| denotes byte string concatenation and:
 
-   * EDHOC_MSG_3 is the binary encoding of EDHOC message_3 resulting from step 1. As per {{Section 5.4.1 of I-D.ietf-lake-edhoc}}, EDHOC message_3 consists of one CBOR data item CIPHERTEXT_3, which is a CBOR byte string. Therefore, EDHOC_MGS_3 is the binary encoding of CIPHERTEXT_3.
+   * EDHOC_MSG_3 is the binary encoding of EDHOC message_3 resulting from step 1. As per {{Section 5.4.1 of I-D.ietf-lake-edhoc}}, EDHOC message_3 consists of one CBOR data item CIPHERTEXT_3, which is a CBOR byte string. Therefore, EDHOC_MSG_3 is the binary encoding of CIPHERTEXT_3.
 
    * OSCORE_PAYLOAD is the OSCORE ciphertext of the OSCORE-protected CoAP request resulting from step 2.
 
