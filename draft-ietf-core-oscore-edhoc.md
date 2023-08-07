@@ -294,7 +294,7 @@ In such a case, the OSCORE processing in step 2 of {{client-processing}} is perf
 
    B. If the size of COMB_PAYLOAD exceeds MAX_UNFRAGMENTED_SIZE (see {{Section 4.1.3.4.2 of RFC8613}}), the client MUST stop processing the request and MUST abort the Block-wise transfer. Then, the client can continue by switching to the purely sequential workflow shown in {{fig-non-combined}}. That is, the client first sends EDHOC message_3 prepended by the EDHOC Connection Identifier C_R encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}, and then sends the OSCORE-protected CoAP request once the EDHOC execution is completed.
 
-The performance advantage of using the EDHOC + OSCORE request can be lost, when used in combination with Block-wise transfers that rely on specific parameter values and block sizes.
+The performance advantage of using the EDHOC + OSCORE request can be lost when used in combination with Block-wise transfers that rely on specific parameter values and block sizes.
 
 ## Server Processing {#server-processing}
 
