@@ -436,9 +436,9 @@ In order to enable the above, this section defines a number of parameters, each 
 
 The following parameters are defined.
 
-* 'ed-i', specifying, if present, that the server supports the EDHOC Initiator role, hence the reverse message flow of EDHOC. A value MUST NOT be given to this parameter and any present value MUST be ignored by parsers.
+* 'ed-i', specifying, if present, that the server supports the EDHOC Initiator role, hence the reverse message flow of EDHOC. A value MUST NOT be given to this parameter and any present value MUST be ignored by the recipient.
 
-* 'ed-r', specifying, if present, that the server supports the EDHOC Responder role, hence the forward message flow of EDHOC. A value MUST NOT be given to this parameter and any present value MUST be ignored by parsers.
+* 'ed-r', specifying, if present, that the server supports the EDHOC Responder role, hence the forward message flow of EDHOC. A value MUST NOT be given to this parameter and any present value MUST be ignored by the recipient.
 
 * 'ed-method', specifying an authentication method supported by the server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Method Type" registry defined in {{Section 9.3 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying an authentication method.
 
@@ -452,7 +452,7 @@ The following parameters are defined.
 
 * 'ed-ead', specifying the support of the server for an External Authorization Data (EAD) item (see {{Section 3.8 of I-D.ietf-lake-edhoc}}). This parameter MUST specify a single value, which is taken from the 'Label' column of the "EDHOC External Authorization Data" registry defined in {{Section 9.5 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying the ead_label of an EAD item that the server supports.
 
-* 'ed-comb-req', specifying, if present, that the server supports the EDHOC + OSCORE request defined in {{edhoc-in-oscore}}. A value MUST NOT be given to this parameter and any present value MUST be ignored by parsers.
+* 'ed-comb-req', specifying, if present, that the server supports the EDHOC + OSCORE request defined in {{edhoc-in-oscore}}. A value MUST NOT be given to this parameter and any present value MUST be ignored by the recipient.
 
 The example in {{fig-web-link-example}} shows how a client discovers one EDHOC resource at a server, obtaining information elements from the respective application profile. The Link Format notation from {{Section 5 of RFC6690}} is used.
 
