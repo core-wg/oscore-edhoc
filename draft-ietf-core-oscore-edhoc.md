@@ -75,7 +75,7 @@ The lightweight authenticated key exchange protocol EDHOC can be run over CoAP a
 
 Ephemeral Diffie-Hellman Over COSE (EDHOC) {{I-D.ietf-lake-edhoc}} is a lightweight authenticated key exchange protocol, especially intended for use in constrained scenarios. In particular, EDHOC messages can be transported over the Constrained Application Protocol (CoAP) {{RFC7252}} and used for establishing a Security Context for Object Security for Constrained RESTful Environments (OSCORE) {{RFC8613}}.
 
-This document details this use of the EDHOC protocol, and specifies a number of additional and optional mechanisms. These especially include an optimization approach, that combines the EDHOC execution with the first OSCORE transaction (see {{edhoc-in-oscore}}). This allows for a minimum number of round trips necessary to setup the OSCORE Security Context and complete an OSCORE transaction, e.g., when an IoT device gets configured in a network for the first time.
+This document details this use of the EDHOC protocol, and specifies a number of additional and optional mechanisms. These especially include an optimization approach that combines the EDHOC execution with the first OSCORE transaction (see {{edhoc-in-oscore}}). This allows for a minimum number of round trips necessary to setup the OSCORE Security Context and complete an OSCORE transaction, e.g., when an IoT device gets configured in a network for the first time.
 
 This optimization is desirable, since the number of protocol round trips impacts on the minimum number of flights, which in turn can have a substantial impact on the latency of conveying the first OSCORE request, when using certain radio technologies.
 
@@ -230,7 +230,7 @@ The EDHOC Option has the properties summarized in {{fig-edhoc-option}}, which ex
 
 Note to RFC Editor: Following the registration of the CoAP Option Number 21 as per {{iana-coap-options}}, please replace "TBD21" with "21" in the figure above. Then, please delete this paragraph.
 
-The presence of this option means that the message payload contains also EDHOC data, that must be extracted and processed as defined in {{server-processing}}, before the rest of the message can be processed.
+The presence of this option means that the message payload also contains EDHOC data, which must be extracted and processed as defined in {{server-processing}}, before the rest of the message can be processed.
 
 {{fig-edhoc-opt}} shows an example of CoAP message transported over UDP and containing both the EDHOC data and the OSCORE ciphertext, using the newly defined EDHOC option for signalling.
 
