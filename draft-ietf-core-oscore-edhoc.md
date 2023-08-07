@@ -581,6 +581,10 @@ Expert reviewers should take into consideration the following points:
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
 
+## Version -07 to -08 ## {#sec-07-08}
+
+* Fixes and clarifications from the Shepherd's review.
+
 ## Version -06 to -07 ## {#sec-06-07}
 
 * Changed document title.
