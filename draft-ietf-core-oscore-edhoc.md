@@ -107,7 +107,7 @@ Finally, the client sends a POST request to the same EDHOC resource used earlier
 
 After this exchange takes place, and after successful verifications as specified in the EDHOC protocol, the client and server can derive an OSCORE Security Context, as defined in {{Section A.1 of I-D.ietf-lake-edhoc}}. After that, they can use OSCORE to protect their communications as per {{RFC8613}}.
 
-The client and server are required to agree in advance on certain information and parameters describing how they should use EDHOC. These are specified in an application profile associated with the used EDHOC resource (see {{Section 3.9 of I-D.ietf-lake-edhoc}}.
+The client and server are required to agree in advance on certain information and parameters describing how they should use EDHOC. These are specified in an application profile associated with the EDHOC resource addressed (see {{Section 3.9 of I-D.ietf-lake-edhoc}}.
 
 ~~~~~~~~~~~~~~~~~ aasvg
   CoAP client                                         CoAP server
@@ -342,7 +342,7 @@ A. If Block-wise is present in the request, then process the Outer Block options
 
 {{fig-edhoc-opt-2}} shows an example of EDHOC + OSCORE Request transported over UDP. In particular, the example assumes that:
 
-* The used OSCORE Partial IV is 0, consistently with the first request protected with the new OSCORE Security Context.
+* The OSCORE Partial IV in use is 0, consistently with the first request protected with the new OSCORE Security Context.
 
 * The OSCORE Sender ID of the client is 0x01.
 
