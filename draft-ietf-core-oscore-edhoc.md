@@ -156,7 +156,8 @@ OSCORE Sec Ctx                                              |
        |                                                    |
 ~~~~~~~~~~~~~~~~~
 {: #fig-non-combined title="EDHOC and OSCORE run sequentially.
- The optional message_4 is included in this example, without which that message needs no payload." artwork-align="center"}
+
+The optional message_4 is included in this example, without which that message needs no payload." artwork-align="center"}
 
 As shown in {{fig-non-combined}}, this purely-sequential flow where EDHOC is run first and then OSCORE is used takes three round trips to complete.
 
@@ -216,7 +217,7 @@ That is, the EDHOC + OSCORE request is composed of the following two parts combi
 
 * EDHOC data consisting of the pair (C_R, EDHOC message_3) required for completing the EDHOC session. Note that, as specified in {{client-processing}}, C_R is transported in the OSCORE Option of the OSCORE Request rather than in the CoAP payload of the EDHOC + OSCORE request.
 
-   Since EDHOC message_3 may be too large to be included in a CoAP Option, e.g., if conveying a protected large public key certificate chain as ID_CRED_I (see {{Section 3.5.3 of I-D.ietf-lake-edhoc}}) or if conveying protected External Authorization Data as EAD_3 (see {{Section 3.8 of I-D.ietf-lake-edhoc}}), EDHOC message_3 has instead to be transported in the CoAP payload of the EDHOC + OSCORE request, as prepended to the payload of the OSCORE Request.
+   Since EDHOC message_3 may be too large to be included in a CoAP Option, e.g., if conveying a large public key certificate chain as ID_CRED_I (see {{Section 3.5.3 of I-D.ietf-lake-edhoc}}) or if conveying large External Authorization Data as EAD_3 (see {{Section 3.8 of I-D.ietf-lake-edhoc}}), EDHOC message_3 has instead to be transported in the CoAP payload of the EDHOC + OSCORE request, as prepended to the payload of the OSCORE Request.
 
 The rest of this section specifies how to transport the data in the EDHOC + OSCORE request and their processing order. In particular, the use of this approach is explicitly signalled by including an EDHOC Option (see {{edhoc-option}}) in the EDHOC + OSCORE request. The processing of the EDHOC + OSCORE request is specified in {{client-processing}} for the client side and in {{server-processing}} for the server side.
 
@@ -229,7 +230,8 @@ The EDHOC Option has the properties summarized in {{fig-edhoc-option}}, which ex
 | No.   | C | U | N | R | Name  | Format | Length | Default |
 | TBD21 | x |   |   |   | EDHOC | Empty  |   0    | (none)  |
 {: #fig-edhoc-option title="The EDHOC Option.
- C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable" align="center"}
+
+C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable" align="center"}
 
 
 Note to RFC Editor: Following the registration of the CoAP Option Number 21 as per {{iana-coap-options}}, please replace "TBD21" with "21" in the figure above. Then, please delete this paragraph.
