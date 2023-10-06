@@ -260,7 +260,7 @@ The presence of this option means that the message payload also contains EDHOC d
 
 The client prepares an EDHOC + OSCORE request as follows.
 
-1. Compose EDHOC message_3 as per {{Section 5.4.2 of I-D.ietf-lake-edhoc}}.
+1. Compose EDHOC message_3 into EDHOC_MSG_3, as per {{Section 5.4.2 of I-D.ietf-lake-edhoc}}.
 
 2. Establish the new OSCORE Security Context and use it to encrypt the original CoAP request as per {{Section 8.1 of RFC8613}}.
 
