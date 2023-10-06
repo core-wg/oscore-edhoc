@@ -334,7 +334,7 @@ In order to process a request containing the EDHOC option, i.e., an EDHOC + OSCO
 
 If steps 4 (EDHOC processing) and 8 (OSCORE processing) are both successfully completed, the server MUST reply with an OSCORE-protected response (see {{Section 5.4.3 of I-D.ietf-lake-edhoc}}). The usage of EDHOC message_4 as defined in {{Section 5.5 of I-D.ietf-lake-edhoc}} is not applicable to the approach defined in this document.
 
-If step 4 (EDHOC processing) fails, the server discontinues the protocol as per {{Section 5.4.3 of I-D.ietf-lake-edhoc}} and responds with an EDHOC error message with error code 1, formatted as defined in {{Section 6.2 of I-D.ietf-lake-edhoc}}. The server MUST NOT establish a new OSCORE Security Context from the present EDHOC session with the client, hence the CoAP response conveying the EDHOC error message is not protected with OSCORE. As per {{Section 8.5 of I-D.ietf-lake-edhoc}}, the server has to make sure that the error message does not reveal sensitive information. The CoAP response conveying the EDHOC error message MUST have Content-Format set to application/edhoc+cbor-seq defined in {{Section 9.9 of I-D.ietf-lake-edhoc}}.
+If step 4 (EDHOC processing) fails, the server discontinues the protocol as per {{Section 5.4.3 of I-D.ietf-lake-edhoc}} and responds with an EDHOC error message with error code 1, formatted as defined in {{Section 6.2 of I-D.ietf-lake-edhoc}}. The server MUST NOT establish a new OSCORE Security Context from the present EDHOC session with the client, hence the CoAP response conveying the EDHOC error message is not protected with OSCORE. As per {{Section 9.5 of I-D.ietf-lake-edhoc}}, the server has to make sure that the error message does not reveal sensitive information. The CoAP response conveying the EDHOC error message MUST have Content-Format set to application/edhoc+cbor-seq defined in {{Section 10.9 of I-D.ietf-lake-edhoc}}.
 
 If step 4 (EDHOC processing) is successfully completed but step 8 (OSCORE processing) fails, the same OSCORE error handling as defined in {{Section 8.2 of RFC8613}} applies.
 
@@ -425,7 +425,7 @@ In case the application profile indicates that the server supports the optional 
 
 # Web Linking # {#web-linking}
 
-{{Section 9.10 of I-D.ietf-lake-edhoc}} registers the resource type "core.edhoc", which can be used as target attribute in a web link {{RFC8288}} to an EDHOC resource, e.g., using a link-format document {{RFC6690}}. This enables clients to discover the presence of EDHOC resources at a server, possibly using the resource type as filter criterion.
+{{Section 10.10 of I-D.ietf-lake-edhoc}} registers the resource type "core.edhoc", which can be used as target attribute in a web link {{RFC8288}} to an EDHOC resource, e.g., using a link-format document {{RFC6690}}. This enables clients to discover the presence of EDHOC resources at a server, possibly using the resource type as filter criterion.
 
 At the same time, the application profile associated with an EDHOC resource provides information describing how the EDHOC protocol can be used through that resource. While a client may become aware of the application profile through several means, it would be convenient to obtain its information elements upon discovering the EDHOC resources at the server. This might aim at discovering especially the EDHOC resources whose associated application profile denotes a way of using EDHOC which is most suitable to the client, e.g., with EDHOC cipher suites or authentication methods that the client also supports or prefers.
 
@@ -439,9 +439,9 @@ The following parameters are defined.
 
 * 'ed-r', specifying, if present, that the server supports the EDHOC Responder role, hence the forward message flow of EDHOC. A value MUST NOT be given to this parameter and any present value MUST be ignored by the recipient.
 
-* 'ed-method', specifying an authentication method supported by the server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Method Type" registry defined in {{Section 9.3 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying an authentication method.
+* 'ed-method', specifying an authentication method supported by the server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Method Type" registry defined in {{Section 10.3 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying an authentication method.
 
-* 'ed-csuite', specifying an EDHOC cipher suite supported by the server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Cipher Suites" registry defined in {{Section 9.2 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying a cipher suite.
+* 'ed-csuite', specifying an EDHOC cipher suite supported by the server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Cipher Suites" registry defined in {{Section 10.2 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying a cipher suite.
 
 * 'ed-cred-t', specifying a type of authentication credential supported by the server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Authentication Credential Types" Registry defined in {{iana-edhoc-auth-cred-types}} of this document. This parameter MAY occur multiple times, with each occurrence specifying a type of authentication credential.
 
@@ -449,7 +449,7 @@ The following parameters are defined.
 
    Note that the values in the 'Label' column of the "COSE Header Parameters" registry are strongly typed. On the contrary, Link Format is weakly typed and thus does not distinguish between, for instance, the string value "-10" and the integer value -10. Thus, if responses in Link Format are returned, string values which look like an integer are not supported. Therefore, such values MUST NOT be used in the 'ed-idcred-t' parameter.
 
-* 'ed-ead', specifying the support of the server for an External Authorization Data (EAD) item (see {{Section 3.8 of I-D.ietf-lake-edhoc}}). This parameter MUST specify a single value, which is taken from the 'Label' column of the "EDHOC External Authorization Data" registry defined in {{Section 9.5 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying the ead_label of an EAD item that the server supports.
+* 'ed-ead', specifying the support of the server for an External Authorization Data (EAD) item (see {{Section 3.8 of I-D.ietf-lake-edhoc}}). This parameter MUST specify a single value, which is taken from the 'Label' column of the "EDHOC External Authorization Data" registry defined in {{Section 10.5 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying the ead_label of an EAD item that the server supports.
 
 * 'ed-comb-req', specifying, if present, that the server supports the EDHOC + OSCORE request defined in {{edhoc-in-oscore}}. A value MUST NOT be given to this parameter and any present value MUST be ignored by the recipient.
 
@@ -475,7 +475,7 @@ The same security considerations from OSCORE {{RFC8613}} and EDHOC {{I-D.ietf-la
 
 {{client-processing}} specifies that a client SHOULD NOT have multiple outstanding EDHOC + OSCORE requests pertaining to the same EDHOC session. Even if a client did not fulfill this requirement, it would not have any impact in terms of security. That is, the server would still not process different instances of the same EDHOC message_3 more than once in the same EDHOC session (see {{Section 5.1 of I-D.ietf-lake-edhoc}}), and would still enforce replay protection of the OSCORE-protected request (see {{Sections 7.4 and 8.2 of RFC8613}}).
 
-When using the optimized workflow in Figure 2, a minimum of 128-bit security against online brute force attacks is achieved after the client receives and successfully verifies the first OSCORE-protected response (see {{Section 8.1 of I-D.ietf-lake-edhoc}}). As an example, if EDHOC is used with method 3 (see {{Section 3.2 of I-D.ietf-lake-edhoc}}) and cipher suite 2 (see {{Section 3.6 of I-D.ietf-lake-edhoc}}), then the following holds.
+When using the optimized workflow in Figure 2, a minimum of 128-bit security against online brute force attacks is achieved after the client receives and successfully verifies the first OSCORE-protected response (see {{Section 9.1 of I-D.ietf-lake-edhoc}}). As an example, if EDHOC is used with method 3 (see {{Section 3.2 of I-D.ietf-lake-edhoc}}) and cipher suite 2 (see {{Section 3.6 of I-D.ietf-lake-edhoc}}), then the following holds.
 
 * The Initiator is authenticated with 128-bit security against online attacks. This is the sum of the 64-bit MACs in EDHOC message_3 and of the MAC in the AEAD of the first OSCORE-protected CoAP request, as rebuilt at step 7 of {{server-processing}}.
 
@@ -587,6 +587,8 @@ Expert reviewers should take into consideration the following points:
 * Change Controller changed from "IESG" to "IETF".
 
 * Editorial: EDHOC Option number denoted as "21" instead of "TBD21".
+
+* Fixed references to sections of draft-ietf-lake-edhoc
 
 * Clarifications and editorial improvements.
 
