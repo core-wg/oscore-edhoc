@@ -405,7 +405,7 @@ The chosen C_I SHOULD NOT be the Recipient ID of any current OSCORE Security Con
 
 The Responder selects an EDHOC Connection Identifier C_R as follows.
 
-The Responder MUST choose a C_R that is neither used in any current EDHOC session as this peer's EDHOC Connection Identifier, nor is equal to the EDHOC Connection Identifier C_I specified in the EDHOC message_1 of the present EDHOC session (i.e., after its decoding as per {{Section 3.3 of I-D.ietf-lake-edhoc}}), nor is the Recipient ID in a current OSCORE Security Context where the ID Context is not present.
+The Responder MUST choose a C_R that is neither used in any current EDHOC session as this peer's EDHOC Connection Identifier, nor is equal to the EDHOC Connection Identifier C_I specified in the EDHOC message_1 of the present EDHOC session, nor is the Recipient ID in a current OSCORE Security Context where the ID Context is not present.
 
 The chosen C_R SHOULD NOT be the Recipient ID of any current OSCORE Security Context. Note that, for a reason analogous to the one given above with C_I, this allows the Initiator to always omit the 'kid context' in the OSCORE Option of its messages sent to the Responder, when protecting those with an OSCORE Security Context where C_R is the Initiator's OSCORE Sender ID (see {{Section 6.1 of RFC8613}}).
 
@@ -413,7 +413,7 @@ The chosen C_R SHOULD NOT be the Recipient ID of any current OSCORE Security Con
 
 If the following condition holds, the Initiator MUST discontinue the protocol and reply with an EDHOC error message with error code 1, formatted as defined in {{Section 6.2 of I-D.ietf-lake-edhoc}}.
 
-* The EDHOC Connection Identifier C_I is equal to the EDHOC Connection Identifier C_R specified in EDHOC message_2 (i.e., after its decoding as per {{Section 3.3 of I-D.ietf-lake-edhoc}}).
+* The EDHOC Connection Identifier C_I is equal to the EDHOC Connection Identifier C_R specified in EDHOC message_2.
 
 # Extension and Consistency of Application Profiles # {#app-statements}
 
