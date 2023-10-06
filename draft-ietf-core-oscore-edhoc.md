@@ -520,7 +520,7 @@ Although the currently unassigned option number 13 would also work well for the 
 ## Target Attributes Registry ## {#iana-target-attributes}
 
 IANA is asked to register the following entries in the "Target Attributes" registry within the "CoRE Parameters" registry group, as per {{I-D.ietf-core-target-attr}}.
-For all entries, the Change Controller is IESG, and the reference is \[RFC-XXXX].
+For all entries, the Change Controller is IETF, and the reference is \[RFC-XXXX].
 
 | Attribute Name: | Brief Description:                                                 |
 | ed-i            | Hint: support for the EDHOC Initiator role                         |
@@ -583,6 +583,8 @@ Expert reviewers should take into consideration the following points:
 ## Version -08 to -09 ## {#sec-08-09}
 
 * Improved description of entries for the new IANA registry.
+
+* Change Controller changed from "IESG" to "IETF".
 
 * Editorial: EDHOC Option number denoted as "21" instead of "TBD21".
 
