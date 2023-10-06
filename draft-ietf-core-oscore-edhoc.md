@@ -453,7 +453,7 @@ The following parameters are defined.
 
 * 'ed-comb-req', specifying, if present, that the server supports the EDHOC + OSCORE request defined in {{edhoc-in-oscore}}. A value MUST NOT be given to this parameter and any present value MUST be ignored by the recipient.
 
-(Future documents may update the definition of the parameters 'ed-i', 'ed-r', and 'ed-comb-req', by expanding their semantics and specifying admitted values.)
+(Future documents may update the definition of the parameters 'ed-i', 'ed-r', and 'ed-comb-req', by expanding their semantics and specifying what they can take as value.)
 
 The example in {{fig-web-link-example}} shows how a client discovers one EDHOC resource at a server, obtaining information elements from the respective application profile. The Link Format notation from {{Section 5 of RFC6690}} is used.
 
@@ -587,6 +587,8 @@ Expert reviewers should take into consideration the following points:
 * Change Controller changed from "IESG" to "IETF".
 
 * Editorial: EDHOC Option number denoted as "21" instead of "TBD21".
+
+* Clarifications and editorial improvements.
 
 ## Version -07 to -08 ## {#sec-07-08}
 
