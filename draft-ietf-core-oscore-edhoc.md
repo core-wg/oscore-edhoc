@@ -555,8 +555,8 @@ The columns of this registry are:
 Initial entries in this registry are as listed in {{pre-reg}}.
 
 | Value | Description                                                 | Reference                         |
-|     0 | CBOR Web Token (CWT) containing a COSE_Key in a 'cnf' claim | [RFC8392]                         |
-|     1 | CWT Claims Set (CCS) containing a COSE_Key in a 'cnf' claim | [RFC8392]                         |
+|     0 | CBOR Web Token (CWT) containing a COSE_Key in a 'cnf' claim and possibly other claims. CWT is defined in RFC 8392. | [RFC8392]                         |
+|     1 | CWT Claims Set (CCS) containing a COSE_Key in a 'cnf' claim and possibly other claims. CCS is defined in RFC 8392. | [RFC8392]                         |
 |     2 | X.509 certificate                                           | [RFC5280]                         |
 |     3 | C509 certificate                                            | [I-D.ietf-cose-cbor-encoded-cert] |
 {: #pre-reg title="Initial Entries in the \"EDHOC Authentication Credential Types\" Registry" align="center"}
@@ -581,6 +581,8 @@ Expert reviewers should take into consideration the following points:
 {:removeinrfc}
 
 ## Version -08 to -09 ## {#sec-08-09}
+
+* Improved description of entries for the new IANA registry.
 
 * Editorial: EDHOC Option number denoted as "21" instead of "TBD21".
 
