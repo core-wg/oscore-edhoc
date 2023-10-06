@@ -156,7 +156,8 @@ OSCORE Sec Ctx                                              |
        |                                                    |
 ~~~~~~~~~~~~~~~~~
 {: #fig-non-combined title="EDHOC and OSCORE run sequentially.
- The optional message_4 is included in this example, without which that message needs no payload." artwork-align="center"}
+
+The optional message_4 is included in this example, without which that message needs no payload." artwork-align="center"}
 
 As shown in {{fig-non-combined}}, this purely-sequential flow where EDHOC is run first and then OSCORE is used takes three round trips to complete.
 
@@ -229,7 +230,8 @@ The EDHOC Option has the properties summarized in {{fig-edhoc-option}}, which ex
 | No.   | C | U | N | R | Name  | Format | Length | Default |
 | TBD21 | x |   |   |   | EDHOC | Empty  |   0    | (none)  |
 {: #fig-edhoc-option title="The EDHOC Option.
- C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable" align="center"}
+
+C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable" align="center"}
 
 
 Note to RFC Editor: Following the registration of the CoAP Option Number 21 as per {{iana-coap-options}}, please replace "TBD21" with "21" in the figure above. Then, please delete this paragraph.
@@ -707,6 +709,6 @@ Expert reviewers should take into consideration the following points:
 # Acknowledgments
 {:numbered="false"}
 
-The authors sincerely thank {{{Christian Amsüss}}}, {{{Carsten Bormann}}}, {{{Esko Dijk}}}, {{{Klaus Hartke}}}, {{{John Preuß Mattsson}}}, {{{David Navarro}}}, {{{Jim Schaad}}}, and {{{Mališa Vučinić}}} for their feedback and comments.
+The authors sincerely thank {{{Christian Amsüss}}}, {{{Carsten Bormann}}}, {{{Esko Dijk}}}, {{{Klaus Hartke}}}, {{{John Preuß Mattsson}}}, {{{David Navarro}}}, {{{Jim Schaad}}}, {{{Mališa Vučinić}}}, and {{{Paul Wouters}}} for their feedback and comments.
 
 The work on this document has been partly supported by VINNOVA and the Celtic-Next project CRITISEC; and by the H2020 project SIFIS-Home (Grant agreement 952652).
