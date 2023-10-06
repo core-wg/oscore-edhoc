@@ -227,14 +227,12 @@ This section defines the EDHOC Option. The option is used in a CoAP request, to 
 
 The EDHOC Option has the properties summarized in {{fig-edhoc-option}}, which extends Table 4 of {{RFC7252}}. The option is Critical, Safe-to-Forward, and part of the Cache-Key. The option MUST occur at most once and MUST be empty. If any value is sent, the recipient MUST ignore it. (Future documents may update the definition of the option, by expanding its semantics and specifying admitted values.) The option is intended only for CoAP requests and is of Class U for OSCORE {{RFC8613}}.
 
-| No.   | C | U | N | R | Name  | Format | Length | Default |
-| TBD21 | x |   |   |   | EDHOC | Empty  |   0    | (none)  |
+| No. | C | U | N | R | Name  | Format | Length | Default |
+| 21  | x |   |   |   | EDHOC | Empty  |   0    | (none)  |
 {: #fig-edhoc-option title="The EDHOC Option.
 
 C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable" align="center"}
 
-
-Note to RFC Editor: Following the registration of the CoAP Option Number 21 as per {{iana-coap-options}}, please replace "TBD21" with "21" in the figure above. Then, please delete this paragraph.
 
 The presence of this option means that the message payload also contains EDHOC data, which must be extracted and processed as defined in {{server-processing}}, before the rest of the message can be processed.
 
@@ -502,10 +500,10 @@ Note to RFC Editor: Please replace all occurrences of "{{&SELF}}" with the RFC n
 IANA is asked to enter the following option number to the "CoAP Option Numbers" registry within the "CoRE Parameters" registry group.
 
 | Number | Name  | Reference  |
-| TBD21  | EDHOC | [RFC-XXXX] |
+| 21     | EDHOC | [RFC-XXXX] |
 {: align="center" title="Registrations in CoAP Option Numbers Registry"}
 
-Note to RFC Editor: Following the registration of the CoAP Option Number 21, please replace "TBD21" with "21" in the table above. Then, please delete this paragraph and all the following text within the present {{iana-coap-options}}.
+Note to RFC Editor: Please delete this paragraph and all the following text within the present {{iana-coap-options}}.
 
 \[
 
@@ -515,7 +513,7 @@ The CoAP option number 21 is consistent with the properties of the EDHOC Option 
 
 * Since the OSCORE Option with option number 9 is always present in the EDHOC + OSCORE request, the EDHOC Option is encoded with a delta equal to at most 12.
 
-Therefore, this document suggests 21 (TBD21) as option number to be assigned to the new EDHOC Option. Although the currently unassigned option number 13 would also work well for the same reasons in the use case in question, different use cases or protocols may make a better use of the option number 13. Hence the preference for the option number 21, and why it is _not_ necessary to register additional option numbers than 21.
+Although the currently unassigned option number 13 would also work well for the same reasons in the use case in question, different use cases or protocols may make a better use of the option number 13. Hence the preference for the option number 21, and why it is _not_ necessary to register additional option numbers than 21.
 
 \]
 
@@ -581,6 +579,10 @@ Expert reviewers should take into consideration the following points:
 
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
+
+## Version -08 to -09 ## {#sec-08-09}
+
+* Editorial: EDHOC Option number denoted as "21" instead of "TBD21".
 
 ## Version -07 to -08 ## {#sec-07-08}
 
