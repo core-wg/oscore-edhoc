@@ -77,9 +77,9 @@ Ephemeral Diffie-Hellman Over COSE (EDHOC) {{I-D.ietf-lake-edhoc}} is a lightwei
 
 This document details this use of the EDHOC protocol, and specifies a number of additional and optional mechanisms. These especially include an optimization approach that combines the EDHOC execution with the first OSCORE transaction (see {{edhoc-in-oscore}}). This allows for a minimum number of round trips necessary to setup the OSCORE Security Context and complete an OSCORE transaction, e.g., when an IoT device gets configured in a network for the first time.
 
-This optimization is desirable, since the number of protocol round trips influences the minimum number of flights, which in turn can have a substantial impact on the latency of conveying the first OSCORE request, when using certain radio technologies.
+This optimization is desirable, since the number of message exchanges can have a substantial impact on the latency of conveying the first OSCORE request, when using certain radio technologies.
 
-Without this optimization, it is not possible, not even in theory, to achieve the minimum number of flights. This optimization makes it possible also in practice, since the last message of the EDHOC protocol can be made relatively small (see {{Section 1.2 of I-D.ietf-lake-edhoc}}), thus allowing additional OSCORE-protected CoAP data within target MTU sizes.
+Without this optimization, it is not possible, not even in theory, to achieve the minimum number of round trips. This optimization makes it possible also in practice, since the message_3 of the EDHOC protocol can be made relatively small (see {{Section 1.2 of I-D.ietf-lake-edhoc}}), thus allowing additional OSCORE-protected CoAP data within target MTU sizes.
 
 Furthermore, this document defines a number of parameters corresponding to different information elements of an EDHOC application profile (see {{web-linking}}). These can be specified as target attributes in the link to an EDHOC resource associated with that application profile, thus enabling an enhanced discovery of such a resource for CoAP clients.
 
@@ -97,13 +97,15 @@ The EDHOC protocol specified in {{I-D.ietf-lake-edhoc}} allows two peers to agre
 
 After successful processing of EDHOC message_3, both peers agree on a cryptographic secret that can be used to derive further security material, and especially to establish an OSCORE Security Context {{RFC8613}}. The Responder can also send an optional EDHOC message_4 to achieve key confirmation, e.g., in deployments where no protected application message is sent from the Responder to the Initiator.
 
-{{Section A.2 of I-D.ietf-lake-edhoc}} specifies how to transfer EDHOC over CoAP. That is, the EDHOC data (referred to as "EDHOC messages") are transported in the payload of CoAP requests and responses. The default, forward message flow of EDHOC consists in the CoAP client acting as Initiator and the CoAP server acting as Responder. Alternatively, the two roles can be reversed, as per the reverse message flow of EDHOC. In the rest of this document, EDHOC messages are considered to be transferred over CoAP.
+{{Section A.2 of I-D.ietf-lake-edhoc}} specifies how to transfer EDHOC over CoAP. That is, the EDHOC data (i.e., the EDHOC message possibly with a prepended connection identifier) are transported in the payload of CoAP requests and responses. The default, forward message flow of EDHOC consists in the CoAP client acting as Initiator and the CoAP server acting as Responder (see {{Section A.2.1 of I-D.ietf-lake-edhoc}}). Alternatively, the two roles can be reversed, as per the reverse message flow of EDHOC (see {{Section A.2.2 of I-D.ietf-lake-edhoc}}). In the rest of this document, EDHOC messages are considered to be transferred over CoAP.
 
-{{fig-non-combined}} shows a CoAP client and a CoAP server running EDHOC as Initiator and Responder, respectively. That is, the client sends a POST request to a reserved *EDHOC resource* at the server, by default at the Uri-Path "/.well-known/edhoc". The request payload consists of the CBOR simple value "true" (0xf5) concatenated with EDHOC message_1, which also includes the EDHOC connection identifier C_I of the client encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}. The Content-Format of the request can be set to application/cid-edhoc+cbor-seq.
+{{fig-non-combined}} shows a CoAP client and a CoAP server running EDHOC as Initiator and Responder, respectively. In particular, it extends Figure 18 from {{Section A.2.1 of I-D.ietf-lake-edhoc}}, by highlighting when the two peers perform EDHOC verification and establish the OSCORE Security Context, and by adding an exchange of OSCORE-protected CoAP messages after completing the EDHOC execution.
+
+That is, the client sends a POST request to a reserved *EDHOC resource* at the server, by default at the Uri-Path "/.well-known/edhoc". The request payload consists of the CBOR simple value "true" (0xf5) concatenated with EDHOC message_1, which also includes the EDHOC connection identifier C_I of the client encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}. The Content-Format of the request can be set to application/cid-edhoc+cbor-seq.
 
 This triggers the EDHOC execution at the server, which replies with a 2.04 (Changed) response. The response payload consists of EDHOC message_2, which also includes the EDHOC connection identifier C_R of the server encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}. The Content-Format of the response can be set to application/edhoc+cbor-seq.
 
-Finally, the client sends a POST request to the same EDHOC resource used earlier to send EDHOC message_1. The request payload consists of the EDHOC connection identifier C_R encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}, concatenated with EDHOC message_3. The Content-Format of the request can be set to application/cid-edhoc+cbor-seq.
+Finally, the client sends a POST request to the same EDHOC resource used earlier when it sent EDHOC message_1. The request payload consists of the EDHOC connection identifier C_R encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}, concatenated with EDHOC message_3. The Content-Format of the request can be set to application/cid-edhoc+cbor-seq.
 
 After this exchange takes place, and after successful verifications as specified in the EDHOC protocol, the client and server can derive an OSCORE Security Context, as defined in {{Section A.1 of I-D.ietf-lake-edhoc}}. After that, they can use OSCORE to protect their communications as per {{RFC8613}}.
 
@@ -155,8 +157,7 @@ OSCORE Sec Ctx                                              |
        |                 Payload: OSCORE-protected data     |
        |                                                    |
 ~~~~~~~~~~~~~~~~~
-{: #fig-non-combined title="EDHOC and OSCORE run sequentially.
- The optional message_4 is included in this example, without which that message needs no payload." artwork-align="center"}
+{: #fig-non-combined title="EDHOC and OSCORE run sequentially. The optional message_4 is included in this example, without which that message needs no payload." artwork-align="center"}
 
 As shown in {{fig-non-combined}}, this purely-sequential flow where EDHOC is run first and then OSCORE is used takes three round trips to complete.
 
@@ -226,13 +227,12 @@ This section defines the EDHOC Option. The option is used in a CoAP request, to 
 
 The EDHOC Option has the properties summarized in {{fig-edhoc-option}}, which extends Table 4 of {{RFC7252}}. The option is Critical, Safe-to-Forward, and part of the Cache-Key. The option MUST occur at most once and MUST be empty. If any value is sent, the recipient MUST ignore it. (Future documents may update the definition of the option, by expanding its semantics and specifying admitted values.) The option is intended only for CoAP requests and is of Class U for OSCORE {{RFC8613}}.
 
-| No.   | C | U | N | R | Name  | Format | Length | Default |
-| TBD21 | x |   |   |   | EDHOC | Empty  |   0    | (none)  |
+| No. | C | U | N | R | Name  | Format | Length | Default |
+| 21  | x |   |   |   | EDHOC | Empty  |   0    | (none)  |
 {: #fig-edhoc-option title="The EDHOC Option.
- C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable" align="center"}
 
+C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable" align="center"}
 
-Note to RFC Editor: Following the registration of the CoAP Option Number 21 as per {{iana-coap-options}}, please replace "TBD21" with "21" in the figure above. Then, please delete this paragraph.
 
 The presence of this option means that the message payload also contains EDHOC data, which must be extracted and processed as defined in {{server-processing}}, before the rest of the message can be processed.
 
@@ -260,7 +260,7 @@ The presence of this option means that the message payload also contains EDHOC d
 
 The client prepares an EDHOC + OSCORE request as follows.
 
-1. Compose EDHOC message_3 as per {{Section 5.4.2 of I-D.ietf-lake-edhoc}}.
+1. Compose EDHOC message_3 into EDHOC_MSG_3, as per {{Section 5.4.2 of I-D.ietf-lake-edhoc}}.
 
 2. Establish the new OSCORE Security Context and use it to encrypt the original CoAP request as per {{Section 8.1 of RFC8613}}.
 
@@ -334,7 +334,7 @@ In order to process a request containing the EDHOC option, i.e., an EDHOC + OSCO
 
 If steps 4 (EDHOC processing) and 8 (OSCORE processing) are both successfully completed, the server MUST reply with an OSCORE-protected response (see {{Section 5.4.3 of I-D.ietf-lake-edhoc}}). The usage of EDHOC message_4 as defined in {{Section 5.5 of I-D.ietf-lake-edhoc}} is not applicable to the approach defined in this document.
 
-If step 4 (EDHOC processing) fails, the server discontinues the protocol as per {{Section 5.4.3 of I-D.ietf-lake-edhoc}} and responds with an EDHOC error message with error code 1, formatted as defined in {{Section 6.2 of I-D.ietf-lake-edhoc}}. The server MUST NOT establish a new OSCORE Security Context from the present EDHOC session with the client, hence the CoAP response conveying the EDHOC error message is not protected with OSCORE. As per {{Section 8.5 of I-D.ietf-lake-edhoc}}, the server has to make sure that the error message does not reveal sensitive information. The CoAP response conveying the EDHOC error message MUST have Content-Format set to application/edhoc+cbor-seq defined in {{Section 9.9 of I-D.ietf-lake-edhoc}}.
+If step 4 (EDHOC processing) fails, the server aborts the session as per {{Section 5.4.3 of I-D.ietf-lake-edhoc}} and responds with an EDHOC error message with error code 1, formatted as defined in {{Section 6.2 of I-D.ietf-lake-edhoc}}. The server MUST NOT establish a new OSCORE Security Context from the present EDHOC session with the client. The CoAP response conveying the EDHOC error message is not protected with OSCORE. As per {{Section 9.5 of I-D.ietf-lake-edhoc}}, the server has to make sure that the error message does not reveal sensitive information. The CoAP response conveying the EDHOC error message MUST have Content-Format set to application/edhoc+cbor-seq defined in {{Section 10.9 of I-D.ietf-lake-edhoc}}.
 
 If step 4 (EDHOC processing) is successfully completed but step 8 (OSCORE processing) fails, the same OSCORE error handling as defined in {{Section 8.2 of RFC8613}} applies.
 
@@ -405,15 +405,15 @@ The chosen C_I SHOULD NOT be the Recipient ID of any current OSCORE Security Con
 
 The Responder selects an EDHOC Connection Identifier C_R as follows.
 
-The Responder MUST choose a C_R that is neither used in any current EDHOC session as this peer's EDHOC Connection Identifier, nor is equal to the EDHOC Connection Identifier C_I specified in the EDHOC message_1 of the present EDHOC session (i.e., after its decoding as per {{Section 3.3 of I-D.ietf-lake-edhoc}}), nor is the Recipient ID in a current OSCORE Security Context where the ID Context is not present.
+The Responder MUST choose a C_R that is neither used in any current EDHOC session as this peer's EDHOC Connection Identifier, nor is equal to the EDHOC Connection Identifier C_I specified in the EDHOC message_1 of the present EDHOC session, nor is the Recipient ID in a current OSCORE Security Context where the ID Context is not present.
 
 The chosen C_R SHOULD NOT be the Recipient ID of any current OSCORE Security Context. Note that, for a reason analogous to the one given above with C_I, this allows the Initiator to always omit the 'kid context' in the OSCORE Option of its messages sent to the Responder, when protecting those with an OSCORE Security Context where C_R is the Initiator's OSCORE Sender ID (see {{Section 6.1 of RFC8613}}).
 
 ### Initiator Processing of Message 2
 
-If the following condition holds, the Initiator MUST discontinue the protocol and reply with an EDHOC error message with error code 1, formatted as defined in {{Section 6.2 of I-D.ietf-lake-edhoc}}.
+If the following condition holds, the Initiator MUST abort the session and reply with an EDHOC error message with error code 1, formatted as defined in {{Section 6.2 of I-D.ietf-lake-edhoc}}.
 
-* The EDHOC Connection Identifier C_I is equal to the EDHOC Connection Identifier C_R specified in EDHOC message_2 (i.e., after its decoding as per {{Section 3.3 of I-D.ietf-lake-edhoc}}).
+* The EDHOC Connection Identifier C_I is equal to the EDHOC Connection Identifier C_R specified in EDHOC message_2.
 
 # Extension and Consistency of Application Profiles # {#app-statements}
 
@@ -425,7 +425,7 @@ In case the application profile indicates that the server supports the optional 
 
 # Web Linking # {#web-linking}
 
-{{Section 9.10 of I-D.ietf-lake-edhoc}} registers the resource type "core.edhoc", which can be used as target attribute in a web link {{RFC8288}} to an EDHOC resource, e.g., using a link-format document {{RFC6690}}. This enables clients to discover the presence of EDHOC resources at a server, possibly using the resource type as filter criterion.
+{{Section 10.10 of I-D.ietf-lake-edhoc}} registers the resource type "core.edhoc", which can be used as target attribute in a web link {{RFC8288}} to an EDHOC resource, e.g., using a link-format document {{RFC6690}}. This enables clients to discover the presence of EDHOC resources at a server, possibly using the resource type as filter criterion.
 
 At the same time, the application profile associated with an EDHOC resource provides information describing how the EDHOC protocol can be used through that resource. While a client may become aware of the application profile through several means, it would be convenient to obtain its information elements upon discovering the EDHOC resources at the server. This might aim at discovering especially the EDHOC resources whose associated application profile denotes a way of using EDHOC which is most suitable to the client, e.g., with EDHOC cipher suites or authentication methods that the client also supports or prefers.
 
@@ -439,9 +439,9 @@ The following parameters are defined.
 
 * 'ed-r', specifying, if present, that the server supports the EDHOC Responder role, hence the forward message flow of EDHOC. A value MUST NOT be given to this parameter and any present value MUST be ignored by the recipient.
 
-* 'ed-method', specifying an authentication method supported by the server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Method Type" registry defined in {{Section 9.3 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying an authentication method.
+* 'ed-method', specifying an authentication method supported by the server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Method Type" registry defined in {{Section 10.3 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying an authentication method.
 
-* 'ed-csuite', specifying an EDHOC cipher suite supported by the server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Cipher Suites" registry defined in {{Section 9.2 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying a cipher suite.
+* 'ed-csuite', specifying an EDHOC cipher suite supported by the server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Cipher Suites" registry defined in {{Section 10.2 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying a cipher suite.
 
 * 'ed-cred-t', specifying a type of authentication credential supported by the server. This parameter MUST specify a single value, which is taken from the 'Value' column of the "EDHOC Authentication Credential Types" Registry defined in {{iana-edhoc-auth-cred-types}} of this document. This parameter MAY occur multiple times, with each occurrence specifying a type of authentication credential.
 
@@ -449,11 +449,11 @@ The following parameters are defined.
 
    Note that the values in the 'Label' column of the "COSE Header Parameters" registry are strongly typed. On the contrary, Link Format is weakly typed and thus does not distinguish between, for instance, the string value "-10" and the integer value -10. Thus, if responses in Link Format are returned, string values which look like an integer are not supported. Therefore, such values MUST NOT be used in the 'ed-idcred-t' parameter.
 
-* 'ed-ead', specifying the support of the server for an External Authorization Data (EAD) item (see {{Section 3.8 of I-D.ietf-lake-edhoc}}). This parameter MUST specify a single value, which is taken from the 'Label' column of the "EDHOC External Authorization Data" registry defined in {{Section 9.5 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying the ead_label of an EAD item that the server supports.
+* 'ed-ead', specifying the support of the server for an External Authorization Data (EAD) item (see {{Section 3.8 of I-D.ietf-lake-edhoc}}). This parameter MUST specify a single value, which is taken from the 'Label' column of the "EDHOC External Authorization Data" registry defined in {{Section 10.5 of I-D.ietf-lake-edhoc}}. This parameter MAY occur multiple times, with each occurrence specifying the ead_label of an EAD item that the server supports.
 
 * 'ed-comb-req', specifying, if present, that the server supports the EDHOC + OSCORE request defined in {{edhoc-in-oscore}}. A value MUST NOT be given to this parameter and any present value MUST be ignored by the recipient.
 
-(Future documents may update the definition of the parameters 'ed-i', 'ed-r', and 'ed-comb-req', by expanding their semantics and specifying admitted values.)
+(Future documents may update the definition of the parameters 'ed-i', 'ed-r', and 'ed-comb-req', by expanding their semantics and specifying what they can take as value.)
 
 The example in {{fig-web-link-example}} shows how a client discovers one EDHOC resource at a server, obtaining information elements from the respective application profile. The Link Format notation from {{Section 5 of RFC6690}} is used.
 
@@ -475,7 +475,7 @@ The same security considerations from OSCORE {{RFC8613}} and EDHOC {{I-D.ietf-la
 
 {{client-processing}} specifies that a client SHOULD NOT have multiple outstanding EDHOC + OSCORE requests pertaining to the same EDHOC session. Even if a client did not fulfill this requirement, it would not have any impact in terms of security. That is, the server would still not process different instances of the same EDHOC message_3 more than once in the same EDHOC session (see {{Section 5.1 of I-D.ietf-lake-edhoc}}), and would still enforce replay protection of the OSCORE-protected request (see {{Sections 7.4 and 8.2 of RFC8613}}).
 
-When using the optimized workflow in Figure 2, a minimum of 128-bit security against online brute force attacks is achieved after the client receives and successfully verifies the first OSCORE-protected response (see {{Section 8.1 of I-D.ietf-lake-edhoc}}). As an example, if EDHOC is used with method 3 (see {{Section 3.2 of I-D.ietf-lake-edhoc}}) and cipher suite 2 (see {{Section 3.6 of I-D.ietf-lake-edhoc}}), then the following holds.
+When using the optimized workflow in Figure 2, a minimum of 128-bit security against online brute force attacks is achieved after the client receives and successfully verifies the first OSCORE-protected response (see {{Section 9.1 of I-D.ietf-lake-edhoc}}). As an example, if EDHOC is used with method 3 (see {{Section 3.2 of I-D.ietf-lake-edhoc}}) and cipher suite 2 (see {{Section 3.6 of I-D.ietf-lake-edhoc}}), then the following holds.
 
 * The Initiator is authenticated with 128-bit security against online attacks. This is the sum of the 64-bit MACs in EDHOC message_3 and of the MAC in the AEAD of the first OSCORE-protected CoAP request, as rebuilt at step 7 of {{server-processing}}.
 
@@ -500,10 +500,10 @@ Note to RFC Editor: Please replace all occurrences of "{{&SELF}}" with the RFC n
 IANA is asked to enter the following option number to the "CoAP Option Numbers" registry within the "CoRE Parameters" registry group.
 
 | Number | Name  | Reference  |
-| TBD21  | EDHOC | [RFC-XXXX] |
+| 21     | EDHOC | [RFC-XXXX] |
 {: align="center" title="Registrations in CoAP Option Numbers Registry"}
 
-Note to RFC Editor: Following the registration of the CoAP Option Number 21, please replace "TBD21" with "21" in the table above. Then, please delete this paragraph and all the following text within the present {{iana-coap-options}}.
+Note to RFC Editor: Please delete this paragraph and all the following text within the present {{iana-coap-options}}.
 
 \[
 
@@ -513,14 +513,14 @@ The CoAP option number 21 is consistent with the properties of the EDHOC Option 
 
 * Since the OSCORE Option with option number 9 is always present in the EDHOC + OSCORE request, the EDHOC Option is encoded with a delta equal to at most 12.
 
-Therefore, this document suggests 21 (TBD21) as option number to be assigned to the new EDHOC Option. Although the currently unassigned option number 13 would also work well for the same reasons in the use case in question, different use cases or protocols may make a better use of the option number 13. Hence the preference for the option number 21, and why it is _not_ necessary to register additional option numbers than 21.
+Although the currently unassigned option number 13 would also work well for the same reasons in the use case in question, different use cases or protocols may make a better use of the option number 13. Hence the preference for the option number 21, and why it is _not_ necessary to register additional option numbers than 21.
 
 \]
 
 ## Target Attributes Registry ## {#iana-target-attributes}
 
 IANA is asked to register the following entries in the "Target Attributes" registry within the "CoRE Parameters" registry group, as per {{I-D.ietf-core-target-attr}}.
-For all entries, the Change Controller is IESG, and the reference is \[RFC-XXXX].
+For all entries, the Change Controller is IETF, and the reference is \[RFC-XXXX].
 
 | Attribute Name: | Brief Description:                                                 |
 | ed-i            | Hint: support for the EDHOC Initiator role                         |
@@ -555,8 +555,8 @@ The columns of this registry are:
 Initial entries in this registry are as listed in {{pre-reg}}.
 
 | Value | Description                                                 | Reference                         |
-|     0 | CBOR Web Token (CWT) containing a COSE_Key in a 'cnf' claim | [RFC8392]                         |
-|     1 | CWT Claims Set (CCS) containing a COSE_Key in a 'cnf' claim | [RFC8392]                         |
+|     0 | CBOR Web Token (CWT) containing a COSE_Key in a 'cnf' claim and possibly other claims. CWT is defined in RFC 8392. | [RFC8392]                         |
+|     1 | CWT Claims Set (CCS) containing a COSE_Key in a 'cnf' claim and possibly other claims. CCS is defined in RFC 8392. | [RFC8392]                         |
 |     2 | X.509 certificate                                           | [RFC5280]                         |
 |     3 | C509 certificate                                            | [I-D.ietf-cose-cbor-encoded-cert] |
 {: #pre-reg title="Initial Entries in the \"EDHOC Authentication Credential Types\" Registry" align="center"}
@@ -579,6 +579,20 @@ Expert reviewers should take into consideration the following points:
 
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
+
+## Version -08 to -09 ## {#sec-08-09}
+
+* Clarified meaning of "EDHOC data".
+
+* Improved description of entries for the new IANA registry.
+
+* Change Controller changed from "IESG" to "IETF".
+
+* Editorial: EDHOC Option number denoted as "21" instead of "TBD21".
+
+* Fixed references to sections of draft-ietf-lake-edhoc
+
+* Clarifications and editorial improvements.
 
 ## Version -07 to -08 ## {#sec-07-08}
 
@@ -707,6 +721,6 @@ Expert reviewers should take into consideration the following points:
 # Acknowledgments
 {:numbered="false"}
 
-The authors sincerely thank {{{Christian Amsüss}}}, {{{Carsten Bormann}}}, {{{Esko Dijk}}}, {{{Klaus Hartke}}}, {{{John Preuß Mattsson}}}, {{{David Navarro}}}, {{{Jim Schaad}}}, and {{{Mališa Vučinić}}} for their feedback and comments.
+The authors sincerely thank {{{Christian Amsüss}}}, {{{Carsten Bormann}}}, {{{Esko Dijk}}}, {{{Klaus Hartke}}}, {{{John Preuß Mattsson}}}, {{{David Navarro}}}, {{{Jim Schaad}}}, {{{Mališa Vučinić}}}, and {{{Paul Wouters}}} for their feedback and comments.
 
 The work on this document has been partly supported by VINNOVA and the Celtic-Next project CRITISEC; and by the H2020 project SIFIS-Home (Grant agreement 952652).
