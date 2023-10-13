@@ -1,0 +1,193 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2021-07-15T00:42:24.710286+00:00",
+  "repo": "core-wg/oscore-edhoc",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [
+    {
+      "number": 1,
+      "id": "MDU6SXNzdWU4NjY2OTcwMTI=",
+      "title": "Bring in content from draft-ietf-lake-edhoc",
+      "url": "https://github.com/core-wg/oscore-edhoc/issues/1",
+      "state": "CLOSED",
+      "author": "marco-tiloca-sics",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Move Section 7.2.1 and second half of Section 7.2.2 of https://tools.ietf.org/html/draft-ietf-lake-edhoc-06  to this document.\r\n\r\nSee https://github.com/lake-wg/edhoc/issues/75",
+      "createdAt": "2021-04-24T08:50:29Z",
+      "updatedAt": "2021-05-20T18:20:50Z",
+      "closedAt": "2021-05-20T18:20:50Z",
+      "comments": [
+        {
+          "author": "gselander",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Note PR with new definition of EDHOC-Exporter:\r\nhttps://github.com/lake-wg/edhoc/pull/114\r\n",
+          "createdAt": "2021-05-07T14:27:10Z",
+          "updatedAt": "2021-05-07T14:27:10Z"
+        },
+        {
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed by the merged https://github.com/core-wg/oscore-edhoc/pull/3",
+          "createdAt": "2021-05-20T18:20:50Z",
+          "updatedAt": "2021-05-20T18:20:50Z"
+        }
+      ]
+    }
+  ],
+  "pulls": [
+    {
+      "number": 2,
+      "id": "MDExOlB1bGxSZXF1ZXN0NjQwODM3OTEz",
+      "title": "Content from edhoc",
+      "url": "https://github.com/core-wg/oscore-edhoc/pull/2",
+      "state": "CLOSED",
+      "author": "marco-tiloca-sics",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2021-05-11T15:21:43Z",
+      "updatedAt": "2021-05-20T18:21:17Z",
+      "baseRepository": "core-wg/oscore-edhoc",
+      "baseRefName": "v-01",
+      "baseRefOid": "a6b9b7d5d0cb94d18c4c84fda46551f589fb3e28",
+      "headRepository": "core-wg/oscore-edhoc",
+      "headRefName": "content-from-edhoc",
+      "headRefOid": "fd27af7d4af2256238b5d2b37733b820d797c7a3",
+      "closedAt": "2021-05-20T18:19:42Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Superseded by the merged https://github.com/core-wg/oscore-edhoc/pull/3",
+          "createdAt": "2021-05-20T18:20:13Z",
+          "updatedAt": "2021-05-20T18:20:13Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 3,
+      "id": "MDExOlB1bGxSZXF1ZXN0NjQ3NjkwOTYz",
+      "title": "Fall-out of bstr_identifier removal",
+      "url": "https://github.com/core-wg/oscore-edhoc/pull/3",
+      "state": "MERGED",
+      "author": "chrysn",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Clean-up after https://github.com/lake-wg/edhoc/pull/122\r\n\r\nAs the content-from-edhoc branch seems to be the most up-to-date one (in which the parts changed are introduced in the first place), this builds on #2, and only the latest commit is actually relevant.",
+      "createdAt": "2021-05-19T13:51:47Z",
+      "updatedAt": "2021-05-20T17:44:28Z",
+      "baseRepository": "core-wg/oscore-edhoc",
+      "baseRefName": "main",
+      "baseRefOid": "dfdfe70415cd493442861e1ba2f6d085510db2c3",
+      "headRepository": "chrysn-pull-requests/oscore-edhoc",
+      "headRefName": "bstr_id-replacement",
+      "headRefOid": "1ce9d87731ae4e937f581a9d1318c1dab2800739",
+      "closedAt": "2021-05-20T17:44:27Z",
+      "mergedAt": "2021-05-20T17:44:27Z",
+      "mergedBy": "marco-tiloca-sics",
+      "mergeCommit": {
+        "oid": "fe64f2f59e9a9c2a77d99b37a6261573bc85f1a8"
+      },
+      "comments": [
+        {
+          "author": "chrysn",
+          "authorAssociation": "MEMBER",
+          "body": "Compared to the original bstr_identifier mapping, this is a different int-to-bstr mapping, but one that's most likely efficient to implement.\r\n\r\nI have not made any statement on the efficiencies, but some guidance we could give is that from a coding density point of view, numeric C_x should only be used with -24..23; for all other values, doing it in a bstr is just as good and saves a byte in OSCORE. (In fact we may want to make that normative, so that only the single-byte case needs to be implemented where this needs explicit implementation).",
+          "createdAt": "2021-05-19T13:54:12Z",
+          "updatedAt": "2021-05-19T13:54:12Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 4,
+      "id": "MDExOlB1bGxSZXF1ZXN0NjgzNzg3MTky",
+      "title": "Edhoc appendix",
+      "url": "https://github.com/core-wg/oscore-edhoc/pull/4",
+      "state": "MERGED",
+      "author": "marco-tiloca-sics",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This PR builds on the comment at: https://github.com/lake-wg/edhoc/issues/75#issuecomment-867638739\r\n\r\nSection 5.2, Appendix A and Appendix B are marked as intended to be moved to lake-edhoc. Appendix A.2 has also notes about the need to merge its content with the content in Section 7.2 of lake-edhoc-07\r\n\r\nThe rest of the document is restored to be focused on the EDHOC + OSCORE combination.",
+      "createdAt": "2021-07-05T15:20:12Z",
+      "updatedAt": "2021-07-14T15:03:46Z",
+      "baseRepository": "core-wg/oscore-edhoc",
+      "baseRefName": "main",
+      "baseRefOid": "4303150ce53ebfa6c3dcb9470c81b474195418ff",
+      "headRepository": "core-wg/oscore-edhoc",
+      "headRefName": "edhoc-appendix",
+      "headRefOid": "42372d8c97c677b130d8e7b584d5070e5100353c",
+      "closedAt": "2021-07-14T14:59:30Z",
+      "mergedAt": "2021-07-14T14:59:30Z",
+      "mergedBy": "marco-tiloca-sics",
+      "mergeCommit": {
+        "oid": "74320cd4cbeb63e8aa15de5feea56e19760f501f"
+      },
+      "comments": [
+        {
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@rikard-sics @StefanHri @gselander @fpalombini  - Please have a look :-)",
+          "createdAt": "2021-07-05T15:23:28Z",
+          "updatedAt": "2021-07-05T15:23:28Z"
+        }
+      ],
+      "reviews": []
+    }
+  ]
+}
