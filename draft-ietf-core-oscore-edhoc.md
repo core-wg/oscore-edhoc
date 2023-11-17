@@ -1,7 +1,7 @@
 ---
 v: 3
 
-title: "Using EDHOC with CoAP and OSCORE"
+title: "Using Ephemeral Diffie-Hellman Over COSE (EDHOC) with the Constrained Application Protocol (CoAP) and Object Security for Constrained RESTful Environments (OSCORE)"
 abbrev: "Using EDHOC with CoAP and OSCORE"
 docname: draft-ietf-core-oscore-edhoc-latest
 cat: std
