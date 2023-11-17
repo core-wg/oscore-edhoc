@@ -346,7 +346,9 @@ Table of Contents
    (C_R, EDHOC message_3) within an OSCORE-protected CoAP message.
 
    That is, the EDHOC + OSCORE request is composed of the following two
-   parts combined together in a single CoAP message:
+   parts combined together in a single CoAP message.  The steps for
+   processing the EDHOC + OSCORE request and its two combined parts are
+   defined in Section 3.2 and Section 3.3.
 
    *  The OSCORE Request from Figure 1, which is also in this case sent
       to a protected resource, with the correct CoAP method and options
