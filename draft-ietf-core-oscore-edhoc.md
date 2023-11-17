@@ -159,7 +159,7 @@ OSCORE Sec Ctx                                              |
 ~~~~~~~~~~~~~~~~~
 {: #fig-non-combined title="EDHOC and OSCORE run sequentially. The optional message_4 is included in this example, without which that message needs no payload." artwork-align="center"}
 
-As shown in {{fig-non-combined}}, this purely-sequential flow where EDHOC is run first and then OSCORE is used takes three round trips to complete.
+As shown in {{fig-non-combined}}, this sequential flow where EDHOC is run first and then OSCORE is used takes three round trips to complete.
 
 {{edhoc-in-oscore}} defines an optimization for combining EDHOC with the first OSCORE transaction. This reduces the number of round trips required to set up an OSCORE Security Context and to complete an OSCORE transaction using that Security Context.
 
@@ -169,7 +169,7 @@ This section defines an optimization for combining the EDHOC message exchange wi
 
 This approach can be used only if the default, forward message flow of EDHOC is used, i.e., when the client acts as Initiator and the server acts as Responder. That is, it cannot be used in the case with reversed roles as per the reverse message flow of EDHOC.
 
-When running the purely-sequential flow of {{overview}}, the client has all the information to derive the OSCORE Security Context already after receiving EDHOC message_2 and before sending EDHOC message_3.
+When running the sequential flow of {{overview}}, the client has all the information to derive the OSCORE Security Context already after receiving EDHOC message_2 and before sending EDHOC message_3.
 
 Hence, the client can potentially send both EDHOC message_3 and the subsequent OSCORE Request at the same time. On a semantic level, this requires sending two REST requests at once, as in {{fig-combined}}.
 
@@ -298,7 +298,7 @@ In such a case, the OSCORE processing in step 2 of {{client-processing}} is perf
 
 * The client takes the additional following step between steps 3 and 4 of {{client-processing}}.
 
-   B. If the size of COMB_PAYLOAD exceeds MAX_UNFRAGMENTED_SIZE (see {{Section 4.1.3.4.2 of RFC8613}}), the client MUST stop processing the request and MUST abandon the Block-wise transfer. Then, the client can continue by switching to the purely sequential workflow shown in {{fig-non-combined}}. That is, the client first sends EDHOC message_3 prepended by the EDHOC Connection Identifier C_R encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}, and then sends the OSCORE-protected CoAP request once the EDHOC execution is completed.
+   B. If the size of COMB_PAYLOAD exceeds MAX_UNFRAGMENTED_SIZE (see {{Section 4.1.3.4.2 of RFC8613}}), the client MUST stop processing the request and MUST abandon the Block-wise transfer. Then, the client can continue by switching to the sequential workflow shown in {{fig-non-combined}}. That is, the client first sends EDHOC message_3 prepended by the EDHOC Connection Identifier C_R encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}, and then sends the OSCORE-protected CoAP request once the EDHOC execution is completed.
 
 The performance advantage of using the EDHOC + OSCORE request can be lost when used in combination with Block-wise transfers that rely on specific parameter values and block sizes.
 
@@ -354,7 +354,7 @@ A. If Block-wise is present in the request, then process the Outer Block options
 
    As per {{Section 3.3.3 of I-D.ietf-lake-edhoc}}, this straightforwardly corresponds to the EDHOC connection identifier C_R 0x01.
 
-   As per {{Section 3.3.2 of I-D.ietf-lake-edhoc}}, when using the purely-sequential flow shown in {{fig-non-combined}}, the same C_R with value 0x01 would be encoded on the wire as the CBOR integer 1 (0x01 in CBOR encoding), and prepended to EDHOC message_3 in the payload of the second EDHOC request.
+   As per {{Section 3.3.2 of I-D.ietf-lake-edhoc}}, when using the sequential flow shown in {{fig-non-combined}}, the same C_R with value 0x01 would be encoded on the wire as the CBOR integer 1 (0x01 in CBOR encoding), and prepended to EDHOC message_3 in the payload of the second EDHOC request.
 
 * The EDHOC option is registered with CoAP option number 21.
 
@@ -481,7 +481,7 @@ When using the optimized workflow in Figure 2, a minimum of 128-bit security aga
 
 * The Responder is authenticated with 128-bit security against online attacks. This is the sum of the 64-bit MACs in EDHOC message_2 and of the MAC in the AEAD of the first OSCORE-protected CoAP response.
 
-With reference to the purely sequential workflow in {{fig-non-combined}}, the OSCORE request might have to undergo access control checks at the server, before being actually executed for accessing the target protected resource. The same MUST hold when the optimized workflow in {{fig-combined}} is used, i.e., when using the EDHOC + OSCORE request.
+With reference to the sequential workflow in {{fig-non-combined}}, the OSCORE request might have to undergo access control checks at the server, before being actually executed for accessing the target protected resource. The same MUST hold when the optimized workflow in {{fig-combined}} is used, i.e., when using the EDHOC + OSCORE request.
 
 That is, the rebuilt OSCORE-protected application request from step 7 in {{server-processing}} MUST undergo the same access control checks that would be performed on a traditional OSCORE-protected application request sent individually as shown in {{fig-non-combined}}.
 
