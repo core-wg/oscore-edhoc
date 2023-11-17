@@ -269,10 +269,12 @@ Table of Contents
            |                                                    |
            | ---------------- OSCORE Request -----------------> |
            |   Header: 0.02 (POST)                              |
+           |   OSCORE: { ... ; kid: C_R }                       |
            |   Payload: OSCORE-protected data                   |
            |                                                    |
            | <--------------- OSCORE Response ----------------- |
            |                 Header: 2.04 (Changed)             |
+           |                 OSCORE: { ... }                    |
            |                 Payload: OSCORE-protected data     |
            |                                                    |
 
@@ -328,6 +330,7 @@ Table of Contents
           |                                                     |
           | -------------- EDHOC + OSCORE Request ------------> |
           |   Header: 0.02 (POST)                               |
+          |   OSCORE: { ... ; kid: C_R }                        |
           |   Payload: EDHOC message_3 + OSCORE-protected data  |
           |                                                     |
           |                                          EDHOC verification
@@ -337,6 +340,7 @@ Table of Contents
           |                                                     |
           | <--------------- OSCORE Response ------------------ |
           |                    Header: 2.04 (Changed)           |
+          |                    OSCORE: { ... }                  |
           |                    Payload: OSCORE-protected data   |
           |                                                     |
 

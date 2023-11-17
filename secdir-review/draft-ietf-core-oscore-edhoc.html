@@ -1321,12 +1321,12 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">Â
 <figure id="figure-1">
         <div id="section-2-11.1">
           <div class="alignCenter art-svg artwork" id="section-2-11.1.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="736" width="544" viewBox="0 0 544 736" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="768" width="544" viewBox="0 0 544 768" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
               <path d="M 64,64 L 64,256" fill="none" stroke="black"></path>
               <path d="M 64,288 L 64,544" fill="none" stroke="black"></path>
-              <path d="M 64,592 L 64,720" fill="none" stroke="black"></path>
+              <path d="M 64,592 L 64,752" fill="none" stroke="black"></path>
               <path d="M 488,64 L 488,384" fill="none" stroke="black"></path>
-              <path d="M 488,464 L 488,720" fill="none" stroke="black"></path>
+              <path d="M 488,464 L 488,752" fill="none" stroke="black"></path>
               <path d="M 80,96 L 208,96" fill="none" stroke="black"></path>
               <path d="M 336,96 L 472,96" fill="none" stroke="black"></path>
               <path d="M 80,192 L 208,192" fill="none" stroke="black"></path>
@@ -1337,12 +1337,12 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">Â
               <path d="M 336,480 L 472,480" fill="none" stroke="black"></path>
               <path d="M 80,608 L 200,608" fill="none" stroke="black"></path>
               <path d="M 336,608 L 472,608" fill="none" stroke="black"></path>
-              <path d="M 80,672 L 200,672" fill="none" stroke="black"></path>
-              <path d="M 344,672 L 472,672" fill="none" stroke="black"></path>
+              <path d="M 80,688 L 200,688" fill="none" stroke="black"></path>
+              <path d="M 344,688 L 472,688" fill="none" stroke="black"></path>
               <polygon class="arrowhead" points="480,608 468,602.4 468,613.6" fill="black" transform="rotate(0,472,608)"></polygon>
               <polygon class="arrowhead" points="480,304 468,298.4 468,309.6" fill="black" transform="rotate(0,472,304)"></polygon>
               <polygon class="arrowhead" points="480,96 468,90.4 468,101.6" fill="black" transform="rotate(0,472,96)"></polygon>
-              <polygon class="arrowhead" points="88,672 76,666.4 76,677.6" fill="black" transform="rotate(180,80,672)"></polygon>
+              <polygon class="arrowhead" points="88,688 76,682.4 76,693.6" fill="black" transform="rotate(180,80,688)"></polygon>
               <polygon class="arrowhead" points="88,480 76,474.4 76,485.6" fill="black" transform="rotate(180,80,480)"></polygon>
               <polygon class="arrowhead" points="88,192 76,186.4 76,197.6" fill="black" transform="rotate(180,80,192)"></polygon>
               <g class="text">
@@ -1418,17 +1418,28 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">Â
                 <text x="120" y="628">Header:</text>
                 <text x="172" y="628">0.02</text>
                 <text x="220" y="628">(POST)</text>
-                <text x="124" y="644">Payload:</text>
-                <text x="228" y="644">OSCORE-protected</text>
-                <text x="316" y="644">data</text>
-                <text x="236" y="676">OSCORE</text>
-                <text x="300" y="676">Response</text>
-                <text x="232" y="692">Header:</text>
-                <text x="284" y="692">2.04</text>
-                <text x="344" y="692">(Changed)</text>
-                <text x="236" y="708">Payload:</text>
-                <text x="340" y="708">OSCORE-protected</text>
-                <text x="428" y="708">data</text>
+                <text x="120" y="644">OSCORE:</text>
+                <text x="160" y="644">{</text>
+                <text x="184" y="644">...</text>
+                <text x="208" y="644">;</text>
+                <text x="236" y="644">kid:</text>
+                <text x="272" y="644">C_R</text>
+                <text x="296" y="644">}</text>
+                <text x="124" y="660">Payload:</text>
+                <text x="228" y="660">OSCORE-protected</text>
+                <text x="316" y="660">data</text>
+                <text x="236" y="692">OSCORE</text>
+                <text x="300" y="692">Response</text>
+                <text x="232" y="708">Header:</text>
+                <text x="284" y="708">2.04</text>
+                <text x="344" y="708">(Changed)</text>
+                <text x="232" y="724">OSCORE:</text>
+                <text x="272" y="724">{</text>
+                <text x="296" y="724">...</text>
+                <text x="320" y="724">}</text>
+                <text x="236" y="740">Payload:</text>
+                <text x="340" y="740">OSCORE-protected</text>
+                <text x="428" y="740">data</text>
               </g>
             </svg><a href="#section-2-11.1.1" class="pilcrow">Â¶</a>
 </div>
@@ -1454,22 +1465,22 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">Â
 <figure id="figure-2">
         <div id="section-3-5.1">
           <div class="alignCenter art-svg artwork" id="section-3-5.1.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="544" width="552" viewBox="0 0 552 544" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="576" width="552" viewBox="0 0 552 576" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
               <path d="M 64,64 L 64,240" fill="none" stroke="black"></path>
-              <path d="M 64,320 L 64,528" fill="none" stroke="black"></path>
-              <path d="M 496,64 L 496,384" fill="none" stroke="black"></path>
-              <path d="M 496,464 L 496,528" fill="none" stroke="black"></path>
+              <path d="M 64,320 L 64,560" fill="none" stroke="black"></path>
+              <path d="M 496,64 L 496,400" fill="none" stroke="black"></path>
+              <path d="M 496,480 L 496,560" fill="none" stroke="black"></path>
               <path d="M 80,80 L 216,80" fill="none" stroke="black"></path>
               <path d="M 344,80 L 480,80" fill="none" stroke="black"></path>
               <path d="M 80,176 L 216,176" fill="none" stroke="black"></path>
               <path d="M 344,176 L 480,176" fill="none" stroke="black"></path>
               <path d="M 80,336 L 184,336" fill="none" stroke="black"></path>
               <path d="M 384,336 L 480,336" fill="none" stroke="black"></path>
-              <path d="M 80,480 L 200,480" fill="none" stroke="black"></path>
-              <path d="M 344,480 L 480,480" fill="none" stroke="black"></path>
+              <path d="M 80,496 L 200,496" fill="none" stroke="black"></path>
+              <path d="M 344,496 L 480,496" fill="none" stroke="black"></path>
               <polygon class="arrowhead" points="488,336 476,330.4 476,341.6" fill="black" transform="rotate(0,480,336)"></polygon>
               <polygon class="arrowhead" points="488,80 476,74.4 476,85.6" fill="black" transform="rotate(0,480,80)"></polygon>
-              <polygon class="arrowhead" points="88,480 76,474.4 76,485.6" fill="black" transform="rotate(180,80,480)"></polygon>
+              <polygon class="arrowhead" points="88,496 76,490.4 76,501.6" fill="black" transform="rotate(180,80,496)"></polygon>
               <polygon class="arrowhead" points="88,176 76,170.4 76,181.6" fill="black" transform="rotate(180,80,176)"></polygon>
               <g class="text">
                 <text x="36" y="36">CoAP</text>
@@ -1517,27 +1528,38 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">Â
                 <text x="120" y="356">Header:</text>
                 <text x="172" y="356">0.02</text>
                 <text x="220" y="356">(POST)</text>
-                <text x="124" y="372">Payload:</text>
-                <text x="184" y="372">EDHOC</text>
-                <text x="248" y="372">message_3</text>
-                <text x="296" y="372">+</text>
-                <text x="372" y="372">OSCORE-protected</text>
-                <text x="460" y="372">data</text>
-                <text x="424" y="404">EDHOC</text>
-                <text x="500" y="404">verification</text>
-                <text x="496" y="420">+</text>
-                <text x="444" y="436">OSCORE</text>
-                <text x="488" y="436">Sec</text>
-                <text x="520" y="436">Ctx</text>
-                <text x="484" y="452">Derivation</text>
-                <text x="236" y="484">OSCORE</text>
-                <text x="300" y="484">Response</text>
-                <text x="256" y="500">Header:</text>
-                <text x="308" y="500">2.04</text>
-                <text x="368" y="500">(Changed)</text>
-                <text x="260" y="516">Payload:</text>
-                <text x="364" y="516">OSCORE-protected</text>
-                <text x="452" y="516">data</text>
+                <text x="120" y="372">OSCORE:</text>
+                <text x="160" y="372">{</text>
+                <text x="184" y="372">...</text>
+                <text x="208" y="372">;</text>
+                <text x="236" y="372">kid:</text>
+                <text x="272" y="372">C_R</text>
+                <text x="296" y="372">}</text>
+                <text x="124" y="388">Payload:</text>
+                <text x="184" y="388">EDHOC</text>
+                <text x="248" y="388">message_3</text>
+                <text x="296" y="388">+</text>
+                <text x="372" y="388">OSCORE-protected</text>
+                <text x="460" y="388">data</text>
+                <text x="424" y="420">EDHOC</text>
+                <text x="500" y="420">verification</text>
+                <text x="496" y="436">+</text>
+                <text x="444" y="452">OSCORE</text>
+                <text x="488" y="452">Sec</text>
+                <text x="520" y="452">Ctx</text>
+                <text x="484" y="468">Derivation</text>
+                <text x="236" y="500">OSCORE</text>
+                <text x="300" y="500">Response</text>
+                <text x="256" y="516">Header:</text>
+                <text x="308" y="516">2.04</text>
+                <text x="368" y="516">(Changed)</text>
+                <text x="256" y="532">OSCORE:</text>
+                <text x="296" y="532">{</text>
+                <text x="320" y="532">...</text>
+                <text x="344" y="532">}</text>
+                <text x="260" y="548">Payload:</text>
+                <text x="364" y="548">OSCORE-protected</text>
+                <text x="452" y="548">data</text>
               </g>
             </svg><a href="#section-3-5.1.1" class="pilcrow">Â¶</a>
 </div>
