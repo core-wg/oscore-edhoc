@@ -211,7 +211,7 @@ EDHOC verification                                           |
 
 To this end, the specific approach defined in this section consists of sending a single EDHOC + OSCORE request, which conveys the pair (C_R, EDHOC message_3) within an OSCORE-protected CoAP message.
 
-That is, the EDHOC + OSCORE request is composed of the following two parts combined together in a single CoAP message:
+That is, the EDHOC + OSCORE request is composed of the following two parts combined together in a single CoAP message. The steps for processing the EDHOC + OSCORE request and its two combined parts are defined in {{client-processing}} and {{server-processing}}.
 
 * The OSCORE Request from {{fig-non-combined}}, which is also in this case sent to a protected resource, with the correct CoAP method and options intended for accessing that resource.
 
