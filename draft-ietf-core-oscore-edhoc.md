@@ -286,7 +286,7 @@ The client prepares an EDHOC + OSCORE request as follows.
 
    Note that the new payload includes EDHOC message_3, but it does not include the EDHOC connection identifier C_R. As the client is the EDHOC Initiator, C_R is the OSCORE Sender ID of the client, which is already specified as 'kid' in the OSCORE Option of the request from step 2, hence of the EDHOC + OSCORE request.
 
-5. Signal the usage of this approach, by including the new EDHOC Option defined in {{edhoc-option}} into the EDHOC + OSCORE request.
+5. Include the new EDHOC Option defined in {{edhoc-option}} into the EDHOC + OSCORE request.
 
    The application/cid-edhoc+cbor-seq media type does not apply to this message, whose media type is unnamed.
 
