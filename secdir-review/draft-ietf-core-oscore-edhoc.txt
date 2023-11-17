@@ -224,7 +224,11 @@ Table of Contents
    as specified in the EDHOC protocol, the client and server can derive
    an OSCORE Security Context, as defined in Appendix A.1 of
    [I-D.ietf-lake-edhoc].  After that, they can use OSCORE to protect
-   their communications as per [RFC8613].
+   their communications as per [RFC8613].  Note that the EDHOC
+   Connection Identifier C_R is used as OSCORE Sender ID of the client
+   (see Appendix A.1 of [I-D.ietf-lake-edhoc]).  Therefore, C_R is
+   transported in the 'kid' field of the OSCORE Option of the OSCORE
+   Request (see Section 6.1 of [RFC8613]).
 
    The client and server are required to agree in advance on certain
    information and parameters describing how they should use EDHOC.
