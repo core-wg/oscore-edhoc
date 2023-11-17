@@ -14,7 +14,9 @@ Expires: 20 May 2024                                          R. Höglund
                                                         17 November 2023
 
 
-                    Using EDHOC with CoAP and OSCORE
+ Using Ephemeral Diffie-Hellman Over COSE (EDHOC) with the Constrained
+Application Protocol (CoAP) and Object Security for Constrained RESTful
+                         Environments (OSCORE)
                   draft-ietf-core-oscore-edhoc-latest
 
 Abstract
