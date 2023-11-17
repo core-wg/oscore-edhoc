@@ -425,9 +425,7 @@ The chosen C_R SHOULD NOT be the Recipient ID of any current OSCORE Security Con
 
 ### Initiator Processing of Message 2
 
-If the following condition holds, the Initiator MUST abort the session and reply with an EDHOC error message with error code 1, formatted as defined in {{Section 6.2 of I-D.ietf-lake-edhoc}}.
-
-* The EDHOC Connection Identifier C_I is equal to the EDHOC Connection Identifier C_R specified in EDHOC message_2.
+If the EDHOC Connection Identifier C_I is equal to the EDHOC Connection Identifier C_R specified in EDHOC message_2, then the Initiator MUST abort the session and reply with an EDHOC error message with error code 1, formatted as defined in {{Section 6.2 of I-D.ietf-lake-edhoc}}.
 
 # Extension and Consistency of Application Profiles # {#app-statements}
 
