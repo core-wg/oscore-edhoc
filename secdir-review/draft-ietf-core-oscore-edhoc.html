@@ -1699,7 +1699,7 @@ Note that the OSCORE ciphertext is not computed over EDHOC message_3, which is n
 Note that the new payload includes EDHOC message_3, but it does not include the EDHOC connection identifier C_R. As the client is the EDHOC Initiator, C_R is the OSCORE Sender ID of the client, which is already specified as 'kid' in the OSCORE Option of the request from step 2, hence of the EDHOC + OSCORE request.<a href="#section-3.2.1-2.4.2" class="pilcrow">¶</a></p>
 </li>
             <li id="section-3.2.1-2.5">
-              <p id="section-3.2.1-2.5.1">Signal the usage of this approach, by including the new EDHOC Option defined in <a href="#edhoc-option" class="auto internal xref">Section 3.1</a> into the EDHOC + OSCORE request.<a href="#section-3.2.1-2.5.1" class="pilcrow">¶</a></p>
+              <p id="section-3.2.1-2.5.1">Include the new EDHOC Option defined in <a href="#edhoc-option" class="auto internal xref">Section 3.1</a> into the EDHOC + OSCORE request.<a href="#section-3.2.1-2.5.1" class="pilcrow">¶</a></p>
 <p id="section-3.2.1-2.5.2">
 The application/cid-edhoc+cbor-seq media type does not apply to this message, whose media type is unnamed.<a href="#section-3.2.1-2.5.2" class="pilcrow">¶</a></p>
 </li>

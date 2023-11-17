@@ -478,8 +478,8 @@ Table of Contents
        client, which is already specified as 'kid' in the OSCORE Option
        of the request from step 2, hence of the EDHOC + OSCORE request.
 
-   5.  Signal the usage of this approach, by including the new EDHOC
-       Option defined in Section 3.1 into the EDHOC + OSCORE request.
+   5.  Include the new EDHOC Option defined in Section 3.1 into the
+       EDHOC + OSCORE request.
 
        The application/cid-edhoc+cbor-seq media type does not apply to
        this message, whose media type is unnamed.
