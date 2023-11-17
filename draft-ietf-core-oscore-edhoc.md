@@ -150,10 +150,12 @@ OSCORE Sec Ctx                                              |
        |                                                    |
        | ---------------- OSCORE Request -----------------> |
        |   Header: 0.02 (POST)                              |
+       |   OSCORE: { ... ; kid: C_R }                       |
        |   Payload: OSCORE-protected data                   |
        |                                                    |
        | <--------------- OSCORE Response ----------------- |
        |                 Header: 2.04 (Changed)             |
+       |                 OSCORE: { ... }                    |
        |                 Payload: OSCORE-protected data     |
        |                                                    |
 ~~~~~~~~~~~~~~~~~
@@ -195,6 +197,7 @@ EDHOC verification                                           |
        |                                                     |
        | -------------- EDHOC + OSCORE Request ------------> |
        |   Header: 0.02 (POST)                               |
+       |   OSCORE: { ... ; kid: C_R }                        |
        |   Payload: EDHOC message_3 + OSCORE-protected data  |
        |                                                     |
        |                                          EDHOC verification
@@ -204,6 +207,7 @@ EDHOC verification                                           |
        |                                                     |
        | <--------------- OSCORE Response ------------------ |
        |                    Header: 2.04 (Changed)           |
+       |                    OSCORE: { ... }                  |
        |                    Payload: OSCORE-protected data   |
        |                                                     |
 ~~~~~~~~~~~~~~~~~
