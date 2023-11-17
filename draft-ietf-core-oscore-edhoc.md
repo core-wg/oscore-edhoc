@@ -225,7 +225,7 @@ That is, the EDHOC + OSCORE request is composed of the following two parts combi
 
    * EDHOC message_3 is transported in the payload of the EDHOC + OSCORE request prepended to the payload of the OSCORE Request. This is because EDHOC message_3 may be too large to be included in a CoAP Option, e.g., if conveying a large public key certificate chain as ID_CRED_I (see {{Section 3.5.3 of I-D.ietf-lake-edhoc}}) or if conveying large External Authorization Data as EAD_3 (see {{Section 3.8 of I-D.ietf-lake-edhoc}}).
 
-The rest of this section specifies how to transport the data in the EDHOC + OSCORE request and their processing order. In particular, the use of this approach is explicitly signalled by including an EDHOC Option (see {{edhoc-option}}) in the EDHOC + OSCORE request. The processing of the EDHOC + OSCORE request is specified in {{client-processing}} for the client side and in {{server-processing}} for the server side.
+The rest of this section specifies how to transport the data in the EDHOC + OSCORE request and their processing order. In particular, the use of this approach is explicitly signalled by including an EDHOC Option (see {{edhoc-option}}) in the EDHOC + OSCORE request. The processing of the EDHOC + OSCORE request is specified in {{client-processing-intro}} for the client side and in {{server-processing-intro}} for the server side.
 
 ## EDHOC Option {#edhoc-option}
 
@@ -240,7 +240,7 @@ The EDHOC Option has the properties summarized in {{fig-edhoc-option}}, which ex
 C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable" align="center"}
 
 
-The presence of this option means that the message payload also contains EDHOC data, which must be extracted and processed as defined in {{server-processing}}, before the rest of the message can be processed.
+The presence of this option means that the message payload also contains EDHOC data, which must be extracted and processed as defined in {{server-processing-intro}}, before the rest of the message can be processed.
 
 {{fig-edhoc-opt}} shows an example of a CoAP message transported over UDP and containing both the EDHOC data and the OSCORE ciphertext, using the newly defined EDHOC option for signalling.
 
@@ -262,7 +262,11 @@ The presence of this option means that the message payload also contains EDHOC d
 ~~~~~~~~~~~~~~~~~
 {: #fig-edhoc-opt title="Example of CoAP message transported over UDP, combining EDHOC data and OSCORE data as signalled with the EDHOC Option." artwork-align="center"}
 
-## Client Processing {#client-processing}
+## Client Processing {#client-processing-intro}
+
+This section describes the processing on the client side.
+
+### Processing of the EDHOC + OSCORE Request {#client-processing}
 
 The client prepares an EDHOC + OSCORE request as follows.
 
@@ -308,7 +312,11 @@ In such a case, the OSCORE processing in step 2 of {{client-processing}} is perf
 
 The performance advantage of using the EDHOC + OSCORE request can be lost when used in combination with Block-wise transfers that rely on specific parameter values and block sizes. Application policies at the CoAP client can define when and how to detect whether such performance advantage is lost, and, if that is the case, whether to appropriately adjust the parameter values and block sizes, or instead to fallback on the sequential workflow of EDHOC. Further considerations on this topic are out of the scope of this document.
 
-## Server Processing {#server-processing}
+## Server Processing {#server-processing-intro}
+
+This section describes the processing on the server side.
+
+### Processing of the EDHOC + OSCORE Request {#server-processing}
 
 In order to process a request containing the EDHOC option, i.e., an EDHOC + OSCORE request, the server MUST perform the following steps.
 
