@@ -5,13 +5,13 @@
 CoRE Working Group                                          F. Palombini
 Internet-Draft                                                  Ericsson
 Intended status: Standards Track                               M. Tiloca
-Expires: 12 April 2024                                        R. Höglund
+Expires: 20 May 2024                                          R. Höglund
                                                                  RISE AB
                                                             S. Hristozov
                                                         Fraunhofer AISEC
                                                              G. Selander
                                                                 Ericsson
-                                                         10 October 2023
+                                                        17 November 2023
 
 
                     Using EDHOC with CoAP and OSCORE
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 April 2024.
+   This Internet-Draft will expire on 20 May 2024.
 
 Copyright Notice
 
@@ -1106,9 +1106,9 @@ Table of Contents
 
    [I-D.ietf-core-target-attr]
               Bormann, C., "CoRE Target Attributes Registry", Work in
-              Progress, Internet-Draft, draft-ietf-core-target-attr-05,
-              23 July 2023, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-core-target-attr-05>.
+              Progress, Internet-Draft, draft-ietf-core-target-attr-06,
+              11 October 2023, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-core-target-attr-06>.
 
    [I-D.ietf-lake-edhoc]
               Selander, G., Mattsson, J. P., and F. Palombini,
@@ -1170,9 +1170,9 @@ Table of Contents
               Mattsson, J. P., Selander, G., Raza, S., Höglund, J., and
               M. Furuhed, "CBOR Encoded X.509 Certificates (C509
               Certificates)", Work in Progress, Internet-Draft, draft-
-              ietf-cose-cbor-encoded-cert-06, 7 July 2023,
+              ietf-cose-cbor-encoded-cert-07, 20 October 2023,
               <https://datatracker.ietf.org/doc/html/draft-ietf-cose-
-              cbor-encoded-cert-06>.
+              cbor-encoded-cert-07>.
 
    [RFC5280]  Cooper, D., Santesson, S., Farrell, S., Boeyen, S.,
               Housley, R., and W. Polk, "Internet X.509 Public Key
@@ -1342,8 +1342,9 @@ A.9.  Version -00 to -01
 Acknowledgments
 
    The authors sincerely thank Christian Amsüss, Carsten Bormann, Esko
-   Dijk, Klaus Hartke, John Preuß Mattsson, David Navarro, Jim Schaad,
-   Mališa Vučinić, and Paul Wouters for their feedback and comments.
+   Dijk, Joel Halpern, Klaus Hartke, John Preuß Mattsson, David Navarro,
+   Jim Schaad, Mališa Vučinić, and Paul Wouters for their feedback and
+   comments.
 
    The work on this document has been partly supported by VINNOVA and
    the Celtic-Next project CRITISEC; and by the H2020 project SIFIS-Home
