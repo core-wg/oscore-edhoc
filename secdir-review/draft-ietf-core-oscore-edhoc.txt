@@ -526,7 +526,12 @@ Table of Contents
 
    The performance advantage of using the EDHOC + OSCORE request can be
    lost when used in combination with Block-wise transfers that rely on
-   specific parameter values and block sizes.
+   specific parameter values and block sizes.  Application policies at
+   the CoAP client can define when and how to detect whether such
+   performance advantage is lost, and, if that is the case, whether to
+   appropriately adjust the parameter values and block sizes, or instead
+   to fallback on the sequential workflow of EDHOC.  Further
+   considerations on this topic are out of the scope of this document.
 
 3.3.  Server Processing
 
