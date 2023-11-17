@@ -279,8 +279,8 @@ Table of Contents
      message_4 is included in this example, without which that message
                              needs no payload.
 
-   As shown in Figure 1, this purely-sequential flow where EDHOC is run
-   first and then OSCORE is used takes three round trips to complete.
+   As shown in Figure 1, this sequential flow where EDHOC is run first
+   and then OSCORE is used takes three round trips to complete.
 
    Section 3 defines an optimization for combining EDHOC with the first
    OSCORE transaction.  This reduces the number of round trips required
@@ -298,9 +298,9 @@ Table of Contents
    server acts as Responder.  That is, it cannot be used in the case
    with reversed roles as per the reverse message flow of EDHOC.
 
-   When running the purely-sequential flow of Section 2, the client has
-   all the information to derive the OSCORE Security Context already
-   after receiving EDHOC message_2 and before sending EDHOC message_3.
+   When running the sequential flow of Section 2, the client has all the
+   information to derive the OSCORE Security Context already after
+   receiving EDHOC message_2 and before sending EDHOC message_3.
 
    Hence, the client can potentially send both EDHOC message_3 and the
    subsequent OSCORE Request at the same time.  On a semantic level,
@@ -505,12 +505,11 @@ Table of Contents
       B.  If the size of COMB_PAYLOAD exceeds MAX_UNFRAGMENTED_SIZE (see
       Section 4.1.3.4.2 of [RFC8613]), the client MUST stop processing
       the request and MUST abandon the Block-wise transfer.  Then, the
-      client can continue by switching to the purely sequential workflow
-      shown in Figure 1.  That is, the client first sends EDHOC
-      message_3 prepended by the EDHOC Connection Identifier C_R encoded
-      as per Section 3.3 of [I-D.ietf-lake-edhoc], and then sends the
-      OSCORE-protected CoAP request once the EDHOC execution is
-      completed.
+      client can continue by switching to the sequential workflow shown
+      in Figure 1.  That is, the client first sends EDHOC message_3
+      prepended by the EDHOC Connection Identifier C_R encoded as per
+      Section 3.3 of [I-D.ietf-lake-edhoc], and then sends the OSCORE-
+      protected CoAP request once the EDHOC execution is completed.
 
    The performance advantage of using the EDHOC + OSCORE request can be
    lost when used in combination with Block-wise transfers that rely on
@@ -625,10 +624,10 @@ Table of Contents
       C_R 0x01.
 
       As per Section 3.3.2 of [I-D.ietf-lake-edhoc], when using the
-      purely-sequential flow shown in Figure 1, the same C_R with value
-      0x01 would be encoded on the wire as the CBOR integer 1 (0x01 in
-      CBOR encoding), and prepended to EDHOC message_3 in the payload of
-      the second EDHOC request.
+      sequential flow shown in Figure 1, the same C_R with value 0x01
+      would be encoded on the wire as the CBOR integer 1 (0x01 in CBOR
+      encoding), and prepended to EDHOC message_3 in the payload of the
+      second EDHOC request.
 
    *  The EDHOC option is registered with CoAP option number 21.
 
@@ -891,11 +890,11 @@ Table of Contents
       message_2 and of the MAC in the AEAD of the first OSCORE-protected
       CoAP response.
 
-   With reference to the purely sequential workflow in Figure 1, the
-   OSCORE request might have to undergo access control checks at the
-   server, before being actually executed for accessing the target
-   protected resource.  The same MUST hold when the optimized workflow
-   in Figure 2 is used, i.e., when using the EDHOC + OSCORE request.
+   With reference to the sequential workflow in Figure 1, the OSCORE
+   request might have to undergo access control checks at the server,
+   before being actually executed for accessing the target protected
+   resource.  The same MUST hold when the optimized workflow in Figure 2
+   is used, i.e., when using the EDHOC + OSCORE request.
 
    That is, the rebuilt OSCORE-protected application request from step 7
    in Section 3.3 MUST undergo the same access control checks that would
