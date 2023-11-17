@@ -121,13 +121,13 @@ Table of Contents
    [RFC7252] and used for establishing a Security Context for Object
    Security for Constrained RESTful Environments (OSCORE) [RFC8613].
 
-   This document details this use of the EDHOC protocol, and specifies a
-   number of additional and optional mechanisms.  These especially
-   include an optimization approach that combines the EDHOC execution
-   with the first OSCORE transaction (see Section 3).  This allows for a
-   minimum number of round trips necessary to setup the OSCORE Security
-   Context and complete an OSCORE transaction, e.g., when an IoT device
-   gets configured in a network for the first time.
+   This document details the use of the EDHOC protocol with CoAP and
+   OSCORE, and specifies a number of additional and optional mechanisms.
+   These especially include an optimization approach that combines the
+   EDHOC execution with the first OSCORE transaction (see Section 3).
+   This allows for a minimum number of round trips necessary to setup
+   the OSCORE Security Context and complete an OSCORE transaction, e.g.,
+   when an IoT device gets configured in a network for the first time.
 
    This optimization is desirable, since the number of message exchanges
    can have a substantial impact on the latency of conveying the first
