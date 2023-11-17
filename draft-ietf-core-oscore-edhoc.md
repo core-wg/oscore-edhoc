@@ -385,9 +385,9 @@ Protected CoAP request (OSCORE message):
 
 # Use of EDHOC Connection Identifiers with OSCORE # {#use-of-ids}
 
-{{Section 3.3.3 of I-D.ietf-lake-edhoc}} defines the straightforward mapping from an EDHOC connection identifier to an OSCORE Sender/Recipient ID. That is, an EDHOC identifier and the corresponding OSCORE Sender/Recipient ID are both byte strings with the same value.
+The OSCORE Sender/Recipient IDs are the EDHOC connection identifiers (see {{Section 3.3.3 of I-D.ietf-lake-edhoc}}). This applies also to the optimized workflow defined in {{edhoc-in-oscore}} of this document.
 
-Therefore, the conversion from an OSCORE Sender/Recipient ID to an EDHOC identifier is equally straightforward. In particular, at step 3 of {{server-processing}}, the value of 'kid' in the OSCORE Option of the EDHOC + OSCORE request is both the server's Recipient ID (i.e., the client's Sender ID) and the EDHOC Connection Identifier C_R of the server.
+Note that, at step 3 of {{server-processing}}, the value of 'kid' in the OSCORE Option of the EDHOC + OSCORE request is both the server's Recipient ID (i.e., the client's Sender ID) and the EDHOC Connection Identifier C_R of the server.
 
 ## Additional Processing of EDHOC Messages {#oscore-edhoc-message-processing}
 
