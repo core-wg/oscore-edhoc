@@ -417,7 +417,7 @@ If the following condition holds, the Initiator MUST abort the session and reply
 
 # Extension and Consistency of Application Profiles # {#app-statements}
 
-The application profile referred by the client and server can include the information below, according to the specified consistency rules.
+It is possible to include the information below in the application profile referred by the client and server, according to the specified consistency rules.
 
 If the server supports the EDHOC + OSCORE request within an EDHOC execution started at a certain EDHOC resource, then the application profile associated with that resource SHOULD explicitly specify support for the EDHOC + OSCORE request.
 
