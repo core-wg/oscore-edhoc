@@ -190,12 +190,13 @@ Table of Contents
    Appendix A.2.2 of [I-D.ietf-lake-edhoc]).  In the rest of this
    document, EDHOC messages are considered to be transferred over CoAP.
 
-   Figure 1 shows a CoAP client and a CoAP server running EDHOC as
-   Initiator and Responder, respectively.  In particular, it extends
-   Figure 18 from Appendix A.2.1 of [I-D.ietf-lake-edhoc], by
-   highlighting when the two peers perform EDHOC verification and
-   establish the OSCORE Security Context, and by adding an exchange of
-   OSCORE-protected CoAP messages after completing the EDHOC execution.
+   Figure 1 shows a successful execution of EDHOC, with a CoAP client
+   and a CoAP server running EDHOC as Initiator and Responder,
+   respectively.  In particular, it extends Figure 18 from
+   Appendix A.2.1 of [I-D.ietf-lake-edhoc], by highlighting when the two
+   peers perform EDHOC verification and establish the OSCORE Security
+   Context, and by adding an exchange of OSCORE-protected CoAP messages
+   after completing the EDHOC execution.
 
    That is, the client sends a POST request to a reserved _EDHOC
    resource_ at the server, by default at the Uri-Path "/.well-known/
