@@ -79,9 +79,11 @@ Table of Contents
    3.  EDHOC Combined with OSCORE
      3.1.  EDHOC Option
      3.2.  Client Processing
-       3.2.1.  Supporting Block-wise
+       3.2.1.  Processing of the EDHOC + OSCORE Request
+       3.2.2.  Supporting Block-wise
      3.3.  Server Processing
-       3.3.1.  Supporting Block-wise
+       3.3.1.  Processing of the EDHOC + OSCORE Request
+       3.3.2.  Supporting Block-wise
      3.4.  Example of EDHOC + OSCORE Request
    4.  Use of EDHOC Connection Identifiers with OSCORE
      4.1.  Additional Processing of EDHOC Messages
@@ -437,6 +439,10 @@ Table of Contents
 
 3.2.  Client Processing
 
+   This section describes the processing on the client side.
+
+3.2.1.  Processing of the EDHOC + OSCORE Request
+
    The client prepares an EDHOC + OSCORE request as follows.
 
    1.  Compose EDHOC message_3 into EDHOC_MSG_3, as per Section 5.4.2 of
@@ -492,18 +498,18 @@ Table of Contents
    through multiple, simultaneous EDHOC + OSCORE requests.  As discussed
    in Section 7, this does not have any impact in terms of security.)
 
-3.2.1.  Supporting Block-wise
+3.2.2.  Supporting Block-wise
 
    If Block-wise [RFC7959] is supported, the client may fragment the
    first application CoAP request before protecting it as an original
    message with OSCORE, as defined in Section 4.1.3.4.1 of [RFC8613].
 
-   In such a case, the OSCORE processing in step 2 of Section 3.2 is
+   In such a case, the OSCORE processing in step 2 of Section 3.2.1 is
    performed on each inner block of the first application CoAP request,
    and the following also applies.
 
    *  The client takes the additional following step between steps 2 and
-      3 of Section 3.2.
+      3 of Section 3.2.1.
 
       A.  If the OSCORE-protected request from step 2 conveys a non-
       first inner block of the first application CoAP request (i.e., the
@@ -513,7 +519,7 @@ Table of Contents
       NOT include the EDHOC Option in the OSCORE-protected request.
 
    *  The client takes the additional following step between steps 3 and
-      4 of Section 3.2.
+      4 of Section 3.2.1.
 
       B.  If the size of COMB_PAYLOAD exceeds MAX_UNFRAGMENTED_SIZE (see
       Section 4.1.3.4.2 of [RFC8613]), the client MUST stop processing
@@ -535,18 +541,22 @@ Table of Contents
 
 3.3.  Server Processing
 
+   This section describes the processing on the server side.
+
+3.3.1.  Processing of the EDHOC + OSCORE Request
+
    In order to process a request containing the EDHOC option, i.e., an
    EDHOC + OSCORE request, the server MUST perform the following steps.
 
    1.  Check that the EDHOC + OSCORE request includes the OSCORE option
        and that the request payload has the format defined at step 3 of
-       Section 3.2 for COMB_PAYLOAD.  If this is not the case, the
+       Section 3.2.1 for COMB_PAYLOAD.  If this is not the case, the
        server MUST stop processing the request and MUST reply with a
        4.00 (Bad Request) error response.
 
    2.  Extract EDHOC message_3 from the payload COMB_PAYLOAD of the
        EDHOC + OSCORE request, as the first element EDHOC_MSG_3 (see
-       step 3 of Section 3.2).
+       step 3 of Section 3.2.1).
 
    3.  Take the value of 'kid' from the OSCORE option of the EDHOC +
        OSCORE request (i.e., the OSCORE Sender ID of the client), and
@@ -577,7 +587,7 @@ Table of Contents
 
    6.  Extract the OSCORE ciphertext from the payload COMB_PAYLOAD of
        the EDHOC + OSCORE request, as the second element OSCORE_PAYLOAD
-       (see step 3 of Section 3.2).
+       (see step 3 of Section 3.2.1).
 
    7.  Rebuild the OSCORE-protected CoAP request, as the EDHOC + OSCORE
        request where the payload is replaced with the OSCORE ciphertext
@@ -618,10 +628,10 @@ Table of Contents
    (OSCORE processing) fails, the same OSCORE error handling as defined
    in Section 8.2 of [RFC8613] applies.
 
-3.3.1.  Supporting Block-wise
+3.3.2.  Supporting Block-wise
 
    If Block-wise [RFC7959] is supported, the server takes the additional
-   following step before any other in Section 3.3.
+   following step before any other in Section 3.3.1.
 
    A.  If Block-wise is present in the request, then process the Outer
    Block options according to [RFC7959], until all blocks of the request
@@ -686,7 +696,7 @@ Table of Contents
 
    Therefore, the conversion from an OSCORE Sender/Recipient ID to an
    EDHOC identifier is equally straightforward.  In particular, at step
-   3 of Section 3.3, the value of 'kid' in the OSCORE Option of the
+   3 of Section 3.3.1, the value of 'kid' in the OSCORE Option of the
    EDHOC + OSCORE request is both the server's Recipient ID (i.e., the
    client's Sender ID) and the EDHOC Connection Identifier C_R of the
    server.
@@ -754,7 +764,7 @@ Table of Contents
    the optional EDHOC message_4 (see Section 5.5 of
    [I-D.ietf-lake-edhoc]), the client has to bear in mind that the usage
    of EDHOC message_4 is not applicable to the optimized workflow based
-   on the EDHOC + OSCORE request (see Section 3.3).
+   on the EDHOC + OSCORE request (see Section 3.3.1).
 
 6.  Web Linking
 
@@ -881,7 +891,7 @@ Table of Contents
    [I-D.ietf-lake-edhoc] hold for this document.  In addition, the
    following considerations also apply.
 
-   Section 3.2 specifies that a client SHOULD NOT have multiple
+   Section 3.2.1 specifies that a client SHOULD NOT have multiple
    outstanding EDHOC + OSCORE requests pertaining to the same EDHOC
    session.  Even if a client did not fulfill this requirement, it would
    not have any impact in terms of security.  That is, the server would
@@ -901,7 +911,7 @@ Table of Contents
    *  The Initiator is authenticated with 128-bit security against
       online attacks.  This is the sum of the 64-bit MACs in EDHOC
       message_3 and of the MAC in the AEAD of the first OSCORE-protected
-      CoAP request, as rebuilt at step 7 of Section 3.3.
+      CoAP request, as rebuilt at step 7 of Section 3.3.1.
 
    *  The Responder is authenticated with 128-bit security against
       online attacks.  This is the sum of the 64-bit MACs in EDHOC
@@ -915,9 +925,9 @@ Table of Contents
    is used, i.e., when using the EDHOC + OSCORE request.
 
    That is, the rebuilt OSCORE-protected application request from step 7
-   in Section 3.3 MUST undergo the same access control checks that would
-   be performed on a traditional OSCORE-protected application request
-   sent individually as shown in Figure 1.
+   in Section 3.3.1 MUST undergo the same access control checks that
+   would be performed on a traditional OSCORE-protected application
+   request sent individually as shown in Figure 1.
 
    To this end, validated information to perform access control checks
    (e.g., an access token issued by a trusted party) has to be available
