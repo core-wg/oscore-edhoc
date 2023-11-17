@@ -107,7 +107,7 @@ This triggers the EDHOC execution at the server, which replies with a 2.04 (Chan
 
 Finally, the client sends a POST request to the same EDHOC resource used earlier when it sent EDHOC message_1. The request payload consists of the EDHOC connection identifier C_R encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}, concatenated with EDHOC message_3. The Content-Format of the request can be set to application/cid-edhoc+cbor-seq.
 
-After this exchange takes place, and after successful verifications as specified in the EDHOC protocol, the client and server can derive an OSCORE Security Context, as defined in {{Section A.1 of I-D.ietf-lake-edhoc}}. After that, they can use OSCORE to protect their communications as per {{RFC8613}}.
+After this exchange takes place, and after successful verifications as specified in the EDHOC protocol, the client and server can derive an OSCORE Security Context, as defined in {{Section A.1 of I-D.ietf-lake-edhoc}}. After that, they can use OSCORE to protect their communications as per {{RFC8613}}. Note that the EDHOC Connection Identifier C_R is used as OSCORE Sender ID of the client (see {{Section A.1 of I-D.ietf-lake-edhoc}}). Therefore, C_R is transported in the 'kid' field of the OSCORE Option of the OSCORE Request (see {{Section 6.1 of RFC8613}}).
 
 The client and server are required to agree in advance on certain information and parameters describing how they should use EDHOC. These are specified in an application profile associated with the EDHOC resource addressed (see {{Section 3.9 of I-D.ietf-lake-edhoc}}.
 
@@ -150,10 +150,12 @@ OSCORE Sec Ctx                                              |
        |                                                    |
        | ---------------- OSCORE Request -----------------> |
        |   Header: 0.02 (POST)                              |
+       |   OSCORE: { ... ; kid: C_R }                       |
        |   Payload: OSCORE-protected data                   |
        |                                                    |
        | <--------------- OSCORE Response ----------------- |
        |                 Header: 2.04 (Changed)             |
+       |                 OSCORE: { ... }                    |
        |                 Payload: OSCORE-protected data     |
        |                                                    |
 ~~~~~~~~~~~~~~~~~
@@ -195,6 +197,7 @@ EDHOC verification                                           |
        |                                                     |
        | -------------- EDHOC + OSCORE Request ------------> |
        |   Header: 0.02 (POST)                               |
+       |   OSCORE: { ... ; kid: C_R }                        |
        |   Payload: EDHOC message_3 + OSCORE-protected data  |
        |                                                     |
        |                                          EDHOC verification
@@ -204,6 +207,7 @@ EDHOC verification                                           |
        |                                                     |
        | <--------------- OSCORE Response ------------------ |
        |                    Header: 2.04 (Changed)           |
+       |                    OSCORE: { ... }                  |
        |                    Payload: OSCORE-protected data   |
        |                                                     |
 ~~~~~~~~~~~~~~~~~
@@ -215,9 +219,11 @@ That is, the EDHOC + OSCORE request is composed of the following two parts combi
 
 * The OSCORE Request from {{fig-non-combined}}, which is also in this case sent to a protected resource, with the correct CoAP method and options intended for accessing that resource.
 
-* EDHOC data consisting of the pair (C_R, EDHOC message_3) required for completing the EDHOC session. Note that, as specified in {{client-processing}}, C_R is transported in the OSCORE Option of the OSCORE Request rather than in the CoAP payload of the EDHOC + OSCORE request.
+* EDHOC data consisting of the pair (C_R, EDHOC message_3) required for completing the EDHOC session, transported as follows:
 
-   Since EDHOC message_3 may be too large to be included in a CoAP Option, e.g., if conveying a large public key certificate chain as ID_CRED_I (see {{Section 3.5.3 of I-D.ietf-lake-edhoc}}) or if conveying large External Authorization Data as EAD_3 (see {{Section 3.8 of I-D.ietf-lake-edhoc}}), EDHOC message_3 has instead to be transported in the CoAP payload of the EDHOC + OSCORE request, as prepended to the payload of the OSCORE Request.
+   * C_R is the OSCORE Sender ID of the client and hence transported in the 'kid' field of the OSCORE Option (see {{Section 6.1 of RFC8613}}). Unlike in the sequential workflow shown in {{fig-non-combined}}, C_R is thus not transported in the payload of the EDHOC + OSCORE request.
+
+   * EDHOC message_3 is transported in the payload of the EDHOC + OSCORE request prepended to the payload of the OSCORE Request. This is because EDHOC message_3 may be too large to be included in a CoAP Option, e.g., if conveying a large public key certificate chain as ID_CRED_I (see {{Section 3.5.3 of I-D.ietf-lake-edhoc}}) or if conveying large External Authorization Data as EAD_3 (see {{Section 3.8 of I-D.ietf-lake-edhoc}}).
 
 The rest of this section specifies how to transport the data in the EDHOC + OSCORE request and their processing order. In particular, the use of this approach is explicitly signalled by including an EDHOC Option (see {{edhoc-option}}) in the EDHOC + OSCORE request. The processing of the EDHOC + OSCORE request is specified in {{client-processing}} for the client side and in {{server-processing}} for the server side.
 
