@@ -5,13 +5,13 @@
 CoRE Working Group                                          F. Palombini
 Internet-Draft                                                  Ericsson
 Intended status: Standards Track                               M. Tiloca
-Expires: 20 May 2024                                          R. Höglund
+Expires: 23 May 2024                                          R. Höglund
                                                                  RISE AB
                                                             S. Hristozov
                                                         Fraunhofer AISEC
                                                              G. Selander
                                                                 Ericsson
-                                                        17 November 2023
+                                                        20 November 2023
 
 
  Using Ephemeral Diffie-Hellman Over COSE (EDHOC) with the Constrained
@@ -57,7 +57,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 May 2024.
+   This Internet-Draft will expire on 23 May 2024.
 
 Copyright Notice
 
@@ -736,9 +736,9 @@ Table of Contents
    In case the application profile indicates that the server supports
    the optional EDHOC message_4 (see Section 5.5 of
    [I-D.ietf-lake-edhoc]), it is still possible to use the optimized
-   workflow based on the EDHOC + OSCORE request.  However, the server is
-   not going to send EDHOC message_4, since it is not applicable to the
-   optimized workflow (see Section 3.3).
+   workflow based on the EDHOC + OSCORE request.  However, this means
+   the server is not going to send EDHOC message_4, since it is not
+   applicable to the optimized workflow (see Section 3.3).
 
    Also, in case the application profile indicates that the server shall
    send EDHOC message_4, then the application profile MUST NOT specify

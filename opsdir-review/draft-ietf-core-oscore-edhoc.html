@@ -24,13 +24,13 @@
     intervaltree 3.1.0
     Jinja2 3.1.2
     lxml 4.9.3
-    platformdirs 3.11.0
+    platformdirs 4.0.0
     pycountry 22.3.5
     PyYAML 6.0
     requests 2.31.0
     setuptools 67.7.2
     six 1.16.0
-    wcwidth 0.2.9
+    wcwidth 0.2.10
 -->
 <link href="draft-ietf-core-oscore-edhoc.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1033,7 +1033,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Palombini, et al.</td>
-<td class="center">Expires 20 May 2024</td>
+<td class="center">Expires 23 May 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1046,12 +1046,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-core-oscore-edhoc-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-11-17" class="published">17 November 2023</time>
+<time datetime="2023-11-20" class="published">20 November 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-05-20">20 May 2024</time></dd>
+<dd class="expires"><time datetime="2024-05-23">23 May 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1112,7 +1112,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 20 May 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 23 May 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1867,7 +1867,7 @@ Protected CoAP request (OSCORE message):
       </h2>
 <p id="section-5-1">It is possible to include the information below in the application profile referred by the client and server, according to the specified consistency rules.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <p id="section-5-2">If the server supports the EDHOC + OSCORE request within an EDHOC execution started at a certain EDHOC resource, then the application profile associated with that resource SHOULD explicitly specify support for the EDHOC + OSCORE request.<a href="#section-5-2" class="pilcrow">¶</a></p>
-<p id="section-5-3">In case the application profile indicates that the server supports the optional EDHOC message_4 (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-22#section-5.5" class="relref">Section 5.5</a> of [<a href="#I-D.ietf-lake-edhoc" class="cite xref">I-D.ietf-lake-edhoc</a>]</span>), it is still possible to use the optimized workflow based on the EDHOC + OSCORE request. However, the server is not going to send EDHOC message_4, since it is not applicable to the optimized workflow (see <a href="#server-processing" class="auto internal xref">Section 3.3</a>).<a href="#section-5-3" class="pilcrow">¶</a></p>
+<p id="section-5-3">In case the application profile indicates that the server supports the optional EDHOC message_4 (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-22#section-5.5" class="relref">Section 5.5</a> of [<a href="#I-D.ietf-lake-edhoc" class="cite xref">I-D.ietf-lake-edhoc</a>]</span>), it is still possible to use the optimized workflow based on the EDHOC + OSCORE request. However, this means the server is not going to send EDHOC message_4, since it is not applicable to the optimized workflow (see <a href="#server-processing" class="auto internal xref">Section 3.3</a>).<a href="#section-5-3" class="pilcrow">¶</a></p>
 <p id="section-5-4">Also, in case the application profile indicates that the server shall send EDHOC message_4, then the application profile MUST NOT specify support for the EDHOC + OSCORE request, and there is no point for the client to use the optimized workflow, which is bound to fail (see <a href="#server-processing" class="auto internal xref">Section 3.3</a>).<a href="#section-5-4" class="pilcrow">¶</a></p>
 </section>
 </div>
