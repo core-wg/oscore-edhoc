@@ -5,13 +5,13 @@
 CoRE Working Group                                          F. Palombini
 Internet-Draft                                                  Ericsson
 Intended status: Standards Track                               M. Tiloca
-Expires: 20 May 2024                                          R. Höglund
+Expires: 23 May 2024                                          R. Höglund
                                                                  RISE AB
                                                             S. Hristozov
                                                         Fraunhofer AISEC
                                                              G. Selander
                                                                 Ericsson
-                                                        17 November 2023
+                                                        20 November 2023
 
 
                     Using EDHOC with CoAP and OSCORE
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 May 2024.
+   This Internet-Draft will expire on 23 May 2024.
 
 Copyright Notice
 
@@ -347,8 +347,8 @@ Table of Contents
 
    That is, the EDHOC + OSCORE request is composed of the following two
    parts combined together in a single CoAP message.  The steps for
-   processing the EDHOC + OSCORE request and its two combined parts are
-   defined in Section 3.2 and Section 3.3.
+   processing the EDHOC + OSCORE request and the two parts combined in
+   there are defined in Section 3.2 and Section 3.3.
 
    *  The OSCORE Request from Figure 1, which is also in this case sent
       to a protected resource, with the correct CoAP method and options
