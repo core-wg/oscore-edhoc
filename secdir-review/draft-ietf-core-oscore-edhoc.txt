@@ -536,8 +536,7 @@ Table of Contents
    the CoAP client can define when and how to detect whether the
    performance advantage is lost, and, if that is the case, whether to
    appropriately adjust the parameter values and block sizes, or instead
-   to fall back on the sequential workflow of EDHOC.  Further
-   considerations on this topic are out of the scope of this document.
+   to fall back on the sequential workflow of EDHOC.
 
 3.3.  Server Processing
 
