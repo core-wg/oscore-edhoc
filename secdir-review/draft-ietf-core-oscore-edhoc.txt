@@ -5,13 +5,13 @@
 CoRE Working Group                                          F. Palombini
 Internet-Draft                                                  Ericsson
 Intended status: Standards Track                               M. Tiloca
-Expires: 20 May 2024                                          R. Höglund
+Expires: 23 May 2024                                          R. Höglund
                                                                  RISE AB
                                                             S. Hristozov
                                                         Fraunhofer AISEC
                                                              G. Selander
                                                                 Ericsson
-                                                        17 November 2023
+                                                        20 November 2023
 
 
                     Using EDHOC with CoAP and OSCORE
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 May 2024.
+   This Internet-Draft will expire on 23 May 2024.
 
 Copyright Notice
 
@@ -533,10 +533,10 @@ Table of Contents
    The performance advantage of using the EDHOC + OSCORE request can be
    lost when used in combination with Block-wise transfers that rely on
    specific parameter values and block sizes.  Application policies at
-   the CoAP client can define when and how to detect whether such
+   the CoAP client can define when and how to detect whether the
    performance advantage is lost, and, if that is the case, whether to
    appropriately adjust the parameter values and block sizes, or instead
-   to fallback on the sequential workflow of EDHOC.  Further
+   to fall back on the sequential workflow of EDHOC.  Further
    considerations on this topic are out of the scope of this document.
 
 3.3.  Server Processing

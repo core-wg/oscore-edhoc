@@ -24,13 +24,13 @@
     intervaltree 3.1.0
     Jinja2 3.1.2
     lxml 4.9.3
-    platformdirs 3.11.0
+    platformdirs 4.0.0
     pycountry 22.3.5
     PyYAML 6.0
     requests 2.31.0
     setuptools 67.7.2
     six 1.16.0
-    wcwidth 0.2.9
+    wcwidth 0.2.10
 -->
 <link href="draft-ietf-core-oscore-edhoc.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1033,7 +1033,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Palombini, et al.</td>
-<td class="center">Expires 20 May 2024</td>
+<td class="center">Expires 23 May 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1046,12 +1046,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-core-oscore-edhoc-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-11-17" class="published">17 November 2023</time>
+<time datetime="2023-11-20" class="published">20 November 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-05-20">20 May 2024</time></dd>
+<dd class="expires"><time datetime="2024-05-23">23 May 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1112,7 +1112,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 20 May 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 23 May 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1730,7 +1730,7 @@ A. If the OSCORE-protected request from step 2 conveys a non-first inner block o
 B. If the size of COMB_PAYLOAD exceeds MAX_UNFRAGMENTED_SIZE (see <span><a href="https://rfc-editor.org/rfc/rfc8613#section-4.1.3.4.2" class="relref">Section 4.1.3.4.2</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>), the client MUST stop processing the request and MUST abandon the Block-wise transfer. Then, the client can continue by switching to the sequential workflow shown in <a href="#fig-non-combined" class="auto internal xref">Figure 1</a>. That is, the client first sends EDHOC message_3 prepended by the EDHOC Connection Identifier C_R encoded as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-22#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="cite xref">I-D.ietf-lake-edhoc</a>]</span>, and then sends the OSCORE-protected CoAP request once the EDHOC execution is completed.<a href="#section-3.2.2-3.2.2" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-3.2.2-4">The performance advantage of using the EDHOC + OSCORE request can be lost when used in combination with Block-wise transfers that rely on specific parameter values and block sizes. Application policies at the CoAP client can define when and how to detect whether such performance advantage is lost, and, if that is the case, whether to appropriately adjust the parameter values and block sizes, or instead to fallback on the sequential workflow of EDHOC. Further considerations on this topic are out of the scope of this document.<a href="#section-3.2.2-4" class="pilcrow">¶</a></p>
+<p id="section-3.2.2-4">The performance advantage of using the EDHOC + OSCORE request can be lost when used in combination with Block-wise transfers that rely on specific parameter values and block sizes. Application policies at the CoAP client can define when and how to detect whether the performance advantage is lost, and, if that is the case, whether to appropriately adjust the parameter values and block sizes, or instead to fall back on the sequential workflow of EDHOC. Further considerations on this topic are out of the scope of this document.<a href="#section-3.2.2-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
