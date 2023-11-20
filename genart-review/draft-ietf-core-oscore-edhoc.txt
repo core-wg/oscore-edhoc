@@ -364,11 +364,11 @@ Table of Contents
          EDHOC + OSCORE request.
 
       -  EDHOC message_3 is transported in the payload of the EDHOC +
-         OSCORE request prepended to the payload of the OSCORE Request.
+         OSCORE request, prepended to the payload of the OSCORE Request.
          This is because EDHOC message_3 may be too large to be included
-         in a CoAP Option, e.g., if conveying a large public key
+         in a CoAP Option, e.g., when conveying a large public key
          certificate chain as ID_CRED_I (see Section 3.5.3 of
-         [I-D.ietf-lake-edhoc]) or if conveying large External
+         [I-D.ietf-lake-edhoc]) or when conveying large External
          Authorization Data as EAD_3 (see Section 3.8 of
          [I-D.ietf-lake-edhoc]).
 
