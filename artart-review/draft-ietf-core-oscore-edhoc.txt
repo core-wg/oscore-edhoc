@@ -5,13 +5,13 @@
 CoRE Working Group                                          F. Palombini
 Internet-Draft                                                  Ericsson
 Intended status: Standards Track                               M. Tiloca
-Expires: 20 May 2024                                          R. Höglund
+Expires: 23 May 2024                                          R. Höglund
                                                                  RISE AB
                                                             S. Hristozov
                                                         Fraunhofer AISEC
                                                              G. Selander
                                                                 Ericsson
-                                                        17 November 2023
+                                                        20 November 2023
 
 
                     Using EDHOC with CoAP and OSCORE
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 May 2024.
+   This Internet-Draft will expire on 23 May 2024.
 
 Copyright Notice
 
@@ -224,9 +224,9 @@ Table of Contents
    an OSCORE Security Context, as defined in Appendix A.1 of
    [I-D.ietf-lake-edhoc].  After that, they can use OSCORE to protect
    their communications as per [RFC8613].  Note that the EDHOC
-   Connection Identifier C_R is used as OSCORE Sender ID of the client
-   (see Appendix A.1 of [I-D.ietf-lake-edhoc]).  Therefore, C_R is
-   transported in the 'kid' field of the OSCORE Option of the OSCORE
+   Connection Identifier C_R is used as the OSCORE Sender ID of the
+   client (see Appendix A.1 of [I-D.ietf-lake-edhoc]).  Therefore, C_R
+   is transported in the 'kid' field of the OSCORE Option of the OSCORE
    Request (see Section 6.1 of [RFC8613]).
 
    The client and server are required to agree in advance on certain

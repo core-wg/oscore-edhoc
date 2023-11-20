@@ -24,13 +24,13 @@
     intervaltree 3.1.0
     Jinja2 3.1.2
     lxml 4.9.3
-    platformdirs 3.11.0
+    platformdirs 4.0.0
     pycountry 22.3.5
     PyYAML 6.0
     requests 2.31.0
     setuptools 67.7.2
     six 1.16.0
-    wcwidth 0.2.9
+    wcwidth 0.2.10
 -->
 <link href="draft-ietf-core-oscore-edhoc.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1033,7 +1033,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Palombini, et al.</td>
-<td class="center">Expires 20 May 2024</td>
+<td class="center">Expires 23 May 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1046,12 +1046,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-core-oscore-edhoc-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-11-17" class="published">17 November 2023</time>
+<time datetime="2023-11-20" class="published">20 November 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-05-20">20 May 2024</time></dd>
+<dd class="expires"><time datetime="2024-05-23">23 May 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1112,7 +1112,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 20 May 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 23 May 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1315,7 +1315,7 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
 <p id="section-2-6">That is, the client sends a POST request to a reserved <em>EDHOC resource</em> at the server, by default at the Uri-Path "/.well-known/edhoc". The request payload consists of the CBOR simple value "true" (0xf5) concatenated with EDHOC message_1, which also includes the EDHOC connection identifier C_I of the client encoded as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-22#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="cite xref">I-D.ietf-lake-edhoc</a>]</span>. The Content-Format of the request can be set to application/cid-edhoc+cbor-seq.<a href="#section-2-6" class="pilcrow">¶</a></p>
 <p id="section-2-7">This triggers the EDHOC execution at the server, which replies with a 2.04 (Changed) response. The response payload consists of EDHOC message_2, which also includes the EDHOC connection identifier C_R of the server encoded as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-22#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="cite xref">I-D.ietf-lake-edhoc</a>]</span>. The Content-Format of the response can be set to application/edhoc+cbor-seq.<a href="#section-2-7" class="pilcrow">¶</a></p>
 <p id="section-2-8">Finally, the client sends a POST request to the same EDHOC resource used earlier when it sent EDHOC message_1. The request payload consists of the EDHOC connection identifier C_R encoded as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-22#section-3.3" class="relref">Section 3.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="cite xref">I-D.ietf-lake-edhoc</a>]</span>, concatenated with EDHOC message_3. The Content-Format of the request can be set to application/cid-edhoc+cbor-seq.<a href="#section-2-8" class="pilcrow">¶</a></p>
-<p id="section-2-9">After this exchange takes place, and after successful verifications as specified in the EDHOC protocol, the client and server can derive an OSCORE Security Context, as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-22#appendix-A.1" class="relref">Appendix A.1</a> of [<a href="#I-D.ietf-lake-edhoc" class="cite xref">I-D.ietf-lake-edhoc</a>]</span>. After that, they can use OSCORE to protect their communications as per <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>. Note that the EDHOC Connection Identifier C_R is used as OSCORE Sender ID of the client (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-22#appendix-A.1" class="relref">Appendix A.1</a> of [<a href="#I-D.ietf-lake-edhoc" class="cite xref">I-D.ietf-lake-edhoc</a>]</span>). Therefore, C_R is transported in the 'kid' field of the OSCORE Option of the OSCORE Request (see <span><a href="https://rfc-editor.org/rfc/rfc8613#section-6.1" class="relref">Section 6.1</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>).<a href="#section-2-9" class="pilcrow">¶</a></p>
+<p id="section-2-9">After this exchange takes place, and after successful verifications as specified in the EDHOC protocol, the client and server can derive an OSCORE Security Context, as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-22#appendix-A.1" class="relref">Appendix A.1</a> of [<a href="#I-D.ietf-lake-edhoc" class="cite xref">I-D.ietf-lake-edhoc</a>]</span>. After that, they can use OSCORE to protect their communications as per <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>. Note that the EDHOC Connection Identifier C_R is used as the OSCORE Sender ID of the client (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-22#appendix-A.1" class="relref">Appendix A.1</a> of [<a href="#I-D.ietf-lake-edhoc" class="cite xref">I-D.ietf-lake-edhoc</a>]</span>). Therefore, C_R is transported in the 'kid' field of the OSCORE Option of the OSCORE Request (see <span><a href="https://rfc-editor.org/rfc/rfc8613#section-6.1" class="relref">Section 6.1</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>).<a href="#section-2-9" class="pilcrow">¶</a></p>
 <p id="section-2-10">The client and server are required to agree in advance on certain information and parameters describing how they should use EDHOC. These are specified in an application profile associated with the EDHOC resource addressed (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-22#section-3.9" class="relref">Section 3.9</a> of [<a href="#I-D.ietf-lake-edhoc" class="cite xref">I-D.ietf-lake-edhoc</a>]</span>.<a href="#section-2-10" class="pilcrow">¶</a></p>
 <span id="name-edhoc-and-oscore-run-sequen"></span><div id="fig-non-combined">
 <figure id="figure-1">
