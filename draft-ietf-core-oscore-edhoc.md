@@ -421,7 +421,7 @@ It is possible to include the information below in the application profile refer
 
 If the server supports the EDHOC + OSCORE request within an EDHOC execution started at a certain EDHOC resource, then the application profile associated with that resource SHOULD explicitly specify support for the EDHOC + OSCORE request.
 
-In case the application profile indicates that the server supports the optional EDHOC message_4 (see {{Section 5.5 of I-D.ietf-lake-edhoc}}), it is still possible to use the optimized workflow based on the EDHOC + OSCORE request. However, the server is not going to send EDHOC message_4, since it is not applicable to the optimized workflow (see {{server-processing}}).
+In case the application profile indicates that the server supports the optional EDHOC message_4 (see {{Section 5.5 of I-D.ietf-lake-edhoc}}), it is still possible to use the optimized workflow based on the EDHOC + OSCORE request. However, this means the server is not going to send EDHOC message_4, since it is not applicable to the optimized workflow (see {{server-processing}}).
 
 Also, in case the application profile indicates that the server shall send EDHOC message_4, then the application profile MUST NOT specify support for the EDHOC + OSCORE request, and there is no point for the client to use the optimized workflow, which is bound to fail (see {{server-processing}}).
 
