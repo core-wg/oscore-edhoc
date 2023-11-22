@@ -5,13 +5,13 @@
 CoRE Working Group                                          F. Palombini
 Internet-Draft                                                  Ericsson
 Intended status: Standards Track                               M. Tiloca
-Expires: 24 May 2024                                          R. Höglund
+Expires: 25 May 2024                                          R. Höglund
                                                                  RISE AB
                                                             S. Hristozov
                                                         Fraunhofer AISEC
                                                              G. Selander
                                                                 Ericsson
-                                                        21 November 2023
+                                                        22 November 2023
 
 
                     Using EDHOC with CoAP and OSCORE
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 May 2024.
+   This Internet-Draft will expire on 25 May 2024.
 
 Copyright Notice
 
@@ -907,14 +907,17 @@ Table of Contents
    [I-D.ietf-lake-edhoc]), then the following holds.
 
    *  The Initiator is authenticated with 128-bit security against
-      online attacks.  This is the combination of the 64-bit MACs in
-      EDHOC message_3 and of the MAC in the AEAD of the first OSCORE-
-      protected CoAP request, as rebuilt at step 7 of Section 3.3.1.
+      online attacks.  Consistent with Section 9.1 of
+      [I-D.ietf-lake-edhoc], this results from the combination of the
+      strength of the 64-bit MAC in EDHOC message_3 and of the 64-bit
+      MAC in the AEAD of the first OSCORE-protected CoAP request, as
+      rebuilt at step 7 of Section 3.3.1.
 
    *  The Responder is authenticated with 128-bit security against
-      online attacks.  This is the combination of the 64-bit MACs in
-      EDHOC message_2 and of the MAC in the AEAD of the first OSCORE-
-      protected CoAP response.
+      online attacks.  Consistent with Section 9.1 of
+      [I-D.ietf-lake-edhoc], this results from the combination of the
+      strength of the 64-bit MAC in EDHOC message_2 and of the 64-bit
+      MAC in the AEAD of the first OSCORE-protected CoAP response.
 
    With reference to the sequential workflow in Figure 1, the OSCORE
    request might have to undergo access control checks at the server,
