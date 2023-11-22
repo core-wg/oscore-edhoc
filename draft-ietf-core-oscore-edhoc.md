@@ -489,9 +489,9 @@ The same security considerations from OSCORE {{RFC8613}} and EDHOC {{I-D.ietf-la
 
 When using the optimized workflow in {{fig-combined}}, a minimum of 128-bit security against online brute force attacks is achieved after the client receives and successfully verifies the first OSCORE-protected response (see {{Section 9.1 of I-D.ietf-lake-edhoc}}). As an example, if EDHOC is used with method 3 (see {{Section 3.2 of I-D.ietf-lake-edhoc}}) and cipher suite 2 (see {{Section 3.6 of I-D.ietf-lake-edhoc}}), then the following holds.
 
-* The Initiator is authenticated with 128-bit security against online attacks. This is the combination of the 64-bit MACs in EDHOC message_3 and of the MAC in the AEAD of the first OSCORE-protected CoAP request, as rebuilt at step 7 of {{server-processing}}.
+* The Initiator is authenticated with 128-bit security against online attacks. Consistent with {{Section 9.1 of I-D.ietf-lake-edhoc}}, this results from the combination of the strength of the 64-bit MAC in EDHOC message_3 and of the 64-bit MAC in the AEAD of the first OSCORE-protected CoAP request, as rebuilt at step 7 of {{server-processing}}.
 
-* The Responder is authenticated with 128-bit security against online attacks. This is the combination of the 64-bit MACs in EDHOC message_2 and of the MAC in the AEAD of the first OSCORE-protected CoAP response.
+* The Responder is authenticated with 128-bit security against online attacks. Consistent with {{Section 9.1 of I-D.ietf-lake-edhoc}}, this results from the combination of the strength of the 64-bit MAC in EDHOC message_2 and of the 64-bit MAC in the AEAD of the first OSCORE-protected CoAP response.
 
 With reference to the sequential workflow in {{fig-non-combined}}, the OSCORE request might have to undergo access control checks at the server, before being actually executed for accessing the target protected resource. The same MUST hold when the optimized workflow in {{fig-combined}} is used, i.e., when using the EDHOC + OSCORE request.
 
