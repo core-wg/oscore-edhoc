@@ -580,6 +580,26 @@ Expert reviewers should take into consideration the following points:
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
 
+## Version -09 to -10 ## {#sec-10-09}
+
+* Expanded acronyms in the document title.
+
+* Clarified transport of EDHOC C_R and EDHOC message_3.
+
+* Simplified text on the use of EDHOC Connection Identifiers as OSCORE Identifiers.
+
+* Added the CoAP OSCORE Option in the figures of the EDHOC message flows.
+
+* Added more pointers to the message processing, now defined in dedicated subsections.
+
+* Detecting and preventing a loss of performance advantage when using Block-wise transfers is for application policies to specifiy.
+
+* Clarified use of EDHOC application profiles.
+
+* Clarified security considerations on the achieved security level.
+
+* Fixes and editorial improvements.
+
 ## Version -08 to -09 ## {#sec-08-09}
 
 * Clarified meaning of "EDHOC data".
