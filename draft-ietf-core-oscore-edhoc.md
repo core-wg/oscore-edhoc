@@ -223,7 +223,7 @@ That is, the EDHOC + OSCORE request is composed of the following two parts combi
 
    * C_R is the OSCORE Sender ID of the client and hence transported in the 'kid' field of the OSCORE Option (see {{Section 6.1 of RFC8613}}). Unlike in the sequential workflow shown in {{fig-non-combined}}, C_R is thus not transported in the payload of the EDHOC + OSCORE request.
 
-   * EDHOC message_3 is transported in the payload of the EDHOC + OSCORE request prepended to the payload of the OSCORE Request. This is because EDHOC message_3 may be too large to be included in a CoAP Option, e.g., if conveying a large public key certificate chain as ID_CRED_I (see {{Section 3.5.3 of I-D.ietf-lake-edhoc}}) or if conveying large External Authorization Data as EAD_3 (see {{Section 3.8 of I-D.ietf-lake-edhoc}}).
+   * EDHOC message_3 is transported in the payload of the EDHOC + OSCORE request prepended to the payload of the OSCORE Request. This is because EDHOC message_3 may be too large to be included in a CoAP Option, e.g., when conveying a large public key certificate chain as ID_CRED_I (see {{Section 3.5.3 of I-D.ietf-lake-edhoc}}) or when conveying large External Authorization Data as EAD_3 (see {{Section 3.8 of I-D.ietf-lake-edhoc}}).
 
 The rest of this section specifies how to transport the data in the EDHOC + OSCORE request and their processing order. In particular, the use of this approach is explicitly signalled by including an EDHOC Option (see {{edhoc-option}}) in the EDHOC + OSCORE request. The processing of the EDHOC + OSCORE request is specified in {{client-processing-intro}} for the client side and in {{server-processing-intro}} for the server side.
 
