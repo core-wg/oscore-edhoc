@@ -5,13 +5,13 @@
 CoRE Working Group                                          F. Palombini
 Internet-Draft                                                  Ericsson
 Intended status: Standards Track                               M. Tiloca
-Expires: 15 April 2024                                        R. Höglund
+Expires: 26 May 2024                                          R. Höglund
                                                                  RISE AB
                                                             S. Hristozov
                                                         Fraunhofer AISEC
                                                              G. Selander
                                                                 Ericsson
-                                                         13 October 2023
+                                                        23 November 2023
 
 
                     Using EDHOC with CoAP and OSCORE
@@ -55,7 +55,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 April 2024.
+   This Internet-Draft will expire on 26 May 2024.
 
 Copyright Notice
 
@@ -100,15 +100,16 @@ Table of Contents
      9.1.  Normative References
      9.2.  Informative References
    Appendix A.  Document Updates
-     A.1.  Version -08 to -09
-     A.2.  Version -07 to -08
-     A.3.  Version -06 to -07
-     A.4.  Version -05 to -06
-     A.5.  Version -04 to -05
-     A.6.  Version -03 to -04
-     A.7.  Version -02 to -03
-     A.8.  Version -01 to -02
-     A.9.  Version -00 to -01
+     A.1.  Version -09 to -10
+     A.2.  Version -08 to -09
+     A.3.  Version -07 to -08
+     A.4.  Version -06 to -07
+     A.5.  Version -05 to -06
+     A.6.  Version -04 to -05
+     A.7.  Version -03 to -04
+     A.8.  Version -02 to -03
+     A.9.  Version -01 to -02
+     A.10. Version -00 to -01
    Acknowledgments
    Authors' Addresses
 
@@ -1170,9 +1171,9 @@ Table of Contents
               Mattsson, J. P., Selander, G., Raza, S., Höglund, J., and
               M. Furuhed, "CBOR Encoded X.509 Certificates (C509
               Certificates)", Work in Progress, Internet-Draft, draft-
-              ietf-cose-cbor-encoded-cert-06, 7 July 2023,
+              ietf-cose-cbor-encoded-cert-07, 20 October 2023,
               <https://datatracker.ietf.org/doc/html/draft-ietf-cose-
-              cbor-encoded-cert-06>.
+              cbor-encoded-cert-07>.
 
    [RFC5280]  Cooper, D., Santesson, S., Farrell, S., Boeyen, S.,
               Housley, R., and W. Polk, "Internet X.509 Public Key
@@ -1188,7 +1189,32 @@ Appendix A.  Document Updates
 
    This section is to be removed before publishing as an RFC.
 
-A.1.  Version -08 to -09
+A.1.  Version -09 to -10
+
+   *  Expanded acronyms in the document title.
+
+   *  Clarified transport of EDHOC C_R and EDHOC message_3.
+
+   *  Simplified text on the use of EDHOC Connection Identifiers as
+      OSCORE Identifiers.
+
+   *  Added the CoAP OSCORE Option in the figures of the EDHOC message
+      flows.
+
+   *  Added more pointers to the message processing, now defined in
+      dedicated subsections.
+
+   *  Detecting and preventing a loss of performance advantage when
+      using Block-wise transfers is for application policies to
+      specifiy.
+
+   *  Clarified use of EDHOC application profiles.
+
+   *  Clarified security considerations on the achieved security level.
+
+   *  Fixes and editorial improvements.
+
+A.2.  Version -08 to -09
 
    *  Clarified meaning of "EDHOC data".
 
@@ -1202,11 +1228,11 @@ A.1.  Version -08 to -09
 
    *  Clarifications and editorial improvements.
 
-A.2.  Version -07 to -08
+A.3.  Version -07 to -08
 
    *  Fixes and clarifications from the Shepherd's review.
 
-A.3.  Version -06 to -07
+A.4.  Version -06 to -07
 
    *  Changed document title.
 
@@ -1244,7 +1270,7 @@ A.3.  Version -06 to -07
 
    *  Editorial improvements.
 
-A.4.  Version -05 to -06
+A.5.  Version -05 to -06
 
    *  Extended figure on EDHOC sequential workflow.
 
@@ -1254,7 +1280,7 @@ A.4.  Version -05 to -06
 
    *  Registration of target attributes.
 
-A.5.  Version -04 to -05
+A.6.  Version -04 to -05
 
    *  Clarifications on Web Linking parameters.
 
@@ -1266,7 +1292,7 @@ A.5.  Version -04 to -05
 
    *  Editorial improvements.
 
-A.6.  Version -03 to -04
+A.7.  Version -03 to -04
 
    *  Renamed "applicability statement" to "application profile".
 
@@ -1285,7 +1311,7 @@ A.6.  Version -03 to -04
 
    *  Editorial improvements.
 
-A.7.  Version -02 to -03
+A.8.  Version -02 to -03
 
    *  Clarifications on transporting EDHOC message_3 in the CoAP
       payload.
@@ -1307,7 +1333,7 @@ A.7.  Version -02 to -03
 
    *  Updated figures; editorial improvements.
 
-A.8.  Version -01 to -02
+A.9.  Version -01 to -02
 
    *  New title, abstract and introduction.
 
@@ -1325,7 +1351,7 @@ A.8.  Version -01 to -02
 
    *  Revised Appendix "Checking CBOR Encoding of Numeric Values".
 
-A.9.  Version -00 to -01
+A.10.  Version -00 to -01
 
    *  Improved background overview of EDHOC.
 

@@ -13,24 +13,24 @@
 <meta content="
        The lightweight authenticated key exchange protocol EDHOC can be run over CoAP and used by two peers to establish an OSCORE Security Context. This document details this use of the EDHOC protocol, by specifying a number of additional and optional mechanisms. These especially include an optimization approach for combining the execution of EDHOC with the first OSCORE transaction. This combination reduces the number of round trips required to set up an OSCORE Security Context and to complete an OSCORE transaction using that Security Context. 
     " name="description">
-<meta content="xml2rfc 3.18.1" name="generator">
+<meta content="xml2rfc 3.18.2" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-ietf-core-oscore-edhoc-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.18.1
-    Python 3.11.5
+  xml2rfc 3.18.2
+    Python 3.11.6
     ConfigArgParse 1.5.3
     google-i18n-address 3.1.0
     intervaltree 3.1.0
     Jinja2 3.1.2
     lxml 4.9.3
-    platformdirs 3.11.0
+    platformdirs 4.0.0
     pycountry 22.3.5
     PyYAML 6.0
     requests 2.31.0
     setuptools 67.7.2
     six 1.16.0
-    wcwidth 0.2.8
+    wcwidth 0.2.10
 -->
 <link href="draft-ietf-core-oscore-edhoc.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1029,11 +1029,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Using EDHOC with CoAP and OSCORE</td>
-<td class="right">October 2023</td>
+<td class="right">November 2023</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Palombini, et al.</td>
-<td class="center">Expires 15 April 2024</td>
+<td class="center">Expires 26 May 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1046,12 +1046,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-core-oscore-edhoc-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-10-13" class="published">13 October 2023</time>
+<time datetime="2023-11-23" class="published">23 November 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-04-15">15 April 2024</time></dd>
+<dd class="expires"><time datetime="2024-05-26">26 May 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1112,7 +1112,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 15 April 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 26 May 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1239,31 +1239,34 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.10.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-document-updates" class="internal xref">Document Updates</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.1">
-                <p id="section-toc.1-1.10.2.1.1"><a href="#appendix-A.1" class="auto internal xref">A.1</a>.  <a href="#name-version-08-to-09" class="internal xref">Version -08 to -09</a></p>
+                <p id="section-toc.1-1.10.2.1.1"><a href="#appendix-A.1" class="auto internal xref">A.1</a>.  <a href="#name-version-09-to-10" class="internal xref">Version -09 to -10</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2">
-                <p id="section-toc.1-1.10.2.2.1"><a href="#appendix-A.2" class="auto internal xref">A.2</a>.  <a href="#name-version-07-to-08" class="internal xref">Version -07 to -08</a></p>
+                <p id="section-toc.1-1.10.2.2.1"><a href="#appendix-A.2" class="auto internal xref">A.2</a>.  <a href="#name-version-08-to-09" class="internal xref">Version -08 to -09</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.3">
-                <p id="section-toc.1-1.10.2.3.1"><a href="#appendix-A.3" class="auto internal xref">A.3</a>.  <a href="#name-version-06-to-07" class="internal xref">Version -06 to -07</a></p>
+                <p id="section-toc.1-1.10.2.3.1"><a href="#appendix-A.3" class="auto internal xref">A.3</a>.  <a href="#name-version-07-to-08" class="internal xref">Version -07 to -08</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.4">
-                <p id="section-toc.1-1.10.2.4.1"><a href="#appendix-A.4" class="auto internal xref">A.4</a>.  <a href="#name-version-05-to-06" class="internal xref">Version -05 to -06</a></p>
+                <p id="section-toc.1-1.10.2.4.1"><a href="#appendix-A.4" class="auto internal xref">A.4</a>.  <a href="#name-version-06-to-07" class="internal xref">Version -06 to -07</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.5">
-                <p id="section-toc.1-1.10.2.5.1"><a href="#appendix-A.5" class="auto internal xref">A.5</a>.  <a href="#name-version-04-to-05" class="internal xref">Version -04 to -05</a></p>
+                <p id="section-toc.1-1.10.2.5.1"><a href="#appendix-A.5" class="auto internal xref">A.5</a>.  <a href="#name-version-05-to-06" class="internal xref">Version -05 to -06</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.6">
-                <p id="section-toc.1-1.10.2.6.1"><a href="#appendix-A.6" class="auto internal xref">A.6</a>.  <a href="#name-version-03-to-04" class="internal xref">Version -03 to -04</a></p>
+                <p id="section-toc.1-1.10.2.6.1"><a href="#appendix-A.6" class="auto internal xref">A.6</a>.  <a href="#name-version-04-to-05" class="internal xref">Version -04 to -05</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.7">
-                <p id="section-toc.1-1.10.2.7.1"><a href="#appendix-A.7" class="auto internal xref">A.7</a>.  <a href="#name-version-02-to-03" class="internal xref">Version -02 to -03</a></p>
+                <p id="section-toc.1-1.10.2.7.1"><a href="#appendix-A.7" class="auto internal xref">A.7</a>.  <a href="#name-version-03-to-04" class="internal xref">Version -03 to -04</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.8">
-                <p id="section-toc.1-1.10.2.8.1"><a href="#appendix-A.8" class="auto internal xref">A.8</a>.  <a href="#name-version-01-to-02" class="internal xref">Version -01 to -02</a></p>
+                <p id="section-toc.1-1.10.2.8.1"><a href="#appendix-A.8" class="auto internal xref">A.8</a>.  <a href="#name-version-02-to-03" class="internal xref">Version -02 to -03</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.9">
-                <p id="section-toc.1-1.10.2.9.1"><a href="#appendix-A.9" class="auto internal xref">A.9</a>.  <a href="#name-version-00-to-01" class="internal xref">Version -00 to -01</a></p>
+                <p id="section-toc.1-1.10.2.9.1"><a href="#appendix-A.9" class="auto internal xref">A.9</a>.  <a href="#name-version-01-to-02" class="internal xref">Version -01 to -02</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.10">
+                <p id="section-toc.1-1.10.2.10.1"><a href="#appendix-A.10" class="auto internal xref">A.10</a>. <a href="#name-version-00-to-01" class="internal xref">Version -00 to -01</a></p>
 </li>
             </ul>
 </li>
@@ -2231,7 +2234,7 @@ For all entries, the Change Controller is IETF, and the reference is [RFC-XXXX].
 <dl class="references">
 <dt id="I-D.ietf-cose-cbor-encoded-cert">[I-D.ietf-cose-cbor-encoded-cert]</dt>
         <dd>
-<span class="refAuthor">Mattsson, J. P.</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Raza, S.</span>, <span class="refAuthor">Höglund, J.</span>, and <span class="refAuthor">M. Furuhed</span>, <span class="refTitle">"CBOR Encoded X.509 Certificates (C509 Certificates)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cose-cbor-encoded-cert-06</span>, <time datetime="2023-07-07" class="refDate">7 July 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cose-cbor-encoded-cert-06">https://datatracker.ietf.org/doc/html/draft-ietf-cose-cbor-encoded-cert-06</a>&gt;</span>. </dd>
+<span class="refAuthor">Mattsson, J. P.</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Raza, S.</span>, <span class="refAuthor">Höglund, J.</span>, and <span class="refAuthor">M. Furuhed</span>, <span class="refTitle">"CBOR Encoded X.509 Certificates (C509 Certificates)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cose-cbor-encoded-cert-07</span>, <time datetime="2023-10-20" class="refDate">20 October 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-cose-cbor-encoded-cert-07">https://datatracker.ietf.org/doc/html/draft-ietf-cose-cbor-encoded-cert-07</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC5280">[RFC5280]</dt>
         <dd>
@@ -2251,263 +2254,299 @@ For all entries, the Change Controller is IETF, and the reference is [RFC-XXXX].
 <a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-document-updates" class="section-name selfRef">Document Updates</a>
       </h2>
 <p id="appendix-A-1">This section is to be removed before publishing as an RFC.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
-<div id="sec-08-09">
+<div id="sec-10-09">
 <section id="appendix-A.1">
-        <h3 id="name-version-08-to-09">
-<a href="#appendix-A.1" class="section-number selfRef">A.1. </a><a href="#name-version-08-to-09" class="section-name selfRef">Version -08 to -09</a>
+        <h3 id="name-version-09-to-10">
+<a href="#appendix-A.1" class="section-number selfRef">A.1. </a><a href="#name-version-09-to-10" class="section-name selfRef">Version -09 to -10</a>
         </h3>
 <ul class="normal">
 <li class="normal" id="appendix-A.1-1.1">
-            <p id="appendix-A.1-1.1.1">Clarified meaning of "EDHOC data".<a href="#appendix-A.1-1.1.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.1-1.1.1">Expanded acronyms in the document title.<a href="#appendix-A.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.1-1.2">
-            <p id="appendix-A.1-1.2.1">Improved description of entries for the new IANA registry.<a href="#appendix-A.1-1.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.1-1.2.1">Clarified transport of EDHOC C_R and EDHOC message_3.<a href="#appendix-A.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.1-1.3">
-            <p id="appendix-A.1-1.3.1">Change Controller changed from "IESG" to "IETF".<a href="#appendix-A.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.1-1.3.1">Simplified text on the use of EDHOC Connection Identifiers as OSCORE Identifiers.<a href="#appendix-A.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.1-1.4">
-            <p id="appendix-A.1-1.4.1">Editorial: EDHOC Option number denoted as "21" instead of "TBD21".<a href="#appendix-A.1-1.4.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.1-1.4.1">Added the CoAP OSCORE Option in the figures of the EDHOC message flows.<a href="#appendix-A.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.1-1.5">
-            <p id="appendix-A.1-1.5.1">Fixed references to sections of draft-ietf-lake-edhoc<a href="#appendix-A.1-1.5.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.1-1.5.1">Added more pointers to the message processing, now defined in dedicated subsections.<a href="#appendix-A.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.1-1.6">
-            <p id="appendix-A.1-1.6.1">Clarifications and editorial improvements.<a href="#appendix-A.1-1.6.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.1-1.6.1">Detecting and preventing a loss of performance advantage when using Block-wise transfers is for application policies to specifiy.<a href="#appendix-A.1-1.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-A.1-1.7">
+            <p id="appendix-A.1-1.7.1">Clarified use of EDHOC application profiles.<a href="#appendix-A.1-1.7.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-A.1-1.8">
+            <p id="appendix-A.1-1.8.1">Clarified security considerations on the achieved security level.<a href="#appendix-A.1-1.8.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-A.1-1.9">
+            <p id="appendix-A.1-1.9.1">Fixes and editorial improvements.<a href="#appendix-A.1-1.9.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="sec-08-09">
+<section id="appendix-A.2">
+        <h3 id="name-version-08-to-09">
+<a href="#appendix-A.2" class="section-number selfRef">A.2. </a><a href="#name-version-08-to-09" class="section-name selfRef">Version -08 to -09</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="appendix-A.2-1.1">
+            <p id="appendix-A.2-1.1.1">Clarified meaning of "EDHOC data".<a href="#appendix-A.2-1.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-A.2-1.2">
+            <p id="appendix-A.2-1.2.1">Improved description of entries for the new IANA registry.<a href="#appendix-A.2-1.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-A.2-1.3">
+            <p id="appendix-A.2-1.3.1">Change Controller changed from "IESG" to "IETF".<a href="#appendix-A.2-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-A.2-1.4">
+            <p id="appendix-A.2-1.4.1">Editorial: EDHOC Option number denoted as "21" instead of "TBD21".<a href="#appendix-A.2-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-A.2-1.5">
+            <p id="appendix-A.2-1.5.1">Fixed references to sections of draft-ietf-lake-edhoc<a href="#appendix-A.2-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-A.2-1.6">
+            <p id="appendix-A.2-1.6.1">Clarifications and editorial improvements.<a href="#appendix-A.2-1.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-07-08">
-<section id="appendix-A.2">
+<section id="appendix-A.3">
         <h3 id="name-version-07-to-08">
-<a href="#appendix-A.2" class="section-number selfRef">A.2. </a><a href="#name-version-07-to-08" class="section-name selfRef">Version -07 to -08</a>
+<a href="#appendix-A.3" class="section-number selfRef">A.3. </a><a href="#name-version-07-to-08" class="section-name selfRef">Version -07 to -08</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-A.2-1.1">
-            <p id="appendix-A.2-1.1.1">Fixes and clarifications from the Shepherd's review.<a href="#appendix-A.2-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-A.3-1.1">
+            <p id="appendix-A.3-1.1.1">Fixes and clarifications from the Shepherd's review.<a href="#appendix-A.3-1.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-06-07">
-<section id="appendix-A.3">
+<section id="appendix-A.4">
         <h3 id="name-version-06-to-07">
-<a href="#appendix-A.3" class="section-number selfRef">A.3. </a><a href="#name-version-06-to-07" class="section-name selfRef">Version -06 to -07</a>
+<a href="#appendix-A.4" class="section-number selfRef">A.4. </a><a href="#name-version-06-to-07" class="section-name selfRef">Version -06 to -07</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-A.3-1.1">
-            <p id="appendix-A.3-1.1.1">Changed document title.<a href="#appendix-A.3-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-A.4-1.1">
+            <p id="appendix-A.4-1.1.1">Changed document title.<a href="#appendix-A.4-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.3-1.2">
-            <p id="appendix-A.3-1.2.1">The client creates the OSCORE Security Context after creating EDHOC message_3.<a href="#appendix-A.3-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.4-1.2">
+            <p id="appendix-A.4-1.2.1">The client creates the OSCORE Security Context after creating EDHOC message_3.<a href="#appendix-A.4-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.3-1.3">
-            <p id="appendix-A.3-1.3.1">Revised selection of EDHOC connection identifiers.<a href="#appendix-A.3-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.4-1.3">
+            <p id="appendix-A.4-1.3.1">Revised selection of EDHOC connection identifiers.<a href="#appendix-A.4-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.3-1.4">
-            <p id="appendix-A.3-1.4.1">Use of "forward message flow" and "reverse message flow".<a href="#appendix-A.3-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.4-1.4">
+            <p id="appendix-A.4-1.4.1">Use of "forward message flow" and "reverse message flow".<a href="#appendix-A.4-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.3-1.5">
-            <p id="appendix-A.3-1.5.1">The payload of the combined request is not a CBOR sequence anymore.<a href="#appendix-A.3-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.4-1.5">
+            <p id="appendix-A.4-1.5.1">The payload of the combined request is not a CBOR sequence anymore.<a href="#appendix-A.4-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.3-1.6">
-            <p id="appendix-A.3-1.6.1">EDHOC error messages from the server are not protected with OSCORE.<a href="#appendix-A.3-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.4-1.6">
+            <p id="appendix-A.4-1.6.1">EDHOC error messages from the server are not protected with OSCORE.<a href="#appendix-A.4-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.3-1.7">
-            <p id="appendix-A.3-1.7.1">More future-proof error handling on the server side.<a href="#appendix-A.3-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.4-1.7">
+            <p id="appendix-A.4-1.7.1">More future-proof error handling on the server side.<a href="#appendix-A.4-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.3-1.8">
-            <p id="appendix-A.3-1.8.1">Target attribute names prefixed by "ed-".<a href="#appendix-A.3-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.4-1.8">
+            <p id="appendix-A.4-1.8.1">Target attribute names prefixed by "ed-".<a href="#appendix-A.4-1.8.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.3-1.9">
-            <p id="appendix-A.3-1.9.1">Defined new target attributes "ed-i" and "ed-r".<a href="#appendix-A.3-1.9.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.4-1.9">
+            <p id="appendix-A.4-1.9.1">Defined new target attributes "ed-i" and "ed-r".<a href="#appendix-A.4-1.9.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.3-1.10">
-            <p id="appendix-A.3-1.10.1">Defined single target attribute "ed-ead" signaling supported EAD items.<a href="#appendix-A.3-1.10.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.4-1.10">
+            <p id="appendix-A.4-1.10.1">Defined single target attribute "ed-ead" signaling supported EAD items.<a href="#appendix-A.4-1.10.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.3-1.11">
-            <p id="appendix-A.3-1.11.1">Security consideration on the minimally achieved 128-bit security.<a href="#appendix-A.3-1.11.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.4-1.11">
+            <p id="appendix-A.4-1.11.1">Security consideration on the minimally achieved 128-bit security.<a href="#appendix-A.4-1.11.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.3-1.12">
-            <p id="appendix-A.3-1.12.1">Defined and used the "EDHOC Authentication Credential Types" Registry.<a href="#appendix-A.3-1.12.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.4-1.12">
+            <p id="appendix-A.4-1.12.1">Defined and used the "EDHOC Authentication Credential Types" Registry.<a href="#appendix-A.4-1.12.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.3-1.13">
-            <p id="appendix-A.3-1.13.1">High-level sentence replacing the appendix on Block-wise performance.<a href="#appendix-A.3-1.13.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.4-1.13">
+            <p id="appendix-A.4-1.13.1">High-level sentence replacing the appendix on Block-wise performance.<a href="#appendix-A.4-1.13.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.3-1.14">
-            <p id="appendix-A.3-1.14.1">Revised examples.<a href="#appendix-A.3-1.14.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.4-1.14">
+            <p id="appendix-A.4-1.14.1">Revised examples.<a href="#appendix-A.4-1.14.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.3-1.15">
-            <p id="appendix-A.3-1.15.1">Editorial improvements.<a href="#appendix-A.3-1.15.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.4-1.15">
+            <p id="appendix-A.4-1.15.1">Editorial improvements.<a href="#appendix-A.4-1.15.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-05-06">
-<section id="appendix-A.4">
+<section id="appendix-A.5">
         <h3 id="name-version-05-to-06">
-<a href="#appendix-A.4" class="section-number selfRef">A.4. </a><a href="#name-version-05-to-06" class="section-name selfRef">Version -05 to -06</a>
+<a href="#appendix-A.5" class="section-number selfRef">A.5. </a><a href="#name-version-05-to-06" class="section-name selfRef">Version -05 to -06</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-A.4-1.1">
-            <p id="appendix-A.4-1.1.1">Extended figure on EDHOC sequential workflow.<a href="#appendix-A.4-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-A.5-1.1">
+            <p id="appendix-A.5-1.1.1">Extended figure on EDHOC sequential workflow.<a href="#appendix-A.5-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.4-1.2">
-            <p id="appendix-A.4-1.2.1">Revised naming of target attributes.<a href="#appendix-A.4-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.5-1.2">
+            <p id="appendix-A.5-1.2.1">Revised naming of target attributes.<a href="#appendix-A.5-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.4-1.3">
-            <p id="appendix-A.4-1.3.1">Clarified semantics of target attributes 'eadx'.<a href="#appendix-A.4-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.5-1.3">
+            <p id="appendix-A.5-1.3.1">Clarified semantics of target attributes 'eadx'.<a href="#appendix-A.5-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.4-1.4">
-            <p id="appendix-A.4-1.4.1">Registration of target attributes.<a href="#appendix-A.4-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.5-1.4">
+            <p id="appendix-A.5-1.4.1">Registration of target attributes.<a href="#appendix-A.5-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-04-05">
-<section id="appendix-A.5">
+<section id="appendix-A.6">
         <h3 id="name-version-04-to-05">
-<a href="#appendix-A.5" class="section-number selfRef">A.5. </a><a href="#name-version-04-to-05" class="section-name selfRef">Version -04 to -05</a>
+<a href="#appendix-A.6" class="section-number selfRef">A.6. </a><a href="#name-version-04-to-05" class="section-name selfRef">Version -04 to -05</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-A.5-1.1">
-            <p id="appendix-A.5-1.1.1">Clarifications on Web Linking parameters.<a href="#appendix-A.5-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-A.6-1.1">
+            <p id="appendix-A.6-1.1.1">Clarifications on Web Linking parameters.<a href="#appendix-A.6-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.5-1.2">
-            <p id="appendix-A.5-1.2.1">Added security considerations.<a href="#appendix-A.5-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.6-1.2">
+            <p id="appendix-A.6-1.2.1">Added security considerations.<a href="#appendix-A.6-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.5-1.3">
-            <p id="appendix-A.5-1.3.1">Revised IANA considerations to focus on the CoAP option number 21.<a href="#appendix-A.5-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.6-1.3">
+            <p id="appendix-A.6-1.3.1">Revised IANA considerations to focus on the CoAP option number 21.<a href="#appendix-A.6-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.5-1.4">
-            <p id="appendix-A.5-1.4.1">Guidelines on using Block-wise moved to an appendix.<a href="#appendix-A.5-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.6-1.4">
+            <p id="appendix-A.6-1.4.1">Guidelines on using Block-wise moved to an appendix.<a href="#appendix-A.6-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.5-1.5">
-            <p id="appendix-A.5-1.5.1">Editorial improvements.<a href="#appendix-A.5-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.6-1.5">
+            <p id="appendix-A.6-1.5.1">Editorial improvements.<a href="#appendix-A.6-1.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-03-04">
-<section id="appendix-A.6">
+<section id="appendix-A.7">
         <h3 id="name-version-03-to-04">
-<a href="#appendix-A.6" class="section-number selfRef">A.6. </a><a href="#name-version-03-to-04" class="section-name selfRef">Version -03 to -04</a>
+<a href="#appendix-A.7" class="section-number selfRef">A.7. </a><a href="#name-version-03-to-04" class="section-name selfRef">Version -03 to -04</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-A.6-1.1">
-            <p id="appendix-A.6-1.1.1">Renamed "applicability statement" to "application profile".<a href="#appendix-A.6-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-A.7-1.1">
+            <p id="appendix-A.7-1.1.1">Renamed "applicability statement" to "application profile".<a href="#appendix-A.7-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.6-1.2">
-            <p id="appendix-A.6-1.2.1">Use the latest Content-Formats.<a href="#appendix-A.6-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.7-1.2">
+            <p id="appendix-A.7-1.2.1">Use the latest Content-Formats.<a href="#appendix-A.7-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.6-1.3">
-            <p id="appendix-A.6-1.3.1">Use of SHOULD NOT for multiple simultaneous outstanding interactions.<a href="#appendix-A.6-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.7-1.3">
+            <p id="appendix-A.7-1.3.1">Use of SHOULD NOT for multiple simultaneous outstanding interactions.<a href="#appendix-A.7-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.6-1.4">
-            <p id="appendix-A.6-1.4.1">No more special conversion from OSCORE ID to EDHOC ID.<a href="#appendix-A.6-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.7-1.4">
+            <p id="appendix-A.7-1.4.1">No more special conversion from OSCORE ID to EDHOC ID.<a href="#appendix-A.7-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.6-1.5">
-            <p id="appendix-A.6-1.5.1">Considerations on using Block-wise.<a href="#appendix-A.6-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.7-1.5">
+            <p id="appendix-A.7-1.5.1">Considerations on using Block-wise.<a href="#appendix-A.7-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.6-1.6">
-            <p id="appendix-A.6-1.6.1">Wed Linking signaling of multiple supported EAD labels.<a href="#appendix-A.6-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.7-1.6">
+            <p id="appendix-A.7-1.6.1">Wed Linking signaling of multiple supported EAD labels.<a href="#appendix-A.7-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.6-1.7">
-            <p id="appendix-A.6-1.7.1">Added security considerations.<a href="#appendix-A.6-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.7-1.7">
+            <p id="appendix-A.7-1.7.1">Added security considerations.<a href="#appendix-A.7-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.6-1.8">
-            <p id="appendix-A.6-1.8.1">Editorial improvements.<a href="#appendix-A.6-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.7-1.8">
+            <p id="appendix-A.7-1.8.1">Editorial improvements.<a href="#appendix-A.7-1.8.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-02-03">
-<section id="appendix-A.7">
+<section id="appendix-A.8">
         <h3 id="name-version-02-to-03">
-<a href="#appendix-A.7" class="section-number selfRef">A.7. </a><a href="#name-version-02-to-03" class="section-name selfRef">Version -02 to -03</a>
+<a href="#appendix-A.8" class="section-number selfRef">A.8. </a><a href="#name-version-02-to-03" class="section-name selfRef">Version -02 to -03</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-A.7-1.1">
-            <p id="appendix-A.7-1.1.1">Clarifications on transporting EDHOC message_3 in the CoAP payload.<a href="#appendix-A.7-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-A.8-1.1">
+            <p id="appendix-A.8-1.1.1">Clarifications on transporting EDHOC message_3 in the CoAP payload.<a href="#appendix-A.8-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.7-1.2">
-            <p id="appendix-A.7-1.2.1">At most one simultaneous outstanding interaction as an EDHOC + OSCORE request with the same server for the same session with connection identifier C_R.<a href="#appendix-A.7-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.8-1.2">
+            <p id="appendix-A.8-1.2.1">At most one simultaneous outstanding interaction as an EDHOC + OSCORE request with the same server for the same session with connection identifier C_R.<a href="#appendix-A.8-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.7-1.3">
-            <p id="appendix-A.7-1.3.1">The EDHOC option is removed from the EDHOC + OSCORE request after processing the EDHOC data.<a href="#appendix-A.7-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.8-1.3">
+            <p id="appendix-A.8-1.3.1">The EDHOC option is removed from the EDHOC + OSCORE request after processing the EDHOC data.<a href="#appendix-A.8-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.7-1.4">
-            <p id="appendix-A.7-1.4.1">Added explicit constraints when selecting a Recipient ID as C_X.<a href="#appendix-A.7-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.8-1.4">
+            <p id="appendix-A.8-1.4.1">Added explicit constraints when selecting a Recipient ID as C_X.<a href="#appendix-A.8-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.7-1.5">
-            <p id="appendix-A.7-1.5.1">Added processing steps for when Block-wise is used.<a href="#appendix-A.7-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.8-1.5">
+            <p id="appendix-A.8-1.5.1">Added processing steps for when Block-wise is used.<a href="#appendix-A.8-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.7-1.6">
-            <p id="appendix-A.7-1.6.1">Improved error handling on the server.<a href="#appendix-A.7-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.8-1.6">
+            <p id="appendix-A.8-1.6.1">Improved error handling on the server.<a href="#appendix-A.8-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.7-1.7">
-            <p id="appendix-A.7-1.7.1">Improved section on Web Linking.<a href="#appendix-A.7-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.8-1.7">
+            <p id="appendix-A.8-1.7.1">Improved section on Web Linking.<a href="#appendix-A.8-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.7-1.8">
-            <p id="appendix-A.7-1.8.1">Updated figures; editorial improvements.<a href="#appendix-A.7-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.8-1.8">
+            <p id="appendix-A.8-1.8.1">Updated figures; editorial improvements.<a href="#appendix-A.8-1.8.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-01-02">
-<section id="appendix-A.8">
+<section id="appendix-A.9">
         <h3 id="name-version-01-to-02">
-<a href="#appendix-A.8" class="section-number selfRef">A.8. </a><a href="#name-version-01-to-02" class="section-name selfRef">Version -01 to -02</a>
+<a href="#appendix-A.9" class="section-number selfRef">A.9. </a><a href="#name-version-01-to-02" class="section-name selfRef">Version -01 to -02</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-A.8-1.1">
-            <p id="appendix-A.8-1.1.1">New title, abstract and introduction.<a href="#appendix-A.8-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-A.9-1.1">
+            <p id="appendix-A.9-1.1.1">New title, abstract and introduction.<a href="#appendix-A.9-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.8-1.2">
-            <p id="appendix-A.8-1.2.1">Restructured table of content.<a href="#appendix-A.8-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.9-1.2">
+            <p id="appendix-A.9-1.2.1">Restructured table of content.<a href="#appendix-A.9-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.8-1.3">
-            <p id="appendix-A.8-1.3.1">Alignment with latest format of EDHOC messages.<a href="#appendix-A.8-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.9-1.3">
+            <p id="appendix-A.9-1.3.1">Alignment with latest format of EDHOC messages.<a href="#appendix-A.9-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.8-1.4">
-            <p id="appendix-A.8-1.4.1">Guideline on ID conversions based on application profile.<a href="#appendix-A.8-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.9-1.4">
+            <p id="appendix-A.9-1.4.1">Guideline on ID conversions based on application profile.<a href="#appendix-A.9-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.8-1.5">
-            <p id="appendix-A.8-1.5.1">Clarifications, extension and consistency on application profile.<a href="#appendix-A.8-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.9-1.5">
+            <p id="appendix-A.9-1.5.1">Clarifications, extension and consistency on application profile.<a href="#appendix-A.9-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.8-1.6">
-            <p id="appendix-A.8-1.6.1">Section on web-linking.<a href="#appendix-A.8-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.9-1.6">
+            <p id="appendix-A.9-1.6.1">Section on web-linking.<a href="#appendix-A.9-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.8-1.7">
-            <p id="appendix-A.8-1.7.1">RFC8126 terminology in IANA considerations.<a href="#appendix-A.8-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.9-1.7">
+            <p id="appendix-A.9-1.7.1">RFC8126 terminology in IANA considerations.<a href="#appendix-A.9-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.8-1.8">
-            <p id="appendix-A.8-1.8.1">Revised Appendix "Checking CBOR Encoding of Numeric Values".<a href="#appendix-A.8-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.9-1.8">
+            <p id="appendix-A.9-1.8.1">Revised Appendix "Checking CBOR Encoding of Numeric Values".<a href="#appendix-A.9-1.8.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-00-01">
-<section id="appendix-A.9">
+<section id="appendix-A.10">
         <h3 id="name-version-00-to-01">
-<a href="#appendix-A.9" class="section-number selfRef">A.9. </a><a href="#name-version-00-to-01" class="section-name selfRef">Version -00 to -01</a>
+<a href="#appendix-A.10" class="section-number selfRef">A.10. </a><a href="#name-version-00-to-01" class="section-name selfRef">Version -00 to -01</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-A.9-1.1">
-            <p id="appendix-A.9-1.1.1">Improved background overview of EDHOC.<a href="#appendix-A.9-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-A.10-1.1">
+            <p id="appendix-A.10-1.1.1">Improved background overview of EDHOC.<a href="#appendix-A.10-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.9-1.2">
-            <p id="appendix-A.9-1.2.1">Added explicit rules for converting OSCORE Sender/Recipient IDs to EDHOC connection identifiers following the removal of bstr_identifier from EDHOC.<a href="#appendix-A.9-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.10-1.2">
+            <p id="appendix-A.10-1.2.1">Added explicit rules for converting OSCORE Sender/Recipient IDs to EDHOC connection identifiers following the removal of bstr_identifier from EDHOC.<a href="#appendix-A.10-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.9-1.3">
-            <p id="appendix-A.9-1.3.1">Revised section organization.<a href="#appendix-A.9-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.10-1.3">
+            <p id="appendix-A.10-1.3.1">Revised section organization.<a href="#appendix-A.10-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.9-1.4">
-            <p id="appendix-A.9-1.4.1">Recommended number for EDHOC option changed to 21.<a href="#appendix-A.9-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.10-1.4">
+            <p id="appendix-A.10-1.4.1">Recommended number for EDHOC option changed to 21.<a href="#appendix-A.10-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.9-1.5">
-            <p id="appendix-A.9-1.5.1">Editorial improvements.<a href="#appendix-A.9-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.10-1.5">
+            <p id="appendix-A.10-1.5.1">Editorial improvements.<a href="#appendix-A.10-1.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
