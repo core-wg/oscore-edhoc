@@ -580,7 +580,7 @@ Expert reviewers should take into consideration the following points:
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
 
-## Version -09 to -10 ## {#sec-10-09}
+## Version -09 to -10 ## {#sec-09-10}
 
 * Expanded acronyms in the document title.
 
