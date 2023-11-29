@@ -107,7 +107,7 @@ This triggers the EDHOC execution at the server, which replies with a 2.04 (Chan
 
 Finally, the client sends a POST request to the same EDHOC resource used earlier when it sent EDHOC message_1. The request payload consists of the EDHOC connection identifier C_R encoded as per {{Section 3.3 of I-D.ietf-lake-edhoc}}, concatenated with EDHOC message_3. The Content-Format of the request can be set to application/cid-edhoc+cbor-seq.
 
-After this exchange takes place, and after successful verifications as specified in the EDHOC protocol, the client and server can derive an OSCORE Security Context, as defined in {{Section A.1 of I-D.ietf-lake-edhoc}}. After that, they can use OSCORE to protect their communications as per {{RFC8613}}. Note that the EDHOC Connection Identifier C_R is used as OSCORE Sender ID of the client (see {{Section A.1 of I-D.ietf-lake-edhoc}}). Therefore, C_R is transported in the 'kid' field of the OSCORE Option of the OSCORE Request (see {{Section 6.1 of RFC8613}}).
+After this exchange takes place, and after successful verifications as specified in the EDHOC protocol, the client and server can derive an OSCORE Security Context, as defined in {{Section A.1 of I-D.ietf-lake-edhoc}}. After that, they can use OSCORE to protect their communications as per {{RFC8613}}. Note that the EDHOC Connection Identifier C_R is used as the OSCORE Sender ID of the client (see {{Section A.1 of I-D.ietf-lake-edhoc}}). Therefore, C_R is transported in the 'kid' field of the OSCORE Option of the OSCORE Request (see {{Section 6.1 of RFC8613}}).
 
 The client and server are required to agree in advance on certain information and parameters describing how they should use EDHOC. These are specified in an application profile associated with the EDHOC resource addressed (see {{Section 3.9 of I-D.ietf-lake-edhoc}}.
 
@@ -755,6 +755,6 @@ Expert reviewers should take into consideration the following points:
 # Acknowledgments
 {:numbered="false"}
 
-The authors sincerely thank {{{Christian Amsüss}}}, {{{Carsten Bormann}}}, {{{Esko Dijk}}}, {{{Joel Halpern}}}, {{{Wes Hardaker}}}, {{{Klaus Hartke}}}, {{{John Preuß Mattsson}}}, {{{David Navarro}}}, {{{Jim Schaad}}}, {{{Jürgen Schönwälder}}}, {{{Mališa Vučinić}}}, and {{{Paul Wouters}}} for their feedback and comments.
+The authors sincerely thank {{{Christian Amsüss}}}, {{{Carsten Bormann}}}, {{{Esko Dijk}}}, {{{Joel Halpern}}}, {{{Wes Hardaker}}}, {{{Klaus Hartke}}}, {{{John Preuß Mattsson}}}, {{{David Navarro}}}, {{{Shuping Peng}}}, {{{Jim Schaad}}}, {{{Jürgen Schönwälder}}}, {{{Mališa Vučinić}}}, and {{{Paul Wouters}}} for their feedback and comments.
 
 The work on this document has been partly supported by VINNOVA and the Celtic-Next project CRITISEC; and by the H2020 project SIFIS-Home (Grant agreement 952652).
