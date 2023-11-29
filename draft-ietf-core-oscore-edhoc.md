@@ -1,7 +1,7 @@
 ---
 v: 3
 
-title: "Using EDHOC with CoAP and OSCORE"
+title: "Using Ephemeral Diffie-Hellman Over COSE (EDHOC) with the Constrained Application Protocol (CoAP) and Object Security for Constrained RESTful Environments (OSCORE)"
 abbrev: "Using EDHOC with CoAP and OSCORE"
 docname: draft-ietf-core-oscore-edhoc-latest
 cat: std
@@ -67,7 +67,7 @@ entity:
 
 --- abstract
 
-The lightweight authenticated key exchange protocol EDHOC can be run over CoAP and used by two peers to establish an OSCORE Security Context. This document details this use of the EDHOC protocol, by specifying a number of additional and optional mechanisms. These especially include an optimization approach for combining the execution of EDHOC with the first OSCORE transaction. This combination reduces the number of round trips required to set up an OSCORE Security Context and to complete an OSCORE transaction using that Security Context.
+The lightweight authenticated key exchange protocol Ephemeral Diffie-Hellman Over COSE (EDHOC) can be run over the Constrained Application Protocol (CoAP) and used by two peers to establish a Security Context for the security protocol Object Security for Constrained RESTful Environments (OSCORE). This document details this use of the EDHOC protocol, by specifying a number of additional and optional mechanisms. These especially include an optimization approach for combining the execution of EDHOC with the first OSCORE transaction. This combination reduces the number of round trips required to set up an OSCORE Security Context and to complete an OSCORE transaction using that Security Context.
 
 --- middle
 
@@ -399,9 +399,9 @@ Protected CoAP request (OSCORE message):
 
 # Use of EDHOC Connection Identifiers with OSCORE # {#use-of-ids}
 
-{{Section 3.3.3 of I-D.ietf-lake-edhoc}} defines the straightforward mapping from an EDHOC connection identifier to an OSCORE Sender/Recipient ID. That is, an EDHOC identifier and the corresponding OSCORE Sender/Recipient ID are both byte strings with the same value.
+The OSCORE Sender/Recipient IDs are the EDHOC connection identifiers (see {{Section 3.3.3 of I-D.ietf-lake-edhoc}}). This applies also to the optimized workflow defined in {{edhoc-in-oscore}} of this document.
 
-Therefore, the conversion from an OSCORE Sender/Recipient ID to an EDHOC identifier is equally straightforward. In particular, at step 3 of {{server-processing}}, the value of 'kid' in the OSCORE Option of the EDHOC + OSCORE request is both the server's Recipient ID (i.e., the client's Sender ID) and the EDHOC Connection Identifier C_R of the server.
+Note that, at step 3 of {{server-processing}}, the value of 'kid' in the OSCORE Option of the EDHOC + OSCORE request is both the server's Recipient ID (i.e., the client's Sender ID) and the EDHOC Connection Identifier C_R of the server.
 
 ## Additional Processing of EDHOC Messages {#oscore-edhoc-message-processing}
 
@@ -429,11 +429,13 @@ If the EDHOC Connection Identifier C_I is equal to the EDHOC Connection Identifi
 
 # Extension and Consistency of Application Profiles # {#app-statements}
 
-The application profile referred by the client and server can include the information below, according to the specified consistency rules.
+It is possible to include the information below in the application profile referred by the client and server, according to the specified consistency rules.
 
 If the server supports the EDHOC + OSCORE request within an EDHOC execution started at a certain EDHOC resource, then the application profile associated with that resource SHOULD explicitly specify support for the EDHOC + OSCORE request.
 
-In case the application profile indicates that the server supports the optional EDHOC message_4 (see {{Section 5.5 of I-D.ietf-lake-edhoc}}), the client has to bear in mind that the usage of EDHOC message_4 is not applicable to the optimized workflow based on the EDHOC + OSCORE request (see {{server-processing}}).
+In case the application profile indicates that the server supports the optional EDHOC message_4 (see {{Section 5.5 of I-D.ietf-lake-edhoc}}), it is still possible to use the optimized workflow based on the EDHOC + OSCORE request. However, this means the server is not going to send EDHOC message_4, since it is not applicable to the optimized workflow (see {{server-processing}}).
+
+Also, in case the application profile indicates that the server shall send EDHOC message_4, then the application profile MUST NOT specify support for the EDHOC + OSCORE request, and there is no point for the client to use the optimized workflow, which is bound to fail (see {{server-processing}}).
 
 # Web Linking # {#web-linking}
 
@@ -753,6 +755,6 @@ Expert reviewers should take into consideration the following points:
 # Acknowledgments
 {:numbered="false"}
 
-The authors sincerely thank {{{Christian Amsüss}}}, {{{Carsten Bormann}}}, {{{Esko Dijk}}}, {{{Wes Hardaker}}}, {{{Klaus Hartke}}}, {{{John Preuß Mattsson}}}, {{{David Navarro}}}, {{{Jim Schaad}}}, {{{Mališa Vučinić}}}, and {{{Paul Wouters}}} for their feedback and comments.
+The authors sincerely thank {{{Christian Amsüss}}}, {{{Carsten Bormann}}}, {{{Esko Dijk}}}, {{{Wes Hardaker}}}, {{{Klaus Hartke}}}, {{{John Preuß Mattsson}}}, {{{David Navarro}}}, {{{Jim Schaad}}}, {{{Jürgen Schönwälder}}}, {{{Mališa Vučinić}}}, and {{{Paul Wouters}}} for their feedback and comments.
 
 The work on this document has been partly supported by VINNOVA and the Celtic-Next project CRITISEC; and by the H2020 project SIFIS-Home (Grant agreement 952652).
