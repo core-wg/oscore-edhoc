@@ -362,7 +362,9 @@ Table of Contents
    (C_R, EDHOC message_3) within an OSCORE-protected CoAP message.
 
    That is, the EDHOC + OSCORE request is composed of the following two
-   parts combined together in a single CoAP message:
+   parts combined together in a single CoAP message.  The steps for
+   processing the EDHOC + OSCORE request and the two parts combined in
+   there are defined in Section 3.2.1 and Section 3.3.1.
 
    *  The OSCORE Request from Figure 1, which is also in this case sent
       to a protected resource, with the correct CoAP method and options
@@ -378,7 +380,7 @@ Table of Contents
          EDHOC + OSCORE request.
 
       -  EDHOC message_3 is transported in the payload of the EDHOC +
-         OSCORE request prepended to the payload of the OSCORE Request.
+         OSCORE request, prepended to the payload of the OSCORE Request.
          This is because EDHOC message_3 may be too large to be included
          in a CoAP Option, e.g., when conveying a large public key
          certificate chain as ID_CRED_I (see Section 3.5.3 of
@@ -1406,9 +1408,9 @@ A.10.  Version -00 to -01
 Acknowledgments
 
    The authors sincerely thank Christian Amsüss, Carsten Bormann, Esko
-   Dijk, Wes Hardaker, Klaus Hartke, John Preuß Mattsson, David Navarro,
-   Jim Schaad, Jürgen Schönwälder, Mališa Vučinić, and Paul Wouters for
-   their feedback and comments.
+   Dijk, Joel Halpern, Wes Hardaker, Klaus Hartke, John Preuß Mattsson,
+   David Navarro, Jim Schaad, Jürgen Schönwälder, Mališa Vučinić, and
+   Paul Wouters for their feedback and comments.
 
    The work on this document has been partly supported by VINNOVA and
    the Celtic-Next project CRITISEC; and by the H2020 project SIFIS-Home
