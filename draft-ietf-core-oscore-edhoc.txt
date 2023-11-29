@@ -232,9 +232,9 @@ Table of Contents
    an OSCORE Security Context, as defined in Appendix A.1 of
    [I-D.ietf-lake-edhoc].  After that, they can use OSCORE to protect
    their communications as per [RFC8613].  Note that the EDHOC
-   Connection Identifier C_R is used as OSCORE Sender ID of the client
-   (see Appendix A.1 of [I-D.ietf-lake-edhoc]).  Therefore, C_R is
-   transported in the 'kid' field of the OSCORE Option of the OSCORE
+   Connection Identifier C_R is used as the OSCORE Sender ID of the
+   client (see Appendix A.1 of [I-D.ietf-lake-edhoc]).  Therefore, C_R
+   is transported in the 'kid' field of the OSCORE Option of the OSCORE
    Request (see Section 6.1 of [RFC8613]).
 
    The client and server are required to agree in advance on certain
@@ -1409,8 +1409,8 @@ Acknowledgments
 
    The authors sincerely thank Christian Amsüss, Carsten Bormann, Esko
    Dijk, Joel Halpern, Wes Hardaker, Klaus Hartke, John Preuß Mattsson,
-   David Navarro, Jim Schaad, Jürgen Schönwälder, Mališa Vučinić, and
-   Paul Wouters for their feedback and comments.
+   David Navarro, Shuping Peng, Jim Schaad, Jürgen Schönwälder, Mališa
+   Vučinić, and Paul Wouters for their feedback and comments.
 
    The work on this document has been partly supported by VINNOVA and
    the Celtic-Next project CRITISEC; and by the H2020 project SIFIS-Home
