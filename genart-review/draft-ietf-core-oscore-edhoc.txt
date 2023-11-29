@@ -5,29 +5,33 @@
 CoRE Working Group                                          F. Palombini
 Internet-Draft                                                  Ericsson
 Intended status: Standards Track                               M. Tiloca
-Expires: 23 May 2024                                          R. Höglund
+Expires: 1 June 2024                                          R. Höglund
                                                                  RISE AB
                                                             S. Hristozov
                                                         Fraunhofer AISEC
                                                              G. Selander
                                                                 Ericsson
-                                                        20 November 2023
+                                                        29 November 2023
 
 
-                    Using EDHOC with CoAP and OSCORE
+ Using Ephemeral Diffie-Hellman Over COSE (EDHOC) with the Constrained
+Application Protocol (CoAP) and Object Security for Constrained RESTful
+                         Environments (OSCORE)
                   draft-ietf-core-oscore-edhoc-latest
 
 Abstract
 
-   The lightweight authenticated key exchange protocol EDHOC can be run
-   over CoAP and used by two peers to establish an OSCORE Security
-   Context.  This document details this use of the EDHOC protocol, by
-   specifying a number of additional and optional mechanisms.  These
-   especially include an optimization approach for combining the
-   execution of EDHOC with the first OSCORE transaction.  This
-   combination reduces the number of round trips required to set up an
-   OSCORE Security Context and to complete an OSCORE transaction using
-   that Security Context.
+   The lightweight authenticated key exchange protocol Ephemeral Diffie-
+   Hellman Over COSE (EDHOC) can be run over the Constrained Application
+   Protocol (CoAP) and used by two peers to establish a Security Context
+   for the security protocol Object Security for Constrained RESTful
+   Environments (OSCORE).  This document details this use of the EDHOC
+   protocol, by specifying a number of additional and optional
+   mechanisms.  These especially include an optimization approach for
+   combining the execution of EDHOC with the first OSCORE transaction.
+   This combination reduces the number of round trips required to set up
+   an OSCORE Security Context and to complete an OSCORE transaction
+   using that Security Context.
 
 Discussion Venues
 
@@ -55,7 +59,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 May 2024.
+   This Internet-Draft will expire on 1 June 2024.
 
 Copyright Notice
 
@@ -79,9 +83,11 @@ Table of Contents
    3.  EDHOC Combined with OSCORE
      3.1.  EDHOC Option
      3.2.  Client Processing
-       3.2.1.  Supporting Block-wise
+       3.2.1.  Processing of the EDHOC + OSCORE Request
+       3.2.2.  Supporting Block-wise
      3.3.  Server Processing
-       3.3.1.  Supporting Block-wise
+       3.3.1.  Processing of the EDHOC + OSCORE Request
+       3.3.2.  Supporting Block-wise
      3.4.  Example of EDHOC + OSCORE Request
    4.  Use of EDHOC Connection Identifiers with OSCORE
      4.1.  Additional Processing of EDHOC Messages
@@ -100,15 +106,16 @@ Table of Contents
      9.1.  Normative References
      9.2.  Informative References
    Appendix A.  Document Updates
-     A.1.  Version -08 to -09
-     A.2.  Version -07 to -08
-     A.3.  Version -06 to -07
-     A.4.  Version -05 to -06
-     A.5.  Version -04 to -05
-     A.6.  Version -03 to -04
-     A.7.  Version -02 to -03
-     A.8.  Version -01 to -02
-     A.9.  Version -00 to -01
+     A.1.  Version -09 to -10
+     A.2.  Version -08 to -09
+     A.3.  Version -07 to -08
+     A.4.  Version -06 to -07
+     A.5.  Version -05 to -06
+     A.6.  Version -04 to -05
+     A.7.  Version -03 to -04
+     A.8.  Version -02 to -03
+     A.9.  Version -01 to -02
+     A.10. Version -00 to -01
    Acknowledgments
    Authors' Addresses
 
@@ -121,13 +128,13 @@ Table of Contents
    [RFC7252] and used for establishing a Security Context for Object
    Security for Constrained RESTful Environments (OSCORE) [RFC8613].
 
-   This document details this use of the EDHOC protocol, and specifies a
-   number of additional and optional mechanisms.  These especially
-   include an optimization approach that combines the EDHOC execution
-   with the first OSCORE transaction (see Section 3).  This allows for a
-   minimum number of round trips necessary to setup the OSCORE Security
-   Context and complete an OSCORE transaction, e.g., when an IoT device
-   gets configured in a network for the first time.
+   This document details the use of the EDHOC protocol with CoAP and
+   OSCORE, and specifies a number of additional and optional mechanisms.
+   These especially include an optimization approach that combines the
+   EDHOC execution with the first OSCORE transaction (see Section 3).
+   This allows for a minimum number of round trips necessary to setup
+   the OSCORE Security Context and complete an OSCORE transaction, e.g.,
+   when an IoT device gets configured in a network for the first time.
 
    This optimization is desirable, since the number of message exchanges
    can have a substantial impact on the latency of conveying the first
@@ -190,12 +197,13 @@ Table of Contents
    Appendix A.2.2 of [I-D.ietf-lake-edhoc]).  In the rest of this
    document, EDHOC messages are considered to be transferred over CoAP.
 
-   Figure 1 shows a CoAP client and a CoAP server running EDHOC as
-   Initiator and Responder, respectively.  In particular, it extends
-   Figure 18 from Appendix A.2.1 of [I-D.ietf-lake-edhoc], by
-   highlighting when the two peers perform EDHOC verification and
-   establish the OSCORE Security Context, and by adding an exchange of
-   OSCORE-protected CoAP messages after completing the EDHOC execution.
+   Figure 1 shows a successful execution of EDHOC, with a CoAP client
+   and a CoAP server running EDHOC as Initiator and Responder,
+   respectively.  In particular, it extends Figure 18 from
+   Appendix A.2.1 of [I-D.ietf-lake-edhoc], by highlighting when the two
+   peers perform EDHOC verification and establish the OSCORE Security
+   Context, and by adding an exchange of OSCORE-protected CoAP messages
+   after completing the EDHOC execution.
 
    That is, the client sends a POST request to a reserved _EDHOC
    resource_ at the server, by default at the Uri-Path "/.well-known/
@@ -223,7 +231,11 @@ Table of Contents
    as specified in the EDHOC protocol, the client and server can derive
    an OSCORE Security Context, as defined in Appendix A.1 of
    [I-D.ietf-lake-edhoc].  After that, they can use OSCORE to protect
-   their communications as per [RFC8613].
+   their communications as per [RFC8613].  Note that the EDHOC
+   Connection Identifier C_R is used as OSCORE Sender ID of the client
+   (see Appendix A.1 of [I-D.ietf-lake-edhoc]).  Therefore, C_R is
+   transported in the 'kid' field of the OSCORE Option of the OSCORE
+   Request (see Section 6.1 of [RFC8613]).
 
    The client and server are required to agree in advance on certain
    information and parameters describing how they should use EDHOC.
@@ -268,10 +280,12 @@ Table of Contents
            |                                                    |
            | ---------------- OSCORE Request -----------------> |
            |   Header: 0.02 (POST)                              |
+           |   OSCORE: { ... ; kid: C_R }                       |
            |   Payload: OSCORE-protected data                   |
            |                                                    |
            | <--------------- OSCORE Response ----------------- |
            |                 Header: 2.04 (Changed)             |
+           |                 OSCORE: { ... }                    |
            |                 Payload: OSCORE-protected data     |
            |                                                    |
 
@@ -279,8 +293,8 @@ Table of Contents
      message_4 is included in this example, without which that message
                              needs no payload.
 
-   As shown in Figure 1, this purely-sequential flow where EDHOC is run
-   first and then OSCORE is used takes three round trips to complete.
+   As shown in Figure 1, this sequential flow where EDHOC is run first
+   and then OSCORE is used takes three round trips to complete.
 
    Section 3 defines an optimization for combining EDHOC with the first
    OSCORE transaction.  This reduces the number of round trips required
@@ -298,9 +312,9 @@ Table of Contents
    server acts as Responder.  That is, it cannot be used in the case
    with reversed roles as per the reverse message flow of EDHOC.
 
-   When running the purely-sequential flow of Section 2, the client has
-   all the information to derive the OSCORE Security Context already
-   after receiving EDHOC message_2 and before sending EDHOC message_3.
+   When running the sequential flow of Section 2, the client has all the
+   information to derive the OSCORE Security Context already after
+   receiving EDHOC message_2 and before sending EDHOC message_3.
 
    Hence, the client can potentially send both EDHOC message_3 and the
    subsequent OSCORE Request at the same time.  On a semantic level,
@@ -327,6 +341,7 @@ Table of Contents
           |                                                     |
           | -------------- EDHOC + OSCORE Request ------------> |
           |   Header: 0.02 (POST)                               |
+          |   OSCORE: { ... ; kid: C_R }                        |
           |   Payload: EDHOC message_3 + OSCORE-protected data  |
           |                                                     |
           |                                          EDHOC verification
@@ -336,6 +351,7 @@ Table of Contents
           |                                                     |
           | <--------------- OSCORE Response ------------------ |
           |                    Header: 2.04 (Changed)           |
+          |                    OSCORE: { ... }                  |
           |                    Payload: OSCORE-protected data   |
           |                                                     |
 
@@ -348,7 +364,7 @@ Table of Contents
    That is, the EDHOC + OSCORE request is composed of the following two
    parts combined together in a single CoAP message.  The steps for
    processing the EDHOC + OSCORE request and the two parts combined in
-   there are defined in Section 3.2 and Section 3.3.
+   there are defined in Section 3.2.1 and Section 3.3.1.
 
    *  The OSCORE Request from Figure 1, which is also in this case sent
       to a protected resource, with the correct CoAP method and options
@@ -430,6 +446,10 @@ Table of Contents
 
 3.2.  Client Processing
 
+   This section describes the processing on the client side.
+
+3.2.1.  Processing of the EDHOC + OSCORE Request
+
    The client prepares an EDHOC + OSCORE request as follows.
 
    1.  Compose EDHOC message_3 into EDHOC_MSG_3, as per Section 5.4.2 of
@@ -465,8 +485,8 @@ Table of Contents
        client, which is already specified as 'kid' in the OSCORE Option
        of the request from step 2, hence of the EDHOC + OSCORE request.
 
-   5.  Signal the usage of this approach, by including the new EDHOC
-       Option defined in Section 3.1 into the EDHOC + OSCORE request.
+   5.  Include the new EDHOC Option defined in Section 3.1 into the
+       EDHOC + OSCORE request.
 
        The application/cid-edhoc+cbor-seq media type does not apply to
        this message, whose media type is unnamed.
@@ -485,18 +505,18 @@ Table of Contents
    through multiple, simultaneous EDHOC + OSCORE requests.  As discussed
    in Section 7, this does not have any impact in terms of security.)
 
-3.2.1.  Supporting Block-wise
+3.2.2.  Supporting Block-wise
 
    If Block-wise [RFC7959] is supported, the client may fragment the
    first application CoAP request before protecting it as an original
    message with OSCORE, as defined in Section 4.1.3.4.1 of [RFC8613].
 
-   In such a case, the OSCORE processing in step 2 of Section 3.2 is
+   In such a case, the OSCORE processing in step 2 of Section 3.2.1 is
    performed on each inner block of the first application CoAP request,
    and the following also applies.
 
    *  The client takes the additional following step between steps 2 and
-      3 of Section 3.2.
+      3 of Section 3.2.1.
 
       A.  If the OSCORE-protected request from step 2 conveys a non-
       first inner block of the first application CoAP request (i.e., the
@@ -506,36 +526,43 @@ Table of Contents
       NOT include the EDHOC Option in the OSCORE-protected request.
 
    *  The client takes the additional following step between steps 3 and
-      4 of Section 3.2.
+      4 of Section 3.2.1.
 
       B.  If the size of COMB_PAYLOAD exceeds MAX_UNFRAGMENTED_SIZE (see
       Section 4.1.3.4.2 of [RFC8613]), the client MUST stop processing
       the request and MUST abandon the Block-wise transfer.  Then, the
-      client can continue by switching to the purely sequential workflow
-      shown in Figure 1.  That is, the client first sends EDHOC
-      message_3 prepended by the EDHOC Connection Identifier C_R encoded
-      as per Section 3.3 of [I-D.ietf-lake-edhoc], and then sends the
-      OSCORE-protected CoAP request once the EDHOC execution is
-      completed.
+      client can continue by switching to the sequential workflow shown
+      in Figure 1.  That is, the client first sends EDHOC message_3
+      prepended by the EDHOC Connection Identifier C_R encoded as per
+      Section 3.3 of [I-D.ietf-lake-edhoc], and then sends the OSCORE-
+      protected CoAP request once the EDHOC execution is completed.
 
    The performance advantage of using the EDHOC + OSCORE request can be
    lost when used in combination with Block-wise transfers that rely on
-   specific parameter values and block sizes.
+   specific parameter values and block sizes.  Application policies at
+   the CoAP client can define when and how to detect whether the
+   performance advantage is lost, and, if that is the case, whether to
+   appropriately adjust the parameter values and block sizes, or instead
+   to fall back on the sequential workflow of EDHOC.
 
 3.3.  Server Processing
+
+   This section describes the processing on the server side.
+
+3.3.1.  Processing of the EDHOC + OSCORE Request
 
    In order to process a request containing the EDHOC option, i.e., an
    EDHOC + OSCORE request, the server MUST perform the following steps.
 
    1.  Check that the EDHOC + OSCORE request includes the OSCORE option
        and that the request payload has the format defined at step 3 of
-       Section 3.2 for COMB_PAYLOAD.  If this is not the case, the
+       Section 3.2.1 for COMB_PAYLOAD.  If this is not the case, the
        server MUST stop processing the request and MUST reply with a
        4.00 (Bad Request) error response.
 
    2.  Extract EDHOC message_3 from the payload COMB_PAYLOAD of the
        EDHOC + OSCORE request, as the first element EDHOC_MSG_3 (see
-       step 3 of Section 3.2).
+       step 3 of Section 3.2.1).
 
    3.  Take the value of 'kid' from the OSCORE option of the EDHOC +
        OSCORE request (i.e., the OSCORE Sender ID of the client), and
@@ -566,7 +593,7 @@ Table of Contents
 
    6.  Extract the OSCORE ciphertext from the payload COMB_PAYLOAD of
        the EDHOC + OSCORE request, as the second element OSCORE_PAYLOAD
-       (see step 3 of Section 3.2).
+       (see step 3 of Section 3.2.1).
 
    7.  Rebuild the OSCORE-protected CoAP request, as the EDHOC + OSCORE
        request where the payload is replaced with the OSCORE ciphertext
@@ -607,10 +634,10 @@ Table of Contents
    (OSCORE processing) fails, the same OSCORE error handling as defined
    in Section 8.2 of [RFC8613] applies.
 
-3.3.1.  Supporting Block-wise
+3.3.2.  Supporting Block-wise
 
    If Block-wise [RFC7959] is supported, the server takes the additional
-   following step before any other in Section 3.3.
+   following step before any other in Section 3.3.1.
 
    A.  If Block-wise is present in the request, then process the Outer
    Block options according to [RFC7959], until all blocks of the request
@@ -631,10 +658,10 @@ Table of Contents
       C_R 0x01.
 
       As per Section 3.3.2 of [I-D.ietf-lake-edhoc], when using the
-      purely-sequential flow shown in Figure 1, the same C_R with value
-      0x01 would be encoded on the wire as the CBOR integer 1 (0x01 in
-      CBOR encoding), and prepended to EDHOC message_3 in the payload of
-      the second EDHOC request.
+      sequential flow shown in Figure 1, the same C_R with value 0x01
+      would be encoded on the wire as the CBOR integer 1 (0x01 in CBOR
+      encoding), and prepended to EDHOC message_3 in the payload of the
+      second EDHOC request.
 
    *  The EDHOC option is registered with CoAP option number 21.
 
@@ -668,17 +695,14 @@ Table of Contents
 
 4.  Use of EDHOC Connection Identifiers with OSCORE
 
-   Section 3.3.3 of [I-D.ietf-lake-edhoc] defines the straightforward
-   mapping from an EDHOC connection identifier to an OSCORE Sender/
-   Recipient ID.  That is, an EDHOC identifier and the corresponding
-   OSCORE Sender/Recipient ID are both byte strings with the same value.
+   The OSCORE Sender/Recipient IDs are the EDHOC connection identifiers
+   (see Section 3.3.3 of [I-D.ietf-lake-edhoc]).  This applies also to
+   the optimized workflow defined in Section 3 of this document.
 
-   Therefore, the conversion from an OSCORE Sender/Recipient ID to an
-   EDHOC identifier is equally straightforward.  In particular, at step
-   3 of Section 3.3, the value of 'kid' in the OSCORE Option of the
-   EDHOC + OSCORE request is both the server's Recipient ID (i.e., the
-   client's Sender ID) and the EDHOC Connection Identifier C_R of the
-   server.
+   Note that, at step 3 of Section 3.3.1, the value of 'kid' in the
+   OSCORE Option of the EDHOC + OSCORE request is both the server's
+   Recipient ID (i.e., the client's Sender ID) and the EDHOC Connection
+   Identifier C_R of the server.
 
 4.1.  Additional Processing of EDHOC Messages
 
@@ -722,17 +746,17 @@ Table of Contents
 
 4.1.3.  Initiator Processing of Message 2
 
-   If the following condition holds, the Initiator MUST abort the
-   session and reply with an EDHOC error message with error code 1,
-   formatted as defined in Section 6.2 of [I-D.ietf-lake-edhoc].
-
-   *  The EDHOC Connection Identifier C_I is equal to the EDHOC
-      Connection Identifier C_R specified in EDHOC message_2.
+   If the EDHOC Connection Identifier C_I is equal to the EDHOC
+   Connection Identifier C_R specified in EDHOC message_2, then the
+   Initiator MUST abort the session and reply with an EDHOC error
+   message with error code 1, formatted as defined in Section 6.2 of
+   [I-D.ietf-lake-edhoc].
 
 5.  Extension and Consistency of Application Profiles
 
-   The application profile referred by the client and server can include
-   the information below, according to the specified consistency rules.
+   It is possible to include the information below in the application
+   profile referred by the client and server, according to the specified
+   consistency rules.
 
    If the server supports the EDHOC + OSCORE request within an EDHOC
    execution started at a certain EDHOC resource, then the application
@@ -741,9 +765,16 @@ Table of Contents
 
    In case the application profile indicates that the server supports
    the optional EDHOC message_4 (see Section 5.5 of
-   [I-D.ietf-lake-edhoc]), the client has to bear in mind that the usage
-   of EDHOC message_4 is not applicable to the optimized workflow based
-   on the EDHOC + OSCORE request (see Section 3.3).
+   [I-D.ietf-lake-edhoc]), it is still possible to use the optimized
+   workflow based on the EDHOC + OSCORE request.  However, this means
+   the server is not going to send EDHOC message_4, since it is not
+   applicable to the optimized workflow (see Section 3.3.1).
+
+   Also, in case the application profile indicates that the server shall
+   send EDHOC message_4, then the application profile MUST NOT specify
+   support for the EDHOC + OSCORE request, and there is no point for the
+   client to use the optimized workflow, which is bound to fail (see
+   Section 3.3.1).
 
 6.  Web Linking
 
@@ -870,7 +901,7 @@ Table of Contents
    [I-D.ietf-lake-edhoc] hold for this document.  In addition, the
    following considerations also apply.
 
-   Section 3.2 specifies that a client SHOULD NOT have multiple
+   Section 3.2.1 specifies that a client SHOULD NOT have multiple
    outstanding EDHOC + OSCORE requests pertaining to the same EDHOC
    session.  Even if a client did not fulfill this requirement, it would
    not have any impact in terms of security.  That is, the server would
@@ -888,25 +919,28 @@ Table of Contents
    [I-D.ietf-lake-edhoc]), then the following holds.
 
    *  The Initiator is authenticated with 128-bit security against
-      online attacks.  This is the sum of the 64-bit MACs in EDHOC
-      message_3 and of the MAC in the AEAD of the first OSCORE-protected
-      CoAP request, as rebuilt at step 7 of Section 3.3.
+      online attacks.  As per Section 9.1 of [I-D.ietf-lake-edhoc], this
+      results from the combination of the strength of the 64-bit MAC in
+      EDHOC message_3 and of the 64-bit MAC in the AEAD of the first
+      OSCORE-protected CoAP request, as rebuilt at step 7 of
+      Section 3.3.1.
 
    *  The Responder is authenticated with 128-bit security against
-      online attacks.  This is the sum of the 64-bit MACs in EDHOC
-      message_2 and of the MAC in the AEAD of the first OSCORE-protected
-      CoAP response.
+      online attacks.  As per Section 9.1 of [I-D.ietf-lake-edhoc], this
+      results from the combination of the strength of the 64-bit MAC in
+      EDHOC message_2 and of the 64-bit MAC in the AEAD of the first
+      OSCORE-protected CoAP response.
 
-   With reference to the purely sequential workflow in Figure 1, the
-   OSCORE request might have to undergo access control checks at the
-   server, before being actually executed for accessing the target
-   protected resource.  The same MUST hold when the optimized workflow
-   in Figure 2 is used, i.e., when using the EDHOC + OSCORE request.
+   With reference to the sequential workflow in Figure 1, the OSCORE
+   request might have to undergo access control checks at the server,
+   before being actually executed for accessing the target protected
+   resource.  The same MUST hold when the optimized workflow in Figure 2
+   is used, i.e., when using the EDHOC + OSCORE request.
 
    That is, the rebuilt OSCORE-protected application request from step 7
-   in Section 3.3 MUST undergo the same access control checks that would
-   be performed on a traditional OSCORE-protected application request
-   sent individually as shown in Figure 1.
+   in Section 3.3.1 MUST undergo the same access control checks that
+   would be performed on a traditional OSCORE-protected application
+   request sent individually as shown in Figure 1.
 
    To this end, validated information to perform access control checks
    (e.g., an access token issued by a trusted party) has to be available
@@ -1012,8 +1046,9 @@ Table of Contents
 
    *  Value: This field contains the value used to identify the type of
       authentication credential.  These values MUST be unique.  The
-      value can be an unsigned integer or a negative integer.  Different
-      ranges of values use different registration policies [RFC8126]:
+      value can be an unsigned integer or a negative integer, in the
+      range from -65536 to 65535.  Different ranges of values use
+      different registration policies [RFC8126]:
 
       -  Integer values from -24 to 23 are designated as "Standards
          Action With Expert Review".
@@ -1194,7 +1229,32 @@ Appendix A.  Document Updates
 
    This section is to be removed before publishing as an RFC.
 
-A.1.  Version -08 to -09
+A.1.  Version -09 to -10
+
+   *  Expanded acronyms in the document title.
+
+   *  Clarified transport of EDHOC C_R and EDHOC message_3.
+
+   *  Simplified text on the use of EDHOC Connection Identifiers as
+      OSCORE Identifiers.
+
+   *  Added the CoAP OSCORE Option in the figures of the EDHOC message
+      flows.
+
+   *  Added more pointers to the message processing, now defined in
+      dedicated subsections.
+
+   *  Detecting and preventing a loss of performance advantage when
+      using Block-wise transfers is for application policies to
+      specifiy.
+
+   *  Clarified use of EDHOC application profiles.
+
+   *  Clarified security considerations on the achieved security level.
+
+   *  Fixes and editorial improvements.
+
+A.2.  Version -08 to -09
 
    *  Clarified meaning of "EDHOC data".
 
@@ -1208,11 +1268,11 @@ A.1.  Version -08 to -09
 
    *  Clarifications and editorial improvements.
 
-A.2.  Version -07 to -08
+A.3.  Version -07 to -08
 
    *  Fixes and clarifications from the Shepherd's review.
 
-A.3.  Version -06 to -07
+A.4.  Version -06 to -07
 
    *  Changed document title.
 
@@ -1250,7 +1310,7 @@ A.3.  Version -06 to -07
 
    *  Editorial improvements.
 
-A.4.  Version -05 to -06
+A.5.  Version -05 to -06
 
    *  Extended figure on EDHOC sequential workflow.
 
@@ -1260,7 +1320,7 @@ A.4.  Version -05 to -06
 
    *  Registration of target attributes.
 
-A.5.  Version -04 to -05
+A.6.  Version -04 to -05
 
    *  Clarifications on Web Linking parameters.
 
@@ -1272,7 +1332,7 @@ A.5.  Version -04 to -05
 
    *  Editorial improvements.
 
-A.6.  Version -03 to -04
+A.7.  Version -03 to -04
 
    *  Renamed "applicability statement" to "application profile".
 
@@ -1291,7 +1351,7 @@ A.6.  Version -03 to -04
 
    *  Editorial improvements.
 
-A.7.  Version -02 to -03
+A.8.  Version -02 to -03
 
    *  Clarifications on transporting EDHOC message_3 in the CoAP
       payload.
@@ -1313,7 +1373,7 @@ A.7.  Version -02 to -03
 
    *  Updated figures; editorial improvements.
 
-A.8.  Version -01 to -02
+A.9.  Version -01 to -02
 
    *  New title, abstract and introduction.
 
@@ -1331,7 +1391,7 @@ A.8.  Version -01 to -02
 
    *  Revised Appendix "Checking CBOR Encoding of Numeric Values".
 
-A.9.  Version -00 to -01
+A.10.  Version -00 to -01
 
    *  Improved background overview of EDHOC.
 
@@ -1348,9 +1408,9 @@ A.9.  Version -00 to -01
 Acknowledgments
 
    The authors sincerely thank Christian Amsüss, Carsten Bormann, Esko
-   Dijk, Joel Halpern, Klaus Hartke, John Preuß Mattsson, David Navarro,
-   Jim Schaad, Mališa Vučinić, and Paul Wouters for their feedback and
-   comments.
+   Dijk, Joel Halpern, Wes Hardaker, Klaus Hartke, John Preuß Mattsson,
+   David Navarro, Jim Schaad, Jürgen Schönwälder, Mališa Vučinić, and
+   Paul Wouters for their feedback and comments.
 
    The work on this document has been partly supported by VINNOVA and
    the Celtic-Next project CRITISEC; and by the H2020 project SIFIS-Home
