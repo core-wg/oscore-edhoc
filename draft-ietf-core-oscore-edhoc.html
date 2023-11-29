@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta content="Common,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
-<title>Using EDHOC with CoAP and OSCORE</title>
+<title>Using Ephemeral Diffie-Hellman Over COSE (EDHOC) with the Constrained Application Protocol (CoAP) and Object Security for Constrained RESTful Environments (OSCORE)</title>
 <meta content="Francesca Palombini" name="author">
 <meta content="Marco Tiloca" name="author">
 <meta content="Rikard Höglund" name="author">
 <meta content="Stefan Hristozov" name="author">
 <meta content="Göran Selander" name="author">
 <meta content="
-       The lightweight authenticated key exchange protocol EDHOC can be run over CoAP and used by two peers to establish an OSCORE Security Context. This document details this use of the EDHOC protocol, by specifying a number of additional and optional mechanisms. These especially include an optimization approach for combining the execution of EDHOC with the first OSCORE transaction. This combination reduces the number of round trips required to set up an OSCORE Security Context and to complete an OSCORE transaction using that Security Context. 
+       The lightweight authenticated key exchange protocol Ephemeral Diffie-Hellman Over COSE (EDHOC) can be run over the Constrained Application Protocol (CoAP) and used by two peers to establish a Security Context for the security protocol Object Security for Constrained RESTful Environments (OSCORE). This document details this use of the EDHOC protocol, by specifying a number of additional and optional mechanisms. These especially include an optimization approach for combining the execution of EDHOC with the first OSCORE transaction. This combination reduces the number of round trips required to set up an OSCORE Security Context and to complete an OSCORE transaction using that Security Context. 
     " name="description">
 <meta content="xml2rfc 3.18.2" name="generator">
 <meta content="Internet-Draft" name="keyword">
@@ -1077,10 +1077,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </dd>
 </dl>
 </div>
-<h1 id="title">Using EDHOC with CoAP and OSCORE</h1>
+<h1 id="title">Using Ephemeral Diffie-Hellman Over COSE (EDHOC) with the Constrained Application Protocol (CoAP) and Object Security for Constrained RESTful Environments (OSCORE)</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">The lightweight authenticated key exchange protocol EDHOC can be run over CoAP and used by two peers to establish an OSCORE Security Context. This document details this use of the EDHOC protocol, by specifying a number of additional and optional mechanisms. These especially include an optimization approach for combining the execution of EDHOC with the first OSCORE transaction. This combination reduces the number of round trips required to set up an OSCORE Security Context and to complete an OSCORE transaction using that Security Context.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">The lightweight authenticated key exchange protocol Ephemeral Diffie-Hellman Over COSE (EDHOC) can be run over the Constrained Application Protocol (CoAP) and used by two peers to establish a Security Context for the security protocol Object Security for Constrained RESTful Environments (OSCORE). This document details this use of the EDHOC protocol, by specifying a number of additional and optional mechanisms. These especially include an optimization approach for combining the execution of EDHOC with the first OSCORE transaction. This combination reduces the number of round trips required to set up an OSCORE Security Context and to complete an OSCORE transaction using that Security Context.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-discussion-venues">
@@ -1868,8 +1868,8 @@ Protected CoAP request (OSCORE message):
       <h2 id="name-use-of-edhoc-connection-ide">
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-use-of-edhoc-connection-ide" class="section-name selfRef">Use of EDHOC Connection Identifiers with OSCORE</a>
       </h2>
-<p id="section-4-1"><span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-22#section-3.3.3" class="relref">Section 3.3.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="cite xref">I-D.ietf-lake-edhoc</a>]</span> defines the straightforward mapping from an EDHOC connection identifier to an OSCORE Sender/Recipient ID. That is, an EDHOC identifier and the corresponding OSCORE Sender/Recipient ID are both byte strings with the same value.<a href="#section-4-1" class="pilcrow">¶</a></p>
-<p id="section-4-2">Therefore, the conversion from an OSCORE Sender/Recipient ID to an EDHOC identifier is equally straightforward. In particular, at step 3 of <a href="#server-processing" class="auto internal xref">Section 3.3.1</a>, the value of 'kid' in the OSCORE Option of the EDHOC + OSCORE request is both the server's Recipient ID (i.e., the client's Sender ID) and the EDHOC Connection Identifier C_R of the server.<a href="#section-4-2" class="pilcrow">¶</a></p>
+<p id="section-4-1">The OSCORE Sender/Recipient IDs are the EDHOC connection identifiers (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-22#section-3.3.3" class="relref">Section 3.3.3</a> of [<a href="#I-D.ietf-lake-edhoc" class="cite xref">I-D.ietf-lake-edhoc</a>]</span>). This applies also to the optimized workflow defined in <a href="#edhoc-in-oscore" class="auto internal xref">Section 3</a> of this document.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-2">Note that, at step 3 of <a href="#server-processing" class="auto internal xref">Section 3.3.1</a>, the value of 'kid' in the OSCORE Option of the EDHOC + OSCORE request is both the server's Recipient ID (i.e., the client's Sender ID) and the EDHOC Connection Identifier C_R of the server.<a href="#section-4-2" class="pilcrow">¶</a></p>
 <div id="oscore-edhoc-message-processing">
 <section id="section-4.1">
         <h3 id="name-additional-processing-of-ed">
@@ -1913,9 +1913,10 @@ Protected CoAP request (OSCORE message):
       <h2 id="name-extension-and-consistency-o">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-extension-and-consistency-o" class="section-name selfRef">Extension and Consistency of Application Profiles</a>
       </h2>
-<p id="section-5-1">The application profile referred by the client and server can include the information below, according to the specified consistency rules.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-1">It is possible to include the information below in the application profile referred by the client and server, according to the specified consistency rules.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <p id="section-5-2">If the server supports the EDHOC + OSCORE request within an EDHOC execution started at a certain EDHOC resource, then the application profile associated with that resource SHOULD explicitly specify support for the EDHOC + OSCORE request.<a href="#section-5-2" class="pilcrow">¶</a></p>
-<p id="section-5-3">In case the application profile indicates that the server supports the optional EDHOC message_4 (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-22#section-5.5" class="relref">Section 5.5</a> of [<a href="#I-D.ietf-lake-edhoc" class="cite xref">I-D.ietf-lake-edhoc</a>]</span>), the client has to bear in mind that the usage of EDHOC message_4 is not applicable to the optimized workflow based on the EDHOC + OSCORE request (see <a href="#server-processing" class="auto internal xref">Section 3.3.1</a>).<a href="#section-5-3" class="pilcrow">¶</a></p>
+<p id="section-5-3">In case the application profile indicates that the server supports the optional EDHOC message_4 (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-lake-edhoc-22#section-5.5" class="relref">Section 5.5</a> of [<a href="#I-D.ietf-lake-edhoc" class="cite xref">I-D.ietf-lake-edhoc</a>]</span>), it is still possible to use the optimized workflow based on the EDHOC + OSCORE request. However, this means the server is not going to send EDHOC message_4, since it is not applicable to the optimized workflow (see <a href="#server-processing" class="auto internal xref">Section 3.3.1</a>).<a href="#section-5-3" class="pilcrow">¶</a></p>
+<p id="section-5-4">Also, in case the application profile indicates that the server shall send EDHOC message_4, then the application profile MUST NOT specify support for the EDHOC + OSCORE request, and there is no point for the client to use the optimized workflow, which is bound to fail (see <a href="#server-processing" class="auto internal xref">Section 3.3.1</a>).<a href="#section-5-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="web-linking">
@@ -2603,7 +2604,7 @@ For all entries, the Change Controller is IETF, and the reference is [RFC-XXXX].
       <h2 id="name-acknowledgments">
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
-<p id="appendix-B-1">The authors sincerely thank <span class="contact-name">Christian Amsüss</span>, <span class="contact-name">Carsten Bormann</span>, <span class="contact-name">Esko Dijk</span>, <span class="contact-name">Wes Hardaker</span>, <span class="contact-name">Klaus Hartke</span>, <span class="contact-name">John Preuß Mattsson</span>, <span class="contact-name">David Navarro</span>, <span class="contact-name">Jim Schaad</span>, <span class="contact-name">Mališa Vučinić</span>, and <span class="contact-name">Paul Wouters</span> for their feedback and comments.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-B-1">The authors sincerely thank <span class="contact-name">Christian Amsüss</span>, <span class="contact-name">Carsten Bormann</span>, <span class="contact-name">Esko Dijk</span>, <span class="contact-name">Wes Hardaker</span>, <span class="contact-name">Klaus Hartke</span>, <span class="contact-name">John Preuß Mattsson</span>, <span class="contact-name">David Navarro</span>, <span class="contact-name">Jim Schaad</span>, <span class="contact-name">Jürgen Schönwälder</span>, <span class="contact-name">Mališa Vučinić</span>, and <span class="contact-name">Paul Wouters</span> for their feedback and comments.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
 <p id="appendix-B-2">The work on this document has been partly supported by VINNOVA and the Celtic-Next project CRITISEC; and by the H2020 project SIFIS-Home (Grant agreement 952652).<a href="#appendix-B-2" class="pilcrow">¶</a></p>
 </section>
 </div>
