@@ -75,11 +75,11 @@ The lightweight authenticated key exchange protocol Ephemeral Diffie-Hellman Ove
 
 Ephemeral Diffie-Hellman Over COSE (EDHOC) {{RFC9528}} is a lightweight authenticated key exchange protocol, especially intended for use in constrained scenarios. In particular, EDHOC messages can be transported over the Constrained Application Protocol (CoAP) {{RFC7252}} and used for establishing a Security Context for Object Security for Constrained RESTful Environments (OSCORE) {{RFC8613}}.
 
-This document details the use of the EDHOC protocol with CoAP and OSCORE, and specifies a number of additional and optional mechanisms. These especially include an optimization approach that combines the EDHOC execution with the first OSCORE transaction (see {{edhoc-in-oscore}}). This allows for a minimum number of round trips necessary to setup the OSCORE Security Context and complete an OSCORE transaction, e.g., when an IoT device gets configured in a network for the first time.
+This document details the use of the EDHOC protocol with CoAP and OSCORE, and specifies a number of additional and optional mechanisms. These especially include an optimization approach that combines the EDHOC execution with the first OSCORE transaction (see {{edhoc-in-oscore}}). This allows for a minimum number of two round trips necessary to setup the OSCORE Security Context and complete an OSCORE transaction, e.g., when an IoT device gets configured in a network for the first time.
 
 This optimization is desirable, since the number of message exchanges can have a substantial impact on the latency of conveying the first OSCORE request, when using certain radio technologies.
 
-Without this optimization, it is not possible, not even in theory, to achieve the minimum number of round trips. This optimization makes it possible also in practice, since the message_3 of the EDHOC protocol can be made relatively small (see {{Section 1.2 of RFC9528}}), thus allowing additional OSCORE-protected CoAP data within target MTU sizes.
+Without this optimization, it is not possible, not even in theory, to achieve the minimum number of two round trips. This optimization makes it possible also in practice, since the message_3 of the EDHOC protocol can be made relatively small (see {{Section 1.2 of RFC9528}}), thus allowing additional OSCORE-protected CoAP data within target MTU sizes.
 
 Furthermore, this document defines a number of parameters corresponding to different information elements of an EDHOC application profile (see {{web-linking}}). These can be specified as target attributes in the link to an EDHOC resource associated with that application profile, thus enabling an enhanced discovery of such a resource for CoAP clients.
 
@@ -167,9 +167,9 @@ As shown in {{fig-non-combined}}, this sequential flow where EDHOC is run first 
 
 # EDHOC Combined with OSCORE {#edhoc-in-oscore}
 
-This section defines an optimization for combining the EDHOC message exchange with the first OSCORE transaction, thus minimizing the number of round trips between the two peers.
+This section defines an optimization for combining the EDHOC message exchange with the first OSCORE transaction, thus minimizing the number of round trips between the two peers to the absolute possible minimum of two round trips.
 
-This approach can be used only if the default, forward message flow of EDHOC is used, i.e., when the client acts as Initiator and the server acts as Responder. That is, it cannot be used in the case with reversed roles as per the reverse message flow of EDHOC.
+To this end, this approach can be used only if the default, forward message flow of EDHOC is used, i.e., when the client acts as Initiator and the server acts as Responder. The same is not possible in the case with reversed roles as per the reverse message flow of EDHOC.
 
 When running the sequential flow of {{overview}}, the client has all the information to derive the OSCORE Security Context already after receiving EDHOC message_2 and before sending EDHOC message_3.
 
@@ -597,6 +597,8 @@ Expert reviewers should take into consideration the following points:
 ## Version -10 to -11 ## {#sec-10-11}
 
 * Avoid using quotation marks for CBOR Simple Values.
+
+* Clarifications and editorial improvements.
 
 * Updated references.
 
