@@ -75,11 +75,11 @@ The lightweight authenticated key exchange protocol Ephemeral Diffie-Hellman Ove
 
 Ephemeral Diffie-Hellman Over COSE (EDHOC) {{I-D.ietf-lake-edhoc}} is a lightweight authenticated key exchange protocol, especially intended for use in constrained scenarios. In particular, EDHOC messages can be transported over the Constrained Application Protocol (CoAP) {{RFC7252}} and used for establishing a Security Context for Object Security for Constrained RESTful Environments (OSCORE) {{RFC8613}}.
 
-This document details the use of the EDHOC protocol with CoAP and OSCORE, and specifies a number of additional and optional mechanisms. These especially include an optimization approach that combines the EDHOC execution with the first OSCORE transaction (see {{edhoc-in-oscore}}). This allows for a minimum number of round trips necessary to setup the OSCORE Security Context and complete an OSCORE transaction, e.g., when an IoT device gets configured in a network for the first time.
+This document details the use of the EDHOC protocol with CoAP and OSCORE, and specifies a number of additional and optional mechanisms. These especially include an optimization approach that combines the EDHOC execution with the first OSCORE transaction (see {{edhoc-in-oscore}}). This allows for a minimum number of two round trips necessary to setup the OSCORE Security Context and complete an OSCORE transaction, e.g., when an IoT device gets configured in a network for the first time.
 
 This optimization is desirable, since the number of message exchanges can have a substantial impact on the latency of conveying the first OSCORE request, when using certain radio technologies.
 
-Without this optimization, it is not possible, not even in theory, to achieve the minimum number of round trips. This optimization makes it possible also in practice, since the message_3 of the EDHOC protocol can be made relatively small (see {{Section 1.2 of I-D.ietf-lake-edhoc}}), thus allowing additional OSCORE-protected CoAP data within target MTU sizes.
+Without this optimization, it is not possible to achieve the minimum number of two round trips. This optimization makes it possible, since the message_3 of the EDHOC protocol can be made relatively small (see {{Section 1.2 of I-D.ietf-lake-edhoc}}), thus allowing additional OSCORE-protected CoAP data within target MTU sizes.
 
 The minimum number of two round trips can be achieved only if the default, forward message flow of EDHOC is used, i.e., when a CoAP client acts as EDHOC Initiator and a CoAP server acts as EDHOC Responder. The performance advantage of using this optimization can be lost when used in combination with Block-wise transfers {{RFC7959}} that rely on specific parameter values and block sizes.
 
