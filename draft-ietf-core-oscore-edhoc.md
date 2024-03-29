@@ -161,7 +161,7 @@ OSCORE Sec Ctx                                              |
        |                 Payload: OSCORE-protected data     |
        |                                                    |
 ~~~~~~~~~~~~~~~~~
-{: #fig-non-combined title="EDHOC and OSCORE run sequentially. The optional message_4 is included in this example, without which that message needs no payload." artwork-align="center"}
+{: #fig-non-combined title="EDHOC and OSCORE run sequentially. The optional message_4 is included in this example." artwork-align="center"}
 
 As shown in {{fig-non-combined}}, this sequential flow where EDHOC is run first and then OSCORE is used takes three round trips to complete.
 
