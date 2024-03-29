@@ -918,8 +918,8 @@ Table of Contents
    When using the optimized workflow in Figure 2, a minimum of 128-bit
    security against online brute force attacks is achieved after the
    client receives and successfully verifies the first OSCORE-protected
-   response (see Section 9.1 of [I-D.ietf-lake-edhoc]).  As an example,
-   if EDHOC is used with method 3 (see Section 3.2 of
+   response (see Sections 9.1 and 9.4 of [I-D.ietf-lake-edhoc]).  As an
+   example, if EDHOC is used with method 3 (see Section 3.2 of
    [I-D.ietf-lake-edhoc]) and cipher suite 2 (see Section 3.6 of
    [I-D.ietf-lake-edhoc]), then the following holds.
 
