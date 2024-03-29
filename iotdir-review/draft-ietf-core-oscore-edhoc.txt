@@ -297,8 +297,7 @@ Table of Contents
            |                                                    |
 
          Figure 1: EDHOC and OSCORE run sequentially.  The optional
-     message_4 is included in this example, without which that message
-                             needs no payload.
+                   message_4 is included in this example.
 
    As shown in Figure 1, this sequential flow where EDHOC is run first
    and then OSCORE is used takes three round trips to complete.
