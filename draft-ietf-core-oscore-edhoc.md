@@ -101,7 +101,7 @@ After successful processing of EDHOC message_3, both peers agree on a cryptograp
 
 {{fig-non-combined}} shows a successful execution of EDHOC, with a CoAP client and a CoAP server running EDHOC as Initiator and Responder, respectively. In particular, it extends Figure 10 from {{Section A.2.1 of RFC9528}}, by highlighting when the two peers perform EDHOC verification and establish the OSCORE Security Context, and by adding an exchange of OSCORE-protected CoAP messages after completing the EDHOC execution.
 
-That is, the client sends a POST request to a reserved *EDHOC resource* at the server, by default at the Uri-Path "/.well-known/edhoc". The request payload consists of the CBOR simple value "true" (0xf5) concatenated with EDHOC message_1, which also includes the EDHOC connection identifier C_I of the client encoded as per {{Section 3.3 of RFC9528}}. The Content-Format of the request can be set to application/cid-edhoc+cbor-seq.
+That is, the client sends a POST request to a reserved *EDHOC resource* at the server, by default at the Uri-Path "/.well-known/edhoc". The request payload consists of the CBOR simple value `true` (0xf5) concatenated with EDHOC message_1, which also includes the EDHOC connection identifier C_I of the client encoded as per {{Section 3.3 of RFC9528}}. The Content-Format of the request can be set to application/cid-edhoc+cbor-seq.
 
 This triggers the EDHOC execution at the server, which replies with a 2.04 (Changed) response. The response payload consists of EDHOC message_2, which also includes the EDHOC connection identifier C_R of the server encoded as per {{Section 3.3 of RFC9528}}. The Content-Format of the response can be set to application/edhoc+cbor-seq.
 
@@ -595,6 +595,8 @@ Expert reviewers should take into consideration the following points:
 {:removeinrfc}
 
 ## Version -10 to -11 ## {#sec-10-11}
+
+* Avoid using quotation marks for CBOR Simple Values.
 
 * Updated references.
 
