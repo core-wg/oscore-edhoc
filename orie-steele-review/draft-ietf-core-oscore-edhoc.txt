@@ -210,22 +210,21 @@ Table of Contents
    edhoc".  The request payload consists of the CBOR simple value "true"
    (0xf5) concatenated with EDHOC message_1, which also includes the
    EDHOC connection identifier C_I of the client encoded as per
-   Section 3.3 of [I-D.ietf-lake-edhoc].  The Content-Format of the
-   request can be set to application/cid-edhoc+cbor-seq.
+   Section 3.3 of [I-D.ietf-lake-edhoc].  The request has Content-Format
+   application/cid-edhoc+cbor-seq.
 
    This triggers the EDHOC execution at the server, which replies with a
    2.04 (Changed) response.  The response payload consists of EDHOC
    message_2, which also includes the EDHOC connection identifier C_R of
    the server encoded as per Section 3.3 of [I-D.ietf-lake-edhoc].  The
-   Content-Format of the response can be set to application/edhoc+cbor-
-   seq.
+   response has Content-Format application/edhoc+cbor-seq.
 
    Finally, the client sends a POST request to the same EDHOC resource
    used earlier when it sent EDHOC message_1.  The request payload
    consists of the EDHOC connection identifier C_R encoded as per
    Section 3.3 of [I-D.ietf-lake-edhoc], concatenated with EDHOC
-   message_3.  The Content-Format of the request can be set to
-   application/cid-edhoc+cbor-seq.
+   message_3.  The request has Content-Format application/cid-
+   edhoc+cbor-seq.
 
    After this exchange takes place, and after successful verifications
    as specified in the EDHOC protocol, the client and server can derive
