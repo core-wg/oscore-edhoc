@@ -793,17 +793,16 @@ Table of Contents
 
    At the same time, the application profile associated with an EDHOC
    resource provides information describing how the EDHOC protocol can
-   be used through that resource.  While a client may become aware of
-   the application profile through several means, it would be convenient
-   to obtain its information elements upon discovering the EDHOC
-   resources at the server.  This might aim at discovering especially
-   the EDHOC resources whose associated application profile denotes a
-   way of using EDHOC which is most suitable to the client, e.g., with
-   EDHOC cipher suites or authentication methods that the client also
-   supports or prefers.
+   be used through that resource.  A client may become aware of the
+   application profile, e.g., by obtaining its information elements upon
+   discovering the EDHOC resources at the server.  This allows the
+   client to discover especially the EDHOC resources whose associated
+   application profile denotes a way of using EDHOC which is most
+   suitable to the client, e.g., with EDHOC cipher suites or
+   authentication methods that the client also supports or prefers.
 
-   That is, it would be convenient that a client discovering an EDHOC
-   resource contextually obtains relevant pieces of information from the
+   That is, while discovering an EDHOC resource, a client can
+   contextually obtain relevant pieces of information from the
    application profile associated with that resource.  The resource
    discovery can occur by means of a direct interaction with the server,
    or instead by means of the CoRE Resource Directory [RFC9176], where
