@@ -207,7 +207,7 @@ Table of Contents
 
    That is, the client sends a POST request to a reserved _EDHOC
    resource_ at the server, by default at the Uri-Path "/.well-known/
-   edhoc".  The request payload consists of the CBOR simple value "true"
+   edhoc".  The request payload consists of the CBOR simple value true
    (0xf5) concatenated with EDHOC message_1, which also includes the
    EDHOC connection identifier C_I of the client encoded as per
    Section 3.3 of [RFC9528].  The Content-Format of the request can be
@@ -1218,6 +1218,8 @@ Appendix A.  Document Updates
    This section is to be removed before publishing as an RFC.
 
 A.1.  Version -10 to -11
+
+   *  Avoid using quotation marks for CBOR Simple Values.
 
    *  Updated references.
 
