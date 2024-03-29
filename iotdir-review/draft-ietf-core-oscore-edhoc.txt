@@ -147,6 +147,13 @@ Table of Contents
    [I-D.ietf-lake-edhoc]), thus allowing additional OSCORE-protected
    CoAP data within target MTU sizes.
 
+   The minimum number of two round trips can be achieved only if the
+   default, forward message flow of EDHOC is used, i.e., when a CoAP
+   client acts as EDHOC Initiator and a CoAP server acts as EDHOC
+   Responder.  The performance advantage of using this optimization can
+   be lost when used in combination with Block-wise transfers [RFC7959]
+   that rely on specific parameter values and block sizes.
+
    Furthermore, this document defines a number of parameters
    corresponding to different information elements of an EDHOC
    application profile (see Section 6).  These can be specified as
