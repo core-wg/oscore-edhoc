@@ -40,11 +40,13 @@ author:
     email: goran.selander@ericsson.com
 
 normative:
+  RFC5280:
   RFC6690:
   RFC7252:
   RFC7959:
   RFC8126:
   RFC8288:
+  RFC8392:
   RFC8613:
   RFC8949:
   RFC9176:
@@ -56,11 +58,6 @@ normative:
     date: false
     title: COSE Header Parameters
     target: https://www.iana.org/assignments/cose/cose.xhtml#header-parameters
-
-informative:
-  RFC5280:
-  RFC8392:
-  I-D.ietf-cose-cbor-encoded-cert:
 
 entity:
   SELF: "[RFC-XXXX]"
@@ -572,7 +569,6 @@ Initial entries in this registry are as listed in {{pre-reg}}.
 |     0 | CBOR Web Token (CWT) containing a COSE_Key in a 'cnf' claim and possibly other claims. CWT is defined in RFC 8392. | [RFC8392]                         |
 |     1 | CWT Claims Set (CCS) containing a COSE_Key in a 'cnf' claim and possibly other claims. CCS is defined in RFC 8392. | [RFC8392]                         |
 |     2 | X.509 certificate                                           | [RFC5280]                         |
-|     3 | C509 certificate                                            | [I-D.ietf-cose-cbor-encoded-cert] |
 {: #pre-reg title="Initial Entries in the \"EDHOC Authentication Credential Types\" Registry" align="center"}
 
 ## Expert Review Instructions ## {#review}
