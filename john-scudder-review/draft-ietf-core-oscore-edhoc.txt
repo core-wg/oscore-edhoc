@@ -1050,7 +1050,7 @@ Table of Contents
    Track code points defined in [RFC7120] also applies.  When such a
    procedure is used, review and approval by the designated expert are
    also required, in order for the WG chairs to determine that the
-   conditions for early allocation are met (see step 2 in Section 2 of
+   conditions for early allocation are met (see step 2 in Section 3.1 of
    [RFC7120]).
 
    The columns of this registry are:
