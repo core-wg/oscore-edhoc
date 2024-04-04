@@ -1039,7 +1039,7 @@ Table of Contents
    Types" registry within the "Ephemeral Diffie-Hellman Over COSE
    (EDHOC)" registry group defined in [I-D.ietf-lake-edhoc].
 
-   As registration procedure, the registry uses either "Standards Action
+   As registration policy, the registry uses either "Standards Action
    with Expert Review", or "Specification Required" per Section 4.6 of
    [RFC8126].  Expert Review guidelines are provided in Section 8.4.
 
