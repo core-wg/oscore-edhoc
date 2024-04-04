@@ -85,7 +85,7 @@ Furthermore, this document defines a number of parameters corresponding to diffe
 
 ## Terminology
 
-{::boilerplate bcp14}
+{::boilerplate bcp14-tagged}
 
 The reader is expected to be familiar with terms and concepts defined in CoAP {{RFC7252}}, CBOR {{RFC8949}}, OSCORE {{RFC8613}}, and EDHOC {{RFC9528}}.
 
