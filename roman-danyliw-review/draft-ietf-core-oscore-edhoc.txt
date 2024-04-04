@@ -102,9 +102,7 @@ Table of Contents
      8.2.  Target Attributes Registry
      8.3.  EDHOC Authentication Credential Types Registry
      8.4.  Expert Review Instructions
-   9.  References
-     9.1.  Normative References
-     9.2.  Informative References
+   9.  Normative References
    Appendix A.  Document Updates
      A.1.  Version -09 to -10
      A.2.  Version -08 to -09
@@ -1067,32 +1065,22 @@ Table of Contents
 
    Initial entries in this registry are as listed in Table 4.
 
-   +=======+=======================+===================================+
-   | Value | Description           | Reference                         |
-   +=======+=======================+===================================+
-   | 0     | CBOR Web Token        | [RFC8392]                         |
-   |       | (CWT) containing a    |                                   |
-   |       | COSE_Key in a 'cnf'   |                                   |
-   |       | claim and possibly    |                                   |
-   |       | other claims.  CWT    |                                   |
-   |       | is defined in RFC     |                                   |
-   |       | 8392.                 |                                   |
-   +-------+-----------------------+-----------------------------------+
-   | 1     | CWT Claims Set        | [RFC8392]                         |
-   |       | (CCS) containing a    |                                   |
-   |       | COSE_Key in a 'cnf'   |                                   |
-   |       | claim and possibly    |                                   |
-   |       | other claims.  CCS    |                                   |
-   |       | is defined in RFC     |                                   |
-   |       | 8392.                 |                                   |
-   +-------+-----------------------+-----------------------------------+
-   | 2     | X.509 certificate     | [RFC5280]                         |
-   +-------+-----------------------+-----------------------------------+
-   | 3     | C509 certificate      | [I-D.ietf-cose-cbor-encoded-cert] |
-   +-------+-----------------------+-----------------------------------+
+    +=======+============================================+===========+
+    | Value | Description                                | Reference |
+    +=======+============================================+===========+
+    | 0     | CBOR Web Token (CWT) containing a COSE_Key | [RFC8392] |
+    |       | in a 'cnf' claim and possibly other        |           |
+    |       | claims.  CWT is defined in RFC 8392.       |           |
+    +-------+--------------------------------------------+-----------+
+    | 1     | CWT Claims Set (CCS) containing a COSE_Key | [RFC8392] |
+    |       | in a 'cnf' claim and possibly other        |           |
+    |       | claims.  CCS is defined in RFC 8392.       |           |
+    +-------+--------------------------------------------+-----------+
+    | 2     | X.509 certificate                          | [RFC5280] |
+    +-------+--------------------------------------------+-----------+
 
-      Table 4: Initial Entries in the "EDHOC Authentication Credential
-                              Types" Registry
+          Table 4: Initial Entries in the "EDHOC Authentication
+                        Credential Types" Registry
 
 8.4.  Expert Review Instructions
 
@@ -1136,9 +1124,7 @@ Table of Contents
       used on, and the number of code points left that encode to that
       size.
 
-9.  References
-
-9.1.  Normative References
+9.  Normative References
 
    [COSE.Header.Parameters]
               IANA, "COSE Header Parameters",
@@ -1162,6 +1148,12 @@ Table of Contents
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC5280]  Cooper, D., Santesson, S., Farrell, S., Boeyen, S.,
+              Housley, R., and W. Polk, "Internet X.509 Public Key
+              Infrastructure Certificate and Certificate Revocation List
+              (CRL) Profile", RFC 5280, DOI 10.17487/RFC5280, May 2008,
+              <https://www.rfc-editor.org/rfc/rfc5280>.
 
    [RFC6690]  Shelby, Z., "Constrained RESTful Environments (CoRE) Link
               Format", RFC 6690, DOI 10.17487/RFC6690, August 2012,
@@ -1190,6 +1182,10 @@ Table of Contents
               DOI 10.17487/RFC8288, October 2017,
               <https://www.rfc-editor.org/rfc/rfc8288>.
 
+   [RFC8392]  Jones, M., Wahlstroem, E., Erdtman, S., and H. Tschofenig,
+              "CBOR Web Token (CWT)", RFC 8392, DOI 10.17487/RFC8392,
+              May 2018, <https://www.rfc-editor.org/rfc/rfc8392>.
+
    [RFC8613]  Selander, G., Mattsson, J., Palombini, F., and L. Seitz,
               "Object Security for Constrained RESTful Environments
               (OSCORE)", RFC 8613, DOI 10.17487/RFC8613, July 2019,
@@ -1204,26 +1200,6 @@ Table of Contents
               P. van der Stok, "Constrained RESTful Environments (CoRE)
               Resource Directory", RFC 9176, DOI 10.17487/RFC9176, April
               2022, <https://www.rfc-editor.org/rfc/rfc9176>.
-
-9.2.  Informative References
-
-   [I-D.ietf-cose-cbor-encoded-cert]
-              Mattsson, J. P., Selander, G., Raza, S., Höglund, J., and
-              M. Furuhed, "CBOR Encoded X.509 Certificates (C509
-              Certificates)", Work in Progress, Internet-Draft, draft-
-              ietf-cose-cbor-encoded-cert-09, 4 March 2024,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-cose-
-              cbor-encoded-cert-09>.
-
-   [RFC5280]  Cooper, D., Santesson, S., Farrell, S., Boeyen, S.,
-              Housley, R., and W. Polk, "Internet X.509 Public Key
-              Infrastructure Certificate and Certificate Revocation List
-              (CRL) Profile", RFC 5280, DOI 10.17487/RFC5280, May 2008,
-              <https://www.rfc-editor.org/rfc/rfc5280>.
-
-   [RFC8392]  Jones, M., Wahlstroem, E., Erdtman, S., and H. Tschofenig,
-              "CBOR Web Token (CWT)", RFC 8392, DOI 10.17487/RFC8392,
-              May 2018, <https://www.rfc-editor.org/rfc/rfc8392>.
 
 Appendix A.  Document Updates
 
