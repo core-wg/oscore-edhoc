@@ -1075,32 +1075,22 @@ Table of Contents
 
    Initial entries in this registry are as listed in Table 4.
 
-   +=======+=======================+===================================+
-   | Value | Description           | Reference                         |
-   +=======+=======================+===================================+
-   | 0     | CBOR Web Token        | [RFC8392]                         |
-   |       | (CWT) containing a    |                                   |
-   |       | COSE_Key in a 'cnf'   |                                   |
-   |       | claim and possibly    |                                   |
-   |       | other claims.  CWT    |                                   |
-   |       | is defined in RFC     |                                   |
-   |       | 8392.                 |                                   |
-   +-------+-----------------------+-----------------------------------+
-   | 1     | CWT Claims Set        | [RFC8392]                         |
-   |       | (CCS) containing a    |                                   |
-   |       | COSE_Key in a 'cnf'   |                                   |
-   |       | claim and possibly    |                                   |
-   |       | other claims.  CCS    |                                   |
-   |       | is defined in RFC     |                                   |
-   |       | 8392.                 |                                   |
-   +-------+-----------------------+-----------------------------------+
-   | 2     | X.509 certificate     | [RFC5280]                         |
-   +-------+-----------------------+-----------------------------------+
-   | 3     | C509 certificate      | [I-D.ietf-cose-cbor-encoded-cert] |
-   +-------+-----------------------+-----------------------------------+
+    +=======+============================================+===========+
+    | Value | Description                                | Reference |
+    +=======+============================================+===========+
+    | 0     | CBOR Web Token (CWT) containing a COSE_Key | [RFC8392] |
+    |       | in a 'cnf' claim and possibly other        |           |
+    |       | claims.  CWT is defined in RFC 8392.       |           |
+    +-------+--------------------------------------------+-----------+
+    | 1     | CWT Claims Set (CCS) containing a COSE_Key | [RFC8392] |
+    |       | in a 'cnf' claim and possibly other        |           |
+    |       | claims.  CCS is defined in RFC 8392.       |           |
+    +-------+--------------------------------------------+-----------+
+    | 2     | X.509 certificate                          | [RFC5280] |
+    +-------+--------------------------------------------+-----------+
 
-      Table 4: Initial Entries in the "EDHOC Authentication Credential
-                              Types" Registry
+          Table 4: Initial Entries in the "EDHOC Authentication
+                        Credential Types" Registry
 
 8.4.  Expert Review Instructions
 
@@ -1165,6 +1155,12 @@ Table of Contents
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
 
+   [RFC5280]  Cooper, D., Santesson, S., Farrell, S., Boeyen, S.,
+              Housley, R., and W. Polk, "Internet X.509 Public Key
+              Infrastructure Certificate and Certificate Revocation List
+              (CRL) Profile", RFC 5280, DOI 10.17487/RFC5280, May 2008,
+              <https://www.rfc-editor.org/rfc/rfc5280>.
+
    [RFC6690]  Shelby, Z., "Constrained RESTful Environments (CoRE) Link
               Format", RFC 6690, DOI 10.17487/RFC6690, August 2012,
               <https://www.rfc-editor.org/rfc/rfc6690>.
@@ -1196,6 +1192,10 @@ Table of Contents
               DOI 10.17487/RFC8288, October 2017,
               <https://www.rfc-editor.org/rfc/rfc8288>.
 
+   [RFC8392]  Jones, M., Wahlstroem, E., Erdtman, S., and H. Tschofenig,
+              "CBOR Web Token (CWT)", RFC 8392, DOI 10.17487/RFC8392,
+              May 2018, <https://www.rfc-editor.org/rfc/rfc8392>.
+
    [RFC8613]  Selander, G., Mattsson, J., Palombini, F., and L. Seitz,
               "Object Security for Constrained RESTful Environments
               (OSCORE)", RFC 8613, DOI 10.17487/RFC8613, July 2019,
@@ -1223,24 +1223,6 @@ Table of Contents
               Progress, Internet-Draft, draft-ietf-core-target-attr-06,
               11 October 2023, <https://datatracker.ietf.org/doc/html/
               draft-ietf-core-target-attr-06>.
-
-   [I-D.ietf-cose-cbor-encoded-cert]
-              Mattsson, J. P., Selander, G., Raza, S., Höglund, J., and
-              M. Furuhed, "CBOR Encoded X.509 Certificates (C509
-              Certificates)", Work in Progress, Internet-Draft, draft-
-              ietf-cose-cbor-encoded-cert-09, 4 March 2024,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-cose-
-              cbor-encoded-cert-09>.
-
-   [RFC5280]  Cooper, D., Santesson, S., Farrell, S., Boeyen, S.,
-              Housley, R., and W. Polk, "Internet X.509 Public Key
-              Infrastructure Certificate and Certificate Revocation List
-              (CRL) Profile", RFC 5280, DOI 10.17487/RFC5280, May 2008,
-              <https://www.rfc-editor.org/rfc/rfc5280>.
-
-   [RFC8392]  Jones, M., Wahlstroem, E., Erdtman, S., and H. Tschofenig,
-              "CBOR Web Token (CWT)", RFC 8392, DOI 10.17487/RFC8392,
-              May 2018, <https://www.rfc-editor.org/rfc/rfc8392>.
 
 Appendix A.  Document Updates
 
@@ -1433,10 +1415,11 @@ A.11.  Version -00 to -01
 Acknowledgments
 
    The authors sincerely thank Christian Amsüss, Emmanuel Baccelli,
-   Carsten Bormann, Esko Dijk, Joel Halpern, Wes Hardaker, Klaus Hartke,
-   John Preuß Mattsson, David Navarro, Shuping Peng, Jim Schaad, Jürgen
-   Schönwälder, John Scudder, Orie Steele, Gunter Van de Velde, Mališa
-   Vučinić, and Paul Wouters for their feedback and comments.
+   Carsten Bormann, Roman Danyliw, Esko Dijk, Joel Halpern, Wes
+   Hardaker, Klaus Hartke, John Preuß Mattsson, David Navarro, Shuping
+   Peng, Jim Schaad, Jürgen Schönwälder, John Scudder, Orie Steele,
+   Gunter Van de Velde, Mališa Vučinić, and Paul Wouters for their
+   feedback and comments.
 
    The work on this document has been partly supported by VINNOVA and
    the Celtic-Next project CRITISEC; and by the H2020 project SIFIS-Home
