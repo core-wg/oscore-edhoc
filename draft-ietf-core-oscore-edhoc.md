@@ -49,18 +49,24 @@ normative:
   RFC8949:
   RFC9176:
   RFC9528:
-  I-D.ietf-core-target-attr: # note: this draft is informational!
   COSE.Header.Parameters:
     author:
       org: IANA
     date: false
     title: COSE Header Parameters
     target: https://www.iana.org/assignments/cose/cose.xhtml#header-parameters
+  CORE.Target.Attributes:
+    author:
+      org: IANA
+    date: false
+    title: Target Attributes
+    target: https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#target-attributes
 
 informative:
   RFC5280:
   RFC8392:
   I-D.ietf-cose-cbor-encoded-cert:
+  I-D.ietf-core-target-attr:
 
 entity:
   SELF: "[RFC-XXXX]"
@@ -535,7 +541,7 @@ Although the currently unassigned option number 13 would also work well for the 
 
 ## Target Attributes Registry ## {#iana-target-attributes}
 
-IANA is asked to register the following entries in the "Target Attributes" registry within the "CoRE Parameters" registry group, as per {{I-D.ietf-core-target-attr}}.
+IANA is asked to register the following entries in the "Target Attributes" registry {{CORE.Target.Attributes}} within the "Constrained RESTful Environments (CoRE) Parameters" registry group, as per {{I-D.ietf-core-target-attr}}.
 For all entries, the Change Controller is IETF, and the reference is \[RFC-XXXX].
 
 | Attribute Name: | Brief Description:                                                 |
@@ -765,6 +771,6 @@ Expert reviewers should take into consideration the following points:
 # Acknowledgments
 {:numbered="false"}
 
-The authors sincerely thank {{{Christian Amsüss}}}, {{{Emmanuel Baccelli}}}, {{{Carsten Bormann}}}, {{{Esko Dijk}}}, {{{Joel Halpern}}}, {{{Wes Hardaker}}}, {{{Klaus Hartke}}}, {{{John Preuß Mattsson}}}, {{{David Navarro}}}, {{{Shuping Peng}}}, {{{Jim Schaad}}}, {{{Jürgen Schönwälder}}}, {{{Orie Steele}}}, {{{Mališa Vučinić}}}, and {{{Paul Wouters}}} for their feedback and comments.
+The authors sincerely thank {{{Christian Amsüss}}}, {{{Emmanuel Baccelli}}}, {{{Carsten Bormann}}}, {{{Esko Dijk}}}, {{{Joel Halpern}}}, {{{Wes Hardaker}}}, {{{Klaus Hartke}}}, {{{John Preuß Mattsson}}}, {{{David Navarro}}}, {{{Shuping Peng}}}, {{{Jim Schaad}}}, {{{Jürgen Schönwälder}}}, {{{Orie Steele}}}, {{{Gunter Van de Velde}}}, {{{Mališa Vučinić}}}, and {{{Paul Wouters}}} for their feedback and comments.
 
 The work on this document has been partly supported by VINNOVA and the Celtic-Next project CRITISEC; and by the H2020 project SIFIS-Home (Grant agreement 952652).
