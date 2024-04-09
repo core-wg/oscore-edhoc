@@ -41,6 +41,7 @@ author:
 
 normative:
   RFC6690:
+  RFC7120:
   RFC7252:
   RFC7959:
   RFC8126:
@@ -560,7 +561,9 @@ For all entries, the Change Controller is IETF, and the reference is \[RFC-XXXX]
 
 IANA is requested to create a new "EDHOC Authentication Credential Types" registry within the "Ephemeral Diffie-Hellman Over COSE (EDHOC)" registry group defined in {{RFC9528}}.
 
-The registry uses the "Expert Review" registration procedure {{RFC8126}}. Expert Review guidelines are provided in {{review}}.
+As registration policy, the registry uses either "Standards Action with Expert Review", or "Specification Required" per {{Section 4.6 of RFC8126}}. Expert Review guidelines are provided in {{review}}.
+
+All assignments according to "Standards Action with Expert Review" are made on a "Standards Action" basis per {{Section 4.9 of RFC8126}}, with Expert Review additionally required per {{Section 4.5 of RFC8126}}. The procedure for early IANA allocation of Standards Track code points defined in {{RFC7120}} also applies. When such a procedure is used, review and approval by the designated expert are also required, in order for the WG chairs to determine that the conditions for early allocation are met (see step 2 in {{Section 3.1 of RFC7120}}).
 
 The columns of this registry are:
 
@@ -585,7 +588,7 @@ Initial entries in this registry are as listed in {{pre-reg}}.
 
 ## Expert Review Instructions ## {#review}
 
-The IANA registry established in this document is defined as "Expert Review". This section gives some general guidelines for what the experts should be looking for; but they are being designated as experts for a reason, so they should be given substantial latitude.
+The IANA registry established in this document is defined as "Standards Action with Expert Review" or "Specification Required", depending on the range of values for which an assignment is requested. This section gives some general guidelines for what the experts should be looking for; but they are being designated as experts for a reason, so they should be given substantial latitude.
 
 Expert reviewers should take into consideration the following points:
 
@@ -771,6 +774,6 @@ Expert reviewers should take into consideration the following points:
 # Acknowledgments
 {:numbered="false"}
 
-The authors sincerely thank {{{Christian Amsüss}}}, {{{Emmanuel Baccelli}}}, {{{Carsten Bormann}}}, {{{Esko Dijk}}}, {{{Joel Halpern}}}, {{{Wes Hardaker}}}, {{{Klaus Hartke}}}, {{{John Preuß Mattsson}}}, {{{David Navarro}}}, {{{Shuping Peng}}}, {{{Jim Schaad}}}, {{{Jürgen Schönwälder}}}, {{{Orie Steele}}}, {{{Gunter Van de Velde}}}, {{{Mališa Vučinić}}}, and {{{Paul Wouters}}} for their feedback and comments.
+The authors sincerely thank {{{Christian Amsüss}}}, {{{Emmanuel Baccelli}}}, {{{Carsten Bormann}}}, {{{Esko Dijk}}}, {{{Joel Halpern}}}, {{{Wes Hardaker}}}, {{{Klaus Hartke}}}, {{{John Preuß Mattsson}}}, {{{David Navarro}}}, {{{Shuping Peng}}}, {{{Jim Schaad}}}, {{{Jürgen Schönwälder}}}, {{{John Scudder}}}, {{{Orie Steele}}}, {{{Gunter Van de Velde}}}, {{{Mališa Vučinić}}}, and {{{Paul Wouters}}} for their feedback and comments.
 
 The work on this document has been partly supported by VINNOVA and the Celtic-Next project CRITISEC; and by the H2020 project SIFIS-Home (Grant agreement 952652).
