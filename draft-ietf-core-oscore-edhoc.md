@@ -40,12 +40,14 @@ author:
     email: goran.selander@ericsson.com
 
 normative:
+  RFC5280:
   RFC6690:
   RFC7120:
   RFC7252:
   RFC7959:
   RFC8126:
   RFC8288:
+  RFC8392:
   RFC8613:
   RFC8949:
   RFC9176:
@@ -64,9 +66,6 @@ normative:
     target: https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#target-attributes
 
 informative:
-  RFC5280:
-  RFC8392:
-  I-D.ietf-cose-cbor-encoded-cert:
   I-D.ietf-core-target-attr:
 
 entity:
@@ -583,7 +582,6 @@ Initial entries in this registry are as listed in {{pre-reg}}.
 |     0 | CBOR Web Token (CWT) containing a COSE_Key in a 'cnf' claim and possibly other claims. CWT is defined in RFC 8392. | [RFC8392]                         |
 |     1 | CWT Claims Set (CCS) containing a COSE_Key in a 'cnf' claim and possibly other claims. CCS is defined in RFC 8392. | [RFC8392]                         |
 |     2 | X.509 certificate                                           | [RFC5280]                         |
-|     3 | C509 certificate                                            | [I-D.ietf-cose-cbor-encoded-cert] |
 {: #pre-reg title="Initial Entries in the \"EDHOC Authentication Credential Types\" Registry" align="center"}
 
 ## Expert Review Instructions ## {#review}
@@ -774,6 +772,6 @@ Expert reviewers should take into consideration the following points:
 # Acknowledgments
 {:numbered="false"}
 
-The authors sincerely thank {{{Christian Amsüss}}}, {{{Emmanuel Baccelli}}}, {{{Carsten Bormann}}}, {{{Esko Dijk}}}, {{{Joel Halpern}}}, {{{Wes Hardaker}}}, {{{Klaus Hartke}}}, {{{John Preuß Mattsson}}}, {{{David Navarro}}}, {{{Shuping Peng}}}, {{{Jim Schaad}}}, {{{Jürgen Schönwälder}}}, {{{John Scudder}}}, {{{Orie Steele}}}, {{{Gunter Van de Velde}}}, {{{Mališa Vučinić}}}, and {{{Paul Wouters}}} for their feedback and comments.
+The authors sincerely thank {{{Christian Amsüss}}}, {{{Emmanuel Baccelli}}}, {{{Carsten Bormann}}}, {{{Roman Danyliw}}}, {{{Esko Dijk}}}, {{{Joel Halpern}}}, {{{Wes Hardaker}}}, {{{Klaus Hartke}}}, {{{John Preuß Mattsson}}}, {{{David Navarro}}}, {{{Shuping Peng}}}, {{{Jim Schaad}}}, {{{Jürgen Schönwälder}}}, {{{John Scudder}}}, {{{Orie Steele}}}, {{{Gunter Van de Velde}}}, {{{Mališa Vučinić}}}, and {{{Paul Wouters}}} for their feedback and comments.
 
 The work on this document has been partly supported by VINNOVA and the Celtic-Next project CRITISEC; and by the H2020 project SIFIS-Home (Grant agreement 952652).
