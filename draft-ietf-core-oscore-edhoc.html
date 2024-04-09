@@ -2113,31 +2113,32 @@ For all entries, the Change Controller is IETF, and the reference is [RFC-XXXX].
 <a href="#section-8.3" class="section-number selfRef">8.3. </a><a href="#name-edhoc-authentication-creden" class="section-name selfRef">EDHOC Authentication Credential Types Registry</a>
         </h3>
 <p id="section-8.3-1">IANA is requested to create a new "EDHOC Authentication Credential Types" registry within the "Ephemeral Diffie-Hellman Over COSE (EDHOC)" registry group defined in <span>[<a href="#RFC9528" class="cite xref">RFC9528</a>]</span>.<a href="#section-8.3-1" class="pilcrow">¶</a></p>
-<p id="section-8.3-2">The registry uses the "Expert Review" registration procedure <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>. Expert Review guidelines are provided in <a href="#review" class="auto internal xref">Section 8.4</a>.<a href="#section-8.3-2" class="pilcrow">¶</a></p>
-<p id="section-8.3-3">The columns of this registry are:<a href="#section-8.3-3" class="pilcrow">¶</a></p>
+<p id="section-8.3-2">As registration policy, the registry uses either "Standards Action with Expert Review", or "Specification Required" per <span><a href="https://rfc-editor.org/rfc/rfc8126#section-4.6" class="relref">Section 4.6</a> of [<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>. Expert Review guidelines are provided in <a href="#review" class="auto internal xref">Section 8.4</a>.<a href="#section-8.3-2" class="pilcrow">¶</a></p>
+<p id="section-8.3-3">All assignments according to "Standards Action with Expert Review" are made on a "Standards Action" basis per <span><a href="https://rfc-editor.org/rfc/rfc8126#section-4.9" class="relref">Section 4.9</a> of [<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>, with Expert Review additionally required per <span><a href="https://rfc-editor.org/rfc/rfc8126#section-4.5" class="relref">Section 4.5</a> of [<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>. The procedure for early IANA allocation of Standards Track code points defined in <span>[<a href="#RFC7120" class="cite xref">RFC7120</a>]</span> also applies. When such a procedure is used, review and approval by the designated expert are also required, in order for the WG chairs to determine that the conditions for early allocation are met (see step 2 in <span><a href="https://rfc-editor.org/rfc/rfc7120#section-3.1" class="relref">Section 3.1</a> of [<a href="#RFC7120" class="cite xref">RFC7120</a>]</span>).<a href="#section-8.3-3" class="pilcrow">¶</a></p>
+<p id="section-8.3-4">The columns of this registry are:<a href="#section-8.3-4" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8.3-4.1">
-            <p id="section-8.3-4.1.1">Value: This field contains the value used to identify the type of authentication credential. These values <span class="bcp14">MUST</span> be unique. The value can be an unsigned integer or a negative integer, in the range from -65536 to 65535. Different ranges of values use different registration policies <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>:<a href="#section-8.3-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-8.3-5.1">
+            <p id="section-8.3-5.1.1">Value: This field contains the value used to identify the type of authentication credential. These values <span class="bcp14">MUST</span> be unique. The value can be an unsigned integer or a negative integer, in the range from -65536 to 65535. Different ranges of values use different registration policies <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>:<a href="#section-8.3-5.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8.3-4.1.2.1">
-                <p id="section-8.3-4.1.2.1.1">Integer values from -24 to 23 are designated as "Standards Action With Expert Review".<a href="#section-8.3-4.1.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-8.3-5.1.2.1">
+                <p id="section-8.3-5.1.2.1.1">Integer values from -24 to 23 are designated as "Standards Action With Expert Review".<a href="#section-8.3-5.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-8.3-4.1.2.2">
-                <p id="section-8.3-4.1.2.2.1">Integer values from -65536 to -25 and from 24 to 65535 are designated as "Specification Required".<a href="#section-8.3-4.1.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-8.3-5.1.2.2">
+                <p id="section-8.3-5.1.2.2.1">Integer values from -65536 to -25 and from 24 to 65535 are designated as "Specification Required".<a href="#section-8.3-5.1.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-8.3-4.1.2.3">
-                <p id="section-8.3-4.1.2.3.1">Integer values smaller than -65536 and greater than 65535 are marked as "Private Use".<a href="#section-8.3-4.1.2.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-8.3-5.1.2.3">
+                <p id="section-8.3-5.1.2.3.1">Integer values smaller than -65536 and greater than 65535 are marked as "Private Use".<a href="#section-8.3-5.1.2.3.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="normal" id="section-8.3-4.2">
-            <p id="section-8.3-4.2.1">Description: This field contains a short description of the type of authentication credential.<a href="#section-8.3-4.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.3-5.2">
+            <p id="section-8.3-5.2.1">Description: This field contains a short description of the type of authentication credential.<a href="#section-8.3-5.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-8.3-4.3">
-            <p id="section-8.3-4.3.1">Reference: This field contains a pointer to the public specification for the type of authentication credential.<a href="#section-8.3-4.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.3-5.3">
+            <p id="section-8.3-5.3.1">Reference: This field contains a pointer to the public specification for the type of authentication credential.<a href="#section-8.3-5.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-8.3-5">Initial entries in this registry are as listed in <a href="#pre-reg" class="auto internal xref">Table 4</a>.<a href="#section-8.3-5" class="pilcrow">¶</a></p>
+<p id="section-8.3-6">Initial entries in this registry are as listed in <a href="#pre-reg" class="auto internal xref">Table 4</a>.<a href="#section-8.3-6" class="pilcrow">¶</a></p>
 <span id="name-initial-entries-in-the-edho"></span><div id="pre-reg">
 <table class="center" id="table-4">
           <caption>
@@ -2190,7 +2191,7 @@ For all entries, the Change Controller is IETF, and the reference is [RFC-XXXX].
         <h3 id="name-expert-review-instructions">
 <a href="#section-8.4" class="section-number selfRef">8.4. </a><a href="#name-expert-review-instructions" class="section-name selfRef">Expert Review Instructions</a>
         </h3>
-<p id="section-8.4-1">The IANA registry established in this document is defined as "Expert Review". This section gives some general guidelines for what the experts should be looking for; but they are being designated as experts for a reason, so they should be given substantial latitude.<a href="#section-8.4-1" class="pilcrow">¶</a></p>
+<p id="section-8.4-1">The IANA registry established in this document is defined as "Standards Action with Expert Review" or "Specification Required", depending on the range of values for which an assignment is requested. This section gives some general guidelines for what the experts should be looking for; but they are being designated as experts for a reason, so they should be given substantial latitude.<a href="#section-8.4-1" class="pilcrow">¶</a></p>
 <p id="section-8.4-2">Expert reviewers should take into consideration the following points:<a href="#section-8.4-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-8.4-3.1">
@@ -2235,6 +2236,10 @@ For all entries, the Change Controller is IETF, and the reference is [RFC-XXXX].
 <dt id="RFC6690">[RFC6690]</dt>
         <dd>
 <span class="refAuthor">Shelby, Z.</span>, <span class="refTitle">"Constrained RESTful Environments (CoRE) Link Format"</span>, <span class="seriesInfo">RFC 6690</span>, <span class="seriesInfo">DOI 10.17487/RFC6690</span>, <time datetime="2012-08" class="refDate">August 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6690">https://www.rfc-editor.org/rfc/rfc6690</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7120">[RFC7120]</dt>
+        <dd>
+<span class="refAuthor">Cotton, M.</span>, <span class="refTitle">"Early IANA Allocation of Standards Track Code Points"</span>, <span class="seriesInfo">BCP 100</span>, <span class="seriesInfo">RFC 7120</span>, <span class="seriesInfo">DOI 10.17487/RFC7120</span>, <time datetime="2014-01" class="refDate">January 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7120">https://www.rfc-editor.org/rfc/rfc7120</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7252">[RFC7252]</dt>
         <dd>
@@ -2629,7 +2634,7 @@ For all entries, the Change Controller is IETF, and the reference is [RFC-XXXX].
       <h2 id="name-acknowledgments">
 <a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
       </h2>
-<p id="appendix-B-1">The authors sincerely thank <span class="contact-name">Christian Amsüss</span>, <span class="contact-name">Emmanuel Baccelli</span>, <span class="contact-name">Carsten Bormann</span>, <span class="contact-name">Esko Dijk</span>, <span class="contact-name">Joel Halpern</span>, <span class="contact-name">Wes Hardaker</span>, <span class="contact-name">Klaus Hartke</span>, <span class="contact-name">John Preuß Mattsson</span>, <span class="contact-name">David Navarro</span>, <span class="contact-name">Shuping Peng</span>, <span class="contact-name">Jim Schaad</span>, <span class="contact-name">Jürgen Schönwälder</span>, <span class="contact-name">Orie Steele</span>, <span class="contact-name">Gunter Van de Velde</span>, <span class="contact-name">Mališa Vučinić</span>, and <span class="contact-name">Paul Wouters</span> for their feedback and comments.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-B-1">The authors sincerely thank <span class="contact-name">Christian Amsüss</span>, <span class="contact-name">Emmanuel Baccelli</span>, <span class="contact-name">Carsten Bormann</span>, <span class="contact-name">Esko Dijk</span>, <span class="contact-name">Joel Halpern</span>, <span class="contact-name">Wes Hardaker</span>, <span class="contact-name">Klaus Hartke</span>, <span class="contact-name">John Preuß Mattsson</span>, <span class="contact-name">David Navarro</span>, <span class="contact-name">Shuping Peng</span>, <span class="contact-name">Jim Schaad</span>, <span class="contact-name">Jürgen Schönwälder</span>, <span class="contact-name">John Scudder</span>, <span class="contact-name">Orie Steele</span>, <span class="contact-name">Gunter Van de Velde</span>, <span class="contact-name">Mališa Vučinić</span>, and <span class="contact-name">Paul Wouters</span> for their feedback and comments.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
 <p id="appendix-B-2">The work on this document has been partly supported by VINNOVA and the Celtic-Next project CRITISEC; and by the H2020 project SIFIS-Home (Grant agreement 952652).<a href="#appendix-B-2" class="pilcrow">¶</a></p>
 </section>
 </div>
