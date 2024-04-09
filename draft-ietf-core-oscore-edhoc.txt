@@ -1000,9 +1000,10 @@ Table of Contents
 8.2.  Target Attributes Registry
 
    IANA is asked to register the following entries in the "Target
-   Attributes" registry within the "CoRE Parameters" registry group, as
-   per [I-D.ietf-core-target-attr].  For all entries, the Change
-   Controller is IETF, and the reference is [RFC-XXXX].
+   Attributes" registry [CORE.Target.Attributes] within the "Constrained
+   RESTful Environments (CoRE) Parameters" registry group, as per
+   [I-D.ietf-core-target-attr].  For all entries, the Change Controller
+   is IETF, and the reference is [RFC-XXXX].
 
      +=================+=============================================+
      | Attribute Name: | Brief Description:                          |
@@ -1136,16 +1137,15 @@ Table of Contents
 
 9.1.  Normative References
 
+   [CORE.Target.Attributes]
+              IANA, "Target Attributes",
+              <https://www.iana.org/assignments/core-parameters/core-
+              parameters.xhtml#target-attributes>.
+
    [COSE.Header.Parameters]
               IANA, "COSE Header Parameters",
               <https://www.iana.org/assignments/cose/cose.xhtml#header-
               parameters>.
-
-   [I-D.ietf-core-target-attr]
-              Bormann, C., "CoRE Target Attributes Registry", Work in
-              Progress, Internet-Draft, draft-ietf-core-target-attr-06,
-              11 October 2023, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-core-target-attr-06>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1200,6 +1200,12 @@ Table of Contents
               <https://www.rfc-editor.org/rfc/rfc9528>.
 
 9.2.  Informative References
+
+   [I-D.ietf-core-target-attr]
+              Bormann, C., "CoRE Target Attributes Registry", Work in
+              Progress, Internet-Draft, draft-ietf-core-target-attr-06,
+              11 October 2023, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-core-target-attr-06>.
 
    [I-D.ietf-cose-cbor-encoded-cert]
               Mattsson, J. P., Selander, G., Raza, S., Höglund, J., and
@@ -1412,8 +1418,8 @@ Acknowledgments
    The authors sincerely thank Christian Amsüss, Emmanuel Baccelli,
    Carsten Bormann, Esko Dijk, Joel Halpern, Wes Hardaker, Klaus Hartke,
    John Preuß Mattsson, David Navarro, Shuping Peng, Jim Schaad, Jürgen
-   Schönwälder, Orie Steele, Mališa Vučinić, and Paul Wouters for their
-   feedback and comments.
+   Schönwälder, Orie Steele, Gunter Van de Velde, Mališa Vučinić, and
+   Paul Wouters for their feedback and comments.
 
    The work on this document has been partly supported by VINNOVA and
    the Celtic-Next project CRITISEC; and by the H2020 project SIFIS-Home
