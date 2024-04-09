@@ -79,7 +79,9 @@ This document details the use of the EDHOC protocol with CoAP and OSCORE, and sp
 
 This optimization is desirable, since the number of message exchanges can have a substantial impact on the latency of conveying the first OSCORE request, when using certain radio technologies.
 
-Without this optimization, it is not possible, not even in theory, to achieve the minimum number of two round trips. This optimization makes it possible also in practice, since the message_3 of the EDHOC protocol can be made relatively small (see {{Section 1.2 of RFC9528}}), thus allowing additional OSCORE-protected CoAP data within target MTU sizes.
+Without this optimization, it is not possible to achieve the minimum number of two round trips. This optimization makes it possible, since the message_3 of the EDHOC protocol can be made relatively small (see {{Section 1.2 of RFC9528}}), thus allowing additional OSCORE-protected CoAP data within target MTU sizes.
+
+The minimum number of two round trips can be achieved only if the default, forward message flow of EDHOC is used, i.e., when a CoAP client acts as EDHOC Initiator and a CoAP server acts as EDHOC Responder. The performance advantage of using this optimization can be lost when used in combination with Block-wise transfers {{RFC7959}} that rely on specific parameter values and block sizes.
 
 Furthermore, this document defines a number of parameters corresponding to different information elements of an EDHOC application profile (see {{web-linking}}). These can be specified as target attributes in the link to an EDHOC resource associated with that application profile, thus enabling an enhanced discovery of such a resource for CoAP clients.
 
@@ -159,7 +161,7 @@ OSCORE Sec Ctx                                              |
        |                 Payload: OSCORE-protected data     |
        |                                                    |
 ~~~~~~~~~~~~~~~~~
-{: #fig-non-combined title="EDHOC and OSCORE run sequentially. The optional message_4 is included in this example, without which that message needs no payload." artwork-align="center"}
+{: #fig-non-combined title="EDHOC and OSCORE run sequentially. The optional message_4 is included in this example." artwork-align="center"}
 
 As shown in {{fig-non-combined}}, this sequential flow where EDHOC is run first and then OSCORE is used takes three round trips to complete.
 
@@ -441,9 +443,9 @@ Also, in case the application profile indicates that the server shall send EDHOC
 
 {{Section 10.10 of RFC9528}} registers the resource type "core.edhoc", which can be used as target attribute in a web link {{RFC8288}} to an EDHOC resource, e.g., using a link-format document {{RFC6690}}. This enables clients to discover the presence of EDHOC resources at a server, possibly using the resource type as filter criterion.
 
-At the same time, the application profile associated with an EDHOC resource provides information describing how the EDHOC protocol can be used through that resource. While a client may become aware of the application profile through several means, it would be convenient to obtain its information elements upon discovering the EDHOC resources at the server. This might aim at discovering especially the EDHOC resources whose associated application profile denotes a way of using EDHOC which is most suitable to the client, e.g., with EDHOC cipher suites or authentication methods that the client also supports or prefers.
+At the same time, the application profile associated with an EDHOC resource provides information describing how the EDHOC protocol can be used through that resource. A client may become aware of the application profile, e.g., by obtaining its information elements upon discovering the EDHOC resources at the server. This allows the client to discover especially the EDHOC resources whose associated application profile denotes a way of using EDHOC which is most suitable to the client, e.g., with EDHOC cipher suites or authentication methods that the client also supports or prefers.
 
-That is, it would be convenient that a client discovering an EDHOC resource contextually obtains relevant pieces of information from the application profile associated with that resource. The resource discovery can occur by means of a direct interaction with the server, or instead by means of the CoRE Resource Directory {{RFC9176}}, where the server may have registered the links to its resources.
+That is, while discovering an EDHOC resource, a client can contextually obtain relevant pieces of information from the application profile associated with that resource. The resource discovery can occur by means of a direct interaction with the server, or instead by means of the CoRE Resource Directory {{RFC9176}}, where the server may have registered the links to its resources.
 
 In order to enable the above, this section defines a number of parameters, each of which can be optionally specified as a target attribute with the same name in the link to the respective EDHOC resource, or as filter criteria in a discovery request from the client. When specifying these parameters in a link to an EDHOC resource, the target attribute rt="core.edhoc" MUST be included, and the same consistency rules defined in {{app-statements}} for the corresponding information elements of an application profile MUST be followed.
 
@@ -489,7 +491,7 @@ The same security considerations from OSCORE {{RFC8613}} and EDHOC {{RFC9528}} h
 
 {{client-processing}} specifies that a client SHOULD NOT have multiple outstanding EDHOC + OSCORE requests pertaining to the same EDHOC session. Even if a client did not fulfill this requirement, it would not have any impact in terms of security. That is, the server would still not process different instances of the same EDHOC message_3 more than once in the same EDHOC session (see {{Section 5.1 of RFC9528}}), and would still enforce replay protection of the OSCORE-protected request (see {{Sections 7.4 and 8.2 of RFC8613}}).
 
-When using the optimized workflow in {{fig-combined}}, a minimum of 128-bit security against online brute force attacks is achieved after the client receives and successfully verifies the first OSCORE-protected response (see {{Section 9.1 of RFC9528}}). As an example, if EDHOC is used with method 3 (see {{Section 3.2 of RFC9528}}) and cipher suite 2 (see {{Section 3.6 of RFC9528}}), then the following holds.
+When using the optimized workflow in {{fig-combined}}, a minimum of 128-bit security against online brute force attacks is achieved after the client receives and successfully verifies the first OSCORE-protected response (see {{Sections 9.1 and 9.4 of RFC9528}}). As an example, if EDHOC is used with method 3 (see {{Section 3.2 of RFC9528}}) and cipher suite 2 (see {{Section 3.6 of RFC9528}}), then the following holds.
 
 * The Initiator is authenticated with 128-bit security against online attacks. As per {{Section 9.1 of RFC9528}}, this results from the combination of the strength of the 64-bit MAC in EDHOC message_3 and of the 64-bit MAC in the AEAD of the first OSCORE-protected CoAP request, as rebuilt at step 7 of {{server-processing}}.
 
@@ -763,6 +765,6 @@ Expert reviewers should take into consideration the following points:
 # Acknowledgments
 {:numbered="false"}
 
-The authors sincerely thank {{{Christian Amsüss}}}, {{{Carsten Bormann}}}, {{{Esko Dijk}}}, {{{Joel Halpern}}}, {{{Wes Hardaker}}}, {{{Klaus Hartke}}}, {{{John Preuß Mattsson}}}, {{{David Navarro}}}, {{{Shuping Peng}}}, {{{Jim Schaad}}}, {{{Jürgen Schönwälder}}}, {{{Orie Steele}}}, {{{Mališa Vučinić}}}, and {{{Paul Wouters}}} for their feedback and comments.
+The authors sincerely thank {{{Christian Amsüss}}}, {{{Emmanuel Baccelli}}}, {{{Carsten Bormann}}}, {{{Esko Dijk}}}, {{{Joel Halpern}}}, {{{Wes Hardaker}}}, {{{Klaus Hartke}}}, {{{John Preuß Mattsson}}}, {{{David Navarro}}}, {{{Shuping Peng}}}, {{{Jim Schaad}}}, {{{Jürgen Schönwälder}}}, {{{Orie Steele}}}, {{{Mališa Vučinić}}}, and {{{Paul Wouters}}} for their feedback and comments.
 
 The work on this document has been partly supported by VINNOVA and the Celtic-Next project CRITISEC; and by the H2020 project SIFIS-Home (Grant agreement 952652).
