@@ -607,7 +607,13 @@ Expert reviewers should take into consideration the following points:
 
 * Avoid using quotation marks for CBOR Simple Values.
 
-* Clarifications and editorial improvements.
+* Early mentioning of the optimization properties.
+
+* Less entries of new IANA registry; made their references normative.
+
+* Clarified meaning of "Standards Action with Expert Review" policy.
+
+* Clarifications, simplified phrasing, and editorial improvements.
 
 * Updated references.
 
